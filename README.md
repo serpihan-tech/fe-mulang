@@ -1,26 +1,50 @@
-# fe-mulang
+# 🎓Frontend Mulang
 =======
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## 🛠 Quick Setup
 
-First, run the development server:
+1. *Clone the Repository*
+   bash
+   git clone https://github.com/serpihan-tech/fe-mulang.git
+   cd fe-mulang
+   
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. *Install Dependencies*
+   bash
+   npm install
+   
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. *Launch Development Server*
+   bash
+  npm run dev
+  # or
+  yarn dev
+  # or
+  pnpm dev
+  # or
+  bun dev
+
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## 👨‍💻 Team
+
+<div align="center">
+
+<img src="https://i.imgur.com/dBaSKWF.gif" height="20" width="100%">
+
+| Avatar | Name | Role | GitHub |
+|--------|------|------|--------|
+| <img src="https://avatars.githubusercontent.com/u/108708078?v=4" width="50" height="50" style="border-radius:50%"> | **Muhammad Azka Nabhan Sauqi** | Front End | [@aceng](https://github.com/azkanabhan) |
+| <img src="https://avatars.githubusercontent.com/u/171102959?v=4" width="50" height="50" style="border-radius:50%"> | **Melinda Wijaya** | Front End | [@melinda](https://github.com/melindawijaya) |
+| <img src="https://avatars.githubusercontent.com/u/127614248?v=4" width="50" height="50" style="border-radius:50%"> | **Athalla Cahyo Nugroho** | Back End | [@athalla](https://github.com/AthallaCahyoNugroho) |
+| <img src="https://avatars.githubusercontent.com/u/106648832?v=4" width="50" height="50" style="border-radius:50%"> | **Rizal Anas** | Back End | [@rizal](https://github.com/RizalAnas00) |
+| <img src="https://avatars.githubusercontent.com/u/106648832?v=4" width="50" height="50" style="border-radius:50%"> | **Arwan Muhtada** | Mobile Dev | [@arwan](https://github.com/wanmuhtd) |
+| <img src="https://avatars.githubusercontent.com/u/106648832?v=4" width="50" height="50" style="border-radius:50%"> | **Dina Rizka Luviani** | UI/UX | [@dina] |
 
 ## Learn More
 
