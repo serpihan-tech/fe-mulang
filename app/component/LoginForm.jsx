@@ -61,7 +61,18 @@ export default function LoginForm() {
 
                 required
               />
+              <div className="flex justify-end mt-2">
+                <a
+                  className="font-medium text-blue-600 text-sm"
+                  href="/reset-password"
+                  target="_self"
+                  rel="noopener noreferrer"
+                >
+                  forgot password?
+                </a>
+              </div>
             </div>
+            
             <div className="flex justify-center">
               <button
                 type="submit"
