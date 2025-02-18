@@ -37,16 +37,16 @@ export default function ResetPassword() {
               />
             </div>
             <div className="w-full flex justify-center items-center mt-4">
-              <p className="text-base font-normal">01.00</p>
+              <p className="text-base font-normal text-slate-600">01.00</p>
             </div>
             <div className="w-full flex flex-col items-center mt-[26px]">
-              <p className="text-base font-normal">Tidak menerima OTP?</p>
-              <button className="text-base text-blue-600 font-semibold hover:text-blue-700">
+              <p className="text-sm font-normal">Tidak menerima OTP?</p>
+              <button className="text-sm text-blue-600 font-semibold hover:text-blue-700">
                 Kirim ulang OTP
               </button>
             </div>
 
-            <div className="flex justify-center mt-[26px]">
+            <div className="flex justify-center mt-[32px]">
               <button
                 type="submit"
                 className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
