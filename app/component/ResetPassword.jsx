@@ -1,37 +1,37 @@
 export default function ResetPassword() {
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-white px-16 py-20 rounded-2xl shadow-[8px_4px_64px_rgba(0,0,0,0.25)] flex w-[1000px] z-10">
-        <div className="w-1/2 flex items-center justify-center">
+      <div className="bg-white px-6 md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl shadow-[8px_4px_64px_rgba(0,0,0,0.25)] flex h-full w-full md:w-[600px] lg:w-[1000px] z-10">
+        <div className="flex-1 text-center hidden lg:flex">
           <img src="/otp.svg" alt="otp" className="object-contain h-80 w-full" />
         </div>
 
-        <div className="w-1/2 px-6 flex flex-col justify-center items-center">
-          <h2 className="text-4xl font-semibold text-blue-600 mb-2">Verifikasi OTP</h2>
-          <p className="text-base mb-[32px] font-normal">OTP telah dikirim ke admin*****@gmail.com</p>
+        <div className="w-full lg:w-1/2 px-6 flex flex-col justify-center items-center">
+          <h2 className="text-4xl md:text-3xl font-semibold text-blue-600 mb-2">Verifikasi OTP</h2>
+          <p className="md:text-sm lg:text-base text-center mb-[32px] font-normal text-slate-600">OTP telah dikirim ke admin*****@gmail.com</p>
           <div className="justify-center w-full">
-            <div className="flex justify-center space-x-4">
+            <div className="flex justify-center space-x-1 md:space-x-2 lg:space-x-4">
               <input
                 type="text"
-                className="w-16 h-16 text-3xl text-center border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 text-3xl text-center border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="0"
                 required
               />
               <input
                 type="text"
-                className="w-16 h-16 text-3xl text-center border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 text-3xl text-center border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="0"
                 required
               />
               <input
                 type="text"
-                className="w-16 h-16 text-3xl text-center border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 text-3xl text-center border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="0"
                 required
               />
               <input
                 type="text"
-                className="w-16 h-16 text-3xl text-center border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 text-3xl text-center border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="0"
                 required
               />
@@ -40,8 +40,8 @@ export default function ResetPassword() {
               <p className="text-base font-normal text-slate-600">01.00</p>
             </div>
             <div className="w-full flex flex-col items-center mt-[26px]">
-              <p className="text-sm font-normal">Tidak menerima OTP?</p>
-              <button className="text-sm text-blue-600 font-semibold hover:text-blue-700">
+              <p className="md:text-xs lg:text-sm font-normal text-slate-600">Tidak menerima OTP?</p>
+              <button className="md:text-xs lg:text-sm text-blue-600 font-semibold hover:text-blue-700">
                 Kirim ulang OTP
               </button>
             </div>
@@ -49,7 +49,7 @@ export default function ResetPassword() {
             <div className="flex justify-center mt-[32px]">
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                className="w-full lg:w-11/12 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
               >
                 Verifikasi
               </button>
