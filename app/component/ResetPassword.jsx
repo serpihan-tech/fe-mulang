@@ -3,7 +3,7 @@ export default function ResetPassword() {
     <div className="flex items-center justify-center min-h-screen">
       <div className="bg-white px-6 md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl shadow-[8px_4px_64px_rgba(0,0,0,0.25)] flex h-full w-full md:w-[600px] lg:w-[1000px] z-10">
         <div className="flex-1 text-center hidden lg:flex">
-          <img src="/otp.svg" alt="otp" className="object-contain h-80 w-full" />
+          <img src="/svg/otp.svg" alt="otp" className="object-contain h-80 w-full" />
         </div>
 
         <div className="w-full lg:w-1/2 px-6 flex flex-col justify-center items-center">

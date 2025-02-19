@@ -6,8 +6,8 @@ export default function Home() {
       <main className="flex flex-col gap-8 items-center sm:items-start">
         <div className="w-full flex items-center justify-center">
           <Image
-            className="dark:invert"
-            src="/logo.svg"
+            className=""
+            src="svg/logo.svg"
             alt="Mulang logo"
             width={180}
             height={38}

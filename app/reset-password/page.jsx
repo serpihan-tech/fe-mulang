@@ -4,7 +4,7 @@ export default function ResetPasswordPage() {
   return (
     <div className="relative bg-[#CED9F9] min-h-screen overflow-hidden flex items-center justify-center">
       <img 
-        src="/ellipse2_top.svg" 
+        src="/svg/ellipse2_top.svg" 
         alt="Background" 
         className="absolute -top-16 -left-40 h-3/4 w-1/2 " 
       />
@@ -12,7 +12,7 @@ export default function ResetPasswordPage() {
       <ResetPassword/>
       
       <img 
-        src="/ellipse2_bottom.svg" 
+        src="/svg/ellipse2_bottom.svg" 
         alt="Background" 
         className="absolute -bottom-40 -right-24 h-3/4 w-1/2" 
       />
