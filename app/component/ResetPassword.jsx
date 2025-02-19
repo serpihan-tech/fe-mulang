@@ -43,7 +43,7 @@ export default function ResetPassword() {
                   type="text"
                   inputMode="numeric"
                   maxLength={1}
-                  className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 text-3xl text-center border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 text-3xl text-center text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="0"
                   required
                   onInput={(event) => handleInput(event, index)}
