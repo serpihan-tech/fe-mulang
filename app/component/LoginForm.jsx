@@ -1,16 +1,14 @@
 "use client"
-
 import { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-
-
+import { useState } from "react";
 
 export default function LoginForm() {
-  const router = useRouter()
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
  
   async function handleSubmit(event) {
     event.preventDefault()
- 
     const formData = new FormData(event.currentTarget)
     const email = formData.get('email')
     const password = formData.get('password')

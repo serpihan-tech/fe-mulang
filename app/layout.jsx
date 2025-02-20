@@ -8,9 +8,6 @@ const PlusJakarta = Plus_Jakarta_Sans({
 export const metadata = {
   title: "MULANG",
   description: "Rekap Kegiatan Belajar Mengajar",
-  icons : {
-    icon:'svg/logo.svg'
-  }
 };
 
 export default function RootLayout({ children }) {
@@ -18,8 +15,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         className={` ${PlusJakarta.className} antialiased`}
-        
       >
+      
         {children}
       </body>
     </html>
