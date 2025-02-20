@@ -29,15 +29,15 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-white px-16 py-20 rounded-2xl shadow-[8px_4px_64px_rgba(0,0,0,0.25)] flex w-[1000px]">
-        <div className="w-1/2 flex items-center justify-center">
-          <img src="/login.svg" alt="Login" className="object-contain h-80 w-full" />
+    <div className="flex w-full items-center justify-center">
+      <div className="bg-white px-6 md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl shadow-[8px_4px_64px_rgba(0,0,0,0.25)] flex h-full w-full md:w-[600px] lg:w-[1000px] z-10">
+        <div className="flex-1 text-center hidden lg:flex items-center">
+          <img src="/svg/login.svg" alt="Login" className="object-contain h-80 w-full" />
         </div>
 
-        <div className="w-1/2 px-6 flex flex-col justify-center items-center">
-          <h2 className="text-4xl font-semibold text-blue-600 mb-2">Selamat Datang!</h2>
-          <p className="text-xl text-gray-600 mb-[40px] font-light">Masuk ke akun anda</p>
+        <div className="w-full lg:w-1/2 md:px-6 flex flex-col justify-center items-center">
+          <h2 className="text-4xl text-center font-semibold text-blue-600 mb-2">Selamat Datang!</h2>
+          <p  className="text-xl text-gray-600 mb-[40px] font-light">Masuk ke akun anda</p>
           <form className="w-full" onSubmit={handleSubmit}>
             <div className="w-full mb-4">
               <label className="block text-sm font-medium text-gray-700">Email</label>
@@ -61,7 +61,18 @@ export default function LoginForm() {
 
                 required
               />
+              <div className="flex justify-end mt-2">
+                <a
+                  className="font-medium text-blue-600 text-sm"
+                  href="/reset-password"
+                  target="_self"
+                  rel="noopener noreferrer"
+                >
+                  forgot password?
+                </a>
+              </div>
             </div>
+            
             <div className="flex justify-center">
               <button
                 type="submit"
