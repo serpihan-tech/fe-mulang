@@ -1,15 +1,18 @@
-import { metadata as globalMetadata } from "../layout";
+import SideBar from "./_component/SideBar";
+import DashboardHeader from "./_component/DashboardHeader";
 
-export const metadata = {
-  ...globalMetadata, // Mewarisi metadata dari RootLayout
-  title: "Dashboard | MULANG", // Bisa menambahkan metadata khusus
-};
-
-export default function DashLayout({ children }) {
+export default function DashboardLayout({ children }) {
   return (
     <div>
-        {children}
+      <div className="md:w-64 hidden md:block fixed">
+        <SideBar/>
+      </div>
+      <div className="md:ml-64">
+        <DashboardHeader/>
+        <div>
+          {children}
+        </div>
+      </div>
     </div>
-      
   );
 }
