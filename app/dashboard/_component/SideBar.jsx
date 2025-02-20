@@ -1,7 +1,7 @@
 import Image from "next/image";
 export default function SideBar() {
   return (
-    <div className="h-screen shadow-md p-5">
+    <div className="h-screen p-5">
       <div className="flex gap-4 items-center justify-center">
         <Image
           className=""
