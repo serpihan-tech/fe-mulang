@@ -22,7 +22,7 @@ export default function LoginForm() {
     })
  
     if (response.ok) {
-      router.push('/taik')
+      router.push('/dashboard')
     } else {
       // Handle errors
     }
