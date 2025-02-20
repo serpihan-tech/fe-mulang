@@ -1,6 +1,6 @@
-import InputEmail from "../component/InputEmail";
+import InputNewPassword from "../../component/InputNewPassword";
 
-export default function InputEmailPage() {
+export default function InputNewPasswordPage() {
   return (
     <div className="relative bg-white min-h-screen overflow-hidden flex items-center justify-center">
       <img 
@@ -9,7 +9,7 @@ export default function InputEmailPage() {
         className="absolute -top-16 -left-10 h-3/4 w-1/2" 
       />
       
-      <InputEmail/>
+      <InputNewPassword/>
 
       <img 
         src="svg/ellipse_bottom.svg" 
