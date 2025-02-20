@@ -36,7 +36,7 @@ export default function ResetPassword() {
           <p className="md:text-sm lg:text-base text-center mb-[32px] font-normal text-slate-600">OTP telah dikirim ke admin*****@gmail.com</p>
           <div className="justify-center w-full">
             <div className="flex justify-center space-x-1 md:space-x-2 lg:space-x-4">
-              {Array.from({ length: 4 }).map((_, index) => (
+              {Array.from({ length: 6 }).map((_, index) => (
                 <input
                   key={index}
                   ref={(el) => (inputsRef.current[index] = el)}
