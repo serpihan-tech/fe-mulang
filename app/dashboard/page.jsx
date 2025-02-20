@@ -24,14 +24,22 @@ export default function Dashboard() {
         <p className="text-lg font-bold py-4">25000</p>
         <p className="text-sm font-medium" >Total Kelulusan</p>
       </Card>
-      <div className="w-[332px] h-16 flex p-3.5 rounded-md bg-white gap-2">
-        <div className="flex items-center">
-          <CalendarDays className="flex items-center justify-center w-7.5 rounded-md text-gray-700 text-extrabold "/>
+      <div>
+        <div className="w-[332px] h-16 flex p-3.5 rounded-md bg-white gap-5">
+          <div className="flex items-center">
+            <CalendarDays className="flex items-center justify-center w-7.5 rounded-md text-gray-700 text-extrabold "/>
+          </div>
+          <div>
+            <p className="text-base font-bold">Periode</p>
+            <p className="text-[10px] font-medium" >Genap 2024-2025</p>
+          </div>
         </div>
-        <div>
-          <p className="text-base font-bold">Periode</p>
-          <p className="text-[10px] font-medium" >Genap 2024-2025</p>
+        <div className="w-[332px] h-16 flex p-3.5 mt-[27px] rounded-md bg-white gap-5">
+          <div>
+            <p className="text-lg font-bold">Kalender</p>
+          </div>
         </div>
+        
       </div>
     </div>
   );
