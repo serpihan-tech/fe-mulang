@@ -5,7 +5,7 @@ export default function SidebarDropdown({ items }) {
         <a
           key={index}
           href="#"
-          className="block p-2 text-sm hover:bg-pri-main rounded-md"
+          className="block p-2 text-sm hover:bg-pri-main rounded-xl"
         >
           {item}
         </a>
