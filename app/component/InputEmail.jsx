@@ -1,29 +1,39 @@
 "use client"
-import { FormEvent } from 'react'
+import { FormEvent,useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useState } from "react";
 
-export default function LoginForm() {
+export default function Reset() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
  
   async function handleSubmit(event) {
     event.preventDefault()
+    setLoading(true);
+    
     const formData = new FormData(event.currentTarget)
     const email = formData.get('email')
-    const password = formData.get('password')
- 
-    const response = await fetch('https://optionally-topical-dassie.ngrok-free.app/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
- 
-    if (response.ok) {
-      router.push('/dashboard')
-    } else {
-      // Handle errors
+    
+    try {
+      const response = await fetch('https://optionally-topical-dassie.ngrok-free.app/forgot-password/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+   
+      if (response.ok) {
+        router.push('/reset-password/send-otp')
+        sessionStorage.setItem("user_email", email);
+      } else {
+        console.log('Error 500: Tidak bisa terhubung dengan server')
+  
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
+     
   }
 
   return (
@@ -34,8 +44,8 @@ export default function LoginForm() {
         </div>
 
         <div className="w-full lg:w-1/2 md:px-6 flex flex-col justify-center items-center">
-          <h2 className="text-4xl text-center font-semibold text-blue-600 mb-2">Selamat Datang!</h2>
-          <p  className="text-xl text-gray-600 mb-[40px] font-light">Masuk ke akun anda</p>
+          <h2 className="text-4xl text-center font-semibold text-blue-600 mb-2">Reset Password</h2>
+          <p  className="text-xl text-gray-600 mb-[40px] font-light">Masukkan Email anda</p>
           <form className="w-full" onSubmit={handleSubmit}>
             <div className="w-full mb-4">
               <label className="block text-sm font-medium text-gray-700">Email</label>
@@ -47,33 +57,13 @@ export default function LoginForm() {
                 required
               />
             </div>
-            <div className="w-full mb-[40px]">
-              <label className="block text-sm font-medium text-gray-700">Kata Sandi</label>
-              <input
-                type="password"
-                name="password"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="********"
-                required
-              />
-              <div className="flex justify-end mt-2">
-                <a
-                  className="font-medium text-blue-600 text-sm"
-                  href="/reset-password"
-                  target="_self"
-                  rel="noopener noreferrer"
-                >
-                  forgot password?
-                </a>
-              </div>
-            </div>
-            
             <div className="flex justify-center">
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
               >
-                Masuk
+                {loading ? "Memverifikasi..." : "Lanjut"}
               </button>
             </div>
           </form>
