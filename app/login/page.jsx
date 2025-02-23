@@ -1,9 +1,10 @@
 import LoginForm from "../component/LoginForm";
 import Image from "next/image";
+import ThemeSwitcher from "../component/ThemeSwitcher";
 
 export default function LoginPage() {
   return (
-    <div className="relative overflow-hidden min-h-screen flex items-center justify-center">
+    <div className="bg-white dark:bg-black relative overflow-hidden min-h-screen flex items-center justify-center">
       <img 
         src="svg/ellipse_top.svg" 
         alt="Background" 
@@ -28,7 +29,10 @@ export default function LoginPage() {
         alt="Background" 
         className="absolute -bottom-80 -right-24 h-3/4 w-1/2" 
       />
-
+      <div className="absolute bottom-5 right-5">
+      <ThemeSwitcher />
+      </div>
+    
     </div>
   );
 }

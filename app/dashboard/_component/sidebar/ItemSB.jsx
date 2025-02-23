@@ -26,7 +26,7 @@ export default function SidebarItem({ title, icon: Icon, dropdownItems, colorIco
   return (
     <div>
       <button
-        className="w-full flex items-center p-2 hover:bg-pri-main rounded-xl hover:text-netral-0 transition"
+        className="w-full flex items-center p-2 text-black dark:text-white hover:bg-pri-main rounded-xl hover:text-netral-0 transition"
         onClick={() => setOpen(!open)}
       >
         {/* Bagian Kiri: Ikon dan Teks */}

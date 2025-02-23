@@ -1,10 +1,12 @@
 import Image from "next/image";
+import ThemeSwitcher from "./component/ThemeSwitcher";
 
 export default function Home() {
   return (
-    <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="bg-white dark:bg-black grid items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 transition">
       <main className="flex flex-col gap-8 items-center sm:items-start">
         <div className="w-full flex items-center justify-center">
+        
           <Image
             className=""
             src="svg/logo.svg"
@@ -26,6 +28,9 @@ export default function Home() {
             Login
           </a>
         </div>
+        <div className="absolute bottom-5 right-5">
+                    <ThemeSwitcher />
+                    </div>
       </main>
     </div>
   );

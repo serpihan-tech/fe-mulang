@@ -8,7 +8,7 @@ import { useState } from "react";
 export default function SideBar() {
   
   return (
-    <div className="h-screen p-5 shadow-lg">
+    <div className="bg-white dark:bg-black h-screen p-5 shadow-lg transition">
       <div className="flex gap-4 items-center justify-center">
         <Image
           className=""

@@ -1,11 +1,13 @@
+import ThemeSwitcher from "@/app/component/ThemeSwitcher";
 import { Notification } from "iconsax-react";
 import Image from "next/image";
 
 export default function DashboardHeader() {
   return (
-    <div className="p-5 flex justify-end gap-3 items-center shadow-lg">
+    <div className="bg-white dark:bg-black p-5 flex justify-end gap-3 items-center shadow-lg transition">
+      <ThemeSwitcher />
       <Notification
-        className="bg-slate-200 p-2 rounded-full"
+        className="bg-netral-20 p-2 rounded-full"
         size="40" variant="Outline" color="black"
       />
       <Image
@@ -16,7 +18,7 @@ export default function DashboardHeader() {
         height={40}
         priority
       />
-      <h1 className="font-semibold text-xl">Admin</h1>
+      <h1 className="font-semibold text-xl text-black dark:text-white transition">Admin</h1>
     </div>
   );
 }

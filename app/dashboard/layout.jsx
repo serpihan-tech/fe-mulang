@@ -1,9 +1,12 @@
 import SideBar from "./_component/sidebar/SideBar";
 import DashboardHeader from "./_component/DashboardHeader";
+import { ThemeProvider } from "../provider/ThemeProvider";
+
 
 export default function DashboardLayout({ children }) {
   return (
-    <div>
+    <ThemeProvider>
+      <div>
       <div className="md:w-64 hidden md:block fixed">
         <SideBar/>
       </div>
@@ -14,5 +17,7 @@ export default function DashboardLayout({ children }) {
         </div>
       </div>
     </div>
+    </ThemeProvider>
+    
   );
 }

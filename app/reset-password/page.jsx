@@ -1,8 +1,9 @@
 import InputEmail from "../component/InputEmail";
+import ThemeSwitcher from "../component/ThemeSwitcher";
 
 export default function InputEmailPage() {
   return (
-    <div className="relative  min-h-screen overflow-hidden flex items-center justify-center">
+    <div className="relative bg-white dark:bg-black min-h-screen overflow-hidden flex items-center justify-center">
       <img 
         src="svg/ellipse_top.svg" 
         alt="Background" 
@@ -16,7 +17,9 @@ export default function InputEmailPage() {
         alt="Background" 
         className="absolute -bottom-80 -right-24 h-3/4 w-1/2" 
       />
-
+      <div className="absolute bottom-5 right-5">
+            <ThemeSwitcher />
+            </div>
     </div>
   );
 }
