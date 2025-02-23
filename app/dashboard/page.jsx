@@ -72,7 +72,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="bg-[#FAFAFA]">
+      <div className="">
         <div className="flex pt-8 px-6 gap-5">
           <div>
             <div className="flex gap-5">

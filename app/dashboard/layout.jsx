@@ -9,7 +9,7 @@ export default function DashboardLayout({ children }) {
       </div>
       <div className="md:ml-64">
         <DashboardHeader/>
-        <div>
+        <div >
           {children}
         </div>
       </div>

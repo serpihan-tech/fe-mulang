@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function DashboardHeader() {
   return (
-    <div className="p-5 border-b-2 border-gray-100 flex justify-end gap-3 items-center">
+    <div className="p-5 flex justify-end gap-3 items-center shadow-lg">
       <Notification
         className="bg-slate-200 p-2 rounded-full"
         size="40" variant="Outline" color="black"
