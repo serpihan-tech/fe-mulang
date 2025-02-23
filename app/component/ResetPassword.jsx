@@ -31,7 +31,9 @@ export default function ResetPassword() {
       inputsRef.current[index - 1]?.focus();
     }
   };
+
   const email = sessionStorage.getItem("user_email");
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -70,14 +72,14 @@ export default function ResetPassword() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-white px-6 md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl shadow-[8px_4px_64px_rgba(0,0,0,0.25)] flex h-full w-full md:w-[600px] lg:w-[1000px] z-10">
+      <div className="bg-white dark:bg-netral-0/10 dark:backdrop-blur-md dark:border-2 dark:border-pri-border  md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl shadow-[8px_4px_64px_rgba(0,0,0,0.25)] flex h-full w-full md:w-[600px] lg:w-[1000px] mx-10 z-10">
         <div className="flex-1 text-center hidden lg:flex">
           <img src="/svg/otp.svg" alt="otp" className="object-contain h-80 w-full" />
         </div>
 
         <div className="w-full lg:w-1/2 px-6 flex flex-col justify-center items-center">
-          <h2 className="text-4xl md:text-3xl font-semibold text-blue-600 mb-2">Verifikasi OTP</h2>
-          <p className="md:text-sm lg:text-base text-center mb-[32px] font-normal text-slate-600">
+          <h2 className="lg:text-4xl text-2xl font-semibold text-pri-main dark:text-pri-border mb-1 lg:mb-2">Verifikasi OTP</h2>
+          <p className="text-lg lg:text-base text-center mb-[32px] font-normal text-netral-100 dark:text-netral-0">
             OTP telah dikirim ke {email}
           </p>
           <form onSubmit={handleSubmit} className="justify-center w-full">
@@ -89,8 +91,12 @@ export default function ResetPassword() {
                   type="text"
                   inputMode="numeric"
                   maxLength={1}
-                  className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 text-3xl text-center text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="0"
+                  className="w-12 h-12 md:w-16 md:h-16 
+                            text-3xl font-semibold text-center bg-white dark:bg-gray-800 
+                            text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 
+                            rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 
+                            transition-all duration-200"
+                  placeholder="•"
                   value={otp[index]}
                   onInput={(event) => handleInput(event, index)}
                   onKeyDown={(event) => handleKeyDown(event, index)}
@@ -99,13 +105,9 @@ export default function ResetPassword() {
               ))}
             </div>
 
-            <div className="w-full flex justify-center items-center mt-4">
-              <p className="text-base font-normal text-slate-600">01.00</p>
-            </div>
-
             <div className="w-full flex flex-col items-center mt-[26px]">
-              <p className="md:text-xs lg:text-sm font-normal text-slate-600">Tidak menerima OTP?</p>
-              <button className="md:text-xs lg:text-sm text-blue-600 font-semibold hover:text-blue-700">
+              <p className="md:text-xs lg:text-sm font-normal text-netral-100 dark:text-netral-0">Tidak menerima OTP?</p>
+              <button className="md:text-xs lg:text-sm text-pri-main dark:text-pri-border font-semibold hover:text-pri-hover dark:hover:text-pri-border/50 transition">
                 Kirim ulang OTP
               </button>
             </div>
@@ -115,7 +117,7 @@ export default function ResetPassword() {
             <div className="flex justify-center mt-[32px]">
               <button
                 type="submit"
-                className="w-full lg:w-11/12 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                className="w-full lg:w-11/12 bg-pri-main dark:bg-pri-border text-white dark:text-netral-100 py-2 rounded-md hover:bg-pri-border dark:hover:bg-pri-border/50 transition"
                 disabled={loading}
               >
                 {loading ? "Memverifikasi..." : "Verifikasi"}

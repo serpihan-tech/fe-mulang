@@ -1,79 +1,113 @@
-"use client"
-import { FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
-import { useState } from "react";
+"use client";
+import { useState, useCallback, useRef } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
- 
-  async function handleSubmit(event) {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const email = formData.get('email')
-    const password = formData.get('password')
- 
-    const response = await fetch('https://optionally-topical-dassie.ngrok-free.app/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
- 
-    if (response.ok) {
-      router.push('/dashboard')
-    } else {
-      // Handle errors
+  const [error, setError] = useState("");
+
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+
+  const handleSubmit = useCallback(async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    try {
+      const response = await fetch("https://optionally-topical-dassie.ngrok-free.app/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Emaill atau kata sandi yang anda masukan salah!");
+      }
+
+      router.push("/dashboard");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-  }
+  }, [router]);
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="bg-white px-6 md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl shadow-[8px_4px_64px_rgba(0,0,0,0.25)] flex h-full w-full md:w-[600px] lg:w-[1000px] z-10">
+      <div className="bg-white dark:bg-netral-0/10 dark:backdrop-blur-md dark:border-2 dark:border-pri-border px-6 md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl shadow-md flex h-full w-full md:w-[600px] lg:w-[1000px] mx-10 z-10">
+        
+        {/* Gambar Login */}
         <div className="flex-1 text-center hidden lg:flex items-center">
-          <img src="/svg/login.svg" alt="Login" className="object-contain h-80 w-full" />
+          <Image src="/svg/login.svg" alt="Login" width={300} height={300} className="object-contain h-80 w-full" />
         </div>
 
+        {/* Form Login */}
         <div className="w-full lg:w-1/2 md:px-6 flex flex-col justify-center items-center">
-          <h2 className="text-4xl text-center font-semibold text-blue-600 mb-2">Selamat Datang!</h2>
-          <p  className="text-xl text-gray-600 mb-[40px] font-light">Masuk ke akun anda</p>
+          <h2 className="md:text-4xl text-2xl text-center font-semibold text-pri-main dark:text-pri-border mb-2 ">Selamat Datang!</h2>
+          <p className="md:text-xl text-lg text-netral-100 dark:text-netral-0 mb-10 font-light">Masuk ke akun Anda</p>
+
           <form className="w-full" onSubmit={handleSubmit}>
             <div className="w-full mb-4">
-              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <label className="block text-sm font-medium text-netral-100 dark:text-netral-0">Email</label>
               <input
+                ref={emailRef}
                 type="email"
                 name="email"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pri-main/20 
+                          bg-white text-gray-900 border-gray-300 placeholder-gray-400 
+                          dark:bg-gray-800 dark:text-white dark:border-netral-30 dark:placeholder-netral-30
+                          dark:focus:ring-pri-border dark:focus:border-pri-border transition duration-200"
                 placeholder="admin.serpihan@gmail.com"
                 required
+                aria-label="Email Anda"
               />
             </div>
-            <div className="w-full mb-[40px]">
-              <label className="block text-sm font-medium text-gray-700">Kata Sandi</label>
+
+            <div className="w-full mb-8">
+              <label className="block text-sm font-medium text-netral-100 dark:text-netral-0">Kata Sandi</label>
               <input
+                ref={passwordRef}
                 type="password"
                 name="password"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pri-main/20 
+                          bg-white text-gray-900 border-gray-300 placeholder-gray-400 
+                          dark:bg-gray-800 dark:text-white dark:border-netral-30 dark:placeholder-netral-30
+                          dark:focus:ring-pri-border dark:focus:border-pri-border transition duration-200"
                 placeholder="********"
                 required
+                aria-label="Kata sandi Anda"
               />
               <div className="flex justify-end mt-2">
                 <a
-                  className="font-medium text-blue-600 text-sm"
+                  className="font-medium text-pri-main dark:text-pri-border text-sm hover:text-pri-hover dark:hover:text-pri-border/50 transition"
                   href="/reset-password"
                   target="_self"
                   rel="noopener noreferrer"
                 >
-                  forgot password?
+                  Lupa kata sandi?
                 </a>
               </div>
             </div>
-            
+
+            {/* Error Message */}
+            {error && <p className="text-err-main text-sm mb-4">{error}</p>}
+
+            {/* Tombol Submit */}
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                className="w-full bg-pri-main dark:bg-pri-border text-white dark:text-netral-100 py-2 rounded-md hover:bg-pri-hover dark:hover:bg-pri-border/50 transition"
+                disabled={loading}
               >
-                Masuk
+                {loading ? "Memverifikasi..." : "Masuk"}
               </button>
             </div>
           </form>

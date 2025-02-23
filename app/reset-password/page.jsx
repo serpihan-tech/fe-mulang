@@ -2,7 +2,7 @@ import InputEmail from "../component/InputEmail";
 
 export default function InputEmailPage() {
   return (
-    <div className="relative bg-white min-h-screen overflow-hidden flex items-center justify-center">
+    <div className="relative  min-h-screen overflow-hidden flex items-center justify-center">
       <img 
         src="svg/ellipse_top.svg" 
         alt="Background" 
