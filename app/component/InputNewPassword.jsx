@@ -145,7 +145,7 @@ export default function Reset() {
             <div className="flex justify-center">
                 <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                className="w-full bg-pri-main dark:bg-pri-border text-white dark:text-netral-100 py-2 rounded-md hover:bg-pri-hover dark:hover:bg-pri-border/50 transition"
                 disabled={loading}
                 >
                 {loading ? "Menyimpan..." : "Lanjut"}
