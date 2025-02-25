@@ -1,23 +1,66 @@
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import SideBar from "./_component/sidebar/SideBar";
 import DashboardHeader from "./_component/DashboardHeader";
-import { ThemeProvider } from "../provider/ThemeProvider";
-
+import { ThemeProvider } from "../../provider/ThemeProvider";
 
 export default function DashboardLayout({ children }) {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  // Cek token saat halaman dimuat
+  useEffect(() => {
+    const token = "asdasd"; // Ganti dengan localStorage.getItem("token")
+    const role = "admin"; // Ganti dengan localStorage.getItem("role")
+
+    if (!token || !role) {
+      router.replace("/login");
+    } else {
+      setIsAuthenticated(true);
+    }
+
+    setLoading(false);
+  }, []);
+
+    // Tutup sidebar jika ukuran layar < md (768px)
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth < 768) {
+          setSidebarOpen(false);
+        }
+      };
+  
+      // Jalankan saat pertama kali render
+      handleResize();
+  
+      // Tambahkan event listener
+      window.addEventListener("resize", handleResize);
+  
+      // Bersihkan event listener saat komponen unmount
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+  // Loading sebelum autentikasi selesai
+  if (loading) return <p>Loading...</p>;
+  if (!isAuthenticated) return null;
+
   return (
     <ThemeProvider>
-      <div>
-      <div className="md:w-64 hidden md:block fixed">
-        <SideBar/>
-      </div>
-      <div className="md:ml-64">
-        <DashboardHeader/>
-        <div >
-          {children}
+      <div className="flex">
+        {/* Sidebar */}
+        <div className={`fixed transition-all duration-300 ${sidebarOpen ? "block" : "hidden"} z-10 w-64`}>
+          <SideBar />
+        </div>
+
+        {/* Konten utama */}
+        <div className={`w-full ${sidebarOpen ? "ml-64" : "ml-0"}`}>
+          <DashboardHeader toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+          <div>{children}</div>
         </div>
       </div>
-    </div>
     </ThemeProvider>
-    
   );
 }

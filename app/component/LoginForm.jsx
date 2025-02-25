@@ -2,8 +2,11 @@
 import { useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function LoginForm() {
+  
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -15,6 +18,8 @@ export default function LoginForm() {
     event.preventDefault();
     setLoading(true);
     setError("");
+    sessionStorage.setItem("role", "admin");
+      sessionStorage.setItem("token", "adminasdasdad");
 
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -30,11 +35,14 @@ export default function LoginForm() {
 
       if (!response.ok) {
         throw new Error(data.message || "Emaill atau kata sandi yang anda masukan salah!");
+        toast("Wow so easy!");
+
       }
 
       router.push("/dashboard");
     } catch (err) {
       setError(err.message);
+      toast.error("Backend tolol!");
     } finally {
       setLoading(false);
     }
@@ -99,7 +107,7 @@ export default function LoginForm() {
 
             {/* Error Message */}
             {error && <p className="text-err-main text-sm mb-4">{error}</p>}
-
+            <ToastContainer />
             {/* Tombol Submit */}
             <div className="flex justify-center">
               <button
