@@ -111,7 +111,7 @@ export default function AdminDashboard() {
   return (
     <>
       <div className="z-0">
-        <div className="bg-[#FAFAFA] dark:bg-black flex pt-8 px-6 gap-5">
+        <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-6 gap-5">
           <div>
             <div className="flex gap-5">
               <SumCard icon={People} value="100" label="Total Siswa"/>
@@ -158,7 +158,6 @@ export default function AdminDashboard() {
                   options={chartOptions}
                   series={chartSeries}
                   type="line"
-                  width="700"
                 />
               </div>
             </div>
