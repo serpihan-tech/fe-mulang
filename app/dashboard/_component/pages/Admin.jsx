@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import dynamic from 'next/dynamic';
 import { People, Teacher, Book, Award, Calendar, ArrowDown2 } from "iconsax-react";
 import SumCard from "../SumCard";
+import { Calendar as ReactCalendar } from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import "../style/calendarStyle.css";
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -21,7 +24,6 @@ export default function AdminDashboard() {
 
   const [selectedPeriod, setSelectedPeriod] = useState(periodOptions[0]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -198,9 +200,21 @@ export default function AdminDashboard() {
               )}
             </div>
 
-            <div className="w-[332px] h-16 p-3.5 mt-[27px] rounded-md bg-white gap-5">
+            <div className="w-[332px] p-3.5 mt-[27px] rounded-md bg-white gap-5">
               <div>
                 <p className="text-lg font-bold">Kalender</p>
+                <ReactCalendar 
+                  className="react-calendar mb-3"
+                  formatShortWeekday={(locale, date) => 
+                    ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.getDay()]
+                  }
+                  formatDay={(locale, date) => {
+                    return date.getDate().toString().padStart(2, '0');
+                  }}
+                  nextLabel="›"
+                  prevLabel="‹"
+                  view="month"
+                />
               </div>
               <div>
                 <p className="text-base font-medium text-[#333333]">Upcoming Event</p>
