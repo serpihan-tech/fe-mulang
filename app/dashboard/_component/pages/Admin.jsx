@@ -150,7 +150,7 @@ export default function AdminDashboard() {
                   <p className="text-black text-xs font-medium">Tidak Hadir</p>
                 </div>
               </div>
-              <div className="mixed-chart">
+              <div className="mixed-chart -ms-5">
                 <Chart
                   options={chartOptions}
                   series={chartSeries}
