@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import SideBar from "./_component/sidebar/SideBar";
 import DashboardHeader from "./_component/DashboardHeader";
 import { ThemeProvider } from "../../provider/ThemeProvider";
+import { toast } from "react-toastify";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -13,10 +14,11 @@ export default function DashboardLayout({ children }) {
 
   // Cek token saat halaman dimuat
   useEffect(() => {
-    const token = "asdasd"; // Ganti dengan localStorage.getItem("token")
-    const role = "admin"; // Ganti dengan localStorage.getItem("role")
+    const token = sessionStorage.getItem("token");
+    const role = sessionStorage.getItem("role");
 
     if (!token || !role) {
+      toast.error('harap login ulang')
       router.replace("/login");
     } else {
       setIsAuthenticated(true);

@@ -6,11 +6,9 @@ import { ToastContainer, toast } from 'react-toastify';
 
 export default function LoginForm() {
   
-
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
@@ -18,9 +16,7 @@ export default function LoginForm() {
     event.preventDefault();
     setLoading(true);
     setError("");
-    sessionStorage.setItem("role", "admin");
-      sessionStorage.setItem("token", "adminasdasdad");
-
+    
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
@@ -30,19 +26,30 @@ export default function LoginForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
-      const data = await response.json();
-
+    
+      // Jika response status tidak OK, lempar error dengan pesan dari server
       if (!response.ok) {
-        throw new Error(data.message || "Emaill atau kata sandi yang anda masukan salah!");
-        toast("Wow so easy!");
-
+        const errorData = await response.json(); // Ambil pesan error dari server
+        throw new Error(errorData.message || `Error ${response.status}: Terjadi kesalahan`);
       }
-
+    
+      // Jika response OK, parse JSON-nya
+      const data = await response.json();
+    
+      // Simpan token dan role ke sessionStorage
+      sessionStorage.setItem("token", data.token.token);
+      sessionStorage.setItem("role", data.role);
+    
+      toast.success("Login berhasil!");
       router.push("/dashboard");
+    
     } catch (err) {
-      setError(err.message);
-      toast.error("Backend tolol!");
+      // Bedakan antara error koneksi dan error dari server
+      if (err.message.includes("Failed to fetch")) {
+        toast.error("500: Tidak dapat terhubung ke server");
+      } else {
+        toast.error("Email atau kata sandi salah");
+      }
     } finally {
       setLoading(false);
     }

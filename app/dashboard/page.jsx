@@ -11,8 +11,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true); // State loading
 
   useEffect(() => {
-    const token = "admin";
-    const userRole = "admin";
+    const token = sessionStorage.getItem("token");
+    const userRole = sessionStorage.getItem("role");
 
     if (!token || !userRole) {
       alert("Session anda terputus, harap login ulang");
