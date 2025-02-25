@@ -152,8 +152,9 @@ export default function AdminDashboard() {
                   <p className="text-black text-xs font-medium">Tidak Hadir</p>
                 </div>
               </div>
-              <div className="mixed-chart -ms-5">
+              <div className="mixed-chart -ms-4">
                 <Chart
+                  className="w-full"
                   options={chartOptions}
                   series={chartSeries}
                   type="line"
@@ -161,10 +162,30 @@ export default function AdminDashboard() {
                 />
               </div>
             </div>
-
-            <div className="mt-5 bg-white px-5 py-4 rounded-md">
-              <p className="text-lg font-bold">Pusat Informasi</p>
-            </div>
+            <div className="min-w-full mt-5 bg-white px-5 py-4 rounded-md flex-col justify-start items-start gap-11 inline-flex">
+              <div className="self-stretch justify-between items-end inline-flex">
+                  <div className="text-black text-lg font-bold">Pusat Informasi</div>
+                  <div className="text-black text-xs font-normal">Lihat selengkapnya</div>
+              </div>
+              <div className="self-stretch flex-col justify-start items-start gap-5 flex">
+                  <div className="self-stretch flex-col justify-start items-start gap-2.5 flex">
+                      <div className="self-stretch justify-between items-center inline-flex">
+                          <div className="text-black text-sm font-semibold">Olimpiade Matematika </div>
+                          <div className="text-black text-sm font-semibold">29 Januari 2025</div>
+                      </div>
+                      <div className="self-stretch text-black text-[10px] font-normal">Olimpiade Matematika untuk kelas X tingkat Nasional</div>
+                      <hr className="border-t border-2 border-gray-300 w-full" />
+                  </div>
+                  <div className="self-stretch flex-col justify-start items-start gap-2.5 flex">
+                      <div className="self-stretch justify-between items-center inline-flex">
+                          <div className="text-black text-sm font-semibold">Olimpiade Matematika </div>
+                          <div className="text-black text-sm font-semibold">29 Januari 2025</div>
+                      </div>
+                      <div className="self-stretch text-black text-[10px] font-normal">Olimpiade Matematika untuk kelas X tingkat Nasional</div>
+                      <hr className="border-t border-2 border-gray-300 w-full" />
+                  </div>
+              </div>
+          </div>
           </div>
           
           <div>
@@ -200,7 +221,7 @@ export default function AdminDashboard() {
               )}
             </div>
 
-            <div className="w-[332px] p-3.5 mt-[27px] rounded-md bg-white gap-5">
+            <div className="w-full h-full p-3.5 mt-[27px] rounded-md bg-white gap-5">
               <div>
                 <p className="text-lg font-bold">Kalender</p>
                 <ReactCalendar 
@@ -218,6 +239,14 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <p className="text-base font-medium text-[#333333]">Upcoming Event</p>
+                <div className="w-full py-8 flex-col justify-center items-center gap-2.5 inline-flex">
+                  <div className="w-[45px] h-[45px] relative">
+                      <img className="w-[45px] h-[45px] left-0 top-0 absolute" src="/svg/event.svg" />
+                  </div>
+                  <div className="opacity-80 justify-start items-start gap-2.5 inline-flex">
+                      <div className="text-[#333333] text-xs font-normal">No upcoming events</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
