@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import dynamic from 'next/dynamic';
-import { People, Teacher, Book, Award, Calendar, Calendar1 } from "iconsax-react";
+import { People, Teacher, Book, Award, Calendar, ArrowDown2 } from "iconsax-react";
 import SumCard from "../SumCard";
 import { Calendar as ReactCalendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -68,7 +68,9 @@ export default function AdminDashboard() {
     }
   };
 
-  const categories = timePeriod === 'mingguan' ? ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] : ['mingguan 1', 'mingguan 2', 'mingguan 3', 'mingguan 4', 'mingguan 5'];
+  const categories = timePeriod === 'mingguan' 
+    ? ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] 
+    : ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4', 'Minggu 5'];
 
   useEffect(() => {
     setChartOptions({
@@ -130,6 +132,8 @@ export default function AdminDashboard() {
   };
 
 
+  
+
   return (
     <>
       <div className="z-0 transition">
@@ -146,11 +150,19 @@ export default function AdminDashboard() {
               <div className="flex justify-between items-center mb-4">
                 <p className="text-lg text-black dark:text-white font-bold">Kehadiran</p>
                 <div className="flex gap-2">
-                  <select className="bg-white dark:bg-netral-0/0 text-black dark:text-white dark:border-2 border border-netral-10 dark:border-pri-border rounded-md p-1" onChange={(e) => setTimePeriod(e.target.value)} value={timePeriod}>
+                  <select 
+                    className="bg-white dark:bg-netral-0/0 text-black dark:text-white dark:border-2 border border-netral-10 dark:border-pri-border rounded-md p-1" 
+                    onChange={(e) => setTimePeriod(e.target.value)} 
+                    value={timePeriod}
+                  >
                     <option value="mingguan">Mingguan</option>
                     <option value="bulan">Bulanan</option>
                   </select>
-                  <select className="bg-white dark:bg-netral-0/0 text-black dark:text-white dark:border-2 border border-netral-10 dark:border-pri-border rounded-md p-1" onChange={(e) => setCategory(e.target.value)} value={category}>
+                  <select 
+                    className="bg-white dark:bg-netral-0/0 text-black dark:text-white dark:border-2 border border-netral-10 dark:border-pri-border rounded-md p-1" 
+                    onChange={(e) => setCategory(e.target.value)} 
+                    value={category}
+                  >
                     <option value="siswa">Siswa</option>
                     <option value="guru">Guru</option>
                   </select>
@@ -168,27 +180,47 @@ export default function AdminDashboard() {
               </div>
               <div className="mixed-chart ">
                 <Chart
+                  className="w-full"
                   options={chartOptions}
                   series={chartSeries}
                   type="line"
-                  width="700"
                 />
               </div>
             </div>
-
-            <div className="my-5 bg-white dark:bg-netral-0/10 dark:backdrop-blur-md dark:border-2 dark:border-pri-border px-5 py-4 rounded-md">
-              <p className="text-lg text-black dark:text-white font-bold">Pusat Informasi</p>
-              
-            </div>
+            <div className="min-w-full mt-5 bg-white dark:bg-netral-0/10 dark:backdrop-blur-md dark:border-2 dark:border-pri-border px-5 py-4 rounded-md flex-col justify-start items-start gap-11 inline-flex">
+              <div className="self-stretch justify-between items-end inline-flex">
+                  <div className="text-black text-lg font-bold">Pusat Informasi</div>
+                  <div className="text-black text-xs font-normal">Lihat selengkapnya</div>
+              </div>
+              <div className="self-stretch flex-col justify-start items-start gap-5 flex">
+                  <div className="self-stretch flex-col justify-start items-start gap-2.5 flex">
+                      <div className="self-stretch justify-between items-center inline-flex">
+                          <div className="text-black text-sm font-semibold">Olimpiade Matematika </div>
+                          <div className="text-black text-sm font-semibold">29 Januari 2025</div>
+                      </div>
+                      <div className="self-stretch text-black text-[10px] font-normal">Olimpiade Matematika untuk kelas X tingkat Nasional</div>
+                      <hr className="border-t border-2 border-gray-300 w-full" />
+                  </div>
+                  <div className="self-stretch flex-col justify-start items-start gap-2.5 flex">
+                      <div className="self-stretch justify-between items-center inline-flex">
+                          <div className="text-black text-sm font-semibold">Olimpiade Matematika </div>
+                          <div className="text-black text-sm font-semibold">29 Januari 2025</div>
+                      </div>
+                      <div className="self-stretch text-black text-[10px] font-normal">Olimpiade Matematika untuk kelas X tingkat Nasional</div>
+                      <hr className="border-t border-2 border-gray-300 w-full" />
+                  </div>
+              </div>
+          </div>
           </div>
           
-          <div className="flex flex-col gap-5 flex-grow">
+          <div>
             <div 
-            ref={dropdownRef}
-            className="w-full flex items-center justify-start p-3.5 text-black dark:text-white rounded-md bg-white dark:bg-netral-0/10 dark:backdrop-blur-md dark:border-2 dark:border-pri-border gap-5"
-            onClick={handlePeriodClick}>
+              ref={dropdownRef}
+              className="w-[332px] h-16 flex p-3.5 rounded-md bg-white gap-5 cursor-pointer relative"
+              onClick={handlePeriodClick}
+            >
               <Calendar variant="Bold" size={30} color="currentColor"/>
-              <div>
+              <div className="flex-grow">
                 <p className="text-base font-bold">Periode</p>
                 <p className="text-[10px] font-medium">{selectedPeriod.label}</p>
               </div>
@@ -213,9 +245,10 @@ export default function AdminDashboard() {
                 </div>
               )}
             </div>
-            <div className="w-full p-3.5 rounded-md bg-white dark:bg-netral-0/10 dark:backdrop-blur-md dark:border-2 dark:border-pri-border gap-5">
+
+            <div className="w-full h-full p-3.5 mt-[27px] rounded-md bg-white dark:bg-netral-0/10 dark:backdrop-blur-md dark:border-2 dark:border-pri-border gap-5">
               <div>
-                <p className="text-black dark:text-white text-lg font-bold">Kalender</p>
+                <p className="text-lg font-bold">Kalender</p>
                 <ReactCalendar 
                   className="react-calendar mb-3"
                   formatShortWeekday={(locale, date) => 
@@ -230,7 +263,15 @@ export default function AdminDashboard() {
                 />
               </div>
               <div>
-                <p className="text-base font-medium text-[#333333] dark:text-netral-10">Upcoming Event</p>
+                <p className="text-base font-medium text-[#333333]  dark:text-netral-10">Upcoming Event</p>
+                <div className="w-full py-8 flex-col justify-center items-center gap-2.5 inline-flex">
+                  <div className="w-[45px] h-[45px] relative">
+                      <img className="w-[45px] h-[45px] left-0 top-0 absolute" src="/svg/event.svg" />
+                  </div>
+                  <div className="opacity-80 justify-start items-start gap-2.5 inline-flex">
+                      <div className="text-[#333333] text-xs font-normal">No upcoming events</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
