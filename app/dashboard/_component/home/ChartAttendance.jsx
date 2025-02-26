@@ -1,12 +1,23 @@
 "use client";
 import React, { useState } from "react";
 import dynamic from 'next/dynamic';
+import Dropdown from "@/app/component/Dropdown";
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function ChartAttendance() {
-  const [timePeriod, setTimePeriod] = useState('mingguan');
-  const [category, setCategory] = useState('siswa');
+  const timeOptions = [
+    { label: "Mingguan", value: "mingguan" },
+    { label: "Bulanan", value: "bulan" },
+  ];
+
+  const categoryOptions = [
+    { label: "Siswa", value: "siswa" },
+    { label: "Guru", value: "guru" },
+  ];
+
+  const [selectedTime, setSelectedTime] = useState(timeOptions[0]);
+  const [selectedCategory, setSelectedCategory] = useState(categoryOptions[0]);
 
   const data = {
     mingguan: {
@@ -31,7 +42,7 @@ export default function ChartAttendance() {
     }
   };
 
-  const categories = timePeriod === 'mingguan' 
+  const categories = selectedTime.value === 'mingguan' 
     ? ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] 
     : ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4', 'Minggu 5'];
 
@@ -62,57 +73,80 @@ export default function ChartAttendance() {
   const chartSeries = [
     {
       name: "Hadir",
-      data: data[timePeriod][category].hadir
+      data: data[selectedTime.value][selectedCategory.value].hadir
     },
     {
       name: "Tidak Hadir",
-      data: data[timePeriod][category].tidakHadir
+      data: data[selectedTime.value][selectedCategory.value].tidakHadir
     }
   ];
 
   return (
-    <>
-      <div className="mt-5 bg-white px-5 py-4 rounded-md">
-        <div className="flex justify-between items-center mb-4">
-          <p className="text-lg font-bold">Kehadiran</p>
-          <div className="flex gap-2">
-            <select 
-              className="border rounded p-1" 
-              onChange={(e) => setTimePeriod(e.target.value)} 
-              value={timePeriod}
-            >
-              <option value="mingguan">Mingguan</option>
-              <option value="bulan">Bulanan</option>
-            </select>
-            <select 
-              className="border rounded p-1" 
-              onChange={(e) => setCategory(e.target.value)} 
-              value={category}
-            >
-              <option value="siswa">Siswa</option>
-              <option value="guru">Guru</option>
-            </select>
-          </div>
-        </div>
-        <div className="flex gap-4 mb-4">
-          <div className="h-[15px] justify-start items-center gap-2.5 inline-flex">
-            <div className="w-2.5 h-2.5 bg-[#0e9035] rounded-full" />
-            <p className="text-black text-xs font-medium">Hadir</p>
-          </div>
-          <div className="h-[15px] justify-start items-center gap-2.5 inline-flex">
-            <div className="w-2.5 h-2.5 bg-[#DC1010] rounded-full" />
-            <p className="text-black text-xs font-medium">Tidak Hadir</p>
-          </div>
-        </div>
-        <div className="mixed-chart -ms-4">
-          <Chart
-            className="w-full"
-            options={chartOptions}
-            series={chartSeries}
-            type="line"
+    <div className="mt-5 bg-white dark:bg-black px-5 py-4 rounded-md">
+      <div className="flex justify-between items-center mb-4">
+        <p className="text-lg font-bold dark:text-white">Kehadiran</p>
+        <div className="flex gap-2">
+          <Dropdown
+            options={timeOptions}
+            value={selectedTime}
+            onChange={setSelectedTime}
+            className="w-32 h-10 p-2 rounded-md bg-white dark:bg-black border border-gray-200"
+            dropdownStyle="dark:bg-black dark:text-white"
+          />
+          <Dropdown
+            options={categoryOptions}
+            value={selectedCategory}
+            onChange={setSelectedCategory}
+            className="w-32 h-10 p-2 rounded-md bg-white dark:bg-black border border-gray-200"
+            dropdownStyle="dark:bg-black dark:text-white"
           />
         </div>
-            </div>
-    </>
+      </div>
+
+      <div className="flex gap-4 mb-4">
+        <div className="h-[15px] justify-start items-center gap-2.5 inline-flex">
+          <div className="w-2.5 h-2.5 bg-[#0e9035] rounded-full" />
+          <p className="text-black dark:text-white text-xs font-medium">Hadir</p>
+        </div>
+        <div className="h-[15px] justify-start items-center gap-2.5 inline-flex">
+          <div className="w-2.5 h-2.5 bg-[#DC1010] rounded-full" />
+          <p className="text-black dark:text-white text-xs font-medium">Tidak Hadir</p>
+        </div>
+      </div>
+
+      <div className="mixed-chart -ms-4">
+        <Chart
+          className="w-full"
+          options={{
+            ...chartOptions,
+            theme: {
+              mode: 'light'
+            },
+            grid: {
+              borderColor: '#f1f1f1',
+            },
+            xaxis: {
+              ...chartOptions.xaxis,
+              labels: {
+                style: {
+                  colors: '#666'
+                }
+              }
+            },
+            yaxis: {
+              ...chartOptions.yaxis,
+              labels: {
+                style: {
+                  colors: '#666'
+                }
+              }
+            }
+          }}
+          series={chartSeries}
+          type="line"
+          height={350}
+        />
+      </div>
+    </div>
   );
 }
