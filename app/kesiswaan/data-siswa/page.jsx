@@ -14,8 +14,8 @@ export default function AdminDashboard() {
             listClasses='hover:underline mx-2'
             capitalizeLinks
           />
-          <div className="ps-2">
-            <h1>Data Siswa</h1>  
+          <div className="ps-2 mt-12">
+            <h1 className="text-black text-xl font-semibold">Data Siswa</h1>  
           </div>
         </div>
       </div>  
