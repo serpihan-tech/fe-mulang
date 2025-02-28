@@ -6,18 +6,41 @@ import ChartAttendance from "../home/ChartAttendance";
 import Periode from "../home/Periode";
 import Pusatinformasi from '../home/PusatInformasi';
 import HomeCalendar from '../home/HomeCalendar';
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
+import { AdminDashboardApi } from '@/app/api/admin/ApiDashboard';
 
 export default function AdminDashboard() {
   
   const message = sessionStorage.getItem("come_first");
-  if(message){
-    useEffect(() => {
+  
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const fetchDashboard = async () => {
+    try {
+      const data = await AdminDashboardApi();
+      if (data) {
+        setDashboardData(data);
+        
+      }
+    } catch (error) {
+      toast.error("Gagal memuat data dashboard.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+
+    if(message){
       toast.success(message);
       sessionStorage.removeItem("come_first")
-    }, []);
-  }
+    }
+    fetchDashboard();
+  }, []);
+  console.log("dashboardata: ",dashboardData)
+
+  
   
   return (
     <>

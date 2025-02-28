@@ -5,10 +5,10 @@ export const login = async (credentials) => {
     try {
         const response = await ApiManager.post("/login", credentials );
         // Jika response status tidak OK, lempar error dengan pesan dari server
-      if (!response.ok) {
-        const errorData = await response.json(); // Ambil pesan error dari server
-        throw new Error(errorData.message || `Error ${response.status}: Terjadi kesalahan`);
-      }
+      // if (!response.ok) {
+      //   const errorData = await response.json(); // Ambil pesan error dari server
+      //   throw new Error(errorData.message || `Error ${response.status}: Terjadi kesalahan`);
+      // }
         return response.data;
 
     } catch (err) {
