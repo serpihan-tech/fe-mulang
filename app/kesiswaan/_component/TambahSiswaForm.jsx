@@ -50,45 +50,45 @@ export default function TambahSiswaForm() {
           <div className="text-black text-xl font-semibold">Data Siswa</div>
           <form action="" className="mt-6 space-y-5">
             <div className="w-full flex space-x-11">
-              <div className="w-1/2">
-                <label className="text-black text-sm font-medium mb-1">NIS</label>
+              <div className="w-1/2 space-y-[5px]">
+                <label className="text-black text-sm font-medium">NIS</label>
                 <input type="number" 
                   placeholder="Masukkan NIS"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
               </div>
-              <div className="w-1/2">
-                <label className="text-black text-sm font-medium mb-1">NISN</label>
+              <div className="w-1/2 space-y-[5px]">
+                <label className="text-black text-sm font-medium">NISN</label>
                 <input type="number" 
                   placeholder="Masukkan NISN"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
               </div>
             </div>
-            <div>
-              <label className="text-black text-sm font-medium mb-1">Nama Lengkap</label>
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Nama Lengkap</label>
                 <input type="text" 
                   placeholder="Masukkan nama lengkap"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
             </div>
-            <div>
-              <label className="text-black text-sm font-medium mb-1">Email Siswa</label>
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Email Siswa</label>
                 <input type="email" 
                   placeholder="Masukkan email siswa"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
             </div>
-            <div>
-              <label className="text-black text-sm font-medium mb-1">Nomor Telepon Siswa</label>
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Nomor Telepon Siswa</label>
                 <input type="number" 
                   placeholder="Masukkan nomor telepon siswa"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
             </div>
             <div className="w-full flex space-x-11">
-              <div className="w-full">
-                <label className="text-black text-sm font-medium mb-1">Kelas</label>
+              <div className="w-full space-y-[5px]">
+                <label className="text-black text-sm font-medium">Kelas</label>
                 <Dropdown
                   options={classOptions}
                   value={selectedClass}
@@ -98,8 +98,8 @@ export default function TambahSiswaForm() {
                   dropdownStyle="dark:bg-black dark:text-white"
                 />
               </div>
-              <div className="w-full">
-                <label className="text-black text-sm font-medium mb-1">Kelas</label>
+              <div className="w-full space-y-[5px]">
+                <label className="text-black text-sm font-medium">Kelas</label>
                 <Dropdown
                   options={tahunAjarOptions}
                   value={selectedTahunAjar}
@@ -110,8 +110,8 @@ export default function TambahSiswaForm() {
                 />
               </div>
             </div>
-            <div className="w-full">
-              <label className="text-black text-sm font-medium mb-1">Jenis Kelamin</label>
+            <div className="w-full space-y-[5px]">
+              <label className="text-black text-sm font-medium">Jenis Kelamin</label>
               <Dropdown
                 options={jenisKelaminOptions}
                 value={selectedJenisKelamin}
@@ -121,8 +121,8 @@ export default function TambahSiswaForm() {
                 dropdownStyle="dark:bg-black dark:text-white"
               />
             </div>
-            <div className="w-full">
-              <label className="text-black text-sm font-medium mb-1">Status Siswa</label>
+            <div className="w-full space-y-[5px]">
+              <label className="text-black text-sm font-medium">Status Siswa</label>
               <Dropdown
                 options={statusOptions}
                 value={selectedStatus}
@@ -137,29 +137,29 @@ export default function TambahSiswaForm() {
         <div className="w-1/2">
           <div className="text-black text-xl font-semibold">Data Keluarga</div>
           <form action="" className="mt-6 space-y-5">
-            <div>
-              <label className="text-black text-sm font-medium mb-1">Nama Orang Tua / Wali</label>
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Nama Orang Tua / Wali</label>
                 <input type="text" 
                   placeholder="Masukkan nama orang tua / wali"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
             </div>
-            <div>
-              <label className="text-black text-sm font-medium mb-1">Nomor Telepon Orang Tua / Wali</label>
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Nomor Telepon Orang Tua / Wali</label>
                 <input type="number" 
                   placeholder="Masukkan nomor telepon orang tua / wali"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
             </div>
-            <div>
-              <label className="text-black text-sm font-medium mb-1">Pekerjaan Orang Tua / Wali</label>
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Pekerjaan Orang Tua / Wali</label>
                 <input type="text" 
                   placeholder="Masukkan pekerjaan orang tua / wali"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
             </div>
-            <div>
-              <label className="text-black text-sm font-medium mb-1">Alamat Orang Tua / Wali</label>
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Alamat Orang Tua / Wali</label>
                 <input type="text" 
                   placeholder="Masukkan alamat orang tua / wali"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"

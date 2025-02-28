@@ -1,13 +1,13 @@
 export default function SidebarDropdown({ items }) {
   return (
-    <div className="ml-6">
+    <div>
       {items.map((item, index) => (
         <a
           key={index}
           href="#"
-          className="block p-2 text-sm text-black dark:text-white hover:bg-pri-main hover:text-white rounded-xl"
+          className="block p-2 pl-8 text-sm text-black dark:text-white hover:bg-pri-main hover:text-white rounded-xl"
         >
-          {item}
+          - {item}
         </a>
       ))}
     </div>
