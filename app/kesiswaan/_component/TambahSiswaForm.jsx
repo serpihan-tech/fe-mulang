@@ -44,9 +44,9 @@ export default function TambahSiswaForm() {
   const [selectedStatus, setSelectedStatus] = useState(null);
 
   return (
-    <div className="w-full bg-gray-200 my-8 mx-6 ">
+    <div className="w-full bg-gray-200 py-8 px-6 ">
       <div className="flex space-x-16">
-        <div>
+        <div className="w-1/2">
           <div className="text-black text-xl font-semibold">Data Siswa</div>
           <form action="" className="mt-6 space-y-5">
             <div className="flex space-x-11">
@@ -134,7 +134,7 @@ export default function TambahSiswaForm() {
             </div>
           </form>
         </div>
-        <div>
+        <div className="w-1/2">
           <div className="text-black text-xl font-semibold">Data Keluarga</div>
           <form action="" className="mt-6 space-y-5">
             <div>
@@ -168,9 +168,14 @@ export default function TambahSiswaForm() {
           </form>
         </div>
       </div>
-      <button className="border rounded-md justify-end border-red-600 text-red-600 text-sm font-semibold py-2 px-4 bg-white">
-        Batal
-      </button>
+      <div className="w-full flex justify-end space-x-4">
+        <button className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 bg-white">
+          Batal
+        </button>
+        <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600">
+          Simpan
+        </button>
+      </div>
     </div>
   )
 }
