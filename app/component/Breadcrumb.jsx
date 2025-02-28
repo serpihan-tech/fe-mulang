@@ -16,7 +16,7 @@ const Breadcrumb = ({
     const pathNames = paths.split('/').filter(path => path)
 
     return (
-        <div>
+        <div className="text-sm">
             <ul className={containerClasses}>
                 {
                     pathNames.map((link, index) => {
