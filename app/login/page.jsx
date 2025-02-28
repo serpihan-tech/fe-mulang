@@ -16,7 +16,7 @@ export default function LoginPage() {
   return (
     
     <div className="bg-white dark:bg-black relative overflow-hidden min-h-screen flex items-center justify-center">
-      <ToastContainer />
+      
       <img 
         src="svg/ellipse_top.svg" 
         alt="Background" 
