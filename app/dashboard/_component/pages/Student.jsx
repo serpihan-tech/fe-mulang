@@ -1,3 +1,4 @@
+import FillableTable from "@/app/component/FillableTable";
 import TableComponent from "@/app/component/Table";
 
 export default function StudentDashboard() {
@@ -14,7 +15,7 @@ const data = [
       <div>
         <h1 className="text-xl font-bold">Dashboard Mahasiswa</h1>
         <p>Selamat datang, Mahasiswa!</p>
-        <TableComponent columns={columns} data={data} />
+        <FillableTable />
       </div>
     );
   }

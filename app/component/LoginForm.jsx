@@ -3,57 +3,77 @@ import { useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ToastContainer, toast } from 'react-toastify';
+import { login } from "../api/ApiAuth";
 
 export default function LoginForm() {
   
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
     setLoading(true);
     setError("");
-    
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
 
-    try {
-      const response = await fetch("https://optionally-topical-dassie.ngrok-free.app/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-    
-      // Jika response status tidak OK, lempar error dengan pesan dari server
-      if (!response.ok) {
-        const errorData = await response.json(); // Ambil pesan error dari server
-        throw new Error(errorData.message || `Error ${response.status}: Terjadi kesalahan`);
+    try{
+      const response = await login(credentials);
+      if(response){
+        console.log(response)
+        sessionStorage.setItem("token",response.token.token);
+        sessionStorage.setItem("role",response.role);
+        sessionStorage.setItem("full_name",response.data.profile.name);
+        sessionStorage.setItem("come_first", response.message);
+        router.push("/dashboard");
       }
-    
-      // Jika response OK, parse JSON-nya
-      const data = await response.json();
-    
-      // Simpan token dan role ke sessionStorage
-      sessionStorage.setItem("token", data.token.token);
-      sessionStorage.setItem("role", data.role);
-    
-      toast.success("Login berhasil!");
-      router.push("/dashboard");
-    
-    } catch (err) {
-      // Bedakan antara error koneksi dan error dari server
-      if (err.message.includes("Failed to fetch")) {
-        toast.error("500: Tidak dapat terhubung ke server");
-      } else {
-        toast.error("Email atau kata sandi salah");
-      }
+      
     } finally {
-      setLoading(false);
-    }
-  }, [router]);
+      setLoading(false)
+    };
+
+    // try {
+    //   const response = await fetch("https://optionally-topical-dassie.ngrok-free.app/login", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ email, password }),
+    //   });
+    
+    //   // Jika response status tidak OK, lempar error dengan pesan dari server
+    //   if (!response.ok) {
+    //     const errorData = await response.json(); // Ambil pesan error dari server
+    //     throw new Error(errorData.message || `Error ${response.status}: Terjadi kesalahan`);
+    //   }
+    //   toast.success("Login berhasil!");
+      
+    //   // Jika response OK, parse JSON-nya
+    //   const data = await response.json();
+    //   sessionStorage.setItem("come_first","login sukses mas");
+    //   router.push("/dashboard");
+      
+    //   sessionStorage.setItem("token", data.token.token);
+    //   sessionStorage.setItem("role", data.role);
+    
+    //   toast.success("Login berhasil!");
+    //   router.push("/dashboard");
+    
+    // } catch (err) {
+    //   // Bedakan antara error koneksi dan error dari server
+    //   if (err.message.includes("Failed to fetch")) {
+    //     toast.error("500: Tidak dapat terhubung ke server");
+    //   } else {
+    //     toast.error("Email atau kata sandi salah");
+    //   }
+    // } finally {
+    //   setLoading(false);
+    // }
+  }, [credentials,router]);
+
+
 
   return (
     <div className="flex w-full items-center justify-center">
@@ -73,7 +93,8 @@ export default function LoginForm() {
             <div className="w-full mb-4">
               <label className="block text-sm font-medium text-netral-100 dark:text-netral-0">Email</label>
               <input
-                ref={emailRef}
+                value={credentials.email}
+                onChange={handleChange}
                 type="email"
                 name="email"
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pri-main/20 
@@ -89,7 +110,8 @@ export default function LoginForm() {
             <div className="w-full mb-8">
               <label className="block text-sm font-medium text-netral-100 dark:text-netral-0">Kata Sandi</label>
               <input
-                ref={passwordRef}
+                value={credentials.password}
+                onChange={handleChange}
                 type="password"
                 name="password"
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pri-main/20 

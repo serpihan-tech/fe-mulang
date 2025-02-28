@@ -1,7 +1,6 @@
 "use client"
 import { useState,FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import Cookies from "js-cookie"
 import { Eye, EyeSlash } from "iconsax-react"
 
 
