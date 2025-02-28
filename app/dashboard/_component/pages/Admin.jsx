@@ -51,10 +51,10 @@ export default function AdminDashboard() {
           
           <div>
             <div className="flex gap-5">
-              <SumCard icon={People} value="100" label="Total Siswa"/>
-              <SumCard icon={Teacher} value="100" label="Total Guru"/>
-              <SumCard icon={Book} value="100" label="Total Mapel"/>
-              <SumCard icon={Award} value="100" label="Total Kelulusan"/>
+              <SumCard icon={People} value={dashboardData?.data.total_students} label="Total Siswa"/>
+              <SumCard icon={Teacher} value={dashboardData?.data.total_teachers} label="Total Guru"/>
+              <SumCard icon={Book} value={dashboardData?.data.total_modules} label="Total Mapel"/>
+              <SumCard icon={Award} value={dashboardData?.data.total_alumni} label="Total Kelulusan"/>
             </div>
 
             <ChartAttendance/>

@@ -19,4 +19,18 @@ export const login = async (credentials) => {
         }
     }
 };
+
+export const logout = async () => {
+  try {
+      const response = await ApiManager.get("/logout");
+      return response.data
+
+  } catch (err) {
+      if (err.message.includes('Network Error')) {
+      toast.error('Error 500: Server sedang bermasalah');
+      } else {
+      toast.error("Anda sudah logout");
+      }
+  }
+};
   
