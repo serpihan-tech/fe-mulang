@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import StudentDashboard from "./_component/pages/Student";
 import TeacherDashboard from "./_component/pages/Teacher";
 import AdminDashboard from "./_component/pages/Admin";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -19,6 +20,8 @@ export default function Dashboard() {
       router.replace("/login"); // Gunakan replace agar tidak bisa kembali ke dashboard dengan tombol back
     } else {
       setRole(userRole);
+      const message = sessionStorage.getItem("come_first"); 
+      toast.success("asdasdasdsad");
     }
 
     setLoading(false); // Matikan loading setelah validasi selesai
@@ -28,6 +31,7 @@ export default function Dashboard() {
 
   return (
     <div>
+      <ToastContainer />
       {role === "student" && <StudentDashboard />}
       {role === "teacher" && <TeacherDashboard />}
       {role === "admin" && <AdminDashboard />}
