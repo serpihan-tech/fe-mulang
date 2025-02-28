@@ -12,7 +12,8 @@ export default function Dropdown({
   className,
   dropdownStyle,
   containerStyle, 
-  iconSize = "w-5"
+  iconSize = "w-5",
+  placeholder
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -29,7 +30,7 @@ export default function Dropdown({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
+  
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
@@ -54,8 +55,8 @@ export default function Dropdown({
         )}
         <div className="flex-grow">
           {title && <p className="text-base font-bold">{title}</p>}
-          <p className={`${subtitle ? 'text-[10px]' : 'text-sm'} font-medium`}>
-            {value.label}
+          <p className={`${subtitle ? 'text-[10px]' : 'text-sm'} font-medium ${!value ? 'text-gray-400' : ''}`}>
+            {value ? value.label : placeholder}
           </p>
         </div>
         <ArrowDown2 
@@ -70,7 +71,7 @@ export default function Dropdown({
             <div
               key={option.value}
               className={`px-4 py-2 hover:bg-gray-100 cursor-pointer ${
-                value.value === option.value ? 'bg-gray-50' : ''
+                value && value.value === option.value ? 'bg-gray-50' : ''
               }`}
               onClick={() => handleSelect(option)}
             >
