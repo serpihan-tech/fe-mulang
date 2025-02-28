@@ -44,20 +44,20 @@ export default function TambahSiswaForm() {
   const [selectedStatus, setSelectedStatus] = useState(null);
 
   return (
-    <div className="w-full bg-gray-200 py-8 px-6 ">
+    <div className="w-full bg-white py-8 px-6 ">
       <div className="flex space-x-16">
         <div className="w-1/2">
           <div className="text-black text-xl font-semibold">Data Siswa</div>
           <form action="" className="mt-6 space-y-5">
-            <div className="flex space-x-11">
-              <div>
+            <div className="w-full flex space-x-11">
+              <div className="w-1/2">
                 <label className="text-black text-sm font-medium mb-1">NIS</label>
                 <input type="number" 
                   placeholder="Masukkan NIS"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
               </div>
-              <div>
+              <div className="w-1/2">
                 <label className="text-black text-sm font-medium mb-1">NISN</label>
                 <input type="number" 
                   placeholder="Masukkan NISN"
@@ -169,10 +169,10 @@ export default function TambahSiswaForm() {
         </div>
       </div>
       <div className="w-full flex justify-end space-x-4">
-        <button className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 bg-white">
+        <button className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 hover:bg-red-500 hover:text-white bg-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
           Batal
         </button>
-        <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600">
+        <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
           Simpan
         </button>
       </div>

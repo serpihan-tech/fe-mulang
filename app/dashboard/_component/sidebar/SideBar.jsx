@@ -11,7 +11,7 @@ export default function SideBar() {
       <div className="flex gap-4 items-center justify-center">
         <Image
           className=""
-          src="svg/logo.svg"
+          src="/svg/logo.svg"
           alt="Mulang logo"
           width={50}
           height={50}
