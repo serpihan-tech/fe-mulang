@@ -2,13 +2,29 @@
 import { useState } from "react";
 import SidebarDropdown from "./SubItemSB";
 import { ArrowRight2, ArrowDown2 } from "iconsax-react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { logout } from "@/app/api/ApiAuth";
 
 export const Logoutbtn = ({ title, icon: Icon, colorIcon }) => {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await logout(); // Panggil API logout
+      
+      sessionStorage.setItem("log_out", "logout");
+      toast.success("Berhasil logout!");
+      router.push("/login"); // Redirect ke halaman login
+    } catch (error) {
+      toast.error("Gagal logout, silakan coba lagi.");
+    }
+  };
   return (
     <div>
       <button
         className="w-full flex items-center p-2  text-err-main hover:bg-err-main rounded-xl hover:text-netral-0 transition"
-        
+        onClick={handleLogout}
       >
         {/* Bagian Kiri: Ikon dan Teks */}
         <div className="flex items-center">

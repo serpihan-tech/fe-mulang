@@ -21,7 +21,6 @@ export default function Dashboard() {
     } else {
       setRole(userRole);
       const message = sessionStorage.getItem("come_first"); 
-      toast.success("asdasdasdsad");
     }
 
     setLoading(false); // Matikan loading setelah validasi selesai

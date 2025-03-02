@@ -4,13 +4,16 @@ import { useRouter } from 'next/navigation'
 
 export default function ResetPassword() {
   const router = useRouter();
-  const [otp, setOtp] = useState(Array(6).fill(""));
+  const email = sessionStorage.getItem("user_email");
+  
+  
+  const [otp, setOtp] = useState(Array(4).fill(""));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const inputsRef = useRef(new Array(6).fill(null));
+  const inputsRef = useRef(new Array(4).fill(null));
 
-  useEffect(() => {
-    inputsRef.current = inputsRef.current.slice(0, 6);
+  useEffect( () => {
+    inputsRef.current = inputsRef.current.slice(0, 4);
   }, []);
 
   const handleInput = (event, index) => {
@@ -32,7 +35,7 @@ export default function ResetPassword() {
     }
   };
 
-  const email = sessionStorage.getItem("user_email");
+  
   
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -40,6 +43,7 @@ export default function ResetPassword() {
     setError(null);
 
     const otpCode = otp.join("");
+    sessionStorage.setItem("otp_code",otpCode);
     
 
     try {
@@ -84,7 +88,7 @@ export default function ResetPassword() {
           </p>
           <form onSubmit={handleSubmit} className="justify-center w-full">
             <div className="flex justify-center space-x-1 md:space-x-2 lg:space-x-4">
-              {Array.from({ length: 6 }).map((_, index) => (
+              {Array.from({ length: 4 }).map((_, index) => (
                 <input
                   key={index}
                   ref={(el) => (inputsRef.current[index] = el)}

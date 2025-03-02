@@ -1,9 +1,22 @@
+'use client'
+import { useEffect } from "react";
 import InputEmail from "../component/InputEmail";
 import ThemeSwitcher from "../component/ThemeSwitcher";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function InputEmailPage() {
+  useEffect(() => {
+    const emailNeed = sessionStorage.getItem("email_need");
+    if (emailNeed) {
+      toast.error("Masukkan email terlebih dahulu");
+      sessionStorage.removeItem("email_need");
+    } else {
+      sessionStorage.removeItem("user_email")
+    }
+  }, []);
   return (
     <div className="relative bg-white dark:bg-black min-h-screen overflow-hidden flex items-center justify-center">
+      <ToastContainer />
       <img 
         src="svg/ellipse_top.svg" 
         alt="Background" 

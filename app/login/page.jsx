@@ -1,10 +1,22 @@
+'use client'
 import LoginForm from "../component/LoginForm";
 import Image from "next/image";
 import ThemeSwitcher from "../component/ThemeSwitcher";
+import { toast, ToastContainer } from "react-toastify";
+import { useEffect } from "react";
 
 export default function LoginPage() {
+  useEffect(() => {
+    const logout = sessionStorage.getItem("log_out");
+      if (logout) {
+        toast.success("Logout berhasil");
+        sessionStorage.clear();
+      }
+  }, []);
   return (
+    
     <div className="bg-white dark:bg-black relative overflow-hidden min-h-screen flex items-center justify-center">
+      
       <img 
         src="svg/ellipse_top.svg" 
         alt="Background" 

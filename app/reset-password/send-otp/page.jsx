@@ -1,9 +1,32 @@
+'use client'
 import ThemeSwitcher from "@/app/component/ThemeSwitcher.jsx";
 import ResetPassword from "../../component/ResetPassword.jsx";
+import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function ResetPasswordPage() {
+  const router = useRouter();
+  useEffect(() => {
+    const otpNeed = sessionStorage.getItem("otp_need");
+    if (otpNeed) {
+      toast.error("Masukkan otp terlebih dahulu");
+      sessionStorage.removeItem("otp_need");
+    }
+  }, []);
+
+  useEffect(() => {
+    const email = sessionStorage.getItem("user_email");
+    if (!email) {
+      sessionStorage.setItem("email_need", "message");
+      router.push('/reset-password')
+    }
+  }, [router]);
+  
   return (
+    
     <div className="relative bg-[#CED9F9]  dark:bg-netral-100 min-h-screen overflow-hidden flex items-center justify-center">
+    <ToastContainer/>
       <img 
         src="/svg/ellipse2_top.svg" 
         alt="Background" 
