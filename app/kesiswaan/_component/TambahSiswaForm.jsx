@@ -85,7 +85,7 @@ export default function TambahSiswaForm() {
                 />
               </div>
               <div className="w-full space-y-[5px]">
-                <label className="text-black text-sm font-medium">Kelas</label>
+                <label className="text-black text-sm font-medium">Tahun Ajar  </label>
                 <Dropdown
                   options={tahunAjarOptions}
                   value={selectedTahunAjar}
