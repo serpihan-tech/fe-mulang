@@ -1,9 +1,7 @@
 "use client";
 
-import Breadcrumb from "@/app/component/Breadcrumb";
 import SmallButton from "@/app/component/SmallButton";
-import { Copyright, DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
-import DataKelasModal from "../_component/DataKelasModal";
+import { DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
 
 export default function DataSiswa() {
   return (

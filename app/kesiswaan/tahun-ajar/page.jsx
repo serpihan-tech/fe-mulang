@@ -1,11 +1,7 @@
 "use client";
 
-import Breadcrumb from "@/app/component/Breadcrumb";
 import SmallButton from "@/app/component/SmallButton";
-import TambahKelasModal from "@/app/kepegawaian/_component/TambahKelasModal";
-import { Copyright, DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
-import DataTahunAjarModal from "../_component/DataTahunAjarModal";
-import TambahSiswaForm from "../_component/TambahSiswaForm";
+import { ProfileAdd } from "iconsax-react";
 
 export default function TahunAjar() {
   return (
@@ -25,7 +21,6 @@ export default function TahunAjar() {
               />
             </div>
           </div>
-          <DataTahunAjarModal/>
         </div>
       </div>
     </>

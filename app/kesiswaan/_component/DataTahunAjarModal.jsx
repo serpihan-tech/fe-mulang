@@ -1,8 +1,6 @@
 "use client"
 import React, { useState } from "react";
 import { CloseCircle } from "iconsax-react";
-import Dropdown from "@/app/component/Dropdown";
-import DatePicker from "react-datepicker";
 
 export default function DataTahunAjarModal() {
   const [tanggalMulai, setTanggalMulai] = useState('');
