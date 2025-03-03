@@ -33,7 +33,6 @@ export default function DataAbsensiModal() {
   
   const [selectedStatusKehadiran, setSelectedStatusKehadiran] = useState(statusKehadiranOptions[0]);
 
-
   const [tanggalSelesai, setTanggalSelesai] = useState(formatDate(new Date()));
   
   return (
