@@ -83,7 +83,7 @@ export default function LoginForm() {
         <div className="flex-1 text-center hidden lg:flex items-center">
           <Image src="/svg/login.svg" alt="Login" width={300} height={300} className="object-contain h-80 w-full" />
         </div>
-
+        
         {/* Form Login */}
         <div className="w-full lg:w-1/2 md:px-6 flex flex-col justify-center items-center">
           <h2 className="md:text-4xl text-2xl text-center font-semibold text-pri-main dark:text-pri-border mb-2 ">Selamat Datang!</h2>
