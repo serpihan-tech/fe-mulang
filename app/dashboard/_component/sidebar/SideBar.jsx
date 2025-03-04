@@ -22,10 +22,45 @@ export default function SideBar() {
 
       <div className="flex flex-col gap-4 py-5 mb-5">
         <SidebarItem title="Dashboard" icon={Home} colorIcon="currentColor"/>
-        <SidebarItem title="Kepegawaian" colorIcon="currentColor" icon={Profile2User} dropdownItems={["Data Pegawai", "Presensi Pegawai", "Jabatan"]} />
-        <SidebarItem title="Kesiswaan" colorIcon="currentColor" icon={People} dropdownItems={["Data Siswa", "Data Kelas", "Tahun Ajar", "Absensi Siswa"]} />
-        <SidebarItem title="Penilaian" colorIcon="currentColor" icon={Award} dropdownItems={["Kompetensi", "Sikap"]} />
-        <SidebarItem title="KBM" colorIcon="currentColor" icon={Book1} dropdownItems={["Mata Pelajaran", "Jadwal Pelajaran"]} />
+        <SidebarItem
+          title="Kepegawaian"
+          colorIcon="currentColor"
+          icon={Profile2User}
+          dropdownItems={[
+            { label: "Data Pegawai", url: "/kepegawaian/data-pegawai" },
+            { label: "Presensi Pegawai", url: "/kepegawaian/presensi-pegawai" },
+            { label: "Jabatan", url: "/kepegawaian/jabatan" }
+          ]}
+        />
+        <SidebarItem
+          title="Kesiswaan"
+          colorIcon="currentColor"
+          icon={People}
+          dropdownItems={[
+            { label: "Data Siswa", url: "/kesiswaan/data-siswa" },
+            { label: "Data Kelas", url: "/kesiswaan/data-kelas" },
+            { label: "Tahun Ajar", url: "/kesiswaan/tahun-ajar" },
+            { label: "Absensi Siswa", url: "/kesiswaan/absensi-siswa" }
+          ]}
+        />
+        <SidebarItem
+          title="Penilaian"
+          colorIcon="currentColor"
+          icon={Award}
+          dropdownItems={[
+            { label: "Kompetensi", url: "/penilaian/kompetensi" },
+            { label: "Sikap", url: "/penilaian/sikap" }
+          ]}
+        />
+        <SidebarItem
+          title="KBM"
+          colorIcon="currentColor"
+          icon={Book1}
+          dropdownItems={[
+            { label: "Mata Pelajaran", url: "/kbm/mata-pelajaran" },
+            { label: "Jadwal Pelajaran", url: "/kbm/jadwal-pelajaran" }
+          ]}
+        />
       </div>
 
       <Logoutbtn title="Logout" icon={LogoutCurve} colorIcon="currentColor"/>

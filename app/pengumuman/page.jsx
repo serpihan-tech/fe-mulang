@@ -15,7 +15,7 @@ export default function MataPelajaran() {
                 icon="/svg/announcement.svg"
                 bgColor="bg-blue-600"
                 colorIcon="white"
-                title={"Tambah Data"}
+                title={"Buat Pengumuman"}
                 hover={"hover:bg-blue-700"}
               />
             </div>
