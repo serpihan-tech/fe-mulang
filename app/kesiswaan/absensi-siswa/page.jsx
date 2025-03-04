@@ -1,6 +1,6 @@
 "use client";
 
-import SuccessPopUp from "@/app/component/SuccessPopUp";
+import PresensiPegawaiModal from "@/app/kepegawaian/_component/PresensiPegawaiModal";
 
 export default function AbsensiSiswa() {
   return (
@@ -11,7 +11,7 @@ export default function AbsensiSiswa() {
             <h1 className="w-full text-black text-xl font-semibold">Absensi Siswa</h1> 
           </div>
         </div>
-        <SuccessPopUp/>
+        <PresensiPegawaiModal/>
       </div>
     </>
   );

@@ -87,7 +87,7 @@ export default function LoginForm() {
         {/* Form Login */}
         <div className="w-full lg:w-1/2 md:px-6 flex flex-col justify-center items-center">
           <h2 className="md:text-4xl text-2xl text-center font-semibold text-pri-main dark:text-pri-border mb-2 ">Selamat Datang!</h2>
-          <p className="md:text-xl text-lg text-netral-100 dark:text-netral-0 mb-10 font-light">Masuk ke akun Anda</p>
+          <p className="md:text-xl text-lg text-netral-100 dark:text-netral-0 mb-10 font-semibold">Masuk ke akun Anda</p>
 
           <form className="w-full" onSubmit={handleSubmit}>
             <div className="w-full mb-4">

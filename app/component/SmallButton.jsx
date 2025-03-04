@@ -8,7 +8,8 @@ export default function SmallButton({
   icon: Icon,
   iconSize = "w-5",
   bgColor,
-  hover
+  hover,
+  textColor = "text-white"
 }) {
 
   return (
@@ -24,7 +25,7 @@ export default function SmallButton({
           color={colorIcon} 
         />
       </div>
-      <p className="text-white text-sm font-medium">{title}</p>
+      <p className={`${textColor} text-sm font-medium`}>{title}</p>
     </button>
   );
 }
