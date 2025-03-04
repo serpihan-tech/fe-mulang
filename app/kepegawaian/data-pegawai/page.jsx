@@ -1,7 +1,7 @@
 "use client";
 
 import SmallButton from "@/app/component/SmallButton";
-import { DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
+import { DocumentDownload, ProfileAdd } from "iconsax-react";
 
 export default function DataPegawai() {
   return (

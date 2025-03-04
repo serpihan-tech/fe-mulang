@@ -1,7 +1,7 @@
 "use client";
 
 import SmallButton from "@/app/component/SmallButton";
-import { DocumentDownload, Notepad2, Printer, ProfileAdd } from "iconsax-react";
+import { DocumentDownload, Printer } from "iconsax-react";
 
 export default function PresensiPegawai() {
   return (
