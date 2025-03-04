@@ -8,8 +8,15 @@ import { useEffect } from "react";
 export default function LoginPage() {
   useEffect(() => {
     const logout = sessionStorage.getItem("log_out");
+    const newpass = sessionStorage.getItem("new_password");
+
       if (logout) {
         toast.success("Logout berhasil");
+        sessionStorage.clear();
+      }
+
+      if (newpass) {
+        toast.success(newpass);
         sessionStorage.clear();
       }
   }, []);

@@ -9,6 +9,11 @@ export default function ResetPasswordPage() {
   const router = useRouter();
   useEffect(() => {
     const otpNeed = sessionStorage.getItem("otp_need");
+    const firstOtp = sessionStorage.getItem("first_otp");
+    if (firstOtp) {
+      toast.success(firstOtp)
+      sessionStorage.removeItem("first_otp");
+    }
     if (otpNeed) {
       toast.error("Masukkan otp terlebih dahulu");
       sessionStorage.removeItem("otp_need");

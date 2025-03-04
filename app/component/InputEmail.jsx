@@ -1,39 +1,38 @@
 "use client"
 import { FormEvent,useEffect,useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { reset_password } from '../api/ApiAuth';
 
 export default function Reset() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  
- 
+  const [credentials, setCredentials] = useState({ email: ""});
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
   async function handleSubmit(event) {
     event.preventDefault()
     setLoading(true);
     
     const formData = new FormData(event.currentTarget)
     const email = formData.get('email')
-    
-    try {
-      const response = await fetch('https://optionally-topical-dassie.ngrok-free.app/forgot-password/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      })
-   
-      if (response.ok) {
+
+    try{
+      const response = await reset_password(credentials);
+      if(response){
+        console.log(response)
+        sessionStorage.setItem("user_email", email)
+        sessionStorage.setItem("first_otp", response.message)
         router.push('/reset-password/send-otp')
-        sessionStorage.setItem("user_email", email);
-      } else {
-        console.log('Error 500: Tidak bisa terhubung dengan server')
-  
       }
-    } catch (err) {
-      setError(err.message);
+      
     } finally {
-      setLoading(false);
-    }
+      setLoading(false)
+    };
+    
+    
      
   }
 
@@ -53,6 +52,8 @@ export default function Reset() {
               <input
                 type="email"
                 name="email"
+                value={credentials.email}
+                onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pri-main/20 
                           bg-white text-gray-900 border-gray-300 placeholder-gray-400 
                           dark:bg-gray-800 dark:text-white dark:border-netral-30 dark:placeholder-netral-30

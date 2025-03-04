@@ -1,7 +1,9 @@
 "use client"
-import { useState,FormEvent } from 'react'
+import { useState,FormEvent, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Eye, EyeSlash } from "iconsax-react"
+import { new_password } from '../api/ApiAuth'
+import { toast } from 'react-toastify'
 
 
 export default function Reset() {
@@ -12,8 +14,17 @@ export default function Reset() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const email = sessionStorage.getItem("user_email");
+  const reset_token = sessionStorage.getItem("reset_token");
+  const [credentials, setCredentials] = useState({ email: email, resetToken: reset_token, password:"" });
   
-    
+  // Gunakan useEffect untuk mengirim data ke server setelah credentials diperbarui
+  useEffect(() => {
+    if (credentials.password !== "") {
+      uploadToServer(credentials);
+    }
+  }, [credentials]); // useEffect akan berjalan setelah credentials diperbarui
+
   async function handleSubmit(event) {
     event.preventDefault();
     setError(false);
@@ -23,26 +34,27 @@ export default function Reset() {
       return;
     }
 
+    // Setelah validasi sukses, update credentials
+    setCredentials((prev) => ({ ...prev, password: password }));
+  }
+
+  async function uploadToServer(credentials) {
     setLoading(true);
-    
-    const email = sessionStorage.getItem("user_email");
-    const reset_token = sessionStorage.getItem("reset_token");
-    
+    console.log("Mengirim data terbaru ke server:", credentials);
+
     try {
-      const response = await fetch("https://optionally-topical-dassie.ngrok-free.app/forgot-password/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email:email ,resetToken:reset_token ,password:password }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Gagal mengubah kata sandi");
+      const response = await new_password(credentials);
+      if (response) {
+        console.log(response);
+        if (response.errors) {
+          toast.error(response.errors.message);
+        } else if (response.error) {
+          toast.error(response.error);
+        } else {
+          sessionStorage.setItem("new_password", response.message);
+          router.push("/login");
+        }
       }
-
-      alert("Kata sandi berhasil diperbarui!");
-      router.push('/login');
-    } catch (err) {
-      alert(err.message);
     } finally {
       setLoading(false);
     }

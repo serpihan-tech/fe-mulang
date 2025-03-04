@@ -3,12 +3,22 @@ import ThemeSwitcher from "@/app/component/ThemeSwitcher";
 import InputNewPassword from "../../component/InputNewPassword";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function InputNewPasswordPage() {
   const router = useRouter()
+
+  useEffect(() => {
+    const verified_otp = sessionStorage.getItem("otp_verified");
+    if (verified_otp) {
+      toast.success(verified_otp);
+      sessionStorage.removeItem("otp_verified");
+    }
+  }, []);
   useEffect(() => {
       const email = sessionStorage.getItem("user_email");
       const otp = sessionStorage.getItem("otp_code");
+      
 
       if (!email) {
         sessionStorage.setItem("email_need", "message");
@@ -22,6 +32,7 @@ export default function InputNewPasswordPage() {
     }, [router]);
   return (
     <div className="relative bg-white dark:bg-black min-h-screen overflow-hidden flex items-center justify-center">
+      <ToastContainer/>
       <img 
         src="../svg/ellipse_top.svg" 
         alt="Background" 
