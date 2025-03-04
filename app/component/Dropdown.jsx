@@ -61,7 +61,7 @@ export default function Dropdown({
         </div>
         <ArrowDown2 
           className={`w-5 h-5 transition-transform duration-300 justify-end ${isOpen ? 'rotate-180' : ''}`}
-          color="black"
+          color={value ? "black" : "gray"}
         />
       </div>
       

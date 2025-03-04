@@ -65,7 +65,6 @@ export default function DashboardLayout({ children }) {
           <div className="bg-[#FAFAFA] dark:bg-black pt-3 px-5 gap-5 pb-7">
             <Breadcrumb
               separator={<span> / </span>}
-              firstClasses="text-blue-600"
               containerClasses="flex"
               listClasses="hover:underline mx-2"
               capitalizeLinks

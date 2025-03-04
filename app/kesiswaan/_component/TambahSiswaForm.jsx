@@ -25,23 +25,9 @@ export default function TambahSiswaForm() {
     { label: "Ganjil 2023-2024", value: "ganjil_2023_2024" },
   ];
 
-  const jenisKelaminOptions = [
-    { label: "Laki-laki", value: "laki-laki" },
-    { label: "Perempuan", value: "perempuan" },
-  ];
-
-  const statusOptions = [
-    { label: "Aktif", value: "aktif" },
-    { label: "Pindah", value: "pindah" },
-  ];
-
   const [selectedClass, setSelectedClass] = useState(null);
 
   const [selectedTahunAjar, setSelectedTahunAjar] = useState(null);
-  
-  const [selectedJenisKelamin, setSelectedJenisKelamin] = useState(null);
-  
-  const [selectedStatus, setSelectedStatus] = useState(null);
 
   return (
     <div className="w-full bg-white py-8 px-6 ">
@@ -99,7 +85,7 @@ export default function TambahSiswaForm() {
                 />
               </div>
               <div className="w-full space-y-[5px]">
-                <label className="text-black text-sm font-medium">Kelas</label>
+                <label className="text-black text-sm font-medium">Tahun Ajar  </label>
                 <Dropdown
                   options={tahunAjarOptions}
                   value={selectedTahunAjar}
@@ -110,27 +96,31 @@ export default function TambahSiswaForm() {
                 />
               </div>
             </div>
-            <div className="w-full space-y-[5px]">
+            <div>
               <label className="text-black text-sm font-medium">Jenis Kelamin</label>
-              <Dropdown
-                options={jenisKelaminOptions}
-                value={selectedJenisKelamin}
-                onChange={setSelectedJenisKelamin}
-                placeholder="Pilih jenis kelamin"
-                className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-gray-200"
-                dropdownStyle="dark:bg-black dark:text-white"
-              />
+              <div className="flex py-4 space-x-8">
+                <div className="flex items-center space-x-[18px]">
+                  <input id="laki-laki" type="radio" value="" name="laki-laki" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                  <label htmlFor="laki-laki" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Laki-Laki</label>
+                </div>
+                <div className="flex items-center me-4">
+                    <input id="perempuan" type="radio" value="" name="perempuan" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                    <label htmlFor="perempuan" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Perempuan</label>
+                </div>
+              </div>
             </div>
-            <div className="w-full space-y-[5px]">
-              <label className="text-black text-sm font-medium">Status Siswa</label>
-              <Dropdown
-                options={statusOptions}
-                value={selectedStatus}
-                onChange={setSelectedStatus}
-                placeholder="Pilih status"
-                className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-gray-200"
-                dropdownStyle="dark:bg-black dark:text-white"
-              />
+            <div>
+              <label className="text-black text-sm font-medium">Pilih Status</label>
+              <div className="flex py-4 space-x-8">
+                <div className="flex items-center space-x-[18px]">
+                  <input id="aktif" type="radio" value="" name="aktif" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                  <label htmlFor="aktif" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Aktif</label>
+                </div>
+                <div className="flex items-center me-4">
+                    <input id="tidak-aktif" type="radio" value="" name="tidak-aktif" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                    <label htmlFor="tidak-aktif" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tidak Aktif</label>
+                </div>
+              </div>
             </div>
           </form>
         </div>

@@ -1,62 +1,59 @@
 "use client"
 import React, { useState } from "react";
 import { CloseCircle } from "iconsax-react";
-import Dropdown from "@/app/component/Dropdown";
 
-export default function TambahKelasModal() {
-  const jabatanOptions = [
-    { label: "Guru", value: "guru" },
-  ];
+export default function DataTahunAjarModal() {
+  const [tanggalMulai, setTanggalMulai] = useState('');
   
-  const [selectedJabatan, setSelectedJabatan] = useState(null);
+  const [tanggalSelesai, setTanggalSelesai] = useState('');
   
   return (
     <div className="w-[485px] bg-white pb-[66px]">
       <div className="w-full h-[54px] flex px-5 py-4 bg-[#adc0f5]/10 rounded-[7px] items-center">
-        <div className="text-black text-xl font-semibold">Tambah Data</div>
+        <div className="text-black text-lg font-normal">Tambah Data</div>
         <CloseCircle size="24" color="currentColor" variant="Bold" className="ml-auto cursor-pointer"/>
       </div>
       <div className="w-full px-5">
         <form action="" className="mt-5 space-y-5">
           <div className="space-y-[6px]">
-            <label className="text-black text-sm font-medium">NIP</label>
-              <input type="number" 
-                placeholder="1001"
-                className="w-full border [#cccccc] rounded-md py-2 px-3 text-sm font-normal"
-              />
-          </div>
-          <div className="space-y-[6px]">
-            <label className="text-black text-sm font-medium">Nama Pegawai</label>
+            <label className="text-black text-sm font-medium">ID Tahun Ajar</label>
               <input type="text" 
-                placeholder="Masukkan nama lengkap"
-                className="w-full border [#cccccc] rounded-md py-2 px-3 text-sm font-normal"
+                placeholder="TA2024"
+                disabled
+                className="w-full border bg-[#aaaaaa] rounded-md py-[14px] px-[10px] text-sm font-normal placeholder-[#2a2a2a]"
               />
           </div>
-          <div className="space-y-[6px] w-full">
-            <label className="text-black text-sm font-medium">Jabatan</label>
-            <Dropdown
-              options={jabatanOptions}
-              value={selectedJabatan}
-              onChange={setSelectedJabatan}
-              placeholder="Pilih jabatan"
-              className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-[#cccccc]"
-              dropdownStyle="dark:bg-black dark:text-white"
-            />
-          </div>
-          <div className="space-y-[6px]">
-            <label className="text-black text-sm font-medium">Nomor Telepon </label>
-              <input type="number" 
-                placeholder="Masukkan nomor telepon"
-                className="w-full border [#cccccc] rounded-md py-2 px-3 text-sm font-normal"
+          <div className="space-y-[5px]">
+            <label className="text-black text-sm font-medium">Tahun Ajar</label>
+              <input type="text" 
+                placeholder="Masukkan tahun ajar"
+                className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
               />
           </div>
-          <div className="space-y-[6px]">
-            <label className="text-black text-sm font-medium">Email Pegawai</label>
-              <input type="email" 
-                placeholder="Masukkan email pegawai"
-                className="w-full border [#cccccc] rounded-md py-2 px-3 text-sm font-normal"
+          <div className="w-full flex space-x-11">
+            <div className="w-1/2 space-y-[5px]">
+              <label className="text-black text-sm font-medium">Tanggal Mulai</label>
+              <input 
+                type="date" 
+                value={tanggalMulai}
+                onChange={(e) => setTanggalMulai(e.target.value)}
+                placeholder="Pilih Tanggal"
+                className="w-full border border-gray-400 rounded-md py-2 px-[14px] text-sm font-normal"
               />
+            </div>
+            <div className="w-1/2 space-y-[5px]">
+              <label className="text-black text-sm font-medium">Tanggal Selesai</label>
+              <input 
+                type="date" 
+                value={tanggalSelesai}
+                onChange={(e) => setTanggalSelesai(e.target.value)}
+                placeholder="Pilih Tanggal"
+                className="w-full border border-gray-400 rounded-md py-2 px-[14px] text-sm font-normal"
+              />
+            </div>
+            
           </div>
+          
           <div>
             <label className="text-black text-sm font-medium">Pilih Status</label>
             <div className="flex py-4 space-x-8">
@@ -77,7 +74,7 @@ export default function TambahKelasModal() {
           Batal
         </button>
         <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
-          Simpan
+          Ubah
         </button>
       </div>
     </div>
