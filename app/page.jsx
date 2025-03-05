@@ -2,9 +2,16 @@
 import Image from "next/image";
 import ThemeSwitcher from "./component/ThemeSwitcher";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // Hindari render di SSR
   return (
     <div className="bg-white dark:bg-black grid items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 transition">
       <main className="flex flex-col gap-8 items-center sm:items-start">

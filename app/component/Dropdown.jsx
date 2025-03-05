@@ -43,14 +43,14 @@ export default function Dropdown({
   return (
     <div 
       ref={dropdownRef}
-      className={`relative cursor-pointer ${className}`}
+      className={`relative cursor-pointer ${className} text-black dark:text-white`}
       onClick={handleClick}
     >
       <div className={`flex items-center w-full ${containerStyle}`}>
         {Icon && (
           <Icon 
             className={`${iconSize} flex items-center justify-center`} 
-            color="black"
+            color="currentColor"
             variant="Bold"
           />
         )}
@@ -62,7 +62,7 @@ export default function Dropdown({
         </div>
         <ArrowDown2 
           className={`w-5 h-5 transition-transform duration-300 justify-end ${isOpen ? 'rotate-180' : ''}`}
-          color={value ? "black" : "gray"}
+          color='currentColor'
         />
       </div>
       

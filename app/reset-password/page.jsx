@@ -1,19 +1,27 @@
 'use client'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import InputEmail from "../component/InputEmail";
 import ThemeSwitcher from "../component/ThemeSwitcher";
 import { toast, ToastContainer } from "react-toastify";
 
 export default function InputEmailPage() {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
-    const emailNeed = sessionStorage.getItem("email_need");
-    if (emailNeed) {
-      toast.error("Masukkan email terlebih dahulu");
-      sessionStorage.removeItem("email_need");
-    } else {
-      sessionStorage.removeItem("user_email")
+    setMounted(true); // Mencegah hydration error dengan memastikan client sudah ready
+
+    if (typeof window !== "undefined") {
+      const emailNeed = sessionStorage.getItem("email_need");
+      if (emailNeed) {
+        toast.error("Masukkan email terlebih dahulu");
+        sessionStorage.removeItem("email_need");
+      } else {
+        sessionStorage.removeItem("user_email");
+      }
     }
   }, []);
+
+  if (!mounted) return null; 
   return (
     <div className="relative bg-white dark:bg-black min-h-screen overflow-hidden flex items-center justify-center">
       <ToastContainer />
@@ -31,8 +39,8 @@ export default function InputEmailPage() {
         className="absolute -bottom-80 -right-24 h-3/4 w-1/2" 
       />
       <div className="absolute bottom-5 right-5">
-            <ThemeSwitcher />
-            </div>
+        <ThemeSwitcher />
+      </div>
     </div>
   );
 }

@@ -18,6 +18,7 @@ export const login = async (credentials) => {
 export const logout = async () => {
   try {
       const response = await ApiManager.get("/logout");
+      
       return response.data
 
   } catch (err) {

@@ -1,31 +1,25 @@
 "use client";
 import { createContext, useState, useEffect, useContext } from "react";
 
-// Buat context untuk tema
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState("light");
+    const [theme, setTheme] = useState(() => {
+        if (typeof window !== "undefined") {
+            return localStorage.getItem("theme") || "light";
+        }
+        return "light"; // Pastikan default di SSR
+    });
 
     useEffect(() => {
-        const savedTheme = localStorage.getItem("theme") || "light";
-        setTheme(savedTheme);
-        if (savedTheme === "dark") {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-    }, []);
+        document.documentElement.classList.toggle("dark", theme === "dark");
+    }, [theme]);
 
     const toggleTheme = () => {
         const newTheme = theme === "light" ? "dark" : "light";
         setTheme(newTheme);
         localStorage.setItem("theme", newTheme);
-        if (newTheme === "dark") {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
+        document.documentElement.classList.toggle("dark", newTheme === "dark");
     };
 
     return (
@@ -35,7 +29,6 @@ export function ThemeProvider({ children }) {
     );
 }
 
-// Custom hook agar lebih mudah dipakai
 export function useTheme() {
     return useContext(ThemeContext);
 }
