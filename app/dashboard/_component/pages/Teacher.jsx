@@ -4,6 +4,7 @@ import Presensi from "../home/Presensi";
 import Periode from "../home/Periode";
 import HomeCalendar from "../home/HomeCalendar";
 import JadwalMengajar from "../home/JadwalMengajar";
+import Informasi from "../home/Informasi";
 
 export default function TeacherDashboard() {
   return (
@@ -11,9 +12,9 @@ export default function TeacherDashboard() {
       
       <div className="z-0 transition">
       
-        <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-6 gap-5">
+        <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-6 gap-5 ">
           
-          <div>
+          <div className="px-8 space-y-5">
             <div className="flex gap-5">
               <Card2 
                 icon={Book} 
@@ -38,6 +39,7 @@ export default function TeacherDashboard() {
           
           <div>
             <Periode/>
+            <Informasi/>
             <HomeCalendar/>
           </div>
         </div>

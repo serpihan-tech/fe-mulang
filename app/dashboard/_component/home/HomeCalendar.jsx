@@ -6,7 +6,7 @@ import "../style/calendarStyle.css";
 export default function HomeCalendar() {
   return (
     <>
-       <div className="w-full h-full p-3.5 mt-[27px] rounded-md bg-white gap-5">
+       <div className="w-full max-h-max p-3.5 mt-[27px] rounded-md bg-white gap-5">
         <div>
           <p className="text-lg font-bold">Kalender</p>
           <ReactCalendar 

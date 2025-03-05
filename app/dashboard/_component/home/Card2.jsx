@@ -10,10 +10,10 @@ export default function Card2({ icon: Icon, value, label, bgColor, colorBehind }
         </div>
         <div className="ms-7 space-y-3">
         {/* Nominal Data */}
-          <p className="text-xl font-semibold text-gray-900 dark:text-white">{label}</p>
+          <p className="text-lg font-semibold text-gray-900 dark:text-white">{label}</p>
 
           {/* Keterangan */}
-          <p className="text-xl font-semibold text-gray-900 dark:text-gray-300">{value}</p>
+          <p className="text-lg font-semibold text-gray-900 dark:text-gray-300">{value}</p>
         </div>
     </div>
   );

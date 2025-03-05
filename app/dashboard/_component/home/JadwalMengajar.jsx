@@ -4,7 +4,7 @@ export default function JadwalMengajar() {
   return (
     <div className="w-full space-y-7 my-6">
       <div className="w-full flex items-center justify-between">
-        <h1 className="text-black text-xl font-semibold">Jadwal Mengajar</h1>
+        <h1 className="text-black text-lg font-semibold">Jadwal Mengajar</h1>
       </div>
       <div className="w-full space-y-8">
         <Jadwal 
