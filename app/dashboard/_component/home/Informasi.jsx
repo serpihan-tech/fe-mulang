@@ -1,7 +1,10 @@
 export default function Informasi () {
   return (
     <div className="w-full py-[10px] space-y-6 mt-5">
-      <h1 className="text-black text-lg font-semibold">Informasi</h1>
+      <div className="flex space-x-2">
+        <h1 className="text-black text-lg font-semibold">Informasi</h1>
+        <div className="w-2.5 h-2.5 bg-[#dc1010] rounded-full" />
+      </div>
       <div className="p-4 bg-[#f8ffe1] rounded-[15px] space-y-3">
         <h2 className="text-center text-[#0841e2] text-lg font-semibold">Memperingati Hari Batik Nasional</h2>
         <hr className="border-[#0841e2] border-2" />
