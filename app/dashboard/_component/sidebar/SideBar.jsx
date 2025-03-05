@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image";
 import  SidebarItem,{ Logoutbtn } from "./ItemSB";
-import { Home, User, Setting, Profile2User, People, Award, Book1, LogoutCurve } from "iconsax-react";
+import { Home, Profile2User, People, Award, Book1, LogoutCurve } from "iconsax-react";
 import { useState } from "react";
 
 export default function SideBar() {
@@ -21,7 +21,7 @@ export default function SideBar() {
       </div>
 
       <div className="flex flex-col gap-4 py-5 mb-5">
-        <SidebarItem title="Dashboard" icon={Home} colorIcon="currentColor"/>
+        <SidebarItem title="Dashboard" icon={Home} colorIcon="currentColor" url='/dashboard'/>
         <SidebarItem
           title="Kepegawaian"
           colorIcon="currentColor"
