@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import SideBar from "../dashboard/_component/sidebar/SideBar";
-import DashboardHeader from "../dashboard/_component/home/DashboardHeader";
+import DashboardHeader from "../dashboard/_component/admin/DashboardHeader";
 import { ThemeProvider } from "../../provider/ThemeProvider";
 import { toast } from "react-toastify";
 import Breadcrumb from "../component/Breadcrumb";

@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import SideBar from "../dashboard/_component/sidebar/SideBar";
-import DashboardHeader from "../dashboard/_component/home/DashboardHeader";
 import { ThemeProvider } from "../../provider/ThemeProvider";
 import { toast } from "react-toastify";
 import Breadcrumb from "../component/Breadcrumb";
 import { Copyright } from "iconsax-react";
+import DashboardHeader from "../dashboard/_component/home/DashboardHeader";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
