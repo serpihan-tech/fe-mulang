@@ -4,6 +4,7 @@ import Presensi from "../home/Presensi";
 import Periode from "../home/Periode";
 import HomeCalendar from "../home/HomeCalendar";
 import JadwalMengajar from "../home/JadwalMengajar";
+import Informasi from "../home/Informasi";
 
 export default function TeacherDashboard() {
   return (
@@ -38,6 +39,7 @@ export default function TeacherDashboard() {
           
           <div>
             <Periode/>
+            <Informasi/>
             <HomeCalendar/>
           </div>
         </div>
