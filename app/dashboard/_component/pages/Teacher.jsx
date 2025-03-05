@@ -12,9 +12,9 @@ export default function TeacherDashboard() {
       
       <div className="z-0 transition">
       
-        <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-6 gap-5">
+        <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-6 gap-5 ">
           
-          <div>
+          <div className="px-8 space-y-5">
             <div className="flex gap-5">
               <Card2 
                 icon={Book} 

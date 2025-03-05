@@ -19,14 +19,14 @@ export default function Jadwal({
       </div>
       <div className={`w-full px-[21.4px] py-3 space-y-[18px] rounded-[15.05px] ${bgColor}`}>
         <div className="w-full flex justify-between">
-          <p className="text-[#0841e2] text-xl font-bold">{title} ({startTime} - {endTime})</p>
+          <p className="text-[#0841e2] text-lg font-bold">{title} ({startTime} - {endTime})</p>
           <div className={`px-3 py-1.5 rounded-[15.05px] ${statusColor}`}>
             <p className={`${statusTextColor} text-[10px] font-bold`}>{status}</p>
           </div>
         </div>
-        <div className="flex space-x-[6px]">
+        <div className="flex space-x-[6px] items-center">
           <Location color="#0841E2" variant="Bold" size="37" />
-          <p className="text-black text-lg font-normal">{place}</p>
+          <p className="text-black text-md font-normal">{place}</p>
         </div>
         <div className="flex space-x-[22px]">
           <button className="px-8 py-3 bg-[#0841e2] rounded-[10px] justify-center items-center gap-3 inline-flex text-white text-sm font-semibold">
