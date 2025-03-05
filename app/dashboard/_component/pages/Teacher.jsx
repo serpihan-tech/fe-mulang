@@ -1,8 +1,9 @@
 import { Book, Profile2User } from "iconsax-react";
-import SumCard from "../home/SumCard";
+import Card2 from "../home/Card2";
 import Presensi from "../home/Presensi";
 import Periode from "../home/Periode";
 import HomeCalendar from "../home/HomeCalendar";
+import JadwalMengajar from "../home/JadwalMengajar";
 
 export default function TeacherDashboard() {
   return (
@@ -14,11 +15,25 @@ export default function TeacherDashboard() {
           
           <div>
             <div className="flex gap-5">
-              <SumCard icon={Book} value={2} label="Total Siswa"/>
-              <SumCard icon={Profile2User} value={2} label="Total Guru"/>
+              <Card2 
+                icon={Book} 
+                value={6} 
+                label="Kelas"
+                bgColor={"bg-[#ced9f9]"}
+                colorBehind={"bg-pri-main"}
+              />
+              <Card2 
+                icon={Profile2User} 
+                value={160} 
+                label="Siswa"
+                bgColor={"bg-[#fff5d9]"}
+                colorBehind={"bg-[#FFCF43]"}
+              />
             </div>
 
             <Presensi/>
+
+            <JadwalMengajar/>
           </div>
           
           <div>

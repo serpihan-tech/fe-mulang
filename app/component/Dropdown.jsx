@@ -51,6 +51,7 @@ export default function Dropdown({
           <Icon 
             className={`${iconSize} flex items-center justify-center`} 
             color="black"
+            variant="Bold"
           />
         )}
         <div className="flex-grow">
