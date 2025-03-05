@@ -1,11 +1,18 @@
 "use client"
 import Image from "next/image";
 import  SidebarItem,{ Logoutbtn } from "./ItemSB";
-import { Home, Profile2User, People, Award, Book1, LogoutCurve } from "iconsax-react";
-import { useState } from "react";
+import { Home, LogoutCurve } from "iconsax-react";
+import { useEffect, useState } from "react";
+import AdminSB from "./pages/AdminSB";
+import StudentSB from "./pages/Student";
+import TeacherSB from "./pages/TeacherSB";
 
 export default function SideBar() {
-  
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const userRole = sessionStorage.getItem("role");
+    setRole(userRole);
+  }, []);  
   return (
     <div className="bg-white dark:bg-black h-screen p-5 shadow-lg transition">
       <div className="flex gap-4 items-center justify-center">
@@ -19,48 +26,13 @@ export default function SideBar() {
         />
         <h1 className="font-extrabold text-xl text-pri-main tracking-widest ">Mulang</h1>
       </div>
-
-      <div className="flex flex-col gap-4 py-5 mb-5">
+      
+      <div className="flex flex-col  py-5 mb-5">
         <SidebarItem title="Dashboard" icon={Home} colorIcon="currentColor" url='/dashboard'/>
-        <SidebarItem
-          title="Kepegawaian"
-          colorIcon="currentColor"
-          icon={Profile2User}
-          dropdownItems={[
-            { label: "Data Pegawai", url: "/kepegawaian/data-pegawai" },
-            { label: "Presensi Pegawai", url: "/kepegawaian/presensi-pegawai" },
-            { label: "Jabatan", url: "/kepegawaian/jabatan" }
-          ]}
-        />
-        <SidebarItem
-          title="Kesiswaan"
-          colorIcon="currentColor"
-          icon={People}
-          dropdownItems={[
-            { label: "Data Siswa", url: "/kesiswaan/data-siswa" },
-            { label: "Data Kelas", url: "/kesiswaan/data-kelas" },
-            { label: "Tahun Ajar", url: "/kesiswaan/tahun-ajar" },
-            { label: "Absensi Siswa", url: "/kesiswaan/absensi-siswa" }
-          ]}
-        />
-        <SidebarItem
-          title="Penilaian"
-          colorIcon="currentColor"
-          icon={Award}
-          dropdownItems={[
-            { label: "Kompetensi", url: "/penilaian/kompetensi" },
-            { label: "Sikap", url: "/penilaian/sikap" }
-          ]}
-        />
-        <SidebarItem
-          title="KBM"
-          colorIcon="currentColor"
-          icon={Book1}
-          dropdownItems={[
-            { label: "Mata Pelajaran", url: "/kbm/mata-pelajaran" },
-            { label: "Jadwal Pelajaran", url: "/kbm/jadwal-pelajaran" }
-          ]}
-        />
+        {role === "student" && <StudentSB />}
+        {role === "teacher" && <TeacherSB />}
+        {role === "admin" && <AdminSB />}
+        
       </div>
 
       <Logoutbtn title="Logout" icon={LogoutCurve} colorIcon="currentColor"/>
