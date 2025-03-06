@@ -56,6 +56,7 @@ export default {
           50: "#2A2A2A",
           100: "#000000"
         },
+        
         dark_net: {
           pri: "#181818", 
           sec: "#222222", 

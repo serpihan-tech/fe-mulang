@@ -3,6 +3,7 @@
 import PresensiPegawaiModal from "@/app/kepegawaian/_component/PresensiPegawaiModal";
 
 export default function AbsensiSiswa() {
+    
   return (
     <>
       <div className="z-0 transition">

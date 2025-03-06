@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ArrowUp2, ArrowDown2 } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Edit2, Trash } from "iconsax-react";
 
 const TableComponent = ({ columns, data }) => {
   const [sortConfig, setSortConfig] = useState({ key: columns[0], direction: "asc" });
@@ -37,10 +37,12 @@ const TableComponent = ({ columns, data }) => {
     );
   };
 
+  
+
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="overflow-x-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg">
-        <table className="w-full border-collapse p-2">
+    <div className="w-full overflow-hidden mx-auto">
+      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+        <table className="w-auto min-w-full table-fixed border-collapse text-xs">
           <thead>
             <tr className="bg-[#ADC0F5]/10 dark:bg-blue-700 text-black dark:text-gray-200 font-semibold">
               {columns.map((key) => (
@@ -50,27 +52,46 @@ const TableComponent = ({ columns, data }) => {
                   onClick={() => sortData(key)}
                 >
                   <div className="flex items-center gap-2">
-                    <span>{key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                    <span>{key.replace(/_/g, " ").toUpperCase()}</span>
                     {renderSortIcons(key)}
                   </div>
                 </th>
               ))}
+              {/* Tambahan kolom Aksi */}
+              <th className="px-6 py-1 text-left">AKSI</th>
             </tr>
           </thead>
           <tbody>
-            {sortedData.map((item, index) => (
-              <tr key={index} className="border-2 border-[#ADC0F5]/10">
-                {columns.map((key) => (
-                  <td
-                    key={key}
-                    className="py-3 px-6 text-gray-900 dark:text-gray-100 max-w-[200px] truncate whitespace-nowrap"
-                    title={item[key]}
-                  >
-                    {item[key]}
+            {sortedData.length > 0 ? (
+              sortedData.map((item, index) => (
+                <tr key={index} className="border-2 border-[#ADC0F5]/10">
+                  {columns.map((key) => (
+                    <td
+                      key={key}
+                      className="py-3 px-6 text-gray-900 dark:text-gray-100 max-w-[150px] truncate whitespace-nowrap"
+                      title={item[key]}
+                    >
+                      {item[key]}
+                    </td>
+                  ))}
+                  {/* Kolom Aksi */}
+                  <td className="py-3 px-6 flex gap-2">
+                    <button>
+                      <Edit2 size="20" color="#FFCF43" variant="Bold" />
+                    </button>
+                    <button>
+                      <Trash size="20" color="#DC1010" variant="Bold" />
+                    </button>
                   </td>
-                ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={columns.length + 1} className="text-center py-4 text-gray-500 dark:text-gray-300">
+                  Data tidak ditemukan
+                </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
