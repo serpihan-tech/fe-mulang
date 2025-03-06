@@ -1,45 +1,43 @@
 "use client";
-
-import SmallButton from "@/app/component/SmallButton";
-import { DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
+import { useEffect, useState } from "react";
+import { useRouter,usePathname } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import DataSiswaAdmin from "./pages/Admin";
 
 export default function DataSiswa() {
+  const router = useRouter();
+  const pathname = usePathname()
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true); // State loading
+
+  console.log("router:",pathname)
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const userRole = sessionStorage.getItem("role");
+
+    if (!token || !userRole) {
+      alert("Session anda terputus, harap login ulang");
+      router.replace("/login");
+    } else {
+      setRole(userRole);
+
+      // Redirect if the user is not an admin
+      if (userRole !== "admin") {
+        alert("Anda tidak memiliki akses ke halaman ini");
+        router.replace("/dashboard");
+      }
+    }
+
+    setLoading(false);
+  }, [router]);
+
+  if (loading) return <p>Loading...</p>; // Hindari rendering sebelum validasi selesai
+
   return (
-    <>
-      <div className="z-0 transition">
-        <div>
-          <div className="w-full ps-2 mt-12 flex">
-            <h1 className="w-full text-black text-xl font-semibold">Data Siswa</h1> 
-            <div className="w-full flex items-center justify-end gap-5">
-              <SmallButton
-                type="button"
-                icon={Notepad2}
-                bgColor="bg-[#0e9035]"
-                colorIcon="white"
-                title={"Kenaikan Kelas"}
-                hover={"hover:bg-green-700"}
-              />
-              <SmallButton
-                type="button"
-                icon={DocumentDownload}
-                bgColor="bg-[#ffcf43]"
-                colorIcon="black"
-                title={"Download Excel"}
-                hover={"hover:bg-yellow-400"}
-                textColor="black"
-              />
-              <SmallButton
-                type="button"
-                icon={ProfileAdd}
-                bgColor="bg-blue-600"
-                colorIcon="white"
-                title={"Tambah Siswa"}
-                hover={"hover:bg-blue-700"}
-              />
-            </div>
-          </div>
-        </div>
-      </div>  
-    </>
+    <div className="text-black dark:text-white">
+      <ToastContainer />
+      {role === "admin" && <DataSiswaAdmin />}
+    </div>
   );
 }

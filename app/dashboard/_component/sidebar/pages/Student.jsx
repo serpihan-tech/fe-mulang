@@ -1,4 +1,4 @@
-import { Home, Profile2User, People, Award, Book1, UserTick, BookSaved, Calendar, MedalStar } from "iconsax-react";
+import { UserTick, BookSaved, Calendar, MedalStar } from "iconsax-react";
 import SidebarItem from "../ItemSB";
 
 export default function StudentSB() {

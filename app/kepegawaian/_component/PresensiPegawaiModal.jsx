@@ -7,6 +7,13 @@ export default function PresensiPegawaiModal() {
   const formatDate = (date) => {
     return date.toISOString().split('T')[0];
   };
+
+  const statusKehadiranOptions = [
+    { label: "Hadir", value: "hadir" },
+    { label: "Sakit", value: "sakit" },
+    { label: "Izin", value: "izin" },
+    { label: "Alpa", value: "alpa" }
+  ];
   
   const [selectedStatusKehadiran, setSelectedStatusKehadiran] = useState(statusKehadiranOptions[0]);
 
