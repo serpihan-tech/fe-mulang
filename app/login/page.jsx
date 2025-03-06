@@ -29,7 +29,7 @@ export default function LoginPage() {
   if (!mounted) return null; // Hindari hydration error
   return (
     
-    <div className="bg-white dark:bg-black relative overflow-hidden min-h-screen flex items-center justify-center">
+    <div className="bg-white dark:bg-dark_net-pri relative overflow-hidden min-h-screen flex items-center justify-center">
       <ToastContainer />
       <img 
         src="svg/ellipse_top.svg" 
