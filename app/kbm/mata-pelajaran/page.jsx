@@ -1,28 +1,45 @@
 "use client";
+import { useEffect, useState } from "react";
+import { useRouter,usePathname } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import MataPelajaranAdmin from "./pages/Admin";
+import MataPelajaranTeacher from "./pages/Teacher";
 
-import SmallButton from "@/app/component/SmallButton";
-import { Book1 } from "iconsax-react";
+export default function KBM() {
+  const router = useRouter();
+  const pathname = usePathname()
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true); // State loading
 
-export default function MataPelajaran() {
+  console.log("router:",pathname)
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const userRole = sessionStorage.getItem("role");
+
+    if (!token || !userRole) {
+      alert("Session anda terputus, harap login ulang");
+      router.replace("/login");
+    } else {
+      setRole(userRole);
+
+      // Redirect if the user is not an admin
+      if (userRole !== "admin" && userRole !== "teacher") { 
+        alert("Anda tidak memiliki akses ke halaman ini");
+        router.replace("/dashboard");
+      }
+    }
+
+    setLoading(false);
+  }, [router]);
+
+  if (loading) return <p>Loading...</p>; // Hindari rendering sebelum validasi selesai
+
   return (
-    <>
-      <div className="z-0 transition">
-        <div>
-          <div className="w-full ps-2 mt-12 flex">
-            <h1 className="w-full text-black text-xl font-semibold">Mata Pelajaran</h1> 
-            <div className="w-full flex items-center justify-end gap-5">
-              <SmallButton
-                type="button"
-                icon={Book1}
-                bgColor="bg-blue-600"
-                colorIcon="white"
-                title={"Tambah Data"}
-                hover={"hover:bg-blue-700"}
-              />
-            </div>
-          </div>
-        </div>
-      </div>  
-    </>
+    <div className="text-black dark:text-white">
+      <ToastContainer />
+      {role === "admin" && <MataPelajaranAdmin />}
+      {role === "teacher" && <MataPelajaranTeacher />}
+    </div>
   );
 }

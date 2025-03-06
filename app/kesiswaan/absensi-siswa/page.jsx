@@ -6,7 +6,7 @@ import DataSiswaAdmin from "./pages/Admin";
 import AbsensiSiswaAdmin from "./pages/Admin";
 import AbsensiSiswaTeacher from "./pages/Teacher";
 
-export default function DataSiswa() {
+export default function AbsensiSiswa() {
   const router = useRouter();
   const pathname = usePathname()
   const [role, setRole] = useState(null);
