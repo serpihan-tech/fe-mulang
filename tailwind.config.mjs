@@ -56,41 +56,6 @@ export default {
           50: "#2A2A2A",
           100: "#000000"
         },
-        dark_pri: {
-          main: "#5B82E6",
-          border: "#324A7A",
-          hover: "#3D6CD9",
-          pressed: "#1E3366",
-          surface: "#1A223A",
-        },
-        dark_sec: {
-          main: "#E0B237",
-          border: "#6F5725",
-          hover: "#C89F30",
-          pressed: "#5E471D",
-          surface: "#2E2615",
-        },
-        dark_err: {
-          main: "#E04A4A",
-          border: "#7D2C2C",
-          hover: "#C53D3D",
-          pressed: "#5A1E1E",
-          surface: "#251515",
-        },
-        dark_warn: {
-          main: "#D9A92D",
-          border: "#6F5A1E",
-          hover: "#C6932A",
-          pressed: "#4F3D14",
-          surface: "#27210F",
-        },
-        dark_success: {
-          main: "#3EA764",
-          border: "#265736",
-          hover: "#369259",
-          pressed: "#183B24",
-          surface: "#1A2A1D",
-        },
         dark_net: {
           pri: "#181818", 
           sec: "#222222", 

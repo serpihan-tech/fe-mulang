@@ -67,12 +67,12 @@ export default function Dropdown({
       </div>
       
       {isOpen && (
-        <div className={`absolute top-full left-0 w-full mt-1 bg-white rounded-md shadow-lg z-10 border border-gray-200 ${dropdownStyle}`}>
+        <div className={`absolute top-full left-0 w-full mt-1 bg-white dark:bg-black rounded-md shadow-lg z-10 border border-gray-200 dark:border-pri-border ${dropdownStyle}`}>
           {options.map((option) => (
             <div
               key={option.value}
-              className={`px-4 py-2 hover:bg-gray-100 cursor-pointer ${
-                value && value.value === option.value ? 'bg-gray-50' : ''
+              className={`px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark_net-sec cursor-pointer ${
+                value && value.value === option.value ? 'bg-gray-50 dark:bg-dark_net-pri' : ''
               }`}
               onClick={() => handleSelect(option)}
             >

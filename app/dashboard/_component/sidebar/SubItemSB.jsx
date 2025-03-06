@@ -11,7 +11,7 @@ export default function SidebarDropdown({ items }) {
           <a
             key={index}
             href={item.url}
-            className={`block p-2 pl-8 text-sm rounded-xl transition ${isActive ? 'text-pri-main' : 'text-black dark:text-white hover:text-pri-main'}`}
+            className={`block p-2 pl-8 text-sm rounded-xl transition ${isActive ? 'text-pri-main dark:text-pri-border' : 'text-black dark:text-white hover:text-pri-main'}`}
           >
             - {item.label}
           </a>

@@ -2,7 +2,7 @@ import FillableTable from "@/app/component/FillableTable";
 import TableComponent from "@/app/component/Table";
 
 export default function StudentDashboard() {
-  const columns = ["name", "age", "city"];
+const columns = ["name", "age", "city"];
 const data = [
   { name: "Alice", age: 24, city: "Jakarta" },
   { name: "Bob", age: 30, city: "Bandung" },

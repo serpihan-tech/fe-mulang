@@ -32,7 +32,7 @@ export default function Dashboard() {
   if (loading) return <p>Loading...</p>; // Hindari rendering sebelum validasi selesai
 
   return (
-    <div>
+    <div className="text-black dark:text-white">
       <ToastContainer />
       {role === "student" && <StudentDashboard />}
       {role === "teacher" && <TeacherDashboard />}

@@ -14,7 +14,7 @@ export default function SideBar() {
     setRole(userRole);
   }, []);  
   return (
-    <div className="bg-white dark:bg-black h-screen p-5 shadow-lg transition">
+    <div className="bg-white dark:bg-dark_net-pri h-screen p-5 shadow-lg transition">
       <div className="flex gap-4 items-center justify-center">
         <Image
           className=""
@@ -24,7 +24,7 @@ export default function SideBar() {
           height={50}
           priority
         />
-        <h1 className="font-extrabold text-xl text-pri-main tracking-widest ">Mulang</h1>
+        <h1 className="font-extrabold text-xl text-pri-main dark:text-pri-border tracking-widest ">Mulang</h1>
       </div>
       
       <div className="flex flex-col  py-5 mb-5">
