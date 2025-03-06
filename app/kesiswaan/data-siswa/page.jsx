@@ -26,7 +26,6 @@ export default function DataSiswa() {
     }, []);
   return (
     <>
-      {role === "teacher" && <TeacherDataSiswa />}
       {role === "admin" && <AdminDataSiswa />}
     </>
   );

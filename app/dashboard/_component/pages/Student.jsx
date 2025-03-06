@@ -1,21 +1,32 @@
-import FillableTable from "@/app/component/FillableTable";
-import TableComponent from "@/app/component/Table";
+import Periode from "../home/Periode";
+import HomeCalendar from "../home/HomeCalendar";
+import JadwalMengajar from "../home/JadwalMengajar";
+import Informasi from "../home/Informasi";
+import Kehadiran from "../home/Kehadiran";
+import JadwalHariIni from "../home/JadwalHariIni";
 
 export default function StudentDashboard() {
-const columns = ["name", "age", "city"];
-const data = [
-  { name: "Alice", age: 24, city: "Jakarta" },
-  { name: "Bob", age: 30, city: "Bandung" },
-  { name: "Charlie", age: 28, city: "Surabaya" },
-  { name: "David", age: 22, city: "Yogyakarta" },
-];
+  return (
+    <>
+      
+      <div className="z-0 transition">
+      
+        <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-5 space-x-6 ">
+          
+          <div className="w-2/3 px-4">
+            <Kehadiran/>
 
-
-    return (
-      <div>
-        <h1 className="text-xl font-bold">Dashboard Mahasiswa</h1>
-        <p>Selamat datang, Mahasiswa!</p>
-        <FillableTable />
-      </div>
-    );
-  }
+            <JadwalHariIni/>
+          </div>
+          
+          <div className="w-1/3 pe-8">
+            <Periode/>
+            <Informasi/>
+            <HomeCalendar/>
+          </div>
+        </div>
+      </div>  
+    </>
+  );
+}
+  
