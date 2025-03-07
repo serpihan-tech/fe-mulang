@@ -30,7 +30,7 @@ export default function TeacherSB() {
         colorIcon="currentColor"
         dropdownItems={[
           { label: "Mata Pelajaran", url: "/kbm/mata-pelajaran" },
-          { label: "Jadwal Mengajar", url: "/kbm/jadwal-Mengajar" }
+          { label: "Jadwal Mengajar", url: "/kbm/jadwal-mengajar" }
         ]}
       />
 

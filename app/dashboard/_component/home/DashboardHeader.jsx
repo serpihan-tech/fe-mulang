@@ -6,7 +6,7 @@ export default function DashboardHeader({ toggleSidebar }) {
   const full_name = sessionStorage.getItem("full_name");
   const role =   sessionStorage.getItem("role");
   return (
-    <div className="bg-white dark:bg-black text-black dark:text-white px-10 py-6 flex justify-between items-center shadow-lg transition">
+    <div className="flex-grow bg-white dark:bg-black text-black dark:text-white px-10 py-6 flex justify-between items-center shadow-lg transition ">
       {/* Left Section */}
       <div className="flex items-center gap-4">
         <button onClick={toggleSidebar}>
