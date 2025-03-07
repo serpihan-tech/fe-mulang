@@ -14,7 +14,7 @@ export default function TeacherDashboard() {
       
         <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-6 gap-5 ">
           
-          <div >
+          <div className="px-4">
             <Kehadiran/>
 
             <Presensi/>
