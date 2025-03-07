@@ -31,7 +31,7 @@ export default function SmallButton({
         <Icon
           className={`${iconSize} flex items-center justify-start`}
           variant="Bold"
-          color="currentColor"
+          color={colorIcon}
         />
       );
     }
