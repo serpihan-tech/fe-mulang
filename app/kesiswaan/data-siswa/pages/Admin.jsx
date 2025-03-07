@@ -5,11 +5,13 @@ import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
 import TableComponent from "@/app/component/Table";
 import { DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function AdminDataSiswa() {
 
+    const router = useRouter();
     const [siswaData, setSiswaData] = useState(null);
     const [meta, setMeta] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -86,11 +88,7 @@ export default function AdminDataSiswa() {
                 label: "Jenis Kelamin",
                 options: getUniqueValues("jenis_kelamin"),
             },
-            {
-                key: "status",
-                label: "Status",
-                options: [0, 1],
-            },
+            
         ]);
     }
 }, [siswaData]);
@@ -128,6 +126,7 @@ export default function AdminDataSiswa() {
                 colorIcon="white"
                 title={"Tambah Siswa"}
                 hover={"hover:bg-blue-700"}
+                onClick={() => router.push('/kesiswaan/data-siswa/tambah')}
               />
             </div>
             </div>

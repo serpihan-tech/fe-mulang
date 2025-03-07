@@ -30,7 +30,7 @@ export default function TambahSiswaForm() {
   const [selectedTahunAjar, setSelectedTahunAjar] = useState(null);
 
   return (
-    <div className="w-full bg-white py-8 px-6 ">
+    <div className="w-full bg-white py-8 px-6 text-black">
       <div className="flex space-x-16">
         <div className="w-1/2">
           <div className="text-black text-xl font-semibold">Data Siswa</div>
@@ -55,13 +55,6 @@ export default function TambahSiswaForm() {
               <label className="text-black text-sm font-medium">Nama Lengkap</label>
                 <input type="text" 
                   placeholder="Masukkan nama lengkap"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
-            </div>
-            <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Email Siswa</label>
-                <input type="email" 
-                  placeholder="Masukkan email siswa"
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
             </div>
@@ -155,6 +148,32 @@ export default function TambahSiswaForm() {
                   className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
                 />
             </div>
+          </form>
+
+          <div className="text-black my-5 text-xl font-semibold">Data User</div>
+          <form action="" className=" space-y-5">
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Email Siswa</label>
+                <input type="email" 
+                  placeholder="Masukkan email siswa"
+                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
+                />
+            </div>
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Username Siswa</label>
+                <input type="text" 
+                  placeholder="Masukkan username siswa"
+                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
+                />
+            </div>
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Kata Sandi Siswa</label>
+                <input type="password" 
+                  placeholder="Masukkan kata sandi baru"
+                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
+                />
+            </div>
+            
           </form>
         </div>
       </div>
