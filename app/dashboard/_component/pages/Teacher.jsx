@@ -19,7 +19,9 @@ export default function TeacherDashboard() {
 
             <Presensi/>
 
-            <JadwalMengajar/>
+            <JadwalMengajar
+              heading={"Jadwal Mengajar"}
+            />
           </div>
           
           <div>

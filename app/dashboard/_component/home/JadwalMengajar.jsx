@@ -1,10 +1,10 @@
 import Jadwal from "./Jadwal";
 
-export default function JadwalMengajar() {
+export default function JadwalMengajar({heading}) {
   return (
     <div className="w-full space-y-7 my-6">
       <div className="w-full flex items-center justify-between">
-        <h1 className="text-black text-lg font-semibold">Jadwal Mengajar</h1>
+        <h1 className="text-black text-lg font-semibold">{heading}</h1>
       </div>
       <div className="w-full space-y-8">
         <Jadwal 
