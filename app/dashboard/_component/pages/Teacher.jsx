@@ -19,9 +19,10 @@ export default function TeacherDashboard() {
 
             <Presensi/>
 
-            <JadwalMengajar
-              heading={"Jadwal Mengajar"}
-            />
+            <div className="w-full flex items-center justify-between mt-5">
+              <h1 className="text-black text-lg font-semibold">Jadwal Mengajar</h1>
+            </div>
+            <JadwalMengajar/>
           </div>
           
           <div>
