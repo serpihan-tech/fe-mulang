@@ -54,10 +54,10 @@ export default function Dropdown({
             variant="Bold"
           />
         )}
-        <div className="flex-grow">
-          {title && <p className="text-base font-bold">{title}</p>}
-          <p className={`${subtitle ? 'text-[10px]' : 'text-sm'} font-medium ${!value ? 'text-gray-400' : ''}`}>
-            {value ? value.label : placeholder}
+        <div className="flex-grow mr-10">
+          {!value && title && <p className="text-sm">{title}</p>}
+          <p className="text-sm font-medium">
+            {value ? value.label : placeholder ||"" }
           </p>
         </div>
         <ArrowDown2 

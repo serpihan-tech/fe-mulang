@@ -1,9 +1,21 @@
 "use client";
 import { useState } from "react";
-import { ArrowUp2, ArrowDown2, Edit2, Trash } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Edit2, Trash, Diagram } from "iconsax-react";
+import Dropdown from "./Dropdown";
+import { useTheme } from "@/provider/ThemeProvider";
 
-const TableComponent = ({ columns, data }) => {
+const TableComponent = ({ columns, data, title,filters=[] }) => {
   const [sortConfig, setSortConfig] = useState({ key: columns[0], direction: "asc" });
+  const [filterValues, setFilterValues] = useState({});
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  const handleFilterChange = (key, value) => {
+    setFilterValues((prev) => {
+      return { ...prev, [key]: value }; // Memaksa perubahan state
+    });
+  };
+
+  
 
   const sortData = (key) => {
     let direction = "asc";
@@ -28,7 +40,8 @@ const TableComponent = ({ columns, data }) => {
     const isActive = sortConfig.key === key;
     const upColor = isActive && sortConfig.direction === "asc" ? "text-netral-40" : "text-netral-10";
     const downColor = isActive && sortConfig.direction === "desc" ? "text-netral-40" : "text-netral-10";
-
+    
+    
     return (
       <div className="flex flex-col items-center">
         <ArrowUp2 size="16" className={`${upColor} -mb-2`} color="currentColor" variant="Bold" />
@@ -37,10 +50,33 @@ const TableComponent = ({ columns, data }) => {
     );
   };
 
+  const filteredData = sortedData.filter((item) => {
+    return Object.entries(filterValues).every(([key, selectedValue]) => {
+      if (!selectedValue) return true; // Jika tidak ada filter, tampilkan semua data
+      return item[key] === selectedValue.value; // Cocokkan dengan value yang dipilih
+    });
+  });
+
   
 
   return (
     <div className="w-full overflow-hidden mx-auto">
+    <div className="mb-5 flex space-x-5 items-center text-black dark:text-white">
+      <h1 className="text-lg font-semibold">{title}</h1>
+      <div className="flex space-x-5">
+        {filters.map((filter) => (
+          <Dropdown
+            key={filter.key}
+            options={filter.options.map((opt) => ({ value: opt, label: opt }))}
+            value={filterValues[filter.key]}
+            onChange={(selectedOption) => handleFilterChange(filter.key, selectedOption)}
+            title={filter.label}
+            className={`w-auto h-10 p-2 rounded-md border ${isDark ? "bg-[#222222] border-[#ADC0F5] text-[#E0E0E0]" : "bg-white border-gray-200 text-black"}`}
+                        dropdownStyle={isDark ? "dark:bg-[#222222] dark:text-[#E0E0E0]" : ""}
+          />
+        ))}
+      </div>
+    </div>
       <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg">
         <table className="w-auto min-w-full table-fixed border-collapse text-xs">
           <thead>
@@ -62,13 +98,13 @@ const TableComponent = ({ columns, data }) => {
             </tr>
           </thead>
           <tbody>
-            {sortedData.length > 0 ? (
-              sortedData.map((item, index) => (
+            {filteredData.length > 0 ? (
+              filteredData.map((item, index) => (
                 <tr key={index} className="border-2 border-[#ADC0F5]/10">
                   {columns.map((key) => (
                     <td
                       key={key}
-                      className="py-3 px-6 text-gray-900 dark:text-gray-100 max-w-[150px] truncate whitespace-nowrap"
+                      className="py-3 px-6 text-gray-900 dark:text-gray-100 max-w-[160px] truncate whitespace-nowrap"
                       title={item[key]}
                     >
                       {item[key]}

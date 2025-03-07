@@ -6,6 +6,7 @@ import TambahKelasModal from "@/app/kepegawaian/_component/TambahKelasModal";
 import { Copyright, DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
 
 export default function DataKelas() {
+  
   return (
     <>
       <div className="z-0 transition">

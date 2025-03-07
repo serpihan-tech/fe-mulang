@@ -61,6 +61,40 @@ export default function AdminDataSiswa() {
         fetchDataSiswa();
     }, []);
 
+    const getUniqueValues = (key) => {
+      return [...new Set(siswaData.map((item) => item[key]))].filter(Boolean);
+  };
+  
+  // State untuk menyimpan filter yang tersedia
+  const [filters, setFilters] = useState([]);
+  
+  useEffect(() => {
+    if (siswaData && siswaData.length > 0) {
+        setFilters([
+            {
+                key: "kelas",
+                label: "Kelas",
+                options: getUniqueValues("kelas"),
+            },
+            {
+                key: "tahun_ajar",
+                label: "Tahun Ajar",
+                options: getUniqueValues("tahun_ajar"),
+            },
+            {
+                key: "jenis_kelamin",
+                label: "Jenis Kelamin",
+                options: getUniqueValues("jenis_kelamin"),
+            },
+            {
+                key: "status",
+                label: "Status",
+                options: [0, 1],
+            },
+        ]);
+    }
+}, [siswaData]);
+
     console.log("datasiswa: ")
 
     return (
@@ -100,7 +134,13 @@ export default function AdminDataSiswa() {
             
             <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
                 <div className={siswaData ? "max-w-screen-xl p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
-                    {siswaData ? <TableComponent columns={columns} data={siswaData} /> : "Data tidak ditemukan "}
+                    {siswaData ? 
+                      <TableComponent 
+                          columns={columns} 
+                          data={siswaData} 
+                          title="Data Siswa"
+                          filters={filters} 
+                      /> : "Data tidak ditemukan" }
                 </div>
 
                 {meta && <PaginationComponent meta={meta} onPageChange={fetchDataSiswa} />}
