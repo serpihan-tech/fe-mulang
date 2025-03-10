@@ -55,7 +55,7 @@ export default function TeacherProfile() {
                   <label className="text-black text-sm font-medium">NIP</label>
                   <input type="number" 
                     disabled
-                    placeholder="12345678"
+                    placeholder="1236545455"
                     className="w-full rounded-md py-2 px-4 text-sm font-medium bg-[#cccccc] placeholder-black"
                   />
                 </div>
@@ -156,7 +156,7 @@ export default function TeacherProfile() {
             />
           </div>
           <div className="w-full flex justify-end pt-[50px]">
-            <button className="w-[147px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+            <button className="w-[147px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-800 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
               Simpan
             </button>
           </div>
@@ -172,12 +172,12 @@ export default function TeacherProfile() {
         <div className="w-full flex border-b-[1.5px] border-[#0841e2] space-x-4">
           <button 
             onClick={() => setActiveTab("editProfile")}
-            className={`w-36 px-4 py-[13.5px] ${activeTab === "editProfile" ? "bg-[#0841e2] text-white" : "bg-white text-[#0841e2]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-500 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 cursor-pointer`}
+            className={`w-36 px-4 py-[13.5px] ${activeTab === "editProfile" ? "bg-[#0841e2] text-white" : "bg-white text-[#0841e2]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-800 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 cursor-pointer`}
             >Edit Profil
           </button>
           <button 
             onClick={() => setActiveTab("changePassword")}
-            className={`w-36 px-4 py-[13.5px] ${activeTab === "changePassword" ? "bg-[#0841e2] text-white" : "bg-white text-[#0841e2]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-500 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 cursor-pointer`}
+            className={`w-36 px-4 py-[13.5px] ${activeTab === "changePassword" ? "bg-[#0841e2] text-white" : "bg-white text-[#0841e2]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-800 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 cursor-pointer`}
             >Ubah Kata Sandi
           </button>
         </div>
