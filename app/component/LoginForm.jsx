@@ -31,6 +31,7 @@ export default function LoginForm() {
         sessionStorage.setItem("role",response.role);
         sessionStorage.setItem("full_name",response.data.profile.name);
         sessionStorage.setItem("come_first", response.message);
+        sessionStorage.setItem("profile_data", JSON.stringify(response));
         router.push("/dashboard");
       }
       

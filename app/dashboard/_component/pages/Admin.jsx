@@ -17,6 +17,7 @@ export default function AdminDashboard() {
   
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
+  
   const fetchDashboard = async () => {
     try {
       const data = await AdminDashboardApi();
