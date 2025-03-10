@@ -1,7 +1,6 @@
 "use client";
 
 import SmallButton from "@/app/component/SmallButton";
-import TableComponent from "../component/Table";
 
 export default function MataPelajaran() {
   return (
