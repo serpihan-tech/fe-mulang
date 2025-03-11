@@ -3,6 +3,22 @@ import { Edit } from "iconsax-react";
 import Image from "next/image";
 
 export default function StudentProfile() {
+  const data = sessionStorage.getItem("profile_data");
+  const [imageSrc, setImageSrc] = useState("/picture/profilePhoto.jpg");
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImageSrc(e.target.result); // Menampilkan gambar yang dipilih
+      };
+      reader.readAsDataURL(file);
+
+      setSelectedFile(file); // Simpan file untuk dikirim ke backend
+    }
+  };
+
   const formatDate = (date) => {
     return date.toISOString().split('T')[0];
   };
@@ -15,22 +31,25 @@ export default function StudentProfile() {
     if (activeTab === "editProfile") {
       return (
         <div>
-            <div className="flex justify-center items-center">
-              <Image
-                src={"/picture/profilePhoto.jpg"}
-                alt="Profile Photo"
-                width={150}
-                height={150}
-                className="rounded-full w-[150px] h-[150px] object-cover"
-              />
-              <div className="bg-white rounded-lg w-[30px] h-[30px] top-14 right-11 cursor-pointer relative">
-                <Edit 
-                  size={30}
-                  color="blue"
-                  className="cursor-pointer relative"
-                />
-              </div>
-            </div>
+            <div className="relative w-[150px] h-[150px] flex items-center">
+        <Image
+          src={imageSrc}
+          alt="Profile Photo"
+          width={150}
+          height={150}
+          className="rounded-full w-full h-full object-cover"
+        />
+        {/* Tombol Edit */}
+        <label className="bg-white rounded-lg w-[30px] h-[30px] cursor-pointer absolute bottom-0 right-0 flex items-center justify-center shadow-md">
+          <Edit size={20} color="blue" />
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageChange}
+          />
+        </label>
+      </div>
             <form action="" className="mt-6 space-y-5">
               <div className="w-full flex space-x-11">
                 <div className="w-1/2 space-y-[5px]">
