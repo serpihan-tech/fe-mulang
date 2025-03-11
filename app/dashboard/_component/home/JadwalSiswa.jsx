@@ -20,7 +20,7 @@ export default function JadwalSiswa({
         <span className="text-center text-[#7f7f7f] text-lg font-bold">{endTime}</span>
       </div>
       <div className={`w-full px-[21.4px] py-3 space-y-[18px] rounded-[15.05px] ${bgColor}`}>
-        <div className="w-full flex justify-between">
+        <div className=" flex items-center justify-between">
           <p className="text-[#0841e2] text-lg font-bold">{title} ({startTime} - {endTime})</p>
           <div className={`px-3 py-1.5 rounded-[15.05px] ${statusColor}`}>
             <p className={`${statusTextColor} text-[10px] font-bold`}>{status}</p>
