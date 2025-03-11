@@ -25,11 +25,14 @@ export default function StudentDashboard() {
     if (datasiswa) {
       const datasiswas = JSON.parse(datasiswa);
       const studentId = datasiswas.data.profile.details.studentId;
+      
 
       if (!studentId) {
         console.error("Student ID tidak ditemukan di sessionStorage");
         setLoading(false);
         return;
+      } else {
+        sessionStorage.setItem("student_id",studentId);
       }
 
       const fetchPresence = async () => {
