@@ -55,14 +55,16 @@ export default function DashboardLayout({ children }) {
     <ThemeProvider>
       <div className="flex w-full ">
         {/* Sidebar */}
-        <div className={`fixed transition-all duration-300 ${sidebarOpen ? "block" : "hidden"} z-10 w-64`}>
+        <div className={`fixed transition-all duration-300 ${sidebarOpen ? "block" : "hidden"} z-20 w-64`}>
           <SideBar />
         </div>
 
         {/* Konten utama */}
-        <div className={`w-full ${sidebarOpen ? "ml-64" : "ml-0"}`}>
-          <DashboardHeader toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-          <div>{children}</div>
+        <div className={`w-full ${sidebarOpen ? "ml-64 " : "ml-0"}`}>
+          <div className={`fixed right-0 z-10  ${sidebarOpen ? "left-[256px] " : "left-0"}`}>
+            <DashboardHeader toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+          </div>
+          <div className="mt-20">{children}</div>
         </div>
       </div>
     </ThemeProvider>
