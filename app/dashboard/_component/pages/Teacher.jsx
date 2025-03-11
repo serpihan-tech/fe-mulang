@@ -1,4 +1,3 @@
-import { Book, Profile2User } from "iconsax-react";
 import Presensi from "../home/Presensi";
 import Periode from "../home/Periode";
 import HomeCalendar from "../home/HomeCalendar";
