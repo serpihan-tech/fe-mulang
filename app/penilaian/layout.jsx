@@ -73,7 +73,7 @@ export default function DashboardLayout({ children }) {
             {children}
             <footer className="w-full flex justify-start items-center space-x-2.5 ms-2 mt-[31px]">
               <Copyright className="w-[18px] h-[18px]" color="black"/>
-              <p className="text-xs font-normal">2025. Mulang All Right reserved</p>
+              <p className="text-xs font-normal text-black">2025. Mulang All Right reserved</p>
             </footer>
           </div>
         </div>

@@ -20,13 +20,15 @@ export default function StudentSB() {
         title="Rapor Siswa"
         icon={MedalStar}
         colorIcon="currentColor"
+        url="/rapor-siswa"
         
       />
       <SidebarItem
         title="Jadwal"
         icon={BookSaved}
         colorIcon="currentColor"
-        
+        url="/jadwal"
+
       />
     </div>
   );

@@ -17,6 +17,7 @@ export default function AdminDashboard() {
   
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
+  
   const fetchDashboard = async () => {
     try {
       const data = await AdminDashboardApi();
@@ -48,7 +49,7 @@ export default function AdminDashboard() {
       
       <div className="z-0 transition">
       
-        <div className="bg-[#FAFAFA]  dark:bg-dark_net-pri flex pt-8 px-6 gap-5">
+        <div className="bg-[#FAFAFA]  dark:bg-dark_net-quar flex pt-8 px-6 gap-5">
           
           <div>
             <div className="flex gap-5">

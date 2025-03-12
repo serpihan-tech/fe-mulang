@@ -22,7 +22,7 @@ export default function AbsensiSiswaTeacher() {
 
   const mapelOptions = [
     { label: "Matematika", value: "matematika" },
-    { label: "fisika", value: "fisika" }
+    { label: "Fisika", value: "fisika" }
   ];
 
   const data = [

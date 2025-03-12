@@ -62,7 +62,7 @@ export default function DashboardLayout({ children }) {
         {/* Konten utama */}
         <div className={`w-full ${sidebarOpen ? "ml-64" : "ml-0"}`}>
           <DashboardHeader toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-          <div className="bg-[#FAFAFA] dark:bg-black pt-3 px-5 gap-5 pb-7">
+          <div className="bg-[#FAFAFA] dark:bg-dark_net-quar pt-3 px-5 gap-5 pb-7">
             <Breadcrumb
               separator={<span> / </span>}
               firstClasses="text-blue-600"
@@ -71,8 +71,8 @@ export default function DashboardLayout({ children }) {
               capitalizeLinks
             />
             {children}
-            <footer className="w-full flex justify-start items-center space-x-2.5 ms-2 mt-[31px]">
-              <Copyright className="w-[18px] h-[18px]" color="black"/>
+            <footer className="w-full flex justify-start items-center space-x-2.5 ms-2 mt-[31px] text-black dark:text-white">
+              <Copyright className="w-[18px] h-[18px]" color="currentColor" />
               <p className="text-xs font-normal">2025. Mulang All Right reserved</p>
             </footer>
           </div>

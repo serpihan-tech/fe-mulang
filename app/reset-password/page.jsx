@@ -23,7 +23,7 @@ export default function InputEmailPage() {
 
   if (!mounted) return null; 
   return (
-    <div className="relative bg-white dark:bg-black min-h-screen overflow-hidden flex items-center justify-center">
+    <div className="relative bg-white dark:bg-dark_net-pri min-h-screen overflow-hidden flex items-center justify-center">
       <ToastContainer />
       <img 
         src="svg/ellipse_top.svg" 
