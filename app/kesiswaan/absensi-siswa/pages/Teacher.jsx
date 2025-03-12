@@ -26,9 +26,12 @@ export default function AbsensiSiswaTeacher() {
   ];
 
   const data = [
-    { id: 1, name: 'Alice', age: 25 },
-    { id: 2, name: 'Bob', age: 30 },
-    { id: 3, name: 'Charlie', age: 35 },
+    { id: 1, name: 'Alice'},
+    { id: 2, name: 'Bob'},
+    { id: 3, name: 'Charlie'},
+    { id: 4, name: 'Anna'},
+    { id: 5, name: 'Alex'},
+    { id: 6, name: 'Ron'},
   ];
 
   const [selectedClass, setSelectedClass] = useState(null);
@@ -59,7 +62,6 @@ export default function AbsensiSiswaTeacher() {
             </div>
           </div>
           <div className="px-5 mt-7">
-            <h1>My Table</h1>
             <Table data={data} />
           </div>
         </div>
