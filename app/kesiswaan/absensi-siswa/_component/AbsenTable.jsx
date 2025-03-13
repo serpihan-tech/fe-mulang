@@ -1,3 +1,4 @@
+import { Edit, Folder, TickCircle } from 'iconsax-react';
 import React, { useState } from 'react';
 
 const AbsenTable = ({ data, columns }) => {
@@ -83,6 +84,46 @@ const AbsenTable = ({ data, columns }) => {
           </tr>
         ))}
       </tbody>
+      <tfoot>
+        <tr>
+          {columns.map((column, colIndex) => (
+            <td key={colIndex} className='justify center px-7'>
+              {column.key === 'status' && (
+                // <div className='flex gap-3'>
+                //   <button className="w-full flex py-[10px] bg-[#cee8d6] px-3 rounded-[10px] items-center">
+                //     <Folder
+                //       variant='Bold'
+                //       size={24}
+                //       color='#0e9035'
+                //     />
+                //     <TickCircle
+                //       variant='Bold'
+                //       size={6}
+                //       color='white'
+                //       className='relative -left-4 top-1'
+                //     />
+                //     <p className='text-[#07481a] text-sm font-semibold whitespace-nowrap'>Data Tersimpan</p>
+                //   </button>
+                //   <button className='px-3 bg-[#0841e2] rounded-[10px] justify-center items-center'>
+                //     <Edit
+                //       size={20}
+                //       color='white'
+                //     />
+                //   </button>
+                // </div>
+                <button className="w-full flex py-[10px] px-8 bg-[#0841e2] rounded-[10px] items-center gap-3 justify-center mt-2 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+                  <Folder
+                    variant='Bold'
+                    size={24}
+                    color='white'
+                  />
+                  <p className='text-white text-sm font-semibold'>Simpan</p>
+                </button>
+              )}
+            </td>
+          ))}
+        </tr>
+      </tfoot>
     </table>
   );
 };

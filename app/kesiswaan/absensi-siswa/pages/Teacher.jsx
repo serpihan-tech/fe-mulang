@@ -29,6 +29,7 @@ export default function AbsensiSiswaTeacher() {
 
   const [siswaData, setSiswaData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [meta, setMeta] = useState(null);
 
   const fetchDataSiswa = async () => {
     try {
