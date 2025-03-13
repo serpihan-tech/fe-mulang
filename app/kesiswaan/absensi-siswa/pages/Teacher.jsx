@@ -2,6 +2,7 @@
 
 import Dropdown from "@/app/component/Dropdown";
 import { useState } from "react";
+import Table from "../_component/Table";
 
 export default function AbsensiSiswaTeacher() {
   const classOptions = [
@@ -22,6 +23,15 @@ export default function AbsensiSiswaTeacher() {
   const mapelOptions = [
     { label: "Matematika", value: "matematika" },
     { label: "Fisika", value: "fisika" }
+  ];
+
+  const data = [
+    { id: 1, name: 'Alice'},
+    { id: 2, name: 'Bob'},
+    { id: 3, name: 'Charlie'},
+    { id: 4, name: 'Anna'},
+    { id: 5, name: 'Alex'},
+    { id: 6, name: 'Ron'},
   ];
 
   const [selectedClass, setSelectedClass] = useState(null);
@@ -50,6 +60,9 @@ export default function AbsensiSiswaTeacher() {
                 dropdownStyle="dark:bg-black dark:text-white"
               />
             </div>
+          </div>
+          <div className="px-5 mt-7">
+            <Table data={data} />
           </div>
         </div>
       </div>
