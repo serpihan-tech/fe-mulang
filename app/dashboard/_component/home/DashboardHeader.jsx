@@ -96,7 +96,7 @@ export default function DashboardHeader({ toggleSidebar }) {
           {/* List Notifikasi */}
           {show && (
             <div className="absolute z-50 top-12 right-0 w-96 bg-gray-800 p-4 rounded-lg shadow-lg">
-              <NotificationList userId={studentId} />
+              <NotificationList userId={studentId} userRole={role} />
             </div>
           )}
         </div>

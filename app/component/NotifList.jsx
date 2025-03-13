@@ -3,8 +3,8 @@
 import { useNotifications } from "../../hooks/useNotification";
 import { useEffect, useState } from "react";
 
-export default function NotificationList({ userId }) {
-  const notifications = useNotifications(userId);
+export default function NotificationList({ userId, userRole }) {
+  const notifications = useNotifications(userId, userRole);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

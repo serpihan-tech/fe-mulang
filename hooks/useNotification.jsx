@@ -3,13 +3,13 @@
 import { useEffect, useState } from 'react'
 import { transmit } from '../lib/transmit'
 
-export function useNotifications(userId) {
+export function useNotifications(userId, userRole) {
   const [notifications, setNotifications] = useState([])
-
+  console.log("userId : " , userId, "User role : ", userRole)
   useEffect(() => {
     if (!userId) return;
 
-    const subscription = transmit.subscription(`notifications/${userId}`);
+    const subscription = transmit.subscription(`notifications/${userRole}`);
 
     async function subscribe() {
       await subscription.create();
@@ -24,7 +24,8 @@ export function useNotifications(userId) {
     console.log("notifications : ", subscription);
 
     return () => {
-      subscription.delete(); // Unsubscribe ketika komponen unmount
+      subscription.delete(); // ! Jangan di-unsubscribe ketika di unmount
+        // TODO : Implement unsubscribe di logOut
     };
   }, [userId]);
 
