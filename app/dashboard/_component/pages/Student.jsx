@@ -25,6 +25,8 @@ export default function StudentDashboard() {
     if (datasiswa) {
       const datasiswas = JSON.parse(datasiswa);
       const studentId = datasiswas.data.profile.details.studentId;
+      const userId = datasiswas.data.profile.details.id;
+
       
 
       if (!studentId) {
@@ -33,6 +35,8 @@ export default function StudentDashboard() {
         return;
       } else {
         sessionStorage.setItem("student_id",studentId);
+        sessionStorage.setItem("user_id",userId);
+
       }
 
       const fetchPresence = async () => {
@@ -70,6 +74,8 @@ export default function StudentDashboard() {
     }
   }, []);
   console.log("data jadwal:",scheduleData)
+  const studentId= sessionStorage.getItem('student_id')
+  console.log(studentId)
 
   if (loading) return <p>Loading...</p>;
   if (!presenceData) return <p>Data tidak ditemukan</p>;

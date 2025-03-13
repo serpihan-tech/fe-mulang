@@ -3,6 +3,7 @@ import { Fatrows, Notification } from "iconsax-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import NotificationList from '../../../component/NotifList'
 
 export default function DashboardHeader({ toggleSidebar }) {
   const router = useRouter();
@@ -12,43 +13,55 @@ export default function DashboardHeader({ toggleSidebar }) {
   
   const role =   sessionStorage.getItem("role");
   const data = sessionStorage.getItem("profile_data");
+  const studentId= sessionStorage.getItem('user_id')
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      
-      if (data) {
-        try {
-          if (role === "student"){
-            const user = JSON.parse(data);
-            let images = user.data.profile.details.profilePicture || [];
-            console.log("images link:" ,images)
-            // Jika hanya satu string, ubah menjadi array
-            if (typeof images === "string") {
-              images = [images];
-            }
-
-            setProfileImgs(images);
-
-          } else if(role === "teacher") {
-            const user = JSON.parse(data);
-            let images = user.data.profile.profilePicture || [];
-
-            // Jika hanya satu string, ubah menjadi array
-            if (typeof images === "string") {
-              images = [images];
-            }
-
-            setProfileImgs(images);
+  const rispek = () => {
+    if (data) {
+      try {
+        if (role === "student"){
+          const user = JSON.parse(data);
+          let images = user.data.profile.details.profilePicture || [];
+          console.log("images link:" ,images)
+          // Jika hanya satu string, ubah menjadi array
+          if (typeof images === "string") {
+            images = [images];
           }
-          
-        } catch (error) {
-          console.error("Error parsing user data:", error);
+
+          setProfileImgs(images);
+
+          console.log("eeweppf")
+        } else if(role === "teacher") {
+          const user = JSON.parse(data);
+          let images = user.data.profile.profilePicture || [];
+
+          // Jika hanya satu string, ubah menjadi array
+          if (typeof images === "string") {
+            images = [images];
+          }
+
+          setProfileImgs(images);
         }
+        
+      } catch (error) {
+        console.error("Error parsing user data:", error);
       }
     }
+  }
+  
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      rispek()
+      console.log("id user :::::: ", studentId)
+    }
   }, []);
+  
+  console.log(studentId);
+  const [show, setShow] = useState(false);
 
-  console.log("data:",data)
+  const toggleNotif = () => {
+    setShow((prev) => !prev);
+  };
+
   return (
     <div className=" bg-white dark:bg-black text-black dark:text-white px-10 py-6 flex justify-between items-center shadow-lg transition ">
       {/* Left Section */}
@@ -70,7 +83,23 @@ export default function DashboardHeader({ toggleSidebar }) {
       {/* Right Section */}
       <div className="flex items-center gap-3">
         <ThemeSwitcher />
-        <Notification className="bg-netral-20 p-2 rounded-full" size="40" variant="Outline" color="black" />
+        <div className="relative">
+          {/* Tombol Notifikasi */}
+          <Notification
+            className="bg-neutral-200 p-2 rounded-full cursor-pointer"
+            size="40"
+            variant="Outline"
+            color="black"
+            onClick={toggleNotif} // Memanggil fungsi toggleNotif saat diklik
+          />
+
+          {/* List Notifikasi */}
+          {show && (
+            <div className="absolute z-50 top-12 right-0 w-96 bg-gray-800 p-4 rounded-lg shadow-lg">
+              <NotificationList userId={studentId} />
+            </div>
+          )}
+        </div>
         {role === "admin" ?
           <div className="flex gap-3 items-center">
             <Image src={"/svg/logo.svg"} alt="user photo" width={40} height={40} priority />
