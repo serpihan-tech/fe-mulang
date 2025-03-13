@@ -2,7 +2,7 @@
 
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 
-const PaginationComponent = ({ meta, onPageChange }) => {
+const PaginationComponent = ({ meta, onPageChange, onLimitChange  }) => {
   if (!meta) return null;
 
   const { currentPage, lastPage, perPage, total, previousPageUrl, nextPageUrl } = meta;
@@ -39,7 +39,20 @@ const PaginationComponent = ({ meta, onPageChange }) => {
     <div className="flex p-5 w-full justify-between items-center">
       {/* Informasi jumlah data (mentok kiri) */}
       <div className="text-sm text-gray-600 mb-2">
-        Showing {(currentPage - 1) * perPage + 1} to {Math.min(currentPage * perPage, total)} of {total} entries
+        <span>
+          Showing {(currentPage - 1) * perPage + 1} to {Math.min(currentPage * perPage, total)} of {total} entries
+        </span>
+        <select
+          className="border px-2 py-1 rounded text-sm ml-2"
+          value={perPage}
+          onChange={(e) => onLimitChange(Number(e.target.value))}
+        >
+          {[10, 25, 50, 100].map((limit) => (
+            <option key={limit} value={limit}>
+              {limit}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Pagination Controls (tengah halaman) */}

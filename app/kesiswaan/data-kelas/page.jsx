@@ -1,17 +1,134 @@
 "use client";
 
+import { data_kelas, hapus_kelas } from "@/app/api/ApiKesiswaan";
 import Breadcrumb from "@/app/component/Breadcrumb";
+import DeletePopUp from "@/app/component/DeletePopUp";
+import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
+import TableComponent from "@/app/component/Table";
 import TambahKelasModal from "@/app/kepegawaian/_component/TambahKelasModal";
 import { Copyright, DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import DataKelasModal from "../_component/DataKelasModal";
 
 export default function DataKelas() {
+  const router = useRouter();
+  const [kelasData, setKelasData] = useState(null);
+  const [meta, setMeta] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [selectedClassId, setSelectedClassId] = useState(null);
+  const [isDeleteOpen, setDeleteOpen] = useState(false);
+  const [isEditOpen, setEditOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+
+  const fetchDataKelas = async (page = 1,limitVal = limit) => {
+    try {
+        const data = await data_kelas(page, limitVal);
+        const dataArray = data.data.theClass
+        console.log(dataArray)
+        if (Array.isArray(dataArray)) {
+            // Mapping agar sesuai dengan format tabel
+            const formattedData = dataArray.map((item) => ({
+                id_kelas: item.id || "Tidak ada",
+                nama_kelas: item.name || "Tidak ada",
+                wali_kelas: item.teacher?.name || "Tidak ada",
+                total_siswa: item.totalStudents || "Tidak ada",
+            }));
+
+            setKelasData(formattedData);
+        }
+
+        setMeta(data.data.meta); // Simpan metadata untuk paginasi
+        setCurrentPage(page);
+    } catch (error) {
+        toast.error("Gagal memuat data kelas.");
+    } finally {
+        setLoading(false);
+    }
+  };
+
+  const columns = [
+    "id_kelas",
+    "nama_kelas",
+    "wali_kelas",
+    "total_siswa",    
+  ];
+  const handleLimitChange = (newLimit) => {
+    setLimit(newLimit);
+    fetchDataKelas(currentPage, newLimit); // Refresh data dengan limit baru
+  };
+
+  useEffect(() => {
+      fetchDataKelas();
+  }, []);
+
+  const handleDelete = (kelasId) => {
+    setSelectedClassId(kelasId);
+    setDeleteOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedClassId) return;
+
+    setIsLoading(true);
+    try {
+      await hapus_kelas(selectedClassId);
+      setIsSuccess(true);
+      setDeleteOpen(false);
+      fetchDataKelas(); // Reload data setelah sukses
+      setTimeout(() => setIsSuccess(false), 2000); // Pop-up sukses hilang otomatis
+    } catch (error) {
+      toast.error("Gagal menghapus data");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
+  const handleEdit = (kelasId) => {
+    setSelectedClassId(kelasId)
+    setEditOpen(true)
+  }
   return (
     <>
       <div className="z-0 transition">
+
+      {/* Modal Edit */}
+      {/* {isEditOpen && (
+          <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+            <DataKelasModal
+              onCancel={() => setDeleteOpen(false)}
+              onConfirm={confirmDelete}
+              isLoading={isLoading}
+            />
+          </div>
+        )} */}
+        
+      {/* Pop-up Konfirmasi Delete */}
+      {isDeleteOpen && (
+          <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+            <DeletePopUp
+              onCancel={() => setDeleteOpen(false)}
+              onConfirm={confirmDelete}
+              isLoading={isLoading}
+            />
+          </div>
+        )}
+
+        {/* Pop-up Sukses */}
+        {isSuccess && (
+          <div className="z-40 fixed top-10 right-10 bg-green-500 text-white p-3 rounded-lg shadow-lg">
+            Data berhasil dihapus!
+          </div>
+        )}
         <div>
-          <div className="w-full ps-2 mt-12 flex">
+          <div className="w-full ps-2 mt-12">
+          <div className="flex items-center">
             <h1 className="w-full text-black text-xl font-semibold">Data Kelas</h1> 
             <div className="w-full flex items-center justify-end gap-5">
               <SmallButton
@@ -22,6 +139,22 @@ export default function DataKelas() {
                 title={"Tambah Kelas"}
                 hover={"hover:bg-blue-700"}
               />
+            
+            </div>
+            </div>
+            <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
+                <div className={kelasData ? "max-w-screen-xl p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+                    {kelasData ? 
+                      <TableComponent 
+                          columns={columns} 
+                          data={kelasData} 
+                          onDelete ={handleDelete}
+                          title="Tabel Data Kelas"
+                          dataKey='id_kelas'
+                      /> : "Data tidak ditemukan" }
+                </div>
+
+                {meta && <PaginationComponent meta={meta} onPageChange={fetchDataKelas} onLimitChange={handleLimitChange}/>}
             </div>
           </div>
         </div>

@@ -16,6 +16,7 @@ export default function AdminDataSiswa() {
     const [meta, setMeta] = useState(null);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [limit, setLimit] = useState(null);
 
     const fetchDataSiswa = async (page = 1) => {
         try {
@@ -29,8 +30,8 @@ export default function AdminDataSiswa() {
                     nisn: item.studentDetail?.nisn || "Tidak Ada",
                     nama_lengkap: item.name || "Tidak Ada",
                     email: item.user?.email || "Tidak Ada",
-                    kelas: item.classStudent?.class?.name || "Tidak Ada",
-                    tahun_ajar: item.classStudent?.academicYear?.name || "Tidak Ada",
+                    kelas: item.classStudent[0]?.class?.name || "Tidak Ada",
+                    tahun_ajar: (item.classStudent[0]?.academicYear?.name +" "+ item.classStudent[0]?.academicYear?.semester) || "Tidak Ada",
                     jenis_kelamin: item.studentDetail?.gender || "Tidak Ada",
                     status: item.isGraduate ? "Lulus" : "Aktif",
                 }));
@@ -94,6 +95,10 @@ export default function AdminDataSiswa() {
 }, [siswaData]);
 
     console.log("datasiswa: ")
+    const handleLimitChange = (newLimit) => {
+        setLimit(newLimit);
+        fetchDataSiswa(currentPage, newLimit); // Refresh data dengan limit baru
+      };
 
     return (
     <>
@@ -142,7 +147,7 @@ export default function AdminDataSiswa() {
                       /> : "Data tidak ditemukan" }
                 </div>
 
-                {meta && <PaginationComponent meta={meta} onPageChange={fetchDataSiswa} />}
+                {meta && <PaginationComponent meta={meta} onPageChange={fetchDataSiswa} onLimitChange={handleLimitChange}/>}
             </div>
         </div>
       </div>  

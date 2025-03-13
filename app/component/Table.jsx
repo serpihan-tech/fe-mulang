@@ -4,7 +4,7 @@ import { ArrowUp2, ArrowDown2, Edit2, Trash, Diagram } from "iconsax-react";
 import Dropdown from "./Dropdown";
 import { useTheme } from "@/provider/ThemeProvider";
 
-const TableComponent = ({ columns, data, title,filters=[] }) => {
+const TableComponent = ({ columns, data, title,filters=[], onDelete, dataKey }) => {
   const [sortConfig, setSortConfig] = useState({ key: columns[0], direction: "asc" });
   const [filterValues, setFilterValues] = useState({});
   const { theme } = useTheme();
@@ -115,7 +115,7 @@ const TableComponent = ({ columns, data, title,filters=[] }) => {
                     <button>
                       <Edit2 size="20" color="#FFCF43" variant="Bold" />
                     </button>
-                    <button>
+                    <button onClick={() => onDelete(item[dataKey])}>
                       <Trash size="20" color="#DC1010" variant="Bold" />
                     </button>
                   </td>
