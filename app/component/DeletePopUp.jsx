@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function DeletePopUp({ onCancel, onConfirm, isLoading }) {
   return (
     <div 
-      className="w-[516px] bg-white rounded-2xl p-8 shadow-lg flex flex-col items-center"
+      className="w-[516px] bg-white text-black rounded-2xl p-8 shadow-lg flex flex-col items-center"
       role="dialog" 
       aria-modal="true"
     >

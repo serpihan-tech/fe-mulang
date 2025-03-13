@@ -50,3 +50,4 @@ export const updateStudent = async (id, payload) => {
       throw error;
     }
   };
+

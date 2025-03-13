@@ -1,6 +1,6 @@
 "use client";
 
-import { data_kelas, hapus_kelas } from "@/app/api/ApiKesiswaan";
+import { data_kelas, detail_data_kelas, edit_kelas, hapus_kelas } from "@/app/api/ApiKesiswaan";
 import Breadcrumb from "@/app/component/Breadcrumb";
 import DeletePopUp from "@/app/component/DeletePopUp";
 import PaginationComponent from "@/app/component/Pagination";
@@ -10,10 +10,11 @@ import TambahKelasModal from "@/app/kepegawaian/_component/TambahKelasModal";
 import { Copyright, DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import DataKelasModal from "../_component/DataKelasModal";
 
 export default function DataKelas() {
+  const [DetailkelasData, setDetailKelasData] = useState(null);
   const router = useRouter();
   const [kelasData, setKelasData] = useState(null);
   const [meta, setMeta] = useState(null);
@@ -22,7 +23,7 @@ export default function DataKelas() {
   const [limit, setLimit] = useState(10);
   const [selectedClassId, setSelectedClassId] = useState(null);
   const [isDeleteOpen, setDeleteOpen] = useState(false);
-  const [isEditOpen, setEditOpen] = useState(true);
+  const [isEditOpen, setEditOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -30,21 +31,20 @@ export default function DataKelas() {
   const fetchDataKelas = async (page = 1,limitVal = limit) => {
     try {
         const data = await data_kelas(page, limitVal);
-        const dataArray = data.data.theClass
-        console.log(dataArray)
+        const dataArray = data.theClass.theClass
         if (Array.isArray(dataArray)) {
             // Mapping agar sesuai dengan format tabel
             const formattedData = dataArray.map((item) => ({
                 id_kelas: item.id || "Tidak ada",
                 nama_kelas: item.name || "Tidak ada",
-                wali_kelas: item.teacher?.name || "Tidak ada",
+                wali_kelas: item.teacher.name || "Tidak ada",
                 total_siswa: item.totalStudents || "Tidak ada",
             }));
 
             setKelasData(formattedData);
         }
 
-        setMeta(data.data.meta); // Simpan metadata untuk paginasi
+        setMeta(data.theClass.meta); // Simpan metadata untuk paginasi
         setCurrentPage(page);
     } catch (error) {
         toast.error("Gagal memuat data kelas.");
@@ -59,6 +59,7 @@ export default function DataKelas() {
     "wali_kelas",
     "total_siswa",    
   ];
+
   const handleLimitChange = (newLimit) => {
     setLimit(newLimit);
     fetchDataKelas(currentPage, newLimit); // Refresh data dengan limit baru
@@ -90,24 +91,57 @@ export default function DataKelas() {
     }
   };
   
-  const handleEdit = (kelasId) => {
-    setSelectedClassId(kelasId)
-    setEditOpen(true)
+  const handleEdit = async (kelasId) => {
+    try{
+      const data = await detail_data_kelas(kelasId)
+      console.log("data sebelum:",data)
+      setDetailKelasData(data)
+      setEditOpen(true)
+      
+    } finally{}
   }
+
+  const confirmEdit = async (editedData) => {
+    if (!editedData.nama || !editedData.waliKelas) {
+      toast.error("Nama Kelas dan Wali Kelas harus diisi!");
+      return;
+    }
+  
+    const payload = {
+      name: editedData.nama,
+      teacher_id: editedData.waliKelas,
+    };
+  
+    try {
+      setIsLoading(true);
+      await edit_kelas(editedData.id, payload);
+      toast.success("Data kelas berhasil diperbarui!");
+      setEditOpen(false); // Tutup modal setelah sukses
+      fetchDataKelas()
+      // Tambahkan fungsi untuk refresh data kelas jika perlu
+    } catch (error) {
+      toast.error("Gagal mengupdate data kelas!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="z-0 transition">
+      <ToastContainer/>
 
       {/* Modal Edit */}
-      {/* {isEditOpen && (
+      {isEditOpen && (
           <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
             <DataKelasModal
-              onCancel={() => setDeleteOpen(false)}
-              onConfirm={confirmDelete}
+              onCancel={() => setEditOpen(false)}
+              onConfirm={confirmEdit}
               isLoading={isLoading}
+              kelasData={DetailkelasData}
             />
           </div>
-        )} */}
+        )}
         
       {/* Pop-up Konfirmasi Delete */}
       {isDeleteOpen && (
@@ -148,6 +182,7 @@ export default function DataKelas() {
                       <TableComponent 
                           columns={columns} 
                           data={kelasData} 
+                          onEdit={handleEdit}
                           onDelete ={handleDelete}
                           title="Tabel Data Kelas"
                           dataKey='id_kelas'

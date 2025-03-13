@@ -19,9 +19,27 @@ export const data_siswa = async (page=1) => {
     }
 };
 
-export const data_guru = async (page=1,limit) => {
+export const dropdown_data_guru = async () => {
     try {
-        const response = await ApiManager.get(`/teachers?page=${page}`,{
+        const response = await ApiManager.get(`/teacher/id-name`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data.teachers;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
+        }
+    }
+};
+
+export const data_kelas = async (page=1,limit) => {
+    try {
+        const response = await ApiManager.get(`/classes?page=${page}&limit=${limit}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -37,16 +55,14 @@ export const data_guru = async (page=1,limit) => {
     }
 };
 
-
-
-export const data_kelas = async (page=1,limit) => {
+export const detail_data_kelas = async (classId) => {
     try {
-        const response = await ApiManager.get(`/classes?page=${page}&limit=${limit}`,{
+        const response = await ApiManager.get(`/classes/${classId}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
         });
-        return response.data;
+        return response.data.data;
 
     } catch (err) {
         if (err.message.includes('Network Error')) {

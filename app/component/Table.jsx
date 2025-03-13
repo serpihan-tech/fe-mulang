@@ -4,7 +4,7 @@ import { ArrowUp2, ArrowDown2, Edit2, Trash, Diagram } from "iconsax-react";
 import Dropdown from "./Dropdown";
 import { useTheme } from "@/provider/ThemeProvider";
 
-const TableComponent = ({ columns, data, title,filters=[], onDelete, dataKey }) => {
+const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey }) => {
   const [sortConfig, setSortConfig] = useState({ key: columns[0], direction: "asc" });
   const [filterValues, setFilterValues] = useState({});
   const { theme } = useTheme();
@@ -112,7 +112,7 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, dataKey }) 
                   ))}
                   {/* Kolom Aksi */}
                   <td className="py-3 px-6 flex gap-2">
-                    <button>
+                    <button onClick={() => onEdit(item[dataKey])}>
                       <Edit2 size="20" color="#FFCF43" variant="Bold" />
                     </button>
                     <button onClick={() => onDelete(item[dataKey])}>
