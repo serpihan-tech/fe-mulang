@@ -1,8 +1,10 @@
 "use client";
 
 import Dropdown from "@/app/component/Dropdown";
-import { useState } from "react";
-import Table from "../_component/Table";
+import { useState, useEffect } from "react";
+import AbsenTable from "../_component/AbsenTable";
+import { data_siswa } from "@/app/api/ApiKesiswaan";
+import { toast } from "react-toastify";
 
 export default function AbsensiSiswaTeacher() {
   const classOptions = [
@@ -25,18 +27,49 @@ export default function AbsensiSiswaTeacher() {
     { label: "Fisika", value: "fisika" }
   ];
 
-  const data = [
-    { id: 1, name: 'Alice'},
-    { id: 2, name: 'Bob'},
-    { id: 3, name: 'Charlie'},
-    { id: 4, name: 'Anna'},
-    { id: 5, name: 'Alex'},
-    { id: 6, name: 'Ron'},
+  const [siswaData, setSiswaData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchDataSiswa = async () => {
+    try {
+      const data = await data_siswa();
+      const dataArray = data.students.data;
+      if (Array.isArray(dataArray)) {
+        // Mapping agar sesuai dengan format tabel
+        const formattedData = dataArray.map((item) => ({
+          nis: item.studentDetail?.nis || "Tidak Ada",
+          nama: item.name || "Tidak Ada",
+          // Tambahkan status default atau logika untuk status jika diperlukan
+        }));
+
+        setSiswaData(formattedData);
+      }
+    } catch (error) {
+      toast.error("Gagal memuat data siswa.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDataSiswa();
+  }, []);
+
+  const columns = [
+    { key: 'id', label: 'No' },
+    { key: 'nis', label: 'NIS' },
+    { key: 'nama', label: 'Nama' },
+    { key: 'status', date: '3 Februari 2025', week: 'Minggu ke-1' },
+    { key: 'status', date: '10 Februari 2025', week: 'Minggu ke-2' },
+    { key: 'status', date: '17 Februari 2025', week: 'Minggu ke-3' },
+    { key: 'status', date: '24 Februari 2025', week: 'Minggu ke-4' },
+    { key: 'status', date: '2 Maret 2025', week: 'Minggu ke-5' },
+    { key: 'status', date: '9 Maret 2025', week: 'Minggu ke-6' },
   ];
 
   const [selectedClass, setSelectedClass] = useState(null);
-
   const [selectedMapel, setSelectedMapel] = useState(null);
+
   return (
     <>
       <div className="z-0 transition">
@@ -62,7 +95,11 @@ export default function AbsensiSiswaTeacher() {
             </div>
           </div>
           <div className="px-5 mt-7">
-            <Table data={data} />
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <AbsenTable data={siswaData} columns={columns} />
+            )}
           </div>
         </div>
       </div>
