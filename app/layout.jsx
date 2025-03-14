@@ -14,7 +14,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark" suppressHydrationWarning>
+    <head>
+                {/* Mencegah flash putih */}
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                        (function() {
+                            let theme = localStorage.getItem("theme") || "light";
+                            document.documentElement.classList.toggle("dark", theme === "dark");
+                        })();
+                    `,
+                    }}
+                />
+            </head>
       <body
         className={` ${PlusJakarta.className} antialiased`}
       >

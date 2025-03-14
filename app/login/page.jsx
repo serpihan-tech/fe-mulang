@@ -1,10 +1,36 @@
+'use client'
 import LoginForm from "../component/LoginForm";
 import Image from "next/image";
 import ThemeSwitcher from "../component/ThemeSwitcher";
+import { toast, ToastContainer } from "react-toastify";
+import { useEffect, useState } from "react";
 
 export default function LoginPage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true); // Hindari inkonsistensi SSR & CSR
+    if (typeof window !== "undefined") {
+      const logout = sessionStorage.getItem("log_out");
+      const newpass = sessionStorage.getItem("new_password");
+
+      if (logout) {
+        toast.success("Logout berhasil");
+        sessionStorage.clear();
+      }
+
+      if (newpass) {
+        toast.success(newpass);
+        sessionStorage.removeItem("new_password");
+      }
+    }
+  }, []);
+
+  if (!mounted) return null; // Hindari hydration error
   return (
-    <div className="bg-white dark:bg-black relative overflow-hidden min-h-screen flex items-center justify-center">
+    
+    <div className="bg-white dark:bg-dark_net-pri relative overflow-hidden min-h-screen flex items-center justify-center">
+      <ToastContainer />
       <img 
         src="svg/ellipse_top.svg" 
         alt="Background" 

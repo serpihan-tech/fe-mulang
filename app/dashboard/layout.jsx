@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import SideBar from "./_component/sidebar/SideBar";
-import DashboardHeader from "./_component/home/DashboardHeader";
 import { ThemeProvider } from "../../provider/ThemeProvider";
 import { toast } from "react-toastify";
+import DashboardHeader from "./_component/home/DashboardHeader";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();

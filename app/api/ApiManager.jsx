@@ -20,6 +20,11 @@ ApiManager.interceptors.request.use(
       // Contoh: Header khusus untuk setiap request GET
       if (config.method === "get") {
         config.headers["X-Requested-With"] = "XMLHttpRequest";
+        config.headers["ngrok-skip-browser-warning"] = "69420";
+      }
+      // Wajibkan PATCH menggunakan Bearer Token
+      if (config.method === "patch" && !token) {
+        return Promise.reject(new Error("PATCH requests require authentication."));
       }
       
       return config;

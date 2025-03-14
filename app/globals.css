@@ -19,3 +19,18 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+input[type="password"]::-ms-reveal, 
+input[type="password"]::-ms-clear, 
+input[type="password"]::-webkit-credentials-auto-fill-button, 
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none !important;
+}
+
+html {
+  background-color: #0a0a0a; /* Default ke dark mode agar tidak ada flash putih */
+}
+
+html:not(.dark) {
+  background-color: #ffffff; /* Jika light mode, background putih */
+}

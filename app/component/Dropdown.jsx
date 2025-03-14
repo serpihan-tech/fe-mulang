@@ -43,36 +43,36 @@ export default function Dropdown({
   return (
     <div 
       ref={dropdownRef}
-      className={`relative cursor-pointer ${className}`}
+      className={`relative cursor-pointer ${className} text-black dark:text-white`}
       onClick={handleClick}
     >
       <div className={`flex items-center w-full ${containerStyle}`}>
         {Icon && (
           <Icon 
             className={`${iconSize} flex items-center justify-center`} 
-            color="black"
+            color="currentColor"
             variant="Bold"
           />
         )}
-        <div className="flex-grow">
-          {title && <p className="text-base font-bold">{title}</p>}
-          <p className={`${subtitle ? 'text-[10px]' : 'text-sm'} font-medium ${!value ? 'text-gray-400' : ''}`}>
-            {value ? value.label : placeholder}
+        <div className="flex-grow mr-10">
+          {!value && title && <p className="text-sm">{title}</p>}
+          <p className="text-sm font-medium">
+            {value ? value.label : placeholder ||"" }
           </p>
         </div>
         <ArrowDown2 
           className={`w-5 h-5 transition-transform duration-300 justify-end ${isOpen ? 'rotate-180' : ''}`}
-          color="black"
+          color='currentColor'
         />
       </div>
       
       {isOpen && (
-        <div className={`absolute top-full left-0 w-full mt-1 bg-white rounded-md shadow-lg z-10 border border-gray-200 ${dropdownStyle}`}>
+        <div className={`absolute top-full left-0 w-full mt-1 bg-white dark:bg-black rounded-md shadow-lg z-10 border border-gray-200 dark:border-pri-border ${dropdownStyle} max-h-40 overflow-y-auto`}>
           {options.map((option) => (
             <div
               key={option.value}
-              className={`px-4 py-2 hover:bg-gray-100 cursor-pointer ${
-                value && value.value === option.value ? 'bg-gray-50' : ''
+              className={`px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark_net-sec cursor-pointer ${
+                value && value.value === option.value ? 'bg-gray-50 dark:bg-dark_net-pri' : ''
               }`}
               onClick={() => handleSelect(option)}
             >

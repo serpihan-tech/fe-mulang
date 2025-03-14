@@ -56,6 +56,16 @@ export default {
           50: "#2A2A2A",
           100: "#000000"
         },
+        
+        dark_net: {
+          pri: "#181818", 
+          sec: "#222222", 
+          ter: "#2C2C2C", 
+          quar: "#3D3D3D", 
+          quin: "#4F4F4F", 
+          text: "#E0E0E0", 
+          text_sec: "#B0B0B0", 
+        },
       },
     },
   },

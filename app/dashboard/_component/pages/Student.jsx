@@ -1,21 +1,109 @@
-import FillableTable from "@/app/component/FillableTable";
-import TableComponent from "@/app/component/Table";
+import Periode from "../home/Periode";
+import HomeCalendar from "../home/HomeCalendar";
+import JadwalMengajar from "../home/JadwalMengajar";
+import Informasi from "../home/Informasi";
+import Kehadiran from "../home/Kehadiran";
+import JadwalHariIni from "../home/JadwalHariIni";
+import { toast, ToastContainer } from "react-toastify";
+import { useEffect, useState } from "react";
+import { getStudentPresence, getStudentSchedule } from "@/app/api/siswa/ApiSiswa";
 
 export default function StudentDashboard() {
-  const columns = ["name", "age", "city"];
-const data = [
-  { name: "Alice", age: 24, city: "Jakarta" },
-  { name: "Bob", age: 30, city: "Bandung" },
-  { name: "Charlie", age: 28, city: "Surabaya" },
-  { name: "David", age: 22, city: "Yogyakarta" },
-];
+  const message = sessionStorage.getItem("come_first");
+  const datasiswa = sessionStorage.getItem("profile_data");
+  const [scheduleData, setScheduleData] = useState(null);
+  const [presenceData, setPresenceData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const today = new Intl.DateTimeFormat('id-ID', { weekday: 'long' }).format(new Date());
 
+  useEffect(() => {
+    if (message) {
+      toast.success(message);
+      sessionStorage.removeItem("come_first");
+    }
 
-    return (
-      <div>
-        <h1 className="text-xl font-bold">Dashboard Mahasiswa</h1>
-        <p>Selamat datang, Mahasiswa!</p>
-        <FillableTable />
+    if (datasiswa) {
+      const datasiswas = JSON.parse(datasiswa);
+      const studentId = datasiswas.data.profile.details.studentId;
+      const userId = datasiswas.data.profile.details.id;
+
+      
+
+      if (!studentId) {
+        console.error("Student ID tidak ditemukan di sessionStorage");
+        setLoading(false);
+        return;
+      } else {
+        sessionStorage.setItem("student_id",studentId);
+        sessionStorage.setItem("user_id",userId);
+
+      }
+
+      const fetchPresence = async () => {
+        try {
+          const data = await getStudentPresence(studentId);
+          setPresenceData(data.presenceData);
+        } catch (error) {
+          console.error("Error fetching presence data:", error);
+          toast.error("Error fetching presence data");
+        }
+      };
+
+      const fetchSchedule = async () => {
+        try {
+          const data = await getStudentSchedule(studentId);
+          if (Array.isArray(data.schedule)) {
+            const filteredData = data.schedule.filter(
+              (item) => item.days.toLowerCase() === today.toLowerCase()
+            );
+            setScheduleData(filteredData);
+          } else {
+            console.error("Data schedule bukan array atau kosong:", data.schedule);
+            setScheduleData([]);
+          }
+        } catch (error) {
+          console.error("Error fetching schedule data:", error);
+          toast.error("Error fetching schedule data");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchPresence();
+      fetchSchedule();
+    }
+  }, []);
+  console.log("data jadwal:",scheduleData)
+  const studentId= sessionStorage.getItem('student_id')
+  console.log(studentId)
+
+  if (loading) return <p>Loading...</p>;
+  if (!presenceData) return <p>Data tidak ditemukan</p>;
+
+  return (
+    <>
+      <div className="z-0 transition">
+        <div className="bg-[#FAFAFA] dark:bg-black flex pt-8 px-5 space-x-6">
+          <div className="w-2/3 px-4">
+            <Kehadiran
+              total_presence={presenceData.total}
+              presence={presenceData.hadir}
+              non_presence={presenceData.tidak_hadir}
+            />
+
+{scheduleData && scheduleData.length > 0 && (
+  <JadwalHariIni scheduleData={scheduleData} />
+)}
+
+          </div>
+
+          <div className="w-1/3 pe-8">
+            <Periode />
+            <Informasi />
+            <HomeCalendar />
+          </div>
+        </div>
       </div>
-    );
-  }
+    </>
+  );
+}

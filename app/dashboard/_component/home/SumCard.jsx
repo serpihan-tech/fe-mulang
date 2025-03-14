@@ -1,13 +1,12 @@
 "use client";
 import React from "react";
-import Card from "./Card";
 
-export default function SumCard({ icon: Icon, value, label }) {
+export default function SumCard({ icon: Icon, value, label, iconSize = "w-5" }) {
   return (
-    <Card>
+    <div className="p-7 rounded-md bg-white dark:bg-transparent dark:backdrop-blur-md dark:border-2 dark:border-pri-border w-44">
         {/* Icon */}
-        <div className={`w-9 h-9 p-1.5 rounded-md bg-pri-main`} >
-            <Icon size="25" color="white" />
+        <div className={`w-9 h-9 p-1.5 rounded-md bg-pri-main flex items-center justify-center`} >
+            <Icon className={`${iconSize}`} color="white" />
         </div>
 
         {/* Nominal Data */}
@@ -15,6 +14,6 @@ export default function SumCard({ icon: Icon, value, label }) {
 
         {/* Keterangan */}
         <p className="text-sm font-medium text-gray-500 dark:text-gray-300">{label}</p>
-    </Card>
+    </div>
   );
 }

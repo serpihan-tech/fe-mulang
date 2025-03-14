@@ -14,8 +14,10 @@ export default function AdminDashboard() {
   
   const message = sessionStorage.getItem("come_first");
   
+  
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
+  
   const fetchDashboard = async () => {
     try {
       const data = await AdminDashboardApi();
@@ -47,14 +49,14 @@ export default function AdminDashboard() {
       
       <div className="z-0 transition">
       
-        <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-6 gap-5">
+        <div className="bg-[#FAFAFA]  dark:bg-dark_net-quar flex pt-8 px-6 gap-5">
           
           <div>
             <div className="flex gap-5">
-              <SumCard icon={People} value="100" label="Total Siswa"/>
-              <SumCard icon={Teacher} value="100" label="Total Guru"/>
-              <SumCard icon={Book} value="100" label="Total Mapel"/>
-              <SumCard icon={Award} value="100" label="Total Kelulusan"/>
+              <SumCard icon={People} value={dashboardData?.data.total_students} label="Total Siswa"/>
+              <SumCard icon={Teacher} value={dashboardData?.data.total_teachers} label="Total Guru"/>
+              <SumCard icon={Book} value={dashboardData?.data.total_modules} label="Total Mapel"/>
+              <SumCard icon={Award} value={dashboardData?.data.total_alumni} label="Total Kelulusan"/>
             </div>
 
             <ChartAttendance/>
