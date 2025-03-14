@@ -39,7 +39,7 @@ export default function JadwalLengkapSiswa() {
 
                 Object.keys(groupedSchedule).forEach(day => {
                     groupedSchedule[day].sort((a, b) => 
-                        moment(a.start_time, "HH:mm:ss") - moment(b.start_time, "HH:mm:ss")
+                        moment(a.startTime, "HH:mm:ss") - moment(b.startTime, "HH:mm:ss")
                     );
                 });
 

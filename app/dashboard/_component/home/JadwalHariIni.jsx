@@ -37,14 +37,14 @@ export default function JadwalHariIni({ scheduleData }) {
           <p>Loading...</p>
         ) : scheduleData && scheduleData.length > 0 ? (
           scheduleData
-            .sort((a, b) => moment(a.start_time, "HH:mm:ss") - moment(b.start_time, "HH:mm:ss")) // Sorting berdasarkan start_time
+            .sort((a, b) => moment(a.startTime, "HH:mm:ss") - moment(b.startTime, "HH:mm:ss")) // Sorting berdasarkan start_time
             .map((item, index) => {
-              const status = getStatus(item.start_time, item.end_time);
+              const status = getStatus(item.startTime, item.endTime);
               return (
                 <JadwalSiswa
                   key={item.id}
-                  startTime={moment(item.start_time, "HH:mm:ss").format("HH:mm")}
-                  endTime={moment(item.end_time, "HH:mm:ss").format("HH:mm")}
+                  startTime={moment(item.startTime, "HH:mm:ss").format("HH:mm")}
+                  endTime={moment(item.endTime, "HH:mm:ss").format("HH:mm")}
                   bgColor={bgColors[index % bgColors.length]}
                   title={item.module.name}
                   statusColor={statusColors[status]}

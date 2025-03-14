@@ -21,8 +21,8 @@ export default function JadwalHari({ day, schedule }) {
 
                             // Jika hari ini, tambahkan status
                             if (day === today) {
-                                const startTime = moment(item.start_time, "HH:mm:ss");
-                                const endTime = moment(item.end_time, "HH:mm:ss");
+                                const startTime = moment(item.startTime, "HH:mm:ss");
+                                const endTime = moment(item.endTime, "HH:mm:ss");
 
                                 if (now.isAfter(endTime)) {
                                     status = "Done";
@@ -39,8 +39,8 @@ export default function JadwalHari({ day, schedule }) {
                             return (
                                 <JadwalCompress
                                     key={item.id}
-                                    startTime={moment(item.start_time, "HH:mm:ss").format("HH:mm")}
-                                    endTime={moment(item.end_time, "HH:mm:ss").format("HH:mm")}
+                                    startTime={moment(item.startTime, "HH:mm:ss").format("HH:mm")}
+                                    endTime={moment(item.endTime, "HH:mm:ss").format("HH:mm")}
                                     bgColor={bgColors[index % bgColors.length]}
                                     title={item.module.name}
                                     place={item.room.name}

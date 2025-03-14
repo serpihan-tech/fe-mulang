@@ -7,7 +7,7 @@ import TableComponent from "@/app/component/Table";
 import { DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function AdminDataSiswa() {
 
@@ -103,6 +103,7 @@ export default function AdminDataSiswa() {
     return (
     <>
       <div className="z-0 transition">
+        <ToastContainer/>
         <div>
             <div className="w-full ps-2 mt-12 flex">
             <h1 className="w-full text-black text-xl font-semibold">Data Siswa Admin</h1> 

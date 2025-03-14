@@ -1,21 +1,23 @@
 "use client";
-import { useState } from "react";
-import { ArrowUp2, ArrowDown2, Edit2, Trash, Diagram } from "iconsax-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUp2, ArrowDown2, Edit2, Trash, Diagram, SearchNormal } from "iconsax-react";
 import Dropdown from "./Dropdown";
 import { useTheme } from "@/provider/ThemeProvider";
 
 const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey }) => {
+  const inputRef = useRef(null);
   const [sortConfig, setSortConfig] = useState({ key: columns[0], direction: "asc" });
   const [filterValues, setFilterValues] = useState({});
+  const [isFilterOpen, setFilterOpen] = useState(false);
   const { theme } = useTheme();
+  const [searchQuery, setSearchQuery] = useState("");
   const isDark = theme === "dark";
+
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => {
       return { ...prev, [key]: value }; // Memaksa perubahan state
     });
   };
-
-  
 
   const sortData = (key) => {
     let direction = "asc";
@@ -51,30 +53,79 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
   };
 
   const filteredData = sortedData.filter((item) => {
-    return Object.entries(filterValues).every(([key, selectedValue]) => {
-      if (!selectedValue) return true; // Jika tidak ada filter, tampilkan semua data
-      return item[key] === selectedValue.value; // Cocokkan dengan value yang dipilih
-    });
+    return (
+      Object.entries(filterValues).every(([key, selectedValue]) => {
+        if (!selectedValue) return true;
+        return item[key] === selectedValue.value;
+      }) &&
+      (searchQuery === "" ||
+        columns.some((key) => {
+          return String(item[key]).toLowerCase().includes(searchQuery.toLowerCase());
+        }))
+    );
   });
 
-  
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (inputRef.current && !inputRef.current.contains(event.target)) {
+        setFilterOpen(false);
+      }
+    }
 
+    if (isFilterOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isFilterOpen]);
+
+  
   return (
     <div className="w-full overflow-hidden mx-auto">
-    <div className="mb-5 flex space-x-5 items-center text-black dark:text-white">
-      <h1 className="text-lg font-semibold">{title}</h1>
+    <div className="mb-5 flex justify-between items-center text-black dark:text-white">
       <div className="flex space-x-5">
-        {filters.map((filter) => (
-          <Dropdown
-            key={filter.key}
-            options={filter.options.map((opt) => ({ value: opt, label: opt }))}
-            value={filterValues[filter.key]}
-            onChange={(selectedOption) => handleFilterChange(filter.key, selectedOption)}
-            title={filter.label}
-            className={`w-auto h-10 p-2 rounded-md border ${isDark ? "bg-[#222222] border-[#ADC0F5] text-[#E0E0E0]" : "bg-white border-gray-200 text-black"}`}
-                        dropdownStyle={isDark ? "dark:bg-[#222222] dark:text-[#E0E0E0]" : ""}
-          />
-        ))}
+        <h1 className="text-lg font-semibold">{title}</h1>
+        <div className="flex space-x-5">
+          {filters.map((filter) => (
+            <Dropdown
+              key={filter.key}
+              options={filter.options.map((opt) => ({ value: opt, label: opt }))}
+              value={filterValues[filter.key]}
+              onChange={(selectedOption) => handleFilterChange(filter.key, selectedOption)}
+              title={filter.label}
+              className={`w-auto h-10 p-2 rounded-md border ${isDark ? "bg-[#222222] border-[#ADC0F5] text-[#E0E0E0]" : "bg-white border-gray-200 text-black"}`}
+                          dropdownStyle={isDark ? "dark:bg-[#222222] dark:text-[#E0E0E0]" : ""}
+            />
+          ))}
+        </div>
+      </div>
+      <div ref={inputRef} className="relative w-64">
+        {isFilterOpen ? (
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Cari data..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full h-10 p-2 pl-4d pr-10 border border-blue-500 rounded-full outline-none transition-all duration-300"
+              autoFocus
+            />
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              <SearchNormal color="#0841E2" variant="Outline" size={20} />
+            </div>
+          </div>
+        ) : (
+          <div
+            className=" ml-52 w-10 h-10 p-2 rounded-full bg-gray-200 cursor-pointer transition-all duration-300"
+            onClick={() => setFilterOpen(true)}
+          >
+            <SearchNormal color="#0841E2" variant="Outline" size={24} />
+          </div>
+        )}
       </div>
     </div>
       <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg">

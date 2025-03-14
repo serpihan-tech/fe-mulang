@@ -1,17 +1,17 @@
 "use client";
 
-import { data_kelas, detail_data_kelas, edit_kelas, hapus_kelas } from "@/app/api/ApiKesiswaan";
+import { data_kelas, detail_data_kelas, edit_kelas, hapus_kelas, tambah_kelas } from "@/app/api/ApiKesiswaan";
 import Breadcrumb from "@/app/component/Breadcrumb";
 import DeletePopUp from "@/app/component/DeletePopUp";
 import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
 import TableComponent from "@/app/component/Table";
-import TambahKelasModal from "@/app/kepegawaian/_component/TambahKelasModal";
 import { Copyright, DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import DataKelasModal from "../_component/DataKelasModal";
+import TambahKelasModal from "../_component/TambahKelasModal";
 
 export default function DataKelas() {
   const [DetailkelasData, setDetailKelasData] = useState(null);
@@ -26,6 +26,7 @@ export default function DataKelas() {
   const [isEditOpen, setEditOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isTambahOpen, setTambahOpen] = useState(false);
 
 
   const fetchDataKelas = async (page = 1,limitVal = limit) => {
@@ -126,10 +127,52 @@ export default function DataKelas() {
     }
   };
 
+  const handleTambah = async () => {
+    try{
+      setTambahOpen(true)
+    } finally{}
+  }
+
+  const confirmTambah = async (createdData) => {
+    if (!createdData.nama || !createdData.waliKelas) {
+      toast.error("Nama Kelas dan Wali Kelas harus diisi!");
+      return;
+    }
+
+    const payload = {
+      name: createdData.nama,
+      teacher_id: createdData.waliKelas,
+    };
+
+    try {
+      setIsLoading(true);
+      await tambah_kelas(payload);
+      toast.success("Data kelas berhasil dibuat!");
+      setTambahOpen(false); // Tutup modal setelah sukses
+      fetchDataKelas()
+      // Tambahkan fungsi untuk refresh data kelas jika perlu
+    } catch (error) {
+      toast.error("Gagal membuat data kelas!");
+    } finally {
+      setIsLoading(false);
+    }
+  }  
+
   return (
     <>
       <div className="z-0 transition">
       <ToastContainer/>
+
+      {/* Modal Edit */}
+      {isTambahOpen && (
+          <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+            <TambahKelasModal
+              onCancel={() => setTambahOpen(false)}
+              onConfirm={confirmTambah}
+              isLoading={isLoading}
+            />
+          </div>
+        )}
 
       {/* Modal Edit */}
       {isEditOpen && (
@@ -166,6 +209,7 @@ export default function DataKelas() {
             <h1 className="w-full text-black text-xl font-semibold">Data Kelas</h1> 
             <div className="w-full flex items-center justify-end gap-5">
               <SmallButton
+                onClick={() => setTambahOpen(true)}
                 type="button"
                 icon={ProfileAdd}
                 bgColor="bg-blue-600"

@@ -91,9 +91,9 @@ export default function StudentDashboard() {
               non_presence={presenceData.tidak_hadir}
             />
 
-{scheduleData && scheduleData.length > 0 && (
-  <JadwalHariIni scheduleData={scheduleData} />
-)}
+            {scheduleData && scheduleData.length > 0 && (
+              <JadwalHariIni scheduleData={scheduleData} />
+            )}
 
           </div>
 
