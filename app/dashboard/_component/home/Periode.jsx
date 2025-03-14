@@ -21,7 +21,7 @@ export default function Periode() {
       icon={Calendar}
       iconSize="w-8"
       title="Periode"
-      className="w-[332px] h-16 flex p-3.5 rounded-md bg-white gap-5 cursor-pointer relative"
+      className="h-16 flex p-3.5 rounded-md bg-white gap-5 cursor-pointer relative"
       containerStyle="gap-2.5"
     />
   );

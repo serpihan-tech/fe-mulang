@@ -62,7 +62,9 @@ export default function AdminDashboard() {
           </div>
           
           <div>
-            <Periode/>
+            <Periode
+              className="w-full"
+            />
             <HomeCalendar/>
           </div>
         </div>
