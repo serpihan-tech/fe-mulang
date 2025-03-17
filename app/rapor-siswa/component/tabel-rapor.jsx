@@ -42,7 +42,7 @@ export default function TabelRapor() {
                 ))}
                 <td className="border border-gray-300 p-2 font-normal text-center">{row.uts}</td>
                 <td className="border border-gray-300 p-2 font-normal text-center">{row.uas}</td>
-                <td className="border border-gray-300 p-2 font-bold text-center">{row.uas}</td>
+                <td className="border border-gray-300 p-2 font-bold text-center">{"UAS"}</td>
               </tr>
             ))}
           </tbody>
