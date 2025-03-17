@@ -36,13 +36,13 @@ export default function TabelRapor() {
           <tbody className="text-base">
             {data.map((row, index) => (
               <tr key={index} className="border border-gray-300">
-                <td className="border border-gray-300 p-2 font-medium">{row.mataPelajaran}</td>
+                <td className="border border-gray-300 p-2 font-normal">{row.mataPelajaran}</td>
                 {row.tugas.map((nilai, i) => (
-                  <td key={i} className="border border-gray-300 p-2 font-medium text-center">{nilai}</td>
+                  <td key={i} className="border border-gray-300 p-2 font-normal text-center">{nilai}</td>
                 ))}
-                <td className="border border-gray-300 p-2 font-medium text-center">{row.uts}</td>
-                <td className="border border-gray-300 p-2 font-medium text-center">{row.uas}</td>
-                <td className="border border-gray-300 p-2 font-semibold text-center">{row.uas}</td>
+                <td className="border border-gray-300 p-2 font-normal text-center">{row.uts}</td>
+                <td className="border border-gray-300 p-2 font-normal text-center">{row.uas}</td>
+                <td className="border border-gray-300 p-2 font-bold text-center">{row.uas}</td>
               </tr>
             ))}
           </tbody>
