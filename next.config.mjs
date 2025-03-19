@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: false,
     images: {
-        domains: ["avatars.githubusercontent.com", "cdn.jsdelivr.net"],
+        domains: ["avatars.githubusercontent.com", "cdn.jsdelivr.net","optionally-topical-dassie.ngrok-free.app"],
     },
 };
 

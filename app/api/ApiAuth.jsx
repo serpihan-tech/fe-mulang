@@ -10,7 +10,7 @@ export const login = async (credentials) => {
         if (err.message.includes('Network Error')) {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
-        toast.error("Email atau kata sandi salah");
+        toast.error(err.message);
         }
     }
 };

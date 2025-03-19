@@ -21,33 +21,60 @@ export const getStudentSchedule = async (studentId) => {
     }
 };
 
-export const updateStudent = async (id, payload) => {
-    try {
-      let response;
-  
-      if (payload.student_detail.profile_picture) {
-        // Jika ada file, gunakan FormData
-        const formData = new FormData();
-        formData.append("user", JSON.stringify(payload.user));
-        formData.append("student", JSON.stringify(payload.student));
-        formData.append("student_detail", JSON.stringify({ ...payload.student_detail, profile_picture: undefined }));
-        formData.append("profile_picture", payload.student_detail.profile_picture);
-  
-        response = await ApiManager.patch(`/students/${id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        });
-      } else {
-        // Jika tidak ada file, kirim JSON biasa
-        response = await ApiManager.patch(`/students/${id}`, payload);
-      }
-  
+export const getProfileStudent = async (studentId) => {
+  try {
+      const response = await ApiManager.get(`/students/${studentId}`);
       return response.data;
-    } catch (error) {
+  } catch (error) {
+      toast.error("Gagal mengambil data detail siswa:", error.message);
+      throw error;
+  }
+};
+
+export const updateStudentProfile = async (id, payload, file) => {
+
+  try {
+    const data = new FormData();
+    
+    data.append("user[username]", '');
+    data.append("user[email]", '');
+    data.append("user[password]", '');
+
+    // Tambahkan student data
+    data.append("student[name]", payload.student.name);
+    data.append("student[is_graduate]", payload.student.is_graduate ? 1 : 0);
+
+    // Tambahkan student_detail
+    Object.entries(payload.student_detail).forEach(([key, value]) => {
+        data.append(`student_detail[${key}]`, value);
+    });
+
+    // Tambahkan file jika ada
+    if (file) {
+        data.append("student_detail[profile_picture]", file);
+        const response = await ApiManager.patch(`/students/${id}`, data,{
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        });
+
+        return response.data;
+    } else {
+        const response = await ApiManager.patch(`/students/${id}`, data);
+
+        return response.data;
+    }
+
+      console.log("data id",data)
+
+      // Kirim request tanpa menentukan Content-Type (biarkan axios otomatis menambahkan boundary)
+      
+  } catch (error) {
       console.error("Error updating student:", error.response?.data || error.message);
       throw error;
-    }
-  };
+  }
+};
+
+
+
 

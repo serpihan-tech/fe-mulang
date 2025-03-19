@@ -48,7 +48,7 @@ export default function DashboardHeader({ toggleSidebar }) {
     }
   }, []);
 
-  console.log("data:",data)
+  // console.log("data:",data)
   return (
     <div className=" bg-white dark:bg-black text-black dark:text-white px-10 py-6 flex justify-between items-center shadow-lg transition ">
       {/* Left Section */}
