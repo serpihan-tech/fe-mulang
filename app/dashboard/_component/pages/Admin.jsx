@@ -5,10 +5,10 @@ import SumCard from "../home/SumCard";
 import ChartAttendance from "../home/ChartAttendance";
 import Periode from "../home/Periode";
 import Pusatinformasi from '../home/PusatInformasi';
-import HomeCalendar from '../home/HomeCalendar';
 import { useEffect, useState, useCallback } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { AdminDashboardApi } from '@/app/api/admin/ApiDashboard';
+import CalendarComponent from '../home/CalendarComponent';
 
 export default function AdminDashboard() {
   
@@ -67,7 +67,12 @@ export default function AdminDashboard() {
             <Periode
               className="w-full"
             />
-            <HomeCalendar/>
+            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">
+              <div>
+                <p className="text-lg font-bold">Kalender</p>
+                <CalendarComponent/>
+              </div>
+            </div>
           </div>
         </div>
       </div>  
