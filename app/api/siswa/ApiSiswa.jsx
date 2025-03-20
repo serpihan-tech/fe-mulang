@@ -57,17 +57,12 @@ export const updateStudentProfile = async (id, payload, file) => {
                 "Content-Type": "multipart/form-data",
             }
         });
-
-        return response.data;
+        return response;
     } else {
         const response = await ApiManager.patch(`/students/${id}`, data);
-
-        return response.data;
+        return response;
     }
 
-      console.log("data id",data)
-
-      // Kirim request tanpa menentukan Content-Type (biarkan axios otomatis menambahkan boundary)
       
   } catch (error) {
       console.error("Error updating student:", error.response?.data || error.message);

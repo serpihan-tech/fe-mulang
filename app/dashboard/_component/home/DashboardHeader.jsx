@@ -1,4 +1,5 @@
 import ThemeSwitcher from "@/app/component/ThemeSwitcher";
+import { useProfile } from "@/provider/ProfileProvider";
 import { Fatrows, Notification } from "iconsax-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,7 +10,7 @@ export default function DashboardHeader({ toggleSidebar }) {
   const full_name = sessionStorage.getItem("full_name");
   const first_name = full_name.split(" ")[0];
   const [profileImgs, setProfileImgs] = useState([]);
-  
+  const { profileImg } = useProfile();
   const role =   sessionStorage.getItem("role");
   const data = sessionStorage.getItem("profile_data");
 
@@ -82,7 +83,7 @@ export default function DashboardHeader({ toggleSidebar }) {
             onClick={() => router.push("/profile")}// 
           >
             <Image 
-              src={profileImgs[0] || "/svg/logo.svg"} 
+              src={ profileImg || profileImgs[0] || "/svg/logo.svg"} 
               className="rounded-full" 
               alt="user photo" 
               width={40} 

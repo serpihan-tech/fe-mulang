@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Edit } from "iconsax-react";
 import Image from "next/image";
 import { getProfileStudent, updateStudentProfile } from "@/app/api/siswa/ApiSiswa";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { useProfile } from "@/provider/ProfileProvider";
+import ImageCropper from "@/app/component/ImageCropper";
+import getCroppedImg from "@/app/component/getCroppedImg";
 
 export default function StudentProfile() {
   const data = JSON.parse(sessionStorage.getItem("profile_data"));
@@ -11,26 +14,49 @@ export default function StudentProfile() {
   const [loading, setLoading] = useState(true);
   const [imageSrc, setImageSrc] = useState('/picture/default.jpg');
   const [selectedFile, setSelectedFile] = useState(null);
+  const { setProfileImg } = useProfile();
+  const [croppingImage, setCroppingImage] = useState(null);
   
+  const dataURLtoFile = (dataUrl, filename) => {
+    let arr = dataUrl.split(',');
+    let mime = arr[0].match(/:(.*?);/)[1];
+    let bstr = atob(arr[1]);
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+    
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], filename, { type: mime });
+  };
+
+  // Handle ketika pengguna memilih gambar
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-  
+
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImageSrc(e.target.result); // Update tampilan gambar sementara
-        setStudentData((prev) => ({
-          ...prev,
-          studentDetail: { ...prev.studentDetail, profilePicture: e.target.result }
-        }));
+        setCroppingImage(e.target.result); // Tampilkan cropper dulu
       };
       reader.readAsDataURL(file);
-      
-      //setImageSrc(URL.createObjectURL(file)); // Update tampilan gambar
-      setSelectedFile(file);
-    
     }
   };
+
+  const handleCropComplete = async (_, croppedAreaPixels) => {
+    const { file, base64 } = await getCroppedImg(croppingImage, croppedAreaPixels);
+  
+    setImageSrc(base64); // Tampilkan preview gambar yang telah dicrop
+    setSelectedFile(file); // Simpan file untuk dikirim ke backend
+    setCroppingImage(null); // Tutup modal cropper
+  
+    setStudentData((prev) => ({
+      ...prev,
+      studentDetail: { ...prev.studentDetail, profilePicture: base64 }
+    }));
+  };
+
   const formatDate = (date) => {
     return date.toISOString().split('T')[0];
   };
@@ -39,17 +65,19 @@ export default function StudentProfile() {
 
   const [activeTab, setActiveTab] = useState("editProfile");
 
+  const fetchDetailSiswa = async () => {
+    try {
+      const data = await getProfileStudent(studentId);
+      setStudentData(data.student);
+    } catch (error) {
+      console.error("Gagal memuat data siswa.", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchDetailSiswa = async () => {
-      try {
-        const data = await getProfileStudent(studentId);
-        setStudentData(data.student);
-      } catch (error) {
-        console.error("Gagal memuat data siswa.", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    
 
     fetchDetailSiswa();
 }, [studentId]); // useEffect hanya dipanggil saat studentId berubah
@@ -94,13 +122,20 @@ const handleSubmit = async (e) => {
 
 
   try {
-    const response = updateStudentProfile(studentId, payload, selectedFile)
+    const response = await updateStudentProfile(studentId, payload, selectedFile)
+    if(response.status == 200){
+      toast.success(response.data.message)
+      const newProfileImg = response.data.student.studentDetail.profilePicture;
+      setProfileImg(newProfileImg);
+      sessionStorage.setItem("profile_img", newProfileImg); 
+      
+      fetchDetailSiswa(); 
+      
+    }
+    
 
-    // if (!response.ok) throw new Error("Gagal memperbarui data");
-
-    // alert("Data berhasil diperbarui!");
   } catch (error) {
-    console.error("Error:", error);
+    toast.error(error);
     alert("Terjadi kesalahan saat memperbarui data.");
   }
 };
@@ -112,7 +147,16 @@ const handleSubmit = async (e) => {
     if (activeTab === "editProfile") {
       return (
         <div>
-          <div className="relative w-[150px] h-[150px] flex items-center">
+          {/* Modal Cropper */}
+          {croppingImage && (
+            <ImageCropper
+              image={croppingImage}
+              onCropComplete={handleCropComplete}
+              onCancel={() => setCroppingImage(null)}
+            />
+          )}
+          <ToastContainer />
+          <div className= "relative w-[150px] h-[150px] flex items-center">
             <Image 
               src={studentData?.studentDetail.profilePicture || imageSrc } 
               className="rounded-full w-full h-full object-cover"
@@ -165,6 +209,8 @@ const handleSubmit = async (e) => {
                 <label className="text-black text-sm font-medium">No. Telepon</label>
                 <input type="text" 
                   value={studentData?.studentDetail.studentsPhone||""}
+                  maxLength={13}
+                  minLength={11}
                   onChange={(e) => setStudentData(prev => ({
                       ...prev,
                       studentDetail: { ...prev.studentDetail, studentsPhone: e.target.value }
