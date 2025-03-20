@@ -47,12 +47,8 @@ export default function CalendarComponent() {
       days.push({ date: nextMonthDate, type: 'next-month' });
     }
      
-    while (date.getMonth() === month) {
-      days.push(new Date(date));
-      date.setDate(date.getDate() + 1);
-    }
     setDaysInMonth(days);
-    setStartDay(new Date(year, month, 1).getDay());
+    setStartDay(startingDay);
 
     const events = getUpcomingEvents(currentDate);
     setUpcomingEvents(events);
@@ -159,17 +155,14 @@ export default function CalendarComponent() {
         ))}
       </div>
       <div className="days">
-        {Array.from({length: startDay}).map((_,index) => (
-          <div key={index} className="empty-day"></div>
-        ))}
         {daysInMonth.map((dayObj) => (
           <div
-            key={dayObj.toISOString()}
-            className={`day ${
+            key={dayObj.date.toISOString()}
+            className={`day ${dayObj.type} ${
               dayObj.date.getDate() === new Date().getDate() &&
               dayObj.date.getMonth() === new Date().getMonth() ? 'today' : ""} ${
               selectedDate && dayObj.date.toDateString() === selectedDate.toDateString() ? 'selected' : ""} ${
-              isNationalHoliday(day) ? 'holiday' : ""} ${
+              isNationalHoliday(dayObj.date) ? 'holiday' : ""} ${
               dayObj.date.getDay() === 0 ? 'sunday' : ""
             }`}
             onClick={() => handleDateClick(dayObj.date)}
