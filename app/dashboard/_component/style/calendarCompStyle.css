@@ -23,11 +23,12 @@
 .day.prev-month, 
 .day.next-month {
   color: #CCCCCC;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .day.holiday {
   background-color: red;
+  border-radius: 50%;
   color: white;
 }
 .day.sunday.holiday {
@@ -40,6 +41,7 @@
 .day-names, .days {
   display: flex;
   flex-wrap: wrap;
+  cursor: pointer;
 }
 .day-name {
   color: #333333;

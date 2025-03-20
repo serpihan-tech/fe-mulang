@@ -25,25 +25,25 @@ export default function DashboardLayout({ children }) {
     }
 
     setLoading(false);
-  }, []);
+  }, [router]);
 
-    // Tutup sidebar jika ukuran layar < md (768px)
-    useEffect(() => {
-      const handleResize = () => {
-        if (window.innerWidth < 768) {
-          setSidebarOpen(false);
-        }
-      };
-  
-      // Jalankan saat pertama kali render
-      handleResize();
-  
-      // Tambahkan event listener
-      window.addEventListener("resize", handleResize);
-  
-      // Bersihkan event listener saat komponen unmount
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
+  // Tutup sidebar jika ukuran layar < md (768px)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setSidebarOpen(false);
+      }
+    };
+
+    // Jalankan saat pertama kali render
+    handleResize();
+
+    // Tambahkan event listener
+    window.addEventListener("resize", handleResize);
+
+    // Bersihkan event listener saat komponen unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Loading sebelum autentikasi selesai
   if (loading) return <p>Loading...</p>;
@@ -51,17 +51,23 @@ export default function DashboardLayout({ children }) {
 
   return (
     <ThemeProvider>
-      <div className="flex">
+      <div className="flex min-h-screen">
         {/* Sidebar */}
-        <div className={`fixed transition-all duration-300 ${sidebarOpen ? "block" : "hidden"} z-10 w-64`}>
-          <SideBar />
-        </div>
+        <SideBar 
+          open={sidebarOpen}
+          toggleSidebar={() => setSidebarOpen(!sidebarOpen)} 
+        />
 
         {/* Konten utama */}
-        <div className={`w-full ${sidebarOpen ? "ml-64" : "ml-0"}`}>
-          <DashboardHeader toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-          <div>{children}</div>
-        </div>
+        <main className={`
+          flex-1 
+          transition-all 
+          duration-300 
+          overflow-hidden
+        `}>
+          <DashboardHeader />
+          <div className="p-4">{children}</div>
+        </main>
       </div>
     </ThemeProvider>
   );
