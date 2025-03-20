@@ -1,10 +1,10 @@
 import Presensi from "../home/Presensi";
 import Periode from "../home/Periode";
-import HomeCalendar from "../home/HomeCalendar";
 import JadwalMengajar from "../home/JadwalMengajar";
 import Informasi from "../home/Informasi";
 import Card2 from "../home/Card2";
 import { Book, People } from "iconsax-react";
+import CalendarComponent from "../home/CalendarComponent";
 
 export default function TeacherDashboard() {
   return (
@@ -44,7 +44,12 @@ export default function TeacherDashboard() {
           <div>
             <Periode/>
             <Informasi/>
-            <HomeCalendar/>
+            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">
+              <div>
+                <p className="text-lg font-bold">Kalender</p>
+                <CalendarComponent/>
+              </div>
+            </div>
           </div>
         </div>
       </div>  

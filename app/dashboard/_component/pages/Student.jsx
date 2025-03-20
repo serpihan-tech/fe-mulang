@@ -1,12 +1,11 @@
 import Periode from "../home/Periode";
-import HomeCalendar from "../home/HomeCalendar";
-import JadwalMengajar from "../home/JadwalMengajar";
 import Informasi from "../home/Informasi";
 import Kehadiran from "../home/Kehadiran";
 import JadwalHariIni from "../home/JadwalHariIni";
 import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import { getStudentPresence, getStudentSchedule } from "@/app/api/siswa/ApiSiswa";
+import CalendarComponent from "../home/CalendarComponent";
 
 export default function StudentDashboard() {
   const message = sessionStorage.getItem("come_first");
@@ -100,7 +99,12 @@ export default function StudentDashboard() {
           <div className="w-1/3 pe-8">
             <Periode />
             <Informasi />
-            <HomeCalendar />
+            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">
+              <div>
+                <p className="text-lg font-bold">Kalender</p>
+                <CalendarComponent/>
+              </div>
+            </div>
           </div>
         </div>
       </div>
