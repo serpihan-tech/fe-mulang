@@ -16,7 +16,7 @@ const Breadcrumb = ({
     const pathNames = paths.split('/').filter(path => path)
 
     return (
-        <div className="text-sm text-black dark:text-white">
+        <div className="text-sm text-black dark:text-white bg-[#FAFAFA] dark:bg-dark_net-quar">
             <ul className={containerClasses}>
                 {
                     pathNames.map((link, index) => {
@@ -30,7 +30,11 @@ const Breadcrumb = ({
                         return (
                             <React.Fragment key={index}>
                                 <li className={itemClasses}>
-                                    <Link href={href}>{itemLink}</Link>
+                                    {index === 0 ? (
+                                        <span>{itemLink}</span>
+                                    ) : (
+                                        <Link href={href}>{itemLink}</Link>
+                                    )}
                                 </li>
                                 {pathNames.length !== index + 1 && separator}
                             </React.Fragment>
