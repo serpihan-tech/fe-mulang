@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import AdminSB from "./pages/AdminSB";
 import StudentSB from "./pages/Student";
 import TeacherSB from "./pages/TeacherSB";
-import { motion, AnimatePresence } from "framer-motion";
 
 export default function SideBar({isOpen,toggleSidebar}) {
   const [role, setRole] = useState(null);
