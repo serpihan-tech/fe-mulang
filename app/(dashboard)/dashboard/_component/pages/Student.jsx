@@ -81,6 +81,7 @@ export default function StudentDashboard() {
 
   return (
     <>
+    <ToastContainer />
       <div className="z-0 transition">
         <div className="bg-[#FAFAFA] dark:bg-black flex space-x-6">
           <div className="w-2/3 pr-4">

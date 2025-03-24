@@ -5,11 +5,12 @@ import Informasi from "../home/Informasi";
 import Card2 from "../home/Card2";
 import { Book, People } from "iconsax-react";
 import CalendarComponent from "../home/CalendarComponent";
+import { ToastContainer } from "react-toastify";
 
 export default function TeacherDashboard() {
   return (
     <>
-      
+      <ToastContainer />
       <div className="z-0 transition">
       
         <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-6 gap-5 ">

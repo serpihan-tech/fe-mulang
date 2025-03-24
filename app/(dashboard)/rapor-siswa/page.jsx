@@ -8,9 +8,9 @@ export default function RaporSiswa() {
   const [selectedTahunAjar, setSelectedTahunAjar] = useState(null);
 
   const tahunAjarOptions = [
-    { value: '2023-2024', label: '2023/2024' },
-    { value: '2024-2025', label: '2024/2025' },
-    { value: '2025-2026', label: '2025/2026' },
+    { value: '1', label: '2023/2024' },
+    { value: '2', label: '2024/2025' },
+    { value: '3', label: '2025/2026' },
   ];
 
   return (
