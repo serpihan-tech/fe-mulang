@@ -1,6 +1,6 @@
 "use client";
 import dynamic from 'next/dynamic';
-import { People, Teacher, Book, Award } from "iconsax-react";
+import { People, Teacher, Book, Award, ArrowRight2 } from "iconsax-react";
 import SumCard from "../home/SumCard";
 import ChartAttendance from "../home/ChartAttendance";
 import Periode from "../home/Periode";
@@ -70,7 +70,7 @@ export default function AdminDashboard() {
             <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">
               <div>
                 <p className="text-lg font-bold">Kalender</p>
-                <CalendarComponent/>
+                <CalendarComponent icon={ArrowRight2} buttonBorder={"border-[0.5px] border-[#CCC]"}/>
               </div>
             </div>
           </div>

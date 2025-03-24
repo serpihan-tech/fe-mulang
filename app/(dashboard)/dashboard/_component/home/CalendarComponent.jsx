@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../style/calendarCompStyle.css';
 import { ArrowRight2 } from 'iconsax-react';
 
-export default function CalendarComponent() {
+export default function CalendarComponent({ icon:Icon, iconVariant = 'Bold', buttonBorder, gapDays ='', dayNamesMargin='' }) {
   const [currentDate, setCurrentDate] = useState(new Date()); 
   const [daysInMonth, setDaysInMonth] = useState([]); 
   const [startDay, setStartDay] = useState(0); 
@@ -138,27 +138,27 @@ export default function CalendarComponent() {
   return (
     <div className="calendar">
       <div className="header">
-        <button onClick={prevMonth}>
-          <ArrowRight2 size="22" color="currentColor" variant="Bold" style={{transform: 'rotate(180deg)'}}/>
+        <button onClick={prevMonth} className={`${buttonBorder}`}>
+          <Icon size="22" color="currentColor" variant={iconVariant} style={{transform: 'rotate(180deg)'}}/>
         </button>
         <span>
           {currentDate.toLocaleString("default", { month: "long" })}{" "}
           {currentDate.getFullYear()}
         </span>
         <button onClick={nextMonth}>
-          <ArrowRight2 size="22" color="currentColor" variant="Bold"/>
+          <Icon size="22" color="currentColor" variant={iconVariant}/>
         </button>
       </div>
-      <div className="day-names">
+      <div className={`day-names ${dayNamesMargin} ${gapDays}`}>
         {dayNames.map((day, index) => (
           <div key={index} className="day-name">{day}</div>
         ))}
       </div>
-      <div className="days">
+      <div className={`days ${gapDays}`}>
         {daysInMonth.map((dayObj) => (
           <div
             key={dayObj.date.toISOString()}
-            className={`day ${dayObj.type} ${
+            className={`day ${dayObj.type} rounded-md ${
               dayObj.date.getDate() === new Date().getDate() &&
               dayObj.date.getMonth() === new Date().getMonth() ? 'today' : ""} ${
               selectedDate && dayObj.date.toDateString() === selectedDate.toDateString() ? 'selected' : ""} ${

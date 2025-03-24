@@ -18,11 +18,11 @@ export default function Kehadiran({ total_presence, presence, non_presence }) {
         <div className="flex space-x-16">
           <div className="flex space-x-2 items-center">
             <p className="text-black text-xl font-normal">{presence} hadir</p>
-            <div className="w-8 h-8 bg-[#0841e2] rounded-full" />
+            <div className="w-7 h-7 bg-[#0841e2] rounded-full" />
           </div>
           <div className="flex space-x-2 items-center">
             <p className="text-black text-xl font-normal">{non_presence} tidak hadir</p>
-            <div className="w-8 h-8 bg-red-600 rounded-full" />
+            <div className="w-7 h-7 bg-red-600 rounded-full" />
           </div>
         </div>
       </div>
