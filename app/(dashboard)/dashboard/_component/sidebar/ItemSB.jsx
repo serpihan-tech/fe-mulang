@@ -27,8 +27,17 @@ const HoverDropdown = ({ items, position = 'right' }) => {
   );
 };
 
-export const Logoutbtn = ({ title, icon: Icon, colorIcon }) => {
+export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true }) => {
   const router = useRouter();
+  const [shouldRenderText, setShouldRenderText] = useState(open);
+  useEffect(() => {
+    // Kendalikan delay rendering teks saat transisi sidebar selesai
+    if (open) {
+      setTimeout(() => setShouldRenderText(true), 300); // Render teks setelah transisi 300ms
+    } else {
+      setShouldRenderText(false); // Hapus teks sebelum sidebar tertutup
+    }
+  }, [open]);
 
   const handleLogout = async () => {
     try {
@@ -36,7 +45,7 @@ export const Logoutbtn = ({ title, icon: Icon, colorIcon }) => {
       
       sessionStorage.setItem("log_out", "logout");
       
-      router.push("/login"); // Redirect ke halaman login
+      router.push("/login"); 
     } catch (error) {
       toast.error("Gagal logout, silakan coba lagi.");
     }
@@ -49,7 +58,7 @@ export const Logoutbtn = ({ title, icon: Icon, colorIcon }) => {
       {/* Bagian Kiri: Ikon dan Teks */}
       <div className="flex items-center">
         <Icon size="25" className="mr-2" variant="Bold" color={colorIcon} />
-        <span>{title}</span>
+        {shouldRenderText && <span className="transition-opacity">{title}</span>}
       </div>
     </button>
   );
