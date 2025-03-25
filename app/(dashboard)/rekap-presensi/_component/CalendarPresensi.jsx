@@ -197,7 +197,7 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
               <div
                 key={dayObj.date.toISOString()}
                 className={`
-                  w-[12.75%] 
+                  w-[12.65%] 
                   p-7 
                   text-[#0841e2] 
                   border border-[#0841e2] 
