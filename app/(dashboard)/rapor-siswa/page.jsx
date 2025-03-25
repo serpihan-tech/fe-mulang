@@ -1,12 +1,31 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TabelRapor from './component/tabel-rapor';
 import Dropdown from '@/app/component/Dropdown';
+import { getStudentScore } from '@/app/api/siswa/ApiSiswa';
+import { toast } from 'react-toastify';
 
 export default function RaporSiswa() {
   const [selectedTahunAjar, setSelectedTahunAjar] = useState(null);
-
+  const [score, setScore] = useState(null)
+  const fetchScoreData = async () => {
+    try {
+        const data = await getStudentScore();
+        console.log("data", data)
+        setScore(data);
+    } catch (error) {
+        toast.error("Gagal memuat data nilai.");
+    } finally {
+        // setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchScoreData()
+    console.log(score)
+  }, [])
+    
   const tahunAjarOptions = [
     { value: '1', label: '2023/2024' },
     { value: '2', label: '2024/2025' },

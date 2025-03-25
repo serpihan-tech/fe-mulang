@@ -28,26 +28,29 @@ const HoverDropdown = ({ items, position = 'right' }) => {
 };
 
 export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true }) => {
-  const router = useRouter();
-  const [shouldRenderText, setShouldRenderText] = useState(open);
+  const router = useRouter()
+  const [shouldRenderText, setShouldRenderText] = useState(open)
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
-    // Kendalikan delay rendering teks saat transisi sidebar selesai
     if (open) {
-      setTimeout(() => setShouldRenderText(true), 300); // Render teks setelah transisi 300ms
+      setTimeout(() => setShouldRenderText(true), 300); 
     } else {
-      setShouldRenderText(false); // Hapus teks sebelum sidebar tertutup
+      setShouldRenderText(false); 
     }
-  }, [open]);
+  }, [open])
 
   const handleLogout = async () => {
+    setLoading(true)
     try {
-      await logout(); 
-      
-      sessionStorage.setItem("log_out", "logout");
-      
-      router.push("/login"); 
+      const response = await logout(); 
+      if(response){
+        sessionStorage.setItem("log_out", "logout")
+        router.push("/login")
+      }
     } catch (error) {
-      toast.error("Gagal logout, silakan coba lagi.");
+      toast.error("Gagal logout, silakan coba lagi.")
+    } finally {
+      setLoading(false)
     }
   };
   return (
@@ -58,7 +61,7 @@ export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true }) => {
       {/* Bagian Kiri: Ikon dan Teks */}
       <div className="flex items-center">
         <Icon size="25" className="mr-2" variant="Bold" color={colorIcon} />
-        {shouldRenderText && <span className="transition-opacity">{title}</span>}
+        {loading ? "Proses logout...." : shouldRenderText && <span className="transition-opacity">{title}</span>}
       </div>
     </button>
   );

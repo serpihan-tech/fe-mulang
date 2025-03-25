@@ -70,6 +70,15 @@ export const updateStudentProfile = async (id, payload, file) => {
   }
 };
 
+export const getStudentScore = async () => {
+    try {
+        const response = await ApiManager.get(`/scores/mine`);
+        return response.data;
+    } catch (error) {
+        toast.error("Gagal mengambil data kehadiran:", error);
+        throw error;
+    }
+};
 
 
 

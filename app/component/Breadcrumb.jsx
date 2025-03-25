@@ -16,7 +16,7 @@ const Breadcrumb = ({
     const pathNames = paths.split('/').filter(path => path)
 
     return (
-        <div className="text-sm text-black dark:text-white bg-[#FAFAFA] dark:bg-dark_net-quar">
+        <div className="text-sm text-black dark:text-white bg-[#FAFAFA] dark:bg-dark_net-quar transition duration-300">
             <ul className={containerClasses}>
                 {
                     pathNames.map((link, index) => {

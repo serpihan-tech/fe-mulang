@@ -5,12 +5,21 @@ import Informasi from "../home/Informasi";
 import Card2 from "../home/Card2";
 import { Book, People } from "iconsax-react";
 import CalendarComponent from "../home/CalendarComponent";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { useEffect } from 'react';
+
 
 export default function TeacherDashboard() {
+  const message = sessionStorage.getItem("come_first");
+  useEffect(() => {
+    if (message) {
+      toast.success(message);
+      sessionStorage.removeItem("come_first");
+    }
+  }, []);
   return (
     <>
-      <ToastContainer />
+      
       <div className="z-0 transition">
       
         <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-6 gap-5 ">

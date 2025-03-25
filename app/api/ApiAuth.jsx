@@ -18,7 +18,7 @@ export const login = async (credentials) => {
 
 export const logout = async () => {
   try {
-      const response = await ApiManager.get("/logout");
+      const response = await ApiManager.post("/logout");
       
       return response.data
 
@@ -26,7 +26,7 @@ export const logout = async () => {
       if (err.message.includes('Network Error')) {
       toast.error('Error 500: Server sedang bermasalah');
       } else {
-      toast.error("Anda sudah logout");
+      toast.error(err.message);
       }
   }
 };
