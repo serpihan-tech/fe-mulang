@@ -27,18 +27,30 @@ const HoverDropdown = ({ items, position = 'right' }) => {
   );
 };
 
-export const Logoutbtn = ({ title, icon: Icon, colorIcon }) => {
-  const router = useRouter();
+export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true }) => {
+  const router = useRouter()
+  const [shouldRenderText, setShouldRenderText] = useState(open)
+  const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => setShouldRenderText(true), 300); 
+    } else {
+      setShouldRenderText(false); 
+    }
+  }, [open])
 
   const handleLogout = async () => {
+    setLoading(true)
     try {
-      await logout(); 
-      
-      sessionStorage.setItem("log_out", "logout");
-      
-      router.push("/login"); // Redirect ke halaman login
+      const response = await logout(); 
+      if(response){
+        sessionStorage.setItem("log_out", "logout")
+        router.push("/login")
+      }
     } catch (error) {
-      toast.error("Gagal logout, silakan coba lagi.");
+      toast.error("Gagal logout, silakan coba lagi.")
+    } finally {
+      setLoading(false)
     }
   };
   return (
@@ -49,7 +61,7 @@ export const Logoutbtn = ({ title, icon: Icon, colorIcon }) => {
       {/* Bagian Kiri: Ikon dan Teks */}
       <div className="flex items-center">
         <Icon size="25" className="mr-2" variant="Bold" color={colorIcon} />
-        <span>{title}</span>
+        {loading ? "Proses logout...." : shouldRenderText && <span className="transition-opacity">{title}</span>}
       </div>
     </button>
   );
@@ -69,6 +81,7 @@ export default function SidebarItem({
   const pathname = usePathname();
   const isActive = url && pathname === url;
   const isDropdownActive = dropdownItems?.some(item => pathname === item.url);
+  const [shouldRenderText, setShouldRenderText] = useState(open);
 
   useEffect(() => {
     if (isDropdownActive) {
@@ -87,6 +100,15 @@ export default function SidebarItem({
       router.push(url);
     }
   };
+
+  useEffect(() => {
+    // Kendalikan delay rendering teks saat transisi sidebar selesai
+    if (open) {
+      setTimeout(() => setShouldRenderText(true), 300); // Render teks setelah transisi 300ms
+    } else {
+      setShouldRenderText(false); // Hapus teks sebelum sidebar tertutup
+    }
+  }, [open]);
 
   return (
     <div 
@@ -110,7 +132,7 @@ export default function SidebarItem({
             variant="Bold" 
             color={colorIcon}
           />
-          {open && <span>{title}</span>}
+          {shouldRenderText && <span className="transition-opacity">{title}</span>}
         </div>
 
         {/* Bagian Kanan: Ikon Panah */}
