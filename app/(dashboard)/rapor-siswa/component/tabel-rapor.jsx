@@ -21,7 +21,7 @@ export default function TabelRapor() {
           <thead className="bg-[#0841E2] text-white text-base">
             <tr>
               <th rowSpan={2} className="border border-gray-300 p-2 text-base font-medium">Mata Pelajaran</th>
-              <th colSpan={4} className="border border-gray-300 p-2 text-base font-medium text-center">Tugas Harian</th>
+              <th colSpan={5} className="border border-gray-300 p-2 text-base font-medium text-center">Tugas Harian</th>
               <th rowSpan={2} className="border border-gray-300 p-2 text-base font-medium text-center">UTS</th>
               <th rowSpan={2} className="border border-gray-300 p-2 text-base font-medium text-center">UAS</th>
               <th rowSpan={2} className="border border-gray-300 p-2 text-base font-medium text-center">Nilai Akhir</th>

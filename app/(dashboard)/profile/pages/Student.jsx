@@ -1,21 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { Edit } from "iconsax-react";
+import React, { use, useEffect, useState } from "react";
+import { Edit, Eye, EyeSlash } from "iconsax-react";
 import Image from "next/image";
 import { getProfileStudent, updateStudentProfile } from "@/app/api/siswa/ApiSiswa";
 import { toast, ToastContainer } from "react-toastify";
 import { useProfile } from "@/provider/ProfileProvider";
 import ImageCropper from "@/app/component/ImageCropper";
 import getCroppedImg from "@/app/component/getCroppedImg";
+import { change_password } from "@/app/api/ApiAuth";
+import EditPopUp from "@/app/component/EditPopUp";
+  
 
 export default function StudentProfile() {
   const data = JSON.parse(sessionStorage.getItem("profile_data"));
   const studentId = data.data.profile.id;
+  const [error, setError] = useState(false);
+  const [errors, setErrors] = useState(false);
   const [studentData, setStudentData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imageSrc, setImageSrc] = useState('/picture/default.jpg');
   const [selectedFile, setSelectedFile] = useState(null);
   const { setProfileImg } = useProfile();
   const [croppingImage, setCroppingImage] = useState(null);
+  const [oldPassword, setOldPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [formData, setFormData] = useState({
+    oldPassword : "",
+    newPassword : "",
+    newPasswordConfirmation : ""
+});
+
   
   const dataURLtoFile = (dataUrl, filename) => {
     let arr = dataUrl.split(',');
@@ -31,7 +49,6 @@ export default function StudentProfile() {
     return new File([u8arr], filename, { type: mime });
   };
 
-  // Handle ketika pengguna memilih gambar
   const handleImageChange = (event) => {
     const file = event.target.files[0];
 
@@ -62,7 +79,6 @@ export default function StudentProfile() {
   };
 
   const [tanggal, setTanggal] = useState(formatDate(new Date()));
-
   const [activeTab, setActiveTab] = useState("editProfile");
 
   const fetchDetailSiswa = async () => {
@@ -76,72 +92,109 @@ export default function StudentProfile() {
     }
   };
 
-  useEffect(() => {
-    
-
-    fetchDetailSiswa();
-}, [studentId]); // useEffect hanya dipanggil saat studentId berubah
-
-// useEffect kedua untuk memastikan studentData sudah terupdate sebelum logging
-useEffect(() => {
-    if (studentData) {
-      let images = studentData.studentDetail.profilePicture;
-      setTanggal(formatDate(new Date(studentData.studentDetail.birthDate)))
-      
-        console.log("sdee:", studentData);
-    }
-}, [studentData]);
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  const image = studentData?.studentDetail.profilePicture
-
-  const payload = {
-    student: {
-      is_graduate: studentData?.isGraduate, 
-      name: studentData?.name,
-    },
-    student_detail: {
-      nis: studentData?.studentDetail?.nis || "",
-      nisn: studentData?.studentDetail?.nisn || "",
-      gender:  "",
-      religion: studentData?.studentDetail?.religion || "",
-      birth_date:  "",
-      birth_place:  "",
-      address: studentData?.studentDetail?.address || "",
-      enrollment_year:  "",
-      parents_name: studentData?.studentDetail?.parentsName || "",
-      parents_phone: "",
-      parents_job: studentData?.studentDetail?.parentsJob || "",
-      students_phone: studentData?.studentDetail?.studentsPhone || "",
-      
-    },
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
+  useEffect(() => {
+    fetchDetailSiswa();
+  }, [studentId]); 
 
+  useEffect(() => {
+      if (studentData) {
+        let images = studentData.studentDetail.profilePicture;
+        setTanggal(formatDate(new Date(studentData.studentDetail.birthDate)))
+        
+          console.log("sdee:", studentData);
+      }
+  }, [studentData]);
 
-  try {
-    const response = await updateStudentProfile(studentId, payload, selectedFile)
-    if(response.status == 200){
-      toast.success(response.data.message)
-      const newProfileImg = response.data.student.studentDetail.profilePicture;
-      setProfileImg(newProfileImg);
-      sessionStorage.setItem("profile_img", newProfileImg); 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const image = studentData?.studentDetail.profilePicture
+
+    const payload = {
+      student: {
+        is_graduate: studentData?.isGraduate, 
+        name: studentData?.name,
+      },
+      student_detail: {
+        nis: studentData?.studentDetail?.nis || "",
+        nisn: studentData?.studentDetail?.nisn || "",
+        gender:  "",
+        religion: studentData?.studentDetail?.religion || "",
+        birth_date:  "",
+        birth_place:  "",
+        address: studentData?.studentDetail?.address || "",
+        enrollment_year:  "",
+        parents_name: studentData?.studentDetail?.parentsName || "",
+        parents_phone: "",
+        parents_job: studentData?.studentDetail?.parentsJob || "",
+        students_phone: studentData?.studentDetail?.studentsPhone || "",
+        
+      },
+    };
+
+    try {
+      const response = await updateStudentProfile(studentId, payload, selectedFile)
+      if(response.status == 200){
+        toast.success(response.data.message)
+        const newProfileImg = response.data.student.studentDetail.profilePicture;
+        setProfileImg(newProfileImg);
+        sessionStorage.setItem("profile_img", newProfileImg); 
+        
+        fetchDetailSiswa(); 
+        
+      }
       
-      fetchDetailSiswa(); 
-      
+
+    } catch (error) {
+      toast.error(error);
+      alert("Terjadi kesalahan saat memperbarui data.");
     }
-    
+  };
 
-  } catch (error) {
-    toast.error(error);
-    alert("Terjadi kesalahan saat memperbarui data.");
+  const handleChangePassword = async (e) => {
+    setLoading(true)
+    e.preventDefault();
+    const payload = {
+      oldPassword: formData.oldPassword,
+      newPassword: formData.newPassword,
+      newPasswordConfirmation: formData.newPasswordConfirmation
+    };
+
+    try {
+      const response = await change_password(payload);
+      console.log(response)
+      if(response && response.status == 200){
+        toast.success(response.data.message)
+        fetchDetailSiswa()
+        setError(false)
+        setErrors(false)
+      } else {
+        setErrors(true)
+      }
+      
+    } finally {
+      
+      setLoading(false)
+      setIsEdit(false)
+      setFormData({ oldPassword: "", newPassword: "", newPasswordConfirmation: "" });
+    }
+  };
+  
+  const handleEdit = async(e) => {
+    e.preventDefault();
+    if(formData.newPassword == formData.newPasswordConfirmation){
+      setIsEdit(true)
+    } else {
+      setError(true)
+    }
   }
-};
-
-
-
 
   const renderContent = () => {
     if (activeTab === "editProfile") {
@@ -155,7 +208,6 @@ const handleSubmit = async (e) => {
               onCancel={() => setCroppingImage(null)}
             />
           )}
-          <ToastContainer />
           <div className= "relative w-[150px] h-[150px] flex items-center">
             <Image 
               src={studentData?.studentDetail.profilePicture || imageSrc } 
@@ -234,12 +286,13 @@ const handleSubmit = async (e) => {
                           name="gender"
                           checked={isChecked}
                           disabled
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 
-                          dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          className={`w-4 h-4 border-gray-300 focus:ring-2 focus:ring-pri-main 
+                            disabled:bg-pri-main disabled:border-pri-main bg-gray-100 
+                            dark:bg-gray-700 dark:border-gray-600`}
                         />
                         <label
                           htmlFor={gender.toLowerCase()}
-                          className=" text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="text-sm font-medium text-black dark:text-gray-300"
                         >
                           {gender}
                         </label>
@@ -265,8 +318,9 @@ const handleSubmit = async (e) => {
                           name="status"
                           checked={isChecked}
                           disabled
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 
-                          dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          className={`w-4 h-4 border-gray-300 focus:ring-2 focus:ring-pri-main 
+                            disabled:bg-pri-main disabled:border-pri-main bg-gray-100 
+                            dark:bg-gray-700 dark:border-gray-600`}
                         />
                         <label
                           htmlFor={status.label.toLowerCase().replace(" ", "-")}
@@ -319,33 +373,131 @@ const handleSubmit = async (e) => {
       );
   } else if (activeTab === "changePassword") {
     return (
-      <div className="mt-6 space-y-5">
-          <div className="space-y-[5px]">
-            <label className="text-black text-sm font-medium">Kata Sandi Lama</label>
-            <input type="password" 
-              placeholder="Masukkan kata sandi lama"
-              className="w-full rounded-md py-2 px-4 text-sm font-medium border border-gray-400 "
-            />
-          </div>
-          <div className="space-y-[5px]">
-            <label className="text-black text-sm font-medium">Kata Sandi Baru</label>
-            <input type="password" 
-              placeholder="Masukkan kata sandi baru"
-              className="w-full rounded-md py-2 px-4 text-sm font-medium border border-gray-400"
-            />
-          </div>
-          <div className="space-y-[5px]">
-            <label className="text-black text-sm font-medium">Konfirmasi Kata Sandi Baru</label>
-            <input type="password" 
-              placeholder="Ulangi kata sandi baru"
-              className="w-full rounded-md py-2 px-4 text-sm font-medium border border-gray-400"
-            />
-          </div>
-          <div className="w-full flex justify-end pt-[50px]">
-            <button className="w-[147px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-800 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
-              Simpan
-            </button>
-          </div>
+
+        <div className="mt-6 text-black">
+          {/* Pop-up Konfirmasi Delete */}
+          {isEdit && (
+            <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+              <EditPopUp
+                onCancel={() => setIsEdit(false)}
+                onConfirm={handleChangePassword}
+                isLoading={loading}
+              />
+            </div>
+          )}
+          
+          <form onSubmit={handleEdit}>
+            <div className="space-y-[5px] mb-5">
+              <label className="text-black text-sm font-medium">Kata Sandi Lama</label>
+              <div className="relative w-full"> 
+                <input 
+                  name="oldPassword"
+                  value={formData.oldPassword}
+                  onChange={handleChange}
+                  placeholder="Masukkan kata sandi lama"
+                  type={showOldPassword ? "text" : "password"}
+                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200
+                    bg-white text-gray-900 placeholder-gray-400 pr-12
+                    dark:bg-gray-800 dark:text-white dark:placeholder-netral-30 
+                    ${error || errors? 
+                      "border-err-main focus:ring-err-main dark:border-red-400 dark:focus:ring-red-400" 
+                      : 
+                      "border-gray-300 focus:ring-pri-main dark:border-netral-30 dark:focus:ring-pri-border"
+                    }`}
+                    required
+                />
+                <button 
+                  type="button"
+                  className="absolute inset-y-0 right-4 flex items-center justify-center text-gray-500 dark:text-gray-300"
+                  onClick={() => setShowOldPassword(!showOldPassword)}
+                >
+                  {showOldPassword ? (
+                    <EyeSlash size="20" color="#7F7F7F" variant="Outline" />
+                  ) : (
+                    <Eye size="20" color="#7F7F7F" variant="Outline"/>
+                  )}
+                </button>
+              </div>
+              
+            </div>
+
+            <div className="space-y-[5px] mb-5">
+              <label className="text-black text-sm font-medium">Kata Sandi Baru</label>
+              <div className="relative w-full"> 
+                <input 
+                  name="newPassword"
+                  value={formData.newPassword}
+                  onChange={handleChange}
+                  placeholder="Masukkan kata sandi lama"
+                  type={showPassword ? "text" : "password"}
+                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200
+                    bg-white text-gray-900 placeholder-gray-400 pr-12
+                    dark:bg-gray-800 dark:text-white dark:placeholder-netral-30 
+                    ${error || errors ? 
+                      "border-err-main focus:ring-err-main dark:border-red-400 dark:focus:ring-red-400" 
+                      : 
+                      "border-gray-300 focus:ring-pri-main dark:border-netral-30 dark:focus:ring-pri-border"
+                    }`}
+                    required
+                />
+                <button 
+                  type="button"
+                  className="absolute inset-y-0 right-4 flex items-center justify-center text-gray-500 dark:text-gray-300"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeSlash size="20" color="#7F7F7F" variant="Outline" />
+                  ) : (
+                    <Eye size="20" color="#7F7F7F" variant="Outline"/>
+                  )}
+                </button>
+              </div>
+              {error && <span className="text-xs text-err-main absolute">Kata sandi baru dan konfirmasi kata sandi baru harus sama!</span>}
+            </div>
+
+            <div className="space-y-[5px] mb-5">
+              <label className="text-black text-sm font-medium">Konfirmasi Kata Sandi Baru</label>
+              <div className="relative w-full"> 
+                <input 
+                  name="newPasswordConfirmation"
+                  value={formData.newPasswordConfirmation}
+                  onChange={handleChange}
+                  placeholder="Masukkan kata sandi lama"
+                  type={showConfirmPassword ? "text" : "password"}
+                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200
+                    bg-white text-gray-900 placeholder-gray-400 pr-12
+                    dark:bg-gray-800 dark:text-white dark:placeholder-netral-30 
+                    ${error || errors? 
+                      "border-err-main focus:ring-err-main dark:border-red-400 dark:focus:ring-red-400" 
+                      : 
+                      "border-gray-300 focus:ring-pri-main dark:border-netral-30 dark:focus:ring-pri-border"
+                    }`}
+                    required
+                />
+                <button 
+                  type="button"
+                  className="absolute inset-y-0 right-4 flex items-center justify-center text-gray-500 dark:text-gray-300"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showOldPassword ? (
+                    <EyeSlash size="20" color="#7F7F7F" variant="Outline" />
+                  ) : (
+                    <Eye size="20" color="#7F7F7F" variant="Outline"/>
+                  )}
+                </button>
+              </div>
+              {error && <span className="text-xs text-err-main">Kata sandi baru dan konfirmasi kata sandi baru harus sama!</span>}
+            </div>
+
+            <div className="w-full flex justify-end pt-[50px]">
+              <button 
+                type="submit"
+                className="w-[147px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-800 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+                Simpan
+              </button>
+            </div>
+          </form>
+          
         </div>
       );
     }
@@ -353,6 +505,7 @@ const handleSubmit = async (e) => {
 
   return (
     <div>
+    <ToastContainer />
       <h1 className="text-black text-xl font-semibold ">Profil Pengguna</h1>
       <div className="w-full py-5 px-4 mt-[25px]">
         <div className="w-full flex border-b-[1.5px] border-[#0841e2] space-x-4">

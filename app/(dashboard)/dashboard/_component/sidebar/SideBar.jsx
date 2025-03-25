@@ -46,7 +46,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
         {role === "admin" && <AdminSB open={isOpen} />}
       </div>
 
-      <Logoutbtn title={isOpen ? "Logout" : ""} icon={LogoutCurve} colorIcon="currentColor" />
+      <Logoutbtn title='Log out' open={isOpen} icon={LogoutCurve} colorIcon="currentColor" />
     </div>
   );
 }
