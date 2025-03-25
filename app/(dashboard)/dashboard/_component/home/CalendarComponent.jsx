@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import '../style/calendarCompStyle.css';
 import { ArrowRight2 } from 'iconsax-react';
 
 export default function CalendarComponent() {
@@ -136,12 +135,6 @@ export default function CalendarComponent() {
   };
 
   return (
-<<<<<<< Updated upstream
-    <div className="calendar">
-      <div className="header">
-        <button onClick={prevMonth}>
-          <ArrowRight2 size="22" color="currentColor" variant="Bold" style={{transform: 'rotate(180deg)'}}/>
-=======
     <div className="w-full overflow-hidden p-2.5 bg-white rounded-lg">
       <div className="flex justify-between items-center text-black bg-white text-lg font-medium mb-6">
         <button 
@@ -149,19 +142,11 @@ export default function CalendarComponent() {
           className={`p-1.5 rounded-md ${buttonBorder}`}
         >
           <Icon size="22" color="currentColor" variant={iconVariant} style={{transform: 'rotate(180deg)'}}/>
->>>>>>> Stashed changes
         </button>
         <span>
           {currentDate.toLocaleString("default", { month: "long" })}{" "}
           {currentDate.getFullYear()}
         </span>
-<<<<<<< Updated upstream
-        <button onClick={nextMonth}>
-          <ArrowRight2 size="22" color="currentColor" variant="Bold"/>
-        </button>
-      </div>
-      <div className="day-names">
-=======
         <button 
           onClick={nextMonth}
           className="p-1.5 rounded-md"
@@ -171,7 +156,6 @@ export default function CalendarComponent() {
       </div>
   
       <div className={`flex flex-wrap cursor-pointer ${dayNamesMargin} ${gapDays}`}>
->>>>>>> Stashed changes
         {dayNames.map((day, index) => (
           <div 
             key={index} 
@@ -181,19 +165,6 @@ export default function CalendarComponent() {
           </div>
         ))}
       </div>
-<<<<<<< Updated upstream
-      <div className="days">
-        {daysInMonth.map((dayObj) => (
-          <div
-            key={dayObj.date.toISOString()}
-            className={`day ${dayObj.type} ${
-              dayObj.date.getDate() === new Date().getDate() &&
-              dayObj.date.getMonth() === new Date().getMonth() ? 'today' : ""} ${
-              selectedDate && dayObj.date.toDateString() === selectedDate.toDateString() ? 'selected' : ""} ${
-              isNationalHoliday(dayObj.date) ? 'holiday' : ""} ${
-              dayObj.date.getDay() === 0 ? 'sunday' : ""
-            }`}
-=======
   
       <div className={`flex flex-wrap cursor-pointer rounded-full ${gapDays}`}>
         {daysInMonth.map((dayObj) => (
@@ -208,7 +179,6 @@ export default function CalendarComponent() {
               ${isNationalHoliday(dayObj.date) ? 'bg-red-500 text-white rounded-full' : ''}
               ${dayObj.date.getDay() === 0 ? 'text-red-500' : ''}
             `}
->>>>>>> Stashed changes
             onClick={() => handleDateClick(dayObj.date)}
           >
             {dayObj.date.getDate()}
