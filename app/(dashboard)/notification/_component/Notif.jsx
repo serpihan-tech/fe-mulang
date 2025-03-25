@@ -7,6 +7,7 @@ export default function Notif({
   date,
   title,
   content,
+  contentGap = 'space-y-3',
   variant = 'default',
   subjectName,
   bgSubject,
@@ -44,7 +45,7 @@ export default function Notif({
           alt={sender}
         />
       </div>
-      <div className="w-full space-y-3">
+      <div className={`w-full ${contentGap}`}>
         <div className="w-full flex justify-between items-center">
           <div className="flex items-center"> 
             <h2 className="justify-center text-blue-700 text-lg font-bold">

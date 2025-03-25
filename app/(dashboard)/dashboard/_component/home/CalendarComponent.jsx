@@ -139,9 +139,9 @@ export default function CalendarComponent() {
       <div className="flex justify-between items-center text-black bg-white text-lg font-medium mb-6">
         <button 
           onClick={prevMonth} 
-          className={`p-1.5 rounded-md ${buttonBorder}`}
+          className="p-1.5 rounded-md border-[1px]"
         >
-          <Icon size="22" color="currentColor" variant={iconVariant} style={{transform: 'rotate(180deg)'}}/>
+          <ArrowRight2 size="22" color="currentColor" variant="Bold" style={{transform: 'rotate(180deg)'}}/>
         </button>
         <span>
           {currentDate.toLocaleString("default", { month: "long" })}{" "}
@@ -149,13 +149,13 @@ export default function CalendarComponent() {
         </span>
         <button 
           onClick={nextMonth}
-          className="p-1.5 rounded-md"
+          className="p-1.5 rounded-md border-[1px]"
         >
-          <Icon size="22" color="currentColor" variant={iconVariant}/>
+          <ArrowRight2 size="22" color="currentColor" variant="Bold"/>
         </button>
       </div>
   
-      <div className={`flex flex-wrap cursor-pointer ${dayNamesMargin} ${gapDays}`}>
+      <div className={`flex flex-wrap cursor-pointer`}>
         {dayNames.map((day, index) => (
           <div 
             key={index} 
@@ -166,7 +166,7 @@ export default function CalendarComponent() {
         ))}
       </div>
   
-      <div className={`flex flex-wrap cursor-pointer rounded-full ${gapDays}`}>
+      <div className={`flex flex-wrap cursor-pointer rounded-full`}>
         {daysInMonth.map((dayObj) => (
           <div
             key={dayObj.date.toISOString()}
