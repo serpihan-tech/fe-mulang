@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
 import ApiManager from "./ApiManager";
 
-export const data_siswa = async (page=1) => {
+export const data_siswa = async (page=1,limit) => {
     try {
-        const response = await ApiManager.get(`/students?page=${page}`,{
+        const response = await ApiManager.get(`/students?page=${page}&limit=${limit}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -134,7 +134,7 @@ export const data_semester = async (limit, page) => {
                 "ngrok-skip-browser-warning": "69420",
             }
         });
-        return response.data;
+        return response.data.academicYears;
 
     } catch (err) {
         if (err.message.includes('Network Error')) {

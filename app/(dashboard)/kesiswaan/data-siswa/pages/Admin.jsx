@@ -18,9 +18,9 @@ export default function AdminDataSiswa() {
     const [currentPage, setCurrentPage] = useState(1);
     const [limit, setLimit] = useState(null);
 
-    const fetchDataSiswa = async (page = 1) => {
+    const fetchDataSiswa = async (page = 1,limitVal = limit) => {
         try {
-            const data = await data_siswa(page);
+            const data = await data_siswa(page,limitVal);
             const dataArray = data.students.data
             console.log(dataArray)
             if (Array.isArray(dataArray)) {

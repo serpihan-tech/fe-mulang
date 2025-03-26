@@ -1,23 +1,36 @@
 "use client";
-import React from "react";
 import { Calendar } from "iconsax-react";
 import Dropdown from "@/app/component/Dropdown";
+import { data_semester } from "@/app/api/ApiKesiswaan";
+import { useSemester } from "@/provider/SemesterProvider";
+import { toast } from "react-toastify";
+import React,{ useEffect, useState } from "react";
+import ApiManager from "@/app/api/ApiManager";
 
 export default function Periode() {
-  const periodOptions = [
-    { label: "Genap 2024-2025", value: "genap_2024_2025" },
-    { label: "Ganjil 2024-2025", value: "ganjil_2024_2025" },
-    { label: "Genap 2023-2024", value: "genap_2023_2024" },
-    { label: "Ganjil 2023-2024", value: "ganjil_2023_2024" },
-  ];
-
-  const [selectedPeriod, setSelectedPeriod] = React.useState(periodOptions[0]);
-
+  const { semesterId, setSemesterId, allSemesters } = useSemester()
+  const [selectedPeriod, setSelectedPeriod] = useState(null)
+  console.log(allSemesters)
+    // Sinkronisasi nama awal hanya jika `semesterId` valid
+    useEffect(() => {
+      if (semesterId) {
+        const initialSemester = allSemesters.find((option) => option.value === semesterId);
+        console.log("semester inisial: ",semesterId)
+        console.log("initial:",initialSemester)
+        setSelectedPeriod(initialSemester || " "); // fallback hanya jika tidak ditemukan
+      }
+    }, [allSemesters, semesterId]);
+  
+    // Handler perubahan dropdown
+    const handleDropdownChange = (selectedOption) => {
+      setSelectedPeriod(selectedOption);
+      setSemesterId(selectedOption.value);
+    };
   return (
     <Dropdown
-      options={periodOptions}
+      options={allSemesters}
       value={selectedPeriod}
-      onChange={setSelectedPeriod}
+      onChange={handleDropdownChange}
       icon={Calendar}
       iconSize="w-8"
       title="Periode"

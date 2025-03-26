@@ -4,8 +4,10 @@ import { createContext, useContext, useState } from "react";
 const ProfileContext = createContext();
 
 export const ProfileProvider = ({ children }) => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const linkImg = sessionStorage.getItem("profile_img");
   const [profileImg, setProfileImg] = useState(
-    sessionStorage.getItem("profile_img") || null
+    linkImg ? `${baseUrl}/image/${linkImg}` : null
   );
 
   return (

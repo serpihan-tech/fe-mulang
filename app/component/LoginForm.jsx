@@ -27,12 +27,15 @@ export default function LoginForm() {
       const response = await login(credentials);
       if(response){
         console.log(response)
+        sessionStorage.setItem("semesterId", response.data.activeSemester.id)
         sessionStorage.setItem("token",response.token.token);
         sessionStorage.setItem("role",response.role);
         sessionStorage.setItem("full_name",response.data.profile.name);
         sessionStorage.setItem("come_first", response.message);
         sessionStorage.setItem("profile_data", JSON.stringify(response));
-        router.push("/dashboard");
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 100);
       }
       
     } finally {

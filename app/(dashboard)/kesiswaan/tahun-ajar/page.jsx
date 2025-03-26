@@ -32,9 +32,9 @@ export default function TahunAjar() {
 
   const fetchDataSemester = async (limitVal = limit, page=1) => {
     try {
-        const data = await data_semester(limitVal);
-        const dataArray = data.academicYears.data
-        console.log(dataArray)
+        const data = await data_semester(limitVal,page)
+        const dataArray = data.data
+        console.log(data)
         if (Array.isArray(dataArray)) {
             // Mapping agar sesuai dengan format tabel
             const formattedData = dataArray.map((item) => ({
@@ -49,10 +49,10 @@ export default function TahunAjar() {
             setSemesterData(formattedData);
         }
 
-        setMeta(data.academicYears.meta); 
+        setMeta(data.meta); 
         setCurrentPage(page);
     } catch (error) {
-        toast.error("Server pekok");
+        toast.error(error.message);
     } finally {
         setLoading(false);
     }

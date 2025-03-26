@@ -6,6 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import { getStudentPresence, getStudentSchedule } from "@/app/api/siswa/ApiSiswa";
 import CalendarComponent from "../home/CalendarComponent";
+import { useSemester } from "@/provider/SemesterProvider";
 
 export default function StudentDashboard() {
   const message = sessionStorage.getItem("come_first");
@@ -75,6 +76,8 @@ export default function StudentDashboard() {
   console.log("data jadwal:",scheduleData)
   const studentId= sessionStorage.getItem('student_id')
   console.log(studentId)
+  const { semesterId } = useSemester()
+  console.log("semester:",semesterId)
 
   if (loading) return <p>Loading...</p>;
   if (!presenceData) return <p>Data tidak ditemukan</p>;

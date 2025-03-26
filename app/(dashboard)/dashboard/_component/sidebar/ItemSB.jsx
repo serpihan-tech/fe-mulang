@@ -44,7 +44,7 @@ export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true }) => {
     try {
       const response = await logout(); 
       if(response){
-        sessionStorage.setItem("log_out", "logout")
+        sessionStorage.setItem("log_out", response.message)
         router.push("/login")
       }
     } catch (error) {

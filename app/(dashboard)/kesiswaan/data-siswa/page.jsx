@@ -6,33 +6,33 @@ import AdminDataSiswa from "./pages/Admin";
 import TeacherDataSiswa from "./pages/Teacher";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function DataSiswa() {
+  const [limit, setLimit] = useState(10)
   const router = useRouter()
-  const [role, setRole] = useState(null);
-    const [loading, setLoading] = useState(true); // State loading
+  const [role, setRole] = useState(null)
+  const [loading, setLoading] = useState(true)
   
-    useEffect(() => {
-            const token = sessionStorage.getItem("token");
-            const userRole = sessionStorage.getItem("role");
-            
-        
-            if (!token || !userRole) {
-              alert("Session anda terputus, harap login ulang");
-              router.replace("/login");
-            } else {
-              setRole(userRole);
-              
-        
-              // Redirect if the user is not an admin
-              if (userRole !== "admin") {
-                alert("Anda tidak memiliki akses ke halaman ini");
-                router.replace("/dashboard");
-              }
-            }
-        
-            setLoading(false);
-          }, [router]);
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const userRole = sessionStorage.getItem("role");
+    
+
+    if (!token || !userRole) {
+      toast.error("Session anda terputus, harap login ulang");
+      router.replace("/login");
+    } else {
+      setRole(userRole);
+      
+      if (userRole !== "admin") {
+        toast.error("Anda tidak memiliki akses ke halaman ini");
+        router.replace("/dashboard");
+      }
+    }
+
+    setLoading(false);
+  }, [router]);
   return (
     <>
       {role === "admin" && <AdminDataSiswa />}

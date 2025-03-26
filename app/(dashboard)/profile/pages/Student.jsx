@@ -11,13 +11,14 @@ import EditPopUp from "@/app/component/EditPopUp";
   
 
 export default function StudentProfile() {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const data = JSON.parse(sessionStorage.getItem("profile_data"));
   const studentId = data.data.profile.id;
   const [error, setError] = useState(false);
   const [errors, setErrors] = useState(false);
   const [studentData, setStudentData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [imageSrc, setImageSrc] = useState('/picture/default.jpg');
+  const [imageSrc, setImageSrc] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const { setProfileImg } = useProfile();
   const [croppingImage, setCroppingImage] = useState(null);
@@ -55,7 +56,7 @@ export default function StudentProfile() {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setCroppingImage(e.target.result); // Tampilkan cropper dulu
+        setCroppingImage(e.target.result)
       };
       reader.readAsDataURL(file);
     }
@@ -64,9 +65,9 @@ export default function StudentProfile() {
   const handleCropComplete = async (_, croppedAreaPixels) => {
     const { file, base64 } = await getCroppedImg(croppingImage, croppedAreaPixels);
   
-    setImageSrc(base64); // Tampilkan preview gambar yang telah dicrop
-    setSelectedFile(file); // Simpan file untuk dikirim ke backend
-    setCroppingImage(null); // Tutup modal cropper
+    setImageSrc(base64)
+    setSelectedFile(file) 
+    setCroppingImage(null) 
   
     setStudentData((prev) => ({
       ...prev,
@@ -108,7 +109,7 @@ export default function StudentProfile() {
         let images = studentData.studentDetail.profilePicture;
         setTanggal(formatDate(new Date(studentData.studentDetail.birthDate)))
         
-          console.log("sdee:", studentData);
+          console.log("sdee:", studentData)
       }
   }, [studentData]);
 
@@ -137,15 +138,15 @@ export default function StudentProfile() {
         students_phone: studentData?.studentDetail?.studentsPhone || "",
         
       },
-    };
+    }
 
     try {
       const response = await updateStudentProfile(studentId, payload, selectedFile)
       if(response.status == 200){
         toast.success(response.data.message)
-        const newProfileImg = response.data.student.studentDetail.profilePicture;
-        setProfileImg(newProfileImg);
-        sessionStorage.setItem("profile_img", newProfileImg); 
+        const newProfileImg = baseUrl+'/image/'+response.data.student.studentDetail.profilePicture
+        setProfileImg(newProfileImg)
+        sessionStorage.setItem("profile_img", newProfileImg)
         
         fetchDetailSiswa(); 
         
@@ -210,7 +211,7 @@ export default function StudentProfile() {
           )}
           <div className= "relative w-[150px] h-[150px] flex items-center">
             <Image 
-              src={studentData?.studentDetail.profilePicture || imageSrc } 
+              src={imageSrc || (baseUrl+'/image/'+ studentData?.studentDetail.profilePicture)  } 
               className="rounded-full w-full h-full object-cover"
               alt="user photo" 
               width={150} 

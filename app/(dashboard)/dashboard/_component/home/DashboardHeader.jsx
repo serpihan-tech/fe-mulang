@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function DashboardHeader({ toggleSidebar }) {
+export default function DashboardHeader() {
   const router = useRouter();
   const full_name = sessionStorage.getItem("full_name");
   const first_name = full_name.split(" ")[0];
@@ -13,6 +13,7 @@ export default function DashboardHeader({ toggleSidebar }) {
   const { profileImg } = useProfile();
   const role =   sessionStorage.getItem("role");
   const data = sessionStorage.getItem("profile_data");
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -21,7 +22,8 @@ export default function DashboardHeader({ toggleSidebar }) {
         try {
           if (role === "student"){
             const user = JSON.parse(data);
-            let images = user.data.profile.details.profilePicture || [];
+            let image = user.data.profile.details.profilePicture || [];
+            let images = baseUrl+"/image/"+image
             console.log("images link:" ,images)
             // Jika hanya satu string, ubah menjadi array
             if (typeof images === "string") {
@@ -32,8 +34,8 @@ export default function DashboardHeader({ toggleSidebar }) {
 
           } else if(role === "teacher") {
             const user = JSON.parse(data);
-            let images = user.data.profile.profilePicture || [];
-
+            let image = user.data.profile.profilePicture || [];
+            let images = baseUrl+"/image/"+image
             // Jika hanya satu string, ubah menjadi array
             if (typeof images === "string") {
               images = [images];

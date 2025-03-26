@@ -1,8 +1,12 @@
+import { useSemester } from "@/provider/SemesterProvider";
+
 export default function Kehadiran({ total_presence, presence, non_presence }) {
   // Hitung persentase kehadiran
   const presencePercentage = total_presence > 0 
     ? Math.round((presence / total_presence) * 100) 
     : 0;
+
+    const {semesterId,allSemester} = useSemester()
 
   return (
     <div className="w-full space-y-6">
