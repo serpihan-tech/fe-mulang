@@ -18,7 +18,7 @@
 .header button {
   padding: 5px;
   border-radius: 5px;
-  border: 0.5px solid var(--netral-10, #CCC);
+  /* border: 0.5px solid var(--netral-10, #CCC); */
 }
 .day.prev-month, 
 .day.next-month {

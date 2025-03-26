@@ -3,7 +3,7 @@ import Periode from "../home/Periode";
 import JadwalMengajar from "../home/JadwalMengajar";
 import Informasi from "../home/Informasi";
 import Card2 from "../home/Card2";
-import { Book, People } from "iconsax-react";
+import { ArrowRight2, Book, People } from "iconsax-react";
 import CalendarComponent from "../home/CalendarComponent";
 import { toast, ToastContainer } from "react-toastify";
 import { useEffect } from 'react';
@@ -57,7 +57,7 @@ export default function TeacherDashboard() {
             <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">
               <div>
                 <p className="text-lg font-bold">Kalender</p>
-                <CalendarComponent/>
+                <CalendarComponent icon={ArrowRight2} buttonBorder={"border-[0.5px] border-[#CCC]"}/>
               </div>
             </div>
           </div>

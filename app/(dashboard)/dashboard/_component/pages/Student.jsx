@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { getStudentPresence, getStudentSchedule } from "@/app/api/siswa/ApiSiswa";
 import CalendarComponent from "../home/CalendarComponent";
 import { useSemester } from "@/provider/SemesterProvider";
+import { ArrowRight2 } from "iconsax-react";
 
 export default function StudentDashboard() {
   const message = sessionStorage.getItem("come_first");
@@ -85,8 +86,8 @@ export default function StudentDashboard() {
   return (
     <>
       <div className="z-0 transition">
-        <div className="bg-[#FAFAFA] dark:bg-black flex space-x-6 pt-5">
-          <div className="w-2/3 ps-8 pr-4">
+        <div className="bg-[#FAFAFA] dark:bg-black flex space-x-6">
+          <div className="w-2/3 pl-8 pr-4">
             <Kehadiran
               total_presence={presenceData.total}
               presence={presenceData.hadir}
@@ -105,7 +106,7 @@ export default function StudentDashboard() {
             <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">
               <div>
                 <p className="text-lg font-bold">Kalender</p>
-                <CalendarComponent/>
+                <CalendarComponent icon={ArrowRight2} buttonBorder={"border-[0.5px] border-[#CCC]"}/>
               </div>
             </div>
           </div>
