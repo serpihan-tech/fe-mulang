@@ -4,6 +4,8 @@ import { useRouter,usePathname } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import MataPelajaranAdmin from "./pages/Admin";
 import MataPelajaranTeacher from "./pages/Teacher";
+import Lottie from "lottie-react";
+import animationData from "../../../../public/animation/Loading.json";
 
 export default function KBM() {
   const router = useRouter();
@@ -33,7 +35,12 @@ export default function KBM() {
     setLoading(false);
   }, [router]);
 
-  if (loading) return <p>Loading...</p>; // Hindari rendering sebelum validasi selesai
+  if (loading) return 
+  <Lottie
+    animationData={animationData}
+    className="flex justify-center items-center"
+    loop={true}
+  />; // Hindari rendering sebelum validasi selesai
 
   return (
     <div className="text-black dark:text-white">

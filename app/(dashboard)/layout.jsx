@@ -8,6 +8,8 @@ import DashboardHeader from "./dashboard/_component/home/DashboardHeader";
 import Breadcrumb from "../component/Breadcrumb";
 import { Copyright } from "iconsax-react";
 import { SemesterProvider } from "@/provider/SemesterProvider";
+import Lottie from "lottie-react";
+import animationData from "../../public/animation/Loading.json";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -50,7 +52,11 @@ export default function DashboardLayout({ children }) {
   }, []);
 
   // Loading sebelum autentikasi selesai
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Lottie
+  animationData={animationData}
+  className="flex justify-center items-center"
+  loop={true}
+/>;
   if (!isAuthenticated) return null;
   
   return (

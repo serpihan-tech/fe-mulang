@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import AbsenTable from "../_component/AbsenTable";
 import { data_siswa } from "@/app/api/ApiKesiswaan";
 import { toast } from "react-toastify";
+import Lottie from "lottie-react";
+import animationData from "../../../../../public/animation/Loading.json";
 
 export default function AbsensiSiswaTeacher() {
   const classOptions = [
@@ -97,7 +99,11 @@ export default function AbsensiSiswaTeacher() {
           </div>
           <div className="px-5 mt-7">
             {loading ? (
-              <p>Loading...</p>
+              <Lottie
+              animationData={animationData}
+              className="flex justify-center items-center"
+              loop={true}
+            />
             ) : (
               <AbsenTable data={siswaData} columns={columns} />
             )}

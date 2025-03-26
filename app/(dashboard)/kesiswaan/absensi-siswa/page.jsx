@@ -5,6 +5,8 @@ import { toast, ToastContainer } from "react-toastify";
 import DataSiswaAdmin from "./pages/Admin";
 import AbsensiSiswaAdmin from "./pages/Admin";
 import AbsensiSiswaTeacher from "./pages/Teacher";
+import Lottie from "lottie-react";
+import animationData from "../../../../public/animation/Loading.json";
 
 export default function AbsensiSiswa() {
   const router = useRouter();
@@ -34,7 +36,12 @@ export default function AbsensiSiswa() {
     setLoading(false);
   }, [router]);
 
-  if (loading) return <p>Loading...</p>; // Hindari rendering sebelum validasi selesai
+  if (loading) return 
+  <Lottie
+    animationData={animationData}
+    className="flex justify-center items-center"
+    loop={true}
+  />; // Hindari rendering sebelum validasi selesai
 
   return (
     <div className="text-black dark:text-white">
