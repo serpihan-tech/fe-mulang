@@ -1,65 +1,51 @@
 "use client";
 
-import { data_absen_siswa } from "@/app/api/ApiKesiswaan";
-// import Breadcrumb from "@/app/component/Breadcrumb";
-// import DeletePopUp from "@/app/component/DeletePopUp";
-// import PaginationComponent from "@/app/component/Pagination";
-// import SmallButton from "@/app/component/SmallButton";
-// import TableComponent from "@/app/component/Table";
-// import { Copyright, DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
-// import { useRouter } from "next/navigation";
+import { data_absen_siswa, hapus_absen_siswa } from "@/app/api/ApiKesiswaan";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-// import DataKelasModal from "../_component/DataKelasModal";
-// import TambahKelasModal from "../_component/TambahKelasModal";
 import { format } from "date-fns";
+import TableComponent from "@/app/component/Table";
+import PaginationComponent from "@/app/component/Pagination";
+import StatusIcon from "@/app/component/StatusIcon";
+import DeletePopUp from "@/app/component/DeletePopUp";
 
 export default function AbsensiSiswaAdmin() {
-  // const [DetailkelasData, setDetailKelasData] = useState(null);
-  // const router = useRouter();
-  // const [SemesterData, setSemesterData] = useState(null);
-  // const [meta, setMeta] = useState(null);
+  const [absenData, setAbsenData] = useState(null);
+  const [meta, setMeta] = useState(null);
   const [loading, setLoading] = useState(true);
-  // const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [filterredDate, setFilterredDate] = useState(null);
-  // const [selectedSemesterId, setSelectedSemesterId] = useState(null);
-  // const [isDeleteOpen, setDeleteOpen] = useState(false);
+  const [selectedAbsenId, setSelectedAbsenId] = useState(null);
+  const [isDeleteOpen, setDeleteOpen] = useState(false);
   // const [isEditOpen, setEditOpen] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   // const [isSuccess, setIsSuccess] = useState(false);
   // const [isTambahOpen, setTambahOpen] = useState(false);
 
 
-  const fetchDataAbsen = async (page, limitVal = limit, date = format(new Date('2024-07-02T17:00:00.000Z'), "yyyy-MM-dd")) => {
+  const fetchDataAbsen = async (page=1, date, limitVal = limit) => {
     try {
-        // if(date){
-        //   const formattedDate = format(new Date(date), "YYYY-MM-DD")
-        //   setFilterredDate(formattedDate)
-        // } else {
-        //   setFilterredDate(date)
-        // } 
-        // const formattedDate = format(new Date(date), "yyyy-MM-dd")
-        const data = await data_absen_siswa(page, date='2024-12-04');
+        const data = await data_absen_siswa(page, date="2024-13-04", limitVal);
         console.log(data)
-        // const dataArray = data.academicYears.data
-        // console.log(dataArray)
-        // if (Array.isArray(dataArray)) {
-        //     // Mapping agar sesuai dengan format tabel
-        //     const formattedData = dataArray.map((item) => ({
-        //         id_semester: item.id || "Tidak ada",
-        //         tahun_ajar: (item.name+" "+item.semester) || "Tidak ada",
-        //         tanggal_mulai: format(new Date(item.dateStart), "dd-MM-yyyy") || "Tidak ada",
-        //         tanggal_selesai: format(new Date(item.dateEnd), "dd-MM-yyyy") || "Tidak ada",
-        //         status: (item.status==1?"Aktif":"Nonaktif")  || "Tidak ada",
+        const dataArray = data.absences.absences.data
+        console.log(dataArray)
+        if (Array.isArray(dataArray)) { 
+            const formattedData = dataArray.map((item) => ({
+                id_absen: item?.id||"Tidak ada",
+                tanggal: format(new Date(item?.date), "dd-MM-yyyy") || "Tidak ada",
+                nis: item?.classStudent?.student.studentDetail.nis || "Tidak ada",
+                nama_siswa: item?.classStudent?.student.name || "Tidak ada",
+                status: <StatusIcon status={item?.status}/> || "Tidak ada",
+                keterangan: item?.reason || "-",
 
-        //     }));
+            }));
 
-        //     setSemesterData(formattedData);
-        // }
+            setAbsenData(formattedData);
+        }
 
-        // setMeta(data.academicYears.meta); 
-        // setCurrentPage(page);
+        setMeta(data.absences.absences.meta); 
+        setCurrentPage(page);
     } catch (error) {
         toast.error(error.message);//"Server pekok"
     } finally {
@@ -68,43 +54,46 @@ export default function AbsensiSiswaAdmin() {
   };
 
   const columns = [
-    "id_semester",
-    "tahun_ajar",
-    "tanggal_mulai",
-    "tanggal_selesai",
-    "status",    
+    "tanggal",
+    "nis",
+    "nama_siswa",
+    "status",
+    "keterangan"    
   ];
 
   const handleLimitChange = (newLimit) => {
     setLimit(newLimit);
-    fetchDataSemester(newLimit);
+    fetchDataAbsen(currentPage, limit)
   };
 
   useEffect(() => {
     fetchDataAbsen();
   }, []);
 
-  // const handleDelete = (semesterId) => {
-  //   setSelectedSemesterId(semesterId);
-  //   setDeleteOpen(true);
-  // };
+  const handleDelete = (absenId) => {
+    setSelectedAbsenId(absenId);
+    setDeleteOpen(true);
+  };
 
-  // const confirmDelete = async () => {
-  //   if (!selectedSemesterId) return;
-  //   setIsLoading(true);
+  const confirmDelete = async () => {
+    if (!selectedSemesterId) return;
+    setIsLoading(true);
 
-  //   try {
-  //     await hapus_kelas(selectedClassId);
-  //     setIsSuccess(true);
-  //     setDeleteOpen(false);
-  //     fetchDataKelas(); // Reload data setelah sukses
-  //     setTimeout(() => setIsSuccess(false), 2000); // Pop-up sukses hilang otomatis
-  //   } catch (error) {
-  //     toast.error("Gagal menghapus data");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+    try {
+      const response = await hapus_absen_siswa(selectedAbsenId);
+      if(response){
+        setDeleteOpen(false);
+        fetchDataKelas();
+        toast.success(response.message)
+      }
+       
+      
+    } catch (error) {
+      toast.error("Gagal menghapus data");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   // const handleEdit = async (kelasId) => {
   //   try{
@@ -174,7 +163,42 @@ export default function AbsensiSiswaAdmin() {
 
   return (
     <>
-      
+      {/* Pop-up Konfirmasi Delete */}
+      {isDeleteOpen && (
+        <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+          <DeletePopUp
+            onCancel={() => setDeleteOpen(false)}
+            onConfirm={confirmDelete}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
+      <div className="z-0 transition">        
+        {/* Body */}
+        <div>
+          <div className="w-full ps-2">
+            <div className="flex items-center">
+              <h1 className="w-full text-black text-xl font-semibold">Data Absensi Siswa</h1> 
+              
+            </div>
+            <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
+              <div className={absenData ? "max-w-screen-xl p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+                  {absenData ? 
+                    <TableComponent 
+                        columns={columns} 
+                        data={absenData} 
+                        // onEdit={handleEdit}
+                        onDelete ={handleDelete}
+                        title="Tabel Data Semester"
+                        dataKey='id_absen'
+                    /> : "Data tidak ditemukan" }
+              </div>
+
+              {meta && <PaginationComponent meta={meta} onPageChange={fetchDataAbsen} onLimitChange={handleLimitChange}/>}
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

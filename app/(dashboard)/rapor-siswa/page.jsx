@@ -1,36 +1,48 @@
 'use client'
 
-import { useEffect, useState } from 'react';
-import TabelRapor from './component/tabel-rapor';
-import Dropdown from '@/app/component/Dropdown';
-import { getStudentScore } from '@/app/api/siswa/ApiSiswa';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react'
+import TabelRapor from './component/tabel-rapor'
+import Dropdown from '@/app/component/Dropdown'
+import { getStudentScore } from '@/app/api/siswa/ApiSiswa'
+import { toast } from 'react-toastify'
+import { useSemester } from '@/provider/SemesterProvider'
+import capitalizeFirstLetter from '@/app/component/CapitalizedFirstLetter'
 
 export default function RaporSiswa() {
-  const [selectedTahunAjar, setSelectedTahunAjar] = useState(null);
+  const { semesterId, allSemesters } = useSemester()
+  const [selectedPeriod, setSelectedPeriod] = useState(null)
+  const [tahunAjarId, setTahunAjarId] = useState(semesterId)
   const [score, setScore] = useState(null)
+
+  // Fetch score data
   const fetchScoreData = async () => {
     try {
-        const data = await getStudentScore();
-        console.log("data", data)
-        setScore(data);
+      const data = await getStudentScore(tahunAjarId)
+      setScore(data)
     } catch (error) {
-        toast.error("Gagal memuat data nilai.");
-    } finally {
-        // setLoading(false);
+      toast.error("Gagal memuat data nilai.")
     }
   };
-  
+
   useEffect(() => {
-    fetchScoreData()
-    console.log(score)
-  }, [])
-    
-  const tahunAjarOptions = [
-    { value: '1', label: '2023/2024' },
-    { value: '2', label: '2024/2025' },
-    { value: '3', label: '2025/2026' },
-  ];
+    if (semesterId) {
+      const initialSemester = allSemesters.find(
+        (option) => option.value === semesterId
+      );
+      setSelectedPeriod(initialSemester || " ")
+    }
+  }, [allSemesters, semesterId])
+
+  const handleDropdownChange = (selectedOption) => {
+    setSelectedPeriod(selectedOption)
+    setTahunAjarId(selectedOption.value)
+  };
+
+  useEffect(() => {
+    if (tahunAjarId) fetchScoreData();
+  }, [tahunAjarId]);
+
+  
 
   return (
     <div className={` dark:bg-dark_net-pri  text-black transition rounded-lg`}>
@@ -44,9 +56,9 @@ export default function RaporSiswa() {
           {/* Bagian Dropdown */}
           <div className="w-full sm:w-[320px]">
             <Dropdown
-              options={tahunAjarOptions}
-              value={selectedTahunAjar}
-              onChange={setSelectedTahunAjar}
+              options={allSemesters}
+              value={selectedPeriod}
+              onChange={handleDropdownChange}
               placeholder="Tahun Ajar"
               containerStyle="h-[33px] rounded-[10px] border-[0.5px] border-gray-300 px-4 py-1.5 bg-white"
               className="text-[14px] font-medium"
@@ -57,14 +69,14 @@ export default function RaporSiswa() {
 
         <div className='top-[15px] sm:top-[25px] relative'>
           <p className="font-semibold text-[16px] sm:text-[20px] leading-[100%] tracking-[0px]">
-            Tahun ajar 2020-2021 Genap
+            Tahun ajar {score&&(score.result[0].academicYear.name+" "+ capitalizeFirstLetter(score.result[0].academicYear.semester))}
           </p>
         </div>
       </div>
 
       <div className="mt-[60px] -mx-3 sm:ml-[-20px] overflow-x-auto">
         <div className="min-w-[800px] sm:min-w-0">
-          <TabelRapor />
+          <TabelRapor scoreData={score?.result[0].modules} />
         </div>
       </div>
     </div>

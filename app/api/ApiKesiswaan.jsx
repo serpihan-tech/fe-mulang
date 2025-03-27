@@ -145,10 +145,10 @@ export const data_semester = async (limit, page) => {
     }
 };
 
-export const data_absen_siswa = async (page=1, limit, date) => {
+export const data_absen_siswa = async (page, date, limit) => {
     
     try {
-        const response = await ApiManager.get(`/absences?page=null&date=null`,{
+        const response = await ApiManager.get(`/absences?page=${page}&date=${date}&limit=${limit}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -160,6 +160,24 @@ export const data_absen_siswa = async (page=1, limit, date) => {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
         toast.error(err.message);//"Data absen tidak tersedia"
+        }
+    }
+};
+
+export const hapus_absen_siswa = async (absenId) => {
+    try {
+        const response = await ApiManager.delete(`/absences/${absenId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal Hapus Data");
         }
     }
 };

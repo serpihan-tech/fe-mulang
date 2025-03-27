@@ -22,7 +22,7 @@ export default function DashboardHeader() {
         try {
           if (role === "student"){
             const user = JSON.parse(data);
-            let image = user.data.profile.details.profilePicture || [];
+            let image = user?.data.profile.details.profilePicture || [];
             let images = baseUrl+"/image/"+image
             console.log("images link:" ,images)
             // Jika hanya satu string, ubah menjadi array

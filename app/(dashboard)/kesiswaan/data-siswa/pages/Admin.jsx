@@ -11,61 +11,61 @@ import { toast, ToastContainer } from "react-toastify";
 
 export default function AdminDataSiswa() {
 
-    const router = useRouter();
-    const [siswaData, setSiswaData] = useState(null);
-    const [meta, setMeta] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [limit, setLimit] = useState(null);
+  const router = useRouter();
+  const [siswaData, setSiswaData] = useState(null);
+  const [meta, setMeta] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(null);
 
-    const fetchDataSiswa = async (page = 1,limitVal = limit) => {
-        try {
-            const data = await data_siswa(page,limitVal);
-            const dataArray = data.students.data
-            console.log(dataArray)
-            if (Array.isArray(dataArray)) {
-                // Mapping agar sesuai dengan format tabel
-                const formattedData = dataArray.map((item) => ({
-                    nis: item.studentDetail?.nis || "Tidak Ada",
-                    nisn: item.studentDetail?.nisn || "Tidak Ada",
-                    nama_lengkap: item.name || "Tidak Ada",
-                    email: item.user?.email || "Tidak Ada",
-                    kelas: item.classStudent[0]?.class?.name || "Tidak Ada",
-                    tahun_ajar: (item.classStudent[0]?.academicYear?.name +" "+ item.classStudent[0]?.academicYear?.semester) || "Tidak Ada",
-                    jenis_kelamin: item.studentDetail?.gender || "Tidak Ada",
-                    status: item.isGraduate ? "Lulus" : "Aktif",
-                }));
+  const fetchDataSiswa = async (page = 1,limitVal = limit) => {
+      try {
+          const data = await data_siswa(page,limitVal);
+          const dataArray = data.students.data
+          console.log(dataArray)
+          if (Array.isArray(dataArray)) {
+              // Mapping agar sesuai dengan format tabel
+              const formattedData = dataArray.map((item) => ({
+                  nis: item.studentDetail?.nis || "Tidak Ada",
+                  nisn: item.studentDetail?.nisn || "Tidak Ada",
+                  nama_lengkap: item.name || "Tidak Ada",
+                  email: item.user?.email || "Tidak Ada",
+                  kelas: item.classStudent[0]?.class?.name || "Tidak Ada",
+                  tahun_ajar: (item.classStudent[0]?.academicYear?.name +" "+ item.classStudent[0]?.academicYear?.semester) || "Tidak Ada",
+                  jenis_kelamin: item.studentDetail?.gender || "Tidak Ada",
+                  status: item.isGraduate ? "Lulus" : "Aktif",
+              }));
 
-                setSiswaData(formattedData);
-            }
+              setSiswaData(formattedData);
+          }
 
-            setMeta(data.students.meta); // Simpan metadata untuk paginasi
-            setCurrentPage(page);
-        } catch (error) {
-            toast.error("Gagal memuat data siswa.");
-        } finally {
-            setLoading(false);
-        }
-    };
+          setMeta(data.students.meta); // Simpan metadata untuk paginasi
+          setCurrentPage(page);
+      } catch (error) {
+          toast.error("Gagal memuat data siswa.");
+      } finally {
+          setLoading(false);
+      }
+  };
 
-    const columns = [
-        "nis",
-        "nisn",
-        "nama_lengkap",
-        "email",
-        "kelas",
-        "tahun_ajar",
-        "jenis_kelamin",
-        "status",
-    ];
+  const columns = [
+      "nis",
+      "nisn",
+      "nama_lengkap",
+      "email",
+      "kelas",
+      "tahun_ajar",
+      "jenis_kelamin",
+      "status",
+  ];
 
-    
-    useEffect(() => {
-        fetchDataSiswa();
-    }, []);
+  
+  useEffect(() => {
+      fetchDataSiswa();
+  }, []);
 
-    const getUniqueValues = (key) => {
-      return [...new Set(siswaData.map((item) => item[key]))].filter(Boolean);
+  const getUniqueValues = (key) => {
+    return [...new Set(siswaData.map((item) => item[key]))].filter(Boolean);
   };
   
   // State untuk menyimpan filter yang tersedia
@@ -92,13 +92,13 @@ export default function AdminDataSiswa() {
             
         ]);
     }
-}, [siswaData]);
+  }, [siswaData]);
 
-    console.log("datasiswa: ")
-    const handleLimitChange = (newLimit) => {
-        setLimit(newLimit);
-        fetchDataSiswa(currentPage, newLimit); // Refresh data dengan limit baru
-      };
+  console.log("datasiswa: ")
+  const handleLimitChange = (newLimit) => {
+    setLimit(newLimit);
+    fetchDataSiswa(currentPage, newLimit); // Refresh data dengan limit baru
+  };
 
     return (
     <>

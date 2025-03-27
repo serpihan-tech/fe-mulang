@@ -70,15 +70,21 @@ export const updateStudentProfile = async (id, payload, file) => {
   }
 };
 
-export const getStudentScore = async () => {
+export const getStudentScore = async (tahunAjar) => {
     try {
-        const response = await ApiManager.get(`/scores/mine`);
-        return response.data;
+        const endpoint = tahunAjar 
+            ? `/scores/mine?tahunAjar=${tahunAjar}` 
+            : `/scores/mine`
+
+        const response = await ApiManager.get(endpoint);
+        return response.data
+
     } catch (error) {
-        toast.error("Gagal mengambil data kehadiran:", error);
+        toast.error("Gagal mengambil data nilai:", error);
         throw error;
     }
 };
+
 
 
 

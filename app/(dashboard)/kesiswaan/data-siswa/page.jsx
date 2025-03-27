@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function DataSiswa() {
-  const [limit, setLimit] = useState(10)
   const router = useRouter()
   const [role, setRole] = useState(null)
   const [loading, setLoading] = useState(true)

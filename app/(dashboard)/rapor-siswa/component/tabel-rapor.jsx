@@ -1,6 +1,10 @@
-export default function TabelRapor() {
+export default function TabelRapor({scoreData}) {
+  console.log("score",scoreData)
     const data = [
-      { mataPelajaran: "Agama & Budi Pekerti", tugas: [80, 80, 80, 78], uts: 85, uas: 85 },
+      { mataPelajaran: "Agama & Budi Pekerti", 
+        tugas: [80, 80, 80, 78], 
+        uts: 85, 
+        uas: 85 },
       { mataPelajaran: "Matematika Wajib", tugas: [75, 75, 75, 77], uts: 80, uas: 80 },
       { mataPelajaran: "Fisika", tugas: [88, 85, 85, 85], uts: 85, uas: 80 },
       { mataPelajaran: "Biologi", tugas: [84, 83, 83, 83], uts: 83, uas: 77 },
@@ -21,7 +25,7 @@ export default function TabelRapor() {
           <thead className="bg-[#0841E2] text-white text-base">
             <tr>
               <th rowSpan={2} className="border border-gray-300 p-2 text-base font-medium">Mata Pelajaran</th>
-              <th colSpan={5} className="border border-gray-300 p-2 text-base font-medium text-center">Tugas Harian</th>
+              <th colSpan={4} className="border border-gray-300 p-2 text-base font-medium text-center">Tugas Harian</th>
               <th rowSpan={2} className="border border-gray-300 p-2 text-base font-medium text-center">UTS</th>
               <th rowSpan={2} className="border border-gray-300 p-2 text-base font-medium text-center">UAS</th>
               <th rowSpan={2} className="border border-gray-300 p-2 text-base font-medium text-center">Nilai Akhir</th>
