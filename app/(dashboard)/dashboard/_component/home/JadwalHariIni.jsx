@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import JadwalSiswa from "./JadwalSiswa";
 import moment from "moment";
+import Lottie from "lottie-react";
+import animationData from "../../../../../public/animation/Loading.json";
 
 export default function JadwalHariIni({ scheduleData }) {
   const [loading, setLoading] = useState(true);
@@ -34,7 +36,11 @@ export default function JadwalHariIni({ scheduleData }) {
       </div>
       <div className="w-full space-y-8">
         {loading ? (
-          <p>Loading...</p>
+          <Lottie
+            animationData={animationData}
+            className="flex justify-center items-center"
+            loop={true}
+          />
         ) : scheduleData && scheduleData.length > 0 ? (
           scheduleData
             .sort((a, b) => moment(a.startTime, "HH:mm:ss") - moment(b.startTime, "HH:mm:ss")) // Sorting berdasarkan start_time

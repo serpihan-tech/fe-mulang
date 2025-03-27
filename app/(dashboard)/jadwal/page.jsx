@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { getStudentSchedule } from "@/app/api/siswa/ApiSiswa";
 import JadwalHari from "../dashboard/_component/home/JadwalHari";
+import Lottie from "lottie-react";
+import animationData from "../../../public/animation/Loading.json";
 
 // Urutan hari dalam seminggu
 const weekDaysOrder = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
@@ -59,7 +61,11 @@ export default function JadwalLengkapSiswa() {
         <div className=" text-black ">
             <h1 className="text-xl font-semibold mb-4">Jadwal Pelajaran 2025/2026 Genap</h1>
             {loading ? (
-                <p>Loading...</p>
+                <Lottie
+                animationData={animationData}
+                className="flex justify-center items-center"
+                loop={true}
+              />
             ) : (
                 <div className="flex items-start relative">
                     {weekDaysOrder

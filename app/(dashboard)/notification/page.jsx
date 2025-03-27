@@ -4,6 +4,8 @@ import { useRouter,usePathname } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import NotificationTeacher from "./pages/Teacher";
 import NotificationStudent from "./pages/Student";
+import Lottie from "lottie-react";
+import animationData from "../../../public/animation/Loading.json";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -34,7 +36,12 @@ export default function Dashboard() {
     setLoading(false); // Matikan loading setelah validasi selesai
   }, []);
 
-  if (loading) return <p>Loading...</p>; // Hindari rendering sebelum validasi selesai
+  if (loading) return 
+  <Lottie
+    animationData={animationData}
+    className="flex justify-center items-center"
+    loop={true}
+  />; // Hindari rendering sebelum validasi selesai
 
   return (
     <div className="text-black dark:text-white">

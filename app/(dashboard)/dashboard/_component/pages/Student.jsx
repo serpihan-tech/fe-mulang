@@ -8,6 +8,9 @@ import { getStudentPresence, getStudentSchedule } from "@/app/api/siswa/ApiSiswa
 import CalendarComponent from "../home/CalendarComponent";
 import { useSemester } from "@/provider/SemesterProvider";
 import { ArrowRight2 } from "iconsax-react";
+import animationData from "../../../../../public/animation/Loading.json";
+import Lottie from "lottie-react";
+
 
 export default function StudentDashboard() {
   const message = sessionStorage.getItem("come_first");
@@ -80,7 +83,13 @@ export default function StudentDashboard() {
   const { semesterId } = useSemester()
   console.log("semester:",semesterId)
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) 
+    return 
+    <Lottie
+      animationData={animationData}
+      className="flex justify-center items-center"
+      loop={true}
+    />;
   if (!presenceData) return <p>Data tidak ditemukan</p>;
 
   return (
