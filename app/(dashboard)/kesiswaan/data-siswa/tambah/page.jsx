@@ -1,4 +1,4 @@
-import TambahSiswaForm from "@/app/kesiswaan/_component/TambahSiswaForm";
+import TambahSiswaForm from "../../_component/TambahSiswaForm";
 
 export default function edit () {
   return (

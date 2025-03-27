@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import ApiManager from "./ApiManager";
-const token = sessionStorage.getItem("token");
+const token = typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
+
 
 export const login = async (credentials) => {
     try {
