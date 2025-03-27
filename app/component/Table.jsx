@@ -132,6 +132,7 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
         <table className="w-auto min-w-full table-fixed border-collapse text-xs">
           <thead>
             <tr className="bg-[#ADC0F5]/10 dark:bg-blue-700 text-black dark:text-gray-200 font-semibold">
+            <th className="px-6 py-1 text-center">NO</th>
               {columns.map((key) => (
                 <th
                   key={key}
@@ -152,6 +153,7 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
             {filteredData.length > 0 ? (
               filteredData.map((item, index) => (
                 <tr key={index} className="border-2 border-[#ADC0F5]/10">
+                  <td className="py-3 px-6 text-gray-900 dark:text-gray-100 text-center">{index + 1}</td>
                   {columns.map((key) => (
                     <td
                       key={key}

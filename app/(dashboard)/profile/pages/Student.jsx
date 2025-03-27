@@ -213,7 +213,7 @@ export default function StudentProfile() {
             <Image 
               src={imageSrc || (baseUrl+'/image/'+ studentData?.studentDetail.profilePicture)  } 
               className="rounded-full w-full h-full object-cover"
-              alt="user photo" 
+              alt="photo" 
               width={150} 
               height={150} 
               priority 
