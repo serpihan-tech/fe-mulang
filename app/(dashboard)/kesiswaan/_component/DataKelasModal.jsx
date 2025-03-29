@@ -54,7 +54,7 @@ export default function DataKelasModal({ onCancel, onConfirm, kelasData, isLoadi
   
 
   return (
-    <div className="w-[485px] bg-white pb-[66px]">
+    <div className="w-[485px] bg-white pb-[66px] rounded-lg">
       <div className="w-full h-[54px] flex px-5 py-4 bg-[#adc0f5]/10 rounded-[7px] items-center">
         <div className="text-black text-xl font-semibold">Edit Data</div>
         <CloseCircle size="24" color="currentColor" variant="Bold" className="ml-auto cursor-pointer" onClick={onCancel} />

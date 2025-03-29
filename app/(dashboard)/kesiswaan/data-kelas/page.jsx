@@ -33,7 +33,7 @@ export default function DataKelas() {
     try {
         const data = await data_kelas(page, limitVal);
         console.log("data",data)
-        const dataArray = data.theClass.data
+        const dataArray = data?.theClass.theClass
         if (Array.isArray(dataArray)) {
             // Mapping agar sesuai dengan format tabel
             const formattedData = dataArray.map((item) => ({

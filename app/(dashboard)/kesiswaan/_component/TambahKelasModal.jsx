@@ -16,7 +16,7 @@ export default function TambahKelasModal({ onCancel, onConfirm, isLoading }) {
   const fetchDataGuru = async () => {
     try {
         const data = await dropdown_data_guru();
-        const formattedOptions = data.map((guru) => ({
+        const formattedOptions = data?.map((guru) => ({
           label: guru.name,
           value: guru.id,
         }));
@@ -44,8 +44,8 @@ export default function TambahKelasModal({ onCancel, onConfirm, isLoading }) {
   
 
   return (
-    <div className="w-[485px] bg-white pb-[66px]">
-      <div className="w-full h-[54px] flex px-5 py-4 bg-[#adc0f5]/10 rounded-[7px] items-center">
+    <div className="w-[485px] bg-white pb-[66px] rounded-lg">
+      <div className="w-full h-[54px] flex px-5 py-4 bg-[#adc0f5]/10  items-center">
         <div className="text-black text-xl font-semibold">Edit Data</div>
         <CloseCircle size="24" color="currentColor" variant="Bold" className="ml-auto cursor-pointer" onClick={onCancel} />
       </div>

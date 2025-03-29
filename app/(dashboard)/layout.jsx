@@ -16,10 +16,12 @@ export default function DashboardLayout({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const role = sessionStorage.getItem("role");
+  const role = typeof window !== "undefined" ? sessionStorage.getItem("role") : null;
+
 
   // Cek token saat halaman dimuat
   useEffect(() => {
+    
     const token = sessionStorage.getItem("token");
     const role = sessionStorage.getItem("role");
 
