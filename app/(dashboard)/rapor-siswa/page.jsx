@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import TabelRapor from './component/tabel-rapor'
 import Dropdown from '@/app/component/Dropdown'
 import { getStudentScore } from '@/app/api/siswa/ApiSiswa'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import { useSemester } from '@/provider/SemesterProvider'
 import capitalizeFirstLetter from '@/app/component/CapitalizedFirstLetter'
 
@@ -45,7 +45,9 @@ export default function RaporSiswa() {
   
 
   return (
+    
     <div className={` dark:bg-dark_net-pri  text-black transition rounded-lg`}>
+      <ToastContainer/>
       <div className='relative'>
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-0 relative">
           {/* Bagian Rapor Siswa */}
