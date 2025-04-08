@@ -5,8 +5,7 @@ import { useState, useEffect } from "react";
 import AbsenTable from "../_component/AbsenTable";
 import { data_siswa } from "@/app/api/ApiKesiswaan";
 import { toast } from "react-toastify";
-import Lottie from "lottie-react";
-import animationData from "../../../../../public/animation/Loading.json";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function AbsensiSiswaTeacher() {
   const classOptions = [
@@ -30,8 +29,8 @@ export default function AbsensiSiswaTeacher() {
   ];
 
   const [siswaData, setSiswaData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [meta, setMeta] = useState(null);
+  const [setIsLoading] = useLoading();
 
   const fetchDataSiswa = async () => {
     try {
@@ -50,7 +49,7 @@ export default function AbsensiSiswaTeacher() {
     } catch (error) {
       toast.error("Gagal memuat data siswa.");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -98,15 +97,7 @@ export default function AbsensiSiswaTeacher() {
             </div>
           </div>
           <div className="px-5 mt-7">
-            {loading ? (
-              <Lottie
-              animationData={animationData}
-              className="flex justify-center items-center"
-              loop={true}
-            />
-            ) : (
-              <AbsenTable data={siswaData} columns={columns} />
-            )}
+            <AbsenTable data={siswaData} columns={columns} />
           </div>
         </div>
       </div>

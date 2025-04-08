@@ -5,14 +5,13 @@ import StudentDashboard from "./_component/pages/Student";
 import TeacherDashboard from "./_component/pages/Teacher";
 import AdminDashboard from "./_component/pages/Admin";
 import { toast, ToastContainer } from "react-toastify";
-import Lottie from "lottie-react";
-import animationData from "../../../public/animation/Loading.json";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function Dashboard() {
   const router = useRouter();
   const pathname = usePathname()
   const [role, setRole] = useState(null);
-  const [loading, setLoading] = useState(true); // State loading
+  const { setIsLoading } = useLoading();
 
   console.log("router:",pathname)
 
@@ -28,15 +27,8 @@ export default function Dashboard() {
       const message = sessionStorage.getItem("come_first"); 
     }
 
-    setLoading(false); // Matikan loading setelah validasi selesai
+    setIsLoading(false); // Matikan loading setelah validasi selesai
   }, []);
-
-  if (loading) return 
-  <Lottie
-    animationData={animationData}
-    className="flex justify-center items-center"
-    loop={true}
-  />; // Hindari rendering sebelum validasi selesai
 
   return (
     <div className="text-black dark:text-white">

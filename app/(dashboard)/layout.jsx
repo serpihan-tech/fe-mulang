@@ -8,13 +8,12 @@ import DashboardHeader from "./dashboard/_component/home/DashboardHeader";
 import Breadcrumb from "../component/Breadcrumb";
 import { Copyright } from "iconsax-react";
 import { SemesterProvider } from "@/provider/SemesterProvider";
-import Lottie from "lottie-react";
-import animationData from "../../public/animation/Loading.json";
+import { useLoading } from "../../context/LoadingContext";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const { setIsLoading } = useLoading();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const role = sessionStorage.getItem("role");
 
@@ -30,8 +29,8 @@ export default function DashboardLayout({ children }) {
       setIsAuthenticated(true);
     }
 
-    setLoading(false);
-  }, [router]);
+    setIsLoading(false);
+  }, [router, setIsLoading]);
 
   // Tutup sidebar jika ukuran layar < md (768px)
   useEffect(() => {
@@ -51,12 +50,6 @@ export default function DashboardLayout({ children }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Loading sebelum autentikasi selesai
-  if (loading) return <Lottie
-  animationData={animationData}
-  className="flex justify-center items-center"
-  loop={true}
-/>;
   if (!isAuthenticated) return null;
   
   return (

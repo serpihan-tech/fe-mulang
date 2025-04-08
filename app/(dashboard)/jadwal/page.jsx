@@ -3,15 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { getStudentSchedule } from "@/app/api/siswa/ApiSiswa";
 import JadwalHari from "../dashboard/_component/home/JadwalHari";
-import Lottie from "lottie-react";
-import animationData from "../../../public/animation/Loading.json";
+import { useLoading } from "@/context/LoadingContext";
 
 // Urutan hari dalam seminggu
 const weekDaysOrder = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
 
 export default function JadwalLengkapSiswa() {
     const [scheduleData, setScheduleData] = useState({});
-    const [loading, setLoading] = useState(true);
+    const { setIsLoading } = useLoading();
     const studentId = sessionStorage.getItem("student_id");
 
     const refs = useRef([]);
@@ -28,6 +27,7 @@ export default function JadwalLengkapSiswa() {
     }, []);
 
     const fetchSchedule = async () => {
+        setIsLoading(true);
         try {
             const data = await getStudentSchedule(studentId);
             if (Array.isArray(data.schedule)) {
@@ -53,21 +53,14 @@ export default function JadwalLengkapSiswa() {
         } catch (error) {
             console.error("Error fetching schedule data:", error);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
     return (
         <div className=" text-black ">
             <h1 className="text-xl font-semibold mb-4">Jadwal Pelajaran 2025/2026 Genap</h1>
-            {loading ? (
-                <Lottie
-                animationData={animationData}
-                className="flex justify-center items-center"
-                loop={true}
-              />
-            ) : (
-                <div className="flex items-start relative">
+            <div className="flex items-start relative">
                     {weekDaysOrder
                         .filter(day => scheduleData[day])
                         .map((day, index, array) => (
@@ -87,7 +80,6 @@ export default function JadwalLengkapSiswa() {
                             </div>
                         ))}
                 </div>
-            )}
         </div>
     );
 }

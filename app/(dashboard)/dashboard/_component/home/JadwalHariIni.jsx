@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import JadwalSiswa from "./JadwalSiswa";
 import moment from "moment";
-import Lottie from "lottie-react";
-import animationData from "../../../../../public/animation/Loading.json";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function JadwalHariIni({ scheduleData }) {
-  const [loading, setLoading] = useState(true);
+  const { isLoading, setIsLoading } = useLoading();
   const today = new Intl.DateTimeFormat("id-ID", { weekday: "long" }).format(new Date());
 
   const bgColors = ["bg-[#e1edff]", "bg-[#f8ffe1]", "bg-[#ffe8e8]", "bg-[#e8ffec]"];
@@ -16,7 +15,7 @@ export default function JadwalHariIni({ scheduleData }) {
   };
 
   useEffect(() => {
-    setLoading(false);
+    setIsLoading(false);
   }, [scheduleData]);
 
   const getStatus = (startTime, endTime) => {
@@ -35,13 +34,7 @@ export default function JadwalHariIni({ scheduleData }) {
         <h1 className="text-black text-lg font-semibold">Jadwal Hari ini</h1>
       </div>
       <div className="w-full space-y-8">
-        {loading ? (
-          <Lottie
-            animationData={animationData}
-            className="flex justify-center items-center"
-            loop={true}
-          />
-        ) : scheduleData && scheduleData.length > 0 ? (
+        { scheduleData && scheduleData.length > 0 ? (
           scheduleData
             .sort((a, b) => moment(a.startTime, "HH:mm:ss") - moment(b.startTime, "HH:mm:ss")) // Sorting berdasarkan start_time
             .map((item, index) => {

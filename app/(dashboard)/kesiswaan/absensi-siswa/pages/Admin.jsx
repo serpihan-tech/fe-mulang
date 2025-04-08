@@ -8,23 +8,25 @@ import TableComponent from "@/app/component/Table";
 import PaginationComponent from "@/app/component/Pagination";
 import StatusIcon from "@/app/component/StatusIcon";
 import DeletePopUp from "@/app/component/DeletePopUp";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function AbsensiSiswaAdmin() {
   const [absenData, setAbsenData] = useState(null);
   const [meta, setMeta] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [filterredDate, setFilterredDate] = useState(null);
   const [selectedAbsenId, setSelectedAbsenId] = useState(null);
   const [isDeleteOpen, setDeleteOpen] = useState(false);
-  // const [isEditOpen, setEditOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { setIsLoading: setPageLoading } = useLoading();
+  // const [isEditOpen, setEditOpen] = useState(false);
   // const [isSuccess, setIsSuccess] = useState(false);
   // const [isTambahOpen, setTambahOpen] = useState(false);
 
 
   const fetchDataAbsen = async (page=1, date, limitVal = limit) => {
+    setPageLoading(true)
     try {
         const data = await data_absen_siswa(page, date="2024-13-04", limitVal);
         console.log(data)
@@ -49,7 +51,7 @@ export default function AbsensiSiswaAdmin() {
     } catch (error) {
         toast.error(error.message);//"Server pekok"
     } finally {
-        setLoading(false);
+        setPageLoading(false);
     }
   };
 

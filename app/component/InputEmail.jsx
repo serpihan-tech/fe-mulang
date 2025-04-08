@@ -2,10 +2,11 @@
 import { FormEvent,useEffect,useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { reset_password } from '../api/ApiAuth';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function Reset() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const { setIsLoading } = useLoading();
   const [credentials, setCredentials] = useState({ email: ""});
 
   const handleChange = (e) => {
@@ -14,7 +15,7 @@ export default function Reset() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    setLoading(true);
+    setIsLoading(true);
     
     const formData = new FormData(event.currentTarget)
     const email = formData.get('email')
@@ -29,7 +30,7 @@ export default function Reset() {
       }
       
     } finally {
-      setLoading(false)
+      setIsLoading(false)
     };
     
     
@@ -65,10 +66,9 @@ export default function Reset() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                disabled={loading}
                 className="w-full bg-pri-main dark:bg-pri-border text-white dark:text-netral-100 py-2 rounded-md hover:bg-pri-hover dark:hover:bg-pri-border/50 transition"
               >
-                {loading ? "Memverifikasi..." : "Lanjut"}
+                Lanjut
               </button>
             </div>
           </form>
