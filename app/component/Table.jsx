@@ -1,12 +1,14 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowUp2, ArrowDown2, Edit2, Trash, Diagram, SearchNormal } from "iconsax-react";
 import Dropdown from "./Dropdown";
 import { useTheme } from "@/provider/ThemeProvider";
 import DataNotFound from "./DataNotFound";
 
-const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey }) => {
+const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey, Aksi }) => {
   const inputRef = useRef(null);
+  const router = useRouter();
   const [sortConfig, setSortConfig] = useState({ key: columns[0], direction: "asc" });
   const [filterValues, setFilterValues] = useState({});
   const [isFilterOpen, setFilterOpen] = useState(false);
@@ -84,7 +86,30 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
     };
   }, [isFilterOpen]);
 
-  
+  const renderAksi = (item) => {
+    if (Aksi === "EditDelete") {
+      return (
+        <>
+        <button onClick={() => onEdit(item[dataKey])}>
+          <Edit2 size="20" color="#FFCF43" variant="Bold" />
+        </button>
+        <button onClick={() => onDelete(item[dataKey])}>
+          <Trash size="20" color="#DC1010" variant="Bold" />
+        </button>
+      </>
+      );
+    } else if (Aksi === "LihatNilai") {
+      return (
+        <button 
+          className="px-2 py-1.5 bg-white rounded-[5px] outline outline-1 outline-offset-[-1px] outline-[#0841e2]"
+          onClick={() => router.push("/penilaian/rekap-nilai/lihat-nilai")}
+        >
+          <div className="justify-start text-[#0841e2] text-sm font-medium">Lihat Nilai</div>
+        </button>
+      );
+    }
+  };
+
   return (
     <div className="w-full overflow-hidden mx-auto">
     <div className="mb-5 flex justify-between items-center text-black dark:text-white">
@@ -133,7 +158,7 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
         <table className="w-auto min-w-full table-fixed border-collapse text-xs">
           <thead>
             <tr className="bg-[#ADC0F5]/10 dark:bg-blue-700 text-black dark:text-gray-200 font-semibold">
-            <th className="px-6 py-1 text-center">NO</th>
+            <th className="px-6 py-1 text-left">NO</th>
               {columns.map((key) => (
                 <th
                   key={key}
@@ -147,14 +172,14 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
                 </th>
               ))}
               {/* Tambahan kolom Aksi */}
-              <th className="px-6 py-1 text-left">AKSI</th>
+              <th className="px-6 py-1 text-center">AKSI</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((item, index) => (
                 <tr key={index} className="border-2 border-[#ADC0F5]/10">
-                  <td className="py-3 px-6 text-gray-900 dark:text-gray-100 text-center">{index + 1}</td>
+                  <td className="py-3 px-6 text-gray-900 dark:text-gray-100 text-left">{index + 1}</td>
                   {columns.map((key) => (
                     <td
                       key={key}
@@ -165,13 +190,8 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
                     </td>
                   ))}
                   {/* Kolom Aksi */}
-                  <td className="py-3 px-6 flex gap-2">
-                    <button onClick={() => onEdit(item[dataKey])}>
-                      <Edit2 size="20" color="#FFCF43" variant="Bold" />
-                    </button>
-                    <button onClick={() => onDelete(item[dataKey])}>
-                      <Trash size="20" color="#DC1010" variant="Bold" />
-                    </button>
+                  <td className="py-3 px-6 flex gap-2 justify-center">
+                    {renderAksi(item)}
                   </td>
                 </tr>
               ))

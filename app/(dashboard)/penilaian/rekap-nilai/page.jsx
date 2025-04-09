@@ -30,7 +30,7 @@ export default function RekapNilai() {
             // Mapping agar sesuai dengan format tabel
             const formattedData = dataArray.map((item) => ({
                 nis: item.studentDetail?.nis || "Tidak Ada",
-                nama_lengkap: item.name || "Tidak Ada",
+                nama_siswa: item.name || "Tidak Ada",
                 kelas: item.classStudent[0]?.class?.name || "Tidak Ada",
             }));
 
@@ -48,7 +48,7 @@ export default function RekapNilai() {
 
   const columns = [
     "nis",
-    "nama_lengkap",
+    "nama_siswa",
     "kelas",
   ];
 
@@ -105,6 +105,7 @@ export default function RekapNilai() {
                       columns={columns} 
                       data={siswaData} 
                       title="Tabel Rekap Nilai"
+                      Aksi="LihatNilai"
                       filters={filters} 
                   /> : <DataNotFound /> }
             </div>

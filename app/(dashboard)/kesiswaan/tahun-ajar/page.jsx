@@ -237,6 +237,7 @@ export default function TahunAjar() {
                         data={SemesterData} 
                         // onEdit={handleEdit}
                         // onDelete ={handleDelete}
+                        Aksi="EditDelete"
                         title="Tabel Data Semester"
                         dataKey='id_semester'
                     /> : <DataNotFound /> }

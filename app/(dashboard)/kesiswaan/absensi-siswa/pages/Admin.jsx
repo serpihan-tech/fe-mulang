@@ -192,6 +192,7 @@ export default function AbsensiSiswaAdmin() {
                         data={absenData} 
                         // onEdit={handleEdit}
                         onDelete ={handleDelete}
+                        Aksi="EditDelete"
                         title="Tabel Data Semester"
                         dataKey='id_absen'
                     /> : <DataNotFound /> }

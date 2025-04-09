@@ -147,6 +147,7 @@ export default function AdminDataSiswa() {
                           columns={columns} 
                           data={siswaData} 
                           title="Data Siswa"
+                          Aksi="EditDelete"
                           filters={filters} 
                       /> : <DataNotFound /> }
                 </div>

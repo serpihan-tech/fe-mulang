@@ -230,6 +230,7 @@ export default function DataKelas() {
                           data={kelasData} 
                           onEdit={handleEdit}
                           onDelete ={handleDelete}
+                          Aksi="EditDelete"
                           title="Tabel Data Kelas"
                           dataKey='id_kelas'
                       /> : <DataNotFound /> }
