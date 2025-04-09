@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import DataKelasModal from "../_component/DataKelasModal";
 import TambahKelasModal from "../_component/TambahKelasModal";
+import DataNotFound from "@/app/component/DataNotFound";
 
 export default function DataKelas() {
   const [DetailkelasData, setDetailKelasData] = useState(null);
@@ -231,7 +232,7 @@ export default function DataKelas() {
                           onDelete ={handleDelete}
                           title="Tabel Data Kelas"
                           dataKey='id_kelas'
-                      /> : "Data tidak ditemukan" }
+                      /> : <DataNotFound /> }
                 </div>
 
                 {meta && <PaginationComponent meta={meta} onPageChange={fetchDataKelas} onLimitChange={handleLimitChange}/>}

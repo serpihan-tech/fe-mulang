@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUp2, ArrowDown2, Edit2, Trash, Diagram, SearchNormal } from "iconsax-react";
 import Dropdown from "./Dropdown";
 import { useTheme } from "@/provider/ThemeProvider";
+import DataNotFound from "./DataNotFound";
 
 const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey }) => {
   const inputRef = useRef(null);
@@ -177,7 +178,7 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
             ) : (
               <tr>
                 <td colSpan={columns.length + 1} className="text-center py-4 text-gray-500 dark:text-gray-300">
-                  Data tidak ditemukan
+                <DataNotFound />
                 </td>
               </tr>
             )}

@@ -9,6 +9,7 @@ import PaginationComponent from "@/app/component/Pagination";
 import StatusIcon from "@/app/component/StatusIcon";
 import DeletePopUp from "@/app/component/DeletePopUp";
 import { useLoading } from "@/context/LoadingContext";
+import DataNotFound from "@/app/component/DataNotFound";
 
 export default function AbsensiSiswaAdmin() {
   const [absenData, setAbsenData] = useState(null);
@@ -193,7 +194,7 @@ export default function AbsensiSiswaAdmin() {
                         onDelete ={handleDelete}
                         title="Tabel Data Semester"
                         dataKey='id_absen'
-                    /> : "Data tidak ditemukan" }
+                    /> : <DataNotFound /> }
               </div>
 
               {meta && <PaginationComponent meta={meta} onPageChange={fetchDataAbsen} onLimitChange={handleLimitChange}/>}

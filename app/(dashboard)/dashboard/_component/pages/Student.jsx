@@ -9,6 +9,7 @@ import CalendarComponent from "../home/CalendarComponent";
 import { useSemester } from "@/provider/SemesterProvider";
 import { ArrowRight2 } from "iconsax-react";
 import { useLoading } from "@/context/LoadingContext";
+import DataNotFound from "@/app/component/DataNotFound";
 
 
 export default function StudentDashboard() {
@@ -82,7 +83,7 @@ export default function StudentDashboard() {
   const { semesterId } = useSemester()
   console.log("semester:",semesterId)
 
-  if (!presenceData) return <p>Data tidak ditemukan</p>;
+  if (!presenceData) return <DataNotFound />;
 
   return (
     <>

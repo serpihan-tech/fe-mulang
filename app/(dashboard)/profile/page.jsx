@@ -9,7 +9,7 @@ import { useLoading } from "@/context/LoadingContext";
 export default function DataSiswa() {
   const router = useRouter()
   const [role, setRole] = useState(null);
-  const [setIsLoading] = useLoading();
+  const {setIsLoading} = useLoading();
   
     useEffect(() => {
             const token = sessionStorage.getItem("token");

@@ -13,6 +13,7 @@ import { toast, ToastContainer } from "react-toastify";
 import DataKelasModal from "../_component/DataKelasModal";
 import TambahKelasModal from "../_component/TambahKelasModal";
 import { format } from "date-fns";
+import DataNotFound from "@/app/component/DataNotFound";
 
 export default function TahunAjar() {
   const [DetailkelasData, setDetailKelasData] = useState(null);
@@ -238,7 +239,7 @@ export default function TahunAjar() {
                         // onDelete ={handleDelete}
                         title="Tabel Data Semester"
                         dataKey='id_semester'
-                    /> : "Data tidak ditemukan" }
+                    /> : <DataNotFound /> }
               </div>
 
               {meta && <PaginationComponent meta={meta} onPageChange={fetchDataSemester} onLimitChange={handleLimitChange}/>}

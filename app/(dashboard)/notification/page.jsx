@@ -10,7 +10,7 @@ export default function Dashboard() {
   const router = useRouter();
   const pathname = usePathname()
   const [role, setRole] = useState(null);
-  const [setIsLoading] = useLoading();
+  const {setIsLoading} = useLoading();
 
   console.log("router:",pathname)
 
