@@ -34,3 +34,47 @@ html {
 html:not(.dark) {
   background-color: #ffffff; /* Jika light mode, background putih */
 }
+
+.react-datepicker {
+  border: none;
+  border-radius: 0.5rem;
+  font-family: inherit;
+  background-color: #f9f9f9;
+}
+
+.react-datepicker__header {
+  background-color: #f9f9f9;
+  border-bottom: none;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  color: #000;
+  margin: 0.3rem;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__month-text--selected,
+.react-datepicker__year-text--selected {
+  background-color: #2563eb !important; /* warna biru */
+  color: #fff !important;
+  border-radius: 8px;
+}
+
+.react-datepicker__month-text,
+.react-datepicker__year-text {
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin: 0.2rem;
+}
+
+.react-datepicker__month-text:hover,
+.react-datepicker__year-text:hover {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+.react-datepicker__navigation {
+  top: 12px;
+}

@@ -9,24 +9,25 @@ import PaginationComponent from "@/app/component/Pagination";
 import StatusIcon from "@/app/component/StatusIcon";
 import DeletePopUp from "@/app/component/DeletePopUp";
 
+
 export default function AbsensiSiswaAdmin() {
   const [absenData, setAbsenData] = useState(null);
   const [meta, setMeta] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [filterredDate, setFilterredDate] = useState(null);
   const [selectedAbsenId, setSelectedAbsenId] = useState(null);
   const [isDeleteOpen, setDeleteOpen] = useState(false);
   // const [isEditOpen, setEditOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // const [isSuccess, setIsSuccess] = useState(false);
   // const [isTambahOpen, setTambahOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('');
 
+  
 
-  const fetchDataAbsen = async (page=1, date, limitVal = limit) => {
+  const fetchDataAbsen = async (page=1, date=selectedDate, limitVal = limit) => {
     try {
-        const data = await data_absen_siswa(page, date="2024-13-04", limitVal);
+        const data = await data_absen_siswa(page, date, limitVal);
         console.log(data)
         const dataArray = data.absences.absences.data
         console.log(dataArray)
@@ -47,9 +48,9 @@ export default function AbsensiSiswaAdmin() {
         setMeta(data.absences.absences.meta); 
         setCurrentPage(page);
     } catch (error) {
-        toast.error(error.message);//"Server pekok"
+        toast.error(error.message);
     } finally {
-        setLoading(false);
+        setIsLoading(false);
     }
   };
 
@@ -63,12 +64,12 @@ export default function AbsensiSiswaAdmin() {
 
   const handleLimitChange = (newLimit) => {
     setLimit(newLimit);
-    fetchDataAbsen(currentPage, limit)
+    fetchDataAbsen(currentPage, undefined, limit)
   };
 
   useEffect(() => {
     fetchDataAbsen();
-  }, []);
+  }, [limit,selectedDate]);
 
   const handleDelete = (absenId) => {
     setSelectedAbsenId(absenId);
@@ -93,6 +94,11 @@ export default function AbsensiSiswaAdmin() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDateChange = (date) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
+    setSelectedDate(formattedDate)
   };
   
   // const handleEdit = async (kelasId) => {
@@ -189,6 +195,9 @@ export default function AbsensiSiswaAdmin() {
                         data={absenData} 
                         // onEdit={handleEdit}
                         onDelete ={handleDelete}
+                        filterDate={true}
+                        handleDateChange={handleDateChange}
+                        selectedDate={selectedDate}
                         title="Tabel Data Semester"
                         dataKey='id_absen'
                     /> : "Data tidak ditemukan" }

@@ -1,10 +1,14 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp2, ArrowDown2, Edit2, Trash, Diagram, SearchNormal } from "iconsax-react";
+import { Calendar,ArrowUp2, ArrowDown2, Edit2, Trash, Diagram, SearchNormal } from "iconsax-react";
 import Dropdown from "./Dropdown";
 import { useTheme } from "@/provider/ThemeProvider";
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
+import '../globals.css'; 
+import CustomDatePicker from "./Datepicker";
 
-const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey }) => {
+const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey, filterDate,selectedDate,handleDateChange }) => {
   const inputRef = useRef(null);
   const [sortConfig, setSortConfig] = useState({ key: columns[0], direction: "asc" });
   const [filterValues, setFilterValues] = useState({});
@@ -87,8 +91,22 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
   return (
     <div className="w-full overflow-hidden mx-auto">
     <div className="mb-5 flex justify-between items-center text-black dark:text-white">
-      <div className="flex space-x-5">
+      <div className="flex items-center space-x-5">
         <h1 className="text-lg font-semibold">{title}</h1>
+
+        <div className={` ${!filterDate ? "hidden" : ""}`}>
+        <div className="p-10">
+      <CustomDatePicker
+        value={selectedDate}
+        onChange={handleDateChange}
+      />
+    </div>
+          <Calendar
+            size="18"
+            variant="Bold"
+            color="black"
+          />
+        </div>
         <div className="flex space-x-5">
           {filters.map((filter) => (
             <Dropdown
