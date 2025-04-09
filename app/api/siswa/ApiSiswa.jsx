@@ -85,6 +85,17 @@ export const getStudentScore = async (tahunAjar) => {
     }
 };
 
+export const getStudentHistoryPresence = async () => {
+    try {
+        const response = await ApiManager.get('/absences/mine');
+        return response.data
+
+    } catch (error) {
+        toast.error("Gagal mengambil data absen:", error);
+        throw error;
+    }
+};
+
 
 
 
