@@ -86,7 +86,7 @@ export default function DashboardHeader() {
             <Image 
               src={ profileImg || profileImgs[0] || "/svg/logo.svg"} 
               className="rounded-full" 
-              alt="user photo" 
+              alt="photo" 
               width={40} 
               height={40} 
               priority 

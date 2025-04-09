@@ -5,14 +5,13 @@ import { toast, ToastContainer } from "react-toastify";
 import DataSiswaAdmin from "./pages/Admin";
 import AbsensiSiswaAdmin from "./pages/Admin";
 import AbsensiSiswaTeacher from "./pages/Teacher";
-import Lottie from "lottie-react";
-import animationData from "../../../../public/animation/Loading.json";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function AbsensiSiswa() {
   const router = useRouter();
   const pathname = usePathname()
   const [role, setRole] = useState(null);
-  const [loading, setLoading] = useState(true); // State loading
+  const { setIsLoading } = useLoading();
 
   console.log("router:",pathname)
 
@@ -33,15 +32,8 @@ export default function AbsensiSiswa() {
       }
     }
 
-    setLoading(false);
+    setIsLoading(false);
   }, [router]);
-
-  if (loading) return 
-  <Lottie
-    animationData={animationData}
-    className="flex justify-center items-center"
-    loop={true}
-  />; // Hindari rendering sebelum validasi selesai
 
   return (
     <div className="text-black dark:text-white">

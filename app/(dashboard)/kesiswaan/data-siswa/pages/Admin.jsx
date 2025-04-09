@@ -1,9 +1,11 @@
 "use client";
 
 import { data_siswa } from "@/app/api/ApiKesiswaan";
+import DataNotFound from "@/app/component/DataNotFound";
 import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
 import TableComponent from "@/app/component/Table";
+import { useLoading } from "@/context/LoadingContext";
 import { DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,12 +16,13 @@ export default function AdminDataSiswa() {
   const router = useRouter();
   const [siswaData, setSiswaData] = useState(null);
   const [meta, setMeta] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const {setIsLoading} = useLoading();
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(null);
 
   const fetchDataSiswa = async (page = 1,limitVal = limit) => {
-      try {
+    setIsLoading(true);  
+    try {
           const data = await data_siswa(page,limitVal);
           const dataArray = data.students.data
           console.log(dataArray)
@@ -44,7 +47,7 @@ export default function AdminDataSiswa() {
       } catch (error) {
           toast.error("Gagal memuat data siswa.");
       } finally {
-          setLoading(false);
+          setIsLoading(false);
       }
   };
 
@@ -144,8 +147,9 @@ export default function AdminDataSiswa() {
                           columns={columns} 
                           data={siswaData} 
                           title="Data Siswa"
+                          Aksi="EditDelete"
                           filters={filters} 
-                      /> : "Data tidak ditemukan" }
+                      /> : <DataNotFound /> }
                 </div>
 
                 {meta && <PaginationComponent meta={meta} onPageChange={fetchDataSiswa} onLimitChange={handleLimitChange}/>}

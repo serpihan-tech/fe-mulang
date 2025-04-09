@@ -8,6 +8,7 @@ import ImageCropper from "@/app/component/ImageCropper";
 import getCroppedImg from "@/app/component/getCroppedImg";
 import { change_password } from "@/app/api/ApiAuth";
 import EditPopUp from "@/app/component/EditPopUp";
+import { useLoading } from "@/context/LoadingContext";
   
 
 export default function StudentProfile() {
@@ -17,7 +18,7 @@ export default function StudentProfile() {
   const [error, setError] = useState(false);
   const [errors, setErrors] = useState(false);
   const [studentData, setStudentData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { setIsLoading } = useLoading();
   const [imageSrc, setImageSrc] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const { setProfileImg } = useProfile();
@@ -89,7 +90,7 @@ export default function StudentProfile() {
     } catch (error) {
       console.error("Gagal memuat data siswa.", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -160,7 +161,7 @@ export default function StudentProfile() {
   };
 
   const handleChangePassword = async (e) => {
-    setLoading(true)
+    setIsLoading(true)
     e.preventDefault();
     const payload = {
       oldPassword: formData.oldPassword,
@@ -182,7 +183,7 @@ export default function StudentProfile() {
       
     } finally {
       
-      setLoading(false)
+      setIsLoading(false)
       setIsEdit(false)
       setFormData({ oldPassword: "", newPassword: "", newPasswordConfirmation: "" });
     }
@@ -213,7 +214,7 @@ export default function StudentProfile() {
             <Image 
               src={imageSrc || (baseUrl+'/image/'+ studentData?.studentDetail.profilePicture)  } 
               className="rounded-full w-full h-full object-cover"
-              alt="user photo" 
+              alt="photo" 
               width={150} 
               height={150} 
               priority 
@@ -382,7 +383,6 @@ export default function StudentProfile() {
               <EditPopUp
                 onCancel={() => setIsEdit(false)}
                 onConfirm={handleChangePassword}
-                isLoading={loading}
               />
             </div>
           )}

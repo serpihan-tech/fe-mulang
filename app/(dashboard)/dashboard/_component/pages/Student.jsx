@@ -8,8 +8,8 @@ import { getStudentPresence, getStudentSchedule } from "@/app/api/siswa/ApiSiswa
 import CalendarComponent from "../home/CalendarComponent";
 import { useSemester } from "@/provider/SemesterProvider";
 import { ArrowRight2 } from "iconsax-react";
-import animationData from "../../../../../public/animation/Loading.json";
-import Lottie from "lottie-react";
+import { useLoading } from "@/context/LoadingContext";
+import DataNotFound from "@/app/component/DataNotFound";
 
 
 export default function StudentDashboard() {
@@ -17,7 +17,7 @@ export default function StudentDashboard() {
   const datasiswa = sessionStorage.getItem("profile_data");
   const [scheduleData, setScheduleData] = useState(null);
   const [presenceData, setPresenceData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { setIsLoading } = useLoading();
   const today = new Intl.DateTimeFormat('id-ID', { weekday: 'long' }).format(new Date());
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function StudentDashboard() {
 
       if (!studentId) {
         console.error("Student ID tidak ditemukan di sessionStorage");
-        setLoading(false);
+        setIsLoading(false);
         return;
       } else {
         sessionStorage.setItem("student_id",studentId);
@@ -69,7 +69,7 @@ export default function StudentDashboard() {
           console.error("Error fetching schedule data:", error);
           toast.error("Error fetching schedule data");
         } finally {
-          setLoading(false);
+          setIsLoading(false);
         }
       };
 
@@ -83,14 +83,7 @@ export default function StudentDashboard() {
   const { semesterId } = useSemester()
   console.log("semester:",semesterId)
 
-  if (loading) 
-    return 
-    <Lottie
-      animationData={animationData}
-      className="flex justify-center items-center"
-      loop={true}
-    />;
-  if (!presenceData) return <p>Data tidak ditemukan</p>;
+  if (!presenceData) return <DataNotFound />;
 
   return (
     <>

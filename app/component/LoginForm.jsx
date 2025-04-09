@@ -6,11 +6,12 @@ import Image from "next/image";
 import { ToastContainer, toast } from 'react-toastify';
 import { login } from "../api/ApiAuth";
 import { Eye, EyeSlash } from "iconsax-react";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const { setIsLoading } = useLoading();
   const [error, setError] = useState("");
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
@@ -20,7 +21,7 @@ export default function LoginForm() {
 
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
     setError("");
 
     try{
@@ -41,7 +42,7 @@ export default function LoginForm() {
       }
       
     } finally {
-      setLoading(false)
+      setIsLoading(false)
     };
 
   }, [credentials,router]);
@@ -132,9 +133,8 @@ export default function LoginForm() {
               <button
                 type="submit"
                 className="w-full bg-pri-main dark:bg-pri-border text-white dark:text-netral-100 py-2 rounded-md hover:bg-pri-hover dark:hover:bg-pri-border/50 transition"
-                disabled={loading}
               >
-                {loading ? "Memverifikasi..." : "Masuk"}
+                Masuk
               </button>
             </div>
           </form>

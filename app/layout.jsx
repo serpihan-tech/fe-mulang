@@ -2,6 +2,8 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../provider/ThemeProvider";
 import { ProfileProvider } from "@/provider/ProfileProvider";
+import { LoadingProvider } from "../context/LoadingContext";
+import Navigation from "../app/component/Navigation";
 
 const PlusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -30,11 +32,14 @@ export default function RootLayout({ children }) {
       <body
         className={` ${PlusJakarta.className} antialiased`}
       >
-        <ProfileProvider>
-          <ThemeProvider>
-            {children}
-          </ThemeProvider>
-        </ProfileProvider>
+        <LoadingProvider>
+          <Navigation />
+          <ProfileProvider>
+            <ThemeProvider>
+              {children}
+            </ThemeProvider>
+          </ProfileProvider>
+        </LoadingProvider>
       </body>
     </html>
   );

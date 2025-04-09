@@ -9,6 +9,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { AdminDashboardApi } from '@/app/api/admin/ApiDashboard';
 import CalendarComponent from '../home/CalendarComponent';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function AdminDashboard() {
   
@@ -16,8 +17,8 @@ export default function AdminDashboard() {
   
   
   const [dashboardData, setDashboardData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  
+  const { setIsLoading } = useLoading();
+
   const fetchDashboard = async () => {
     try {
       const data = await AdminDashboardApi();
@@ -28,7 +29,7 @@ export default function AdminDashboard() {
     } catch (error) {
       toast.error("Gagal memuat data dashboard.");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 

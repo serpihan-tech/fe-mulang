@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import TeacherProfile from "./pages/Teacher";
 import StudentProfile from "./pages/Student";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function DataSiswa() {
   const router = useRouter()
   const [role, setRole] = useState(null);
-    const [loading, setLoading] = useState(true); // State loading
+  const {setIsLoading} = useLoading();
   
     useEffect(() => {
             const token = sessionStorage.getItem("token");
@@ -29,7 +30,7 @@ export default function DataSiswa() {
               }
             }
         
-            setLoading(false);
+            setIsLoading(false);
           }, [router]);
   return (
     <>

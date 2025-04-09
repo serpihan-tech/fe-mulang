@@ -13,13 +13,13 @@ import { toast, ToastContainer } from "react-toastify";
 import DataKelasModal from "../_component/DataKelasModal";
 import TambahKelasModal from "../_component/TambahKelasModal";
 import { format } from "date-fns";
+import DataNotFound from "@/app/component/DataNotFound";
 
 export default function TahunAjar() {
   const [DetailkelasData, setDetailKelasData] = useState(null);
   const router = useRouter();
   const [SemesterData, setSemesterData] = useState(null);
   const [meta, setMeta] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [selectedSemesterId, setSelectedSemesterId] = useState(null);
@@ -31,6 +31,7 @@ export default function TahunAjar() {
 
 
   const fetchDataSemester = async (limitVal = limit, page=1) => {
+    setIsLoading(true);
     try {
         const data = await data_semester(limitVal,page)
         const dataArray = data?.data
@@ -54,7 +55,7 @@ export default function TahunAjar() {
     } catch (error) {
         toast.error(error.message);
     } finally {
-        setLoading(false);
+        setIsLoading(false);
     }
   };
 
@@ -236,9 +237,10 @@ export default function TahunAjar() {
                         data={SemesterData} 
                         // onEdit={handleEdit}
                         // onDelete ={handleDelete}
+                        Aksi="EditDelete"
                         title="Tabel Data Semester"
                         dataKey='id_semester'
-                    /> : "Data tidak ditemukan" }
+                    /> : <DataNotFound /> }
               </div>
 
               {meta && <PaginationComponent meta={meta} onPageChange={fetchDataSemester} onLimitChange={handleLimitChange}/>}
