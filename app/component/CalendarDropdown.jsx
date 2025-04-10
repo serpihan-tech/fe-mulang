@@ -3,7 +3,9 @@ import { format } from "date-fns";
 
 export default function CalendarDropdown({ selectedDate, onSelect }) {
   const today = new Date();
-  const [currentDate, setCurrentDate] = useState(selectedDate || today);
+  const [currentDate, setCurrentDate] = useState(
+    selectedDate ? new Date(selectedDate) : today
+  );
   const [mode, setMode] = useState("date"); // 'date' | 'month' | 'year'
 
   const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);

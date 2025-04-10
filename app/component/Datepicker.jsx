@@ -2,6 +2,14 @@ import { useState } from "react";
 import { Calendar } from "iconsax-react";
 import CalendarDropdown from "./CalendarDropdown";
 
+// Fungsi format manual ke dd-mm-yyyy
+function formatDate(date) {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
 export default function CustomDatePicker({ value, onChange }) {
   const [showCalendar, setShowCalendar] = useState(false);
 
@@ -14,9 +22,9 @@ export default function CustomDatePicker({ value, onChange }) {
         onClick={toggleCalendar}
       >
         <span className="text-sm text-black">
-          {value ? value.toLocaleDateString("id-ID") : "Pilih tanggal"}
+          {value ? formatDate(new Date(value)) : "Pilih tanggal"}
         </span>
-        <Calendar size="20" variant="Outline" />
+        <Calendar size="20" variant="Bold" color="currentColor" />
       </div>
 
       {showCalendar && (

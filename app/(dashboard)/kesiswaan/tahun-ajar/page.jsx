@@ -59,12 +59,12 @@ export default function TahunAjar() {
     }
   };
 
+
   const columns = [
-    "id_semester",
-    "tahun_ajar",
-    "tanggal_mulai",
-    "tanggal_selesai",
-    "status",    
+    { label: "tahun_ajar", sortKey: "tanggal" },
+    { label: "tanggal_mulai", sortKey: "nis" },
+    { label: "tanggal_selesai", sortKey: "namaSiswa" },
+    { label: "status", sortKey: "status" },
   ];
 
   const handleLimitChange = (newLimit) => {

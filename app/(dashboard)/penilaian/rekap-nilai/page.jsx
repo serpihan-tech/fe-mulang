@@ -47,10 +47,11 @@ export default function RekapNilai() {
   };
 
   const columns = [
-    "nis",
-    "nama_siswa",
-    "kelas",
+    { label: "nis", sortKey: "tanggal" },
+    { label: "nama_siswa", sortKey: "nis" },
+    { label: "kelas", sortKey: "namaSiswa" },
   ];
+  
 
   useEffect(() => {
     fetchDataSiswa();

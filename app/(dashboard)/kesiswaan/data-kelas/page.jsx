@@ -57,10 +57,9 @@ export default function DataKelas() {
   };
 
   const columns = [
-    "id_kelas",
-    "nama_kelas",
-    "wali_kelas",
-    "total_siswa",    
+    { label: "nama_kelas", sortKey: "tanggal" },
+    { label: "wali_kelas", sortKey: "nis" },
+    { label: "total_siswa", sortKey: "namaSiswa" },
   ];
 
   const handleLimitChange = (newLimit) => {

@@ -145,10 +145,10 @@ export const data_semester = async (limit, page) => {
     }
 };
 
-export const data_absen_siswa = async (page, date, limit) => {
+export const data_absen_siswa = async (page, date, limit, search, sortBy, sortOrder) => {
     
     try {
-        const response = await ApiManager.get(`/absences?page=${page}&tanggal=${date}&limit=${limit}`,{
+        const response = await ApiManager.get(`/absences?page=${page}&tanggal=${date}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -181,4 +181,41 @@ export const hapus_absen_siswa = async (absenId) => {
         }
     }
 };
+
+export const detail_data_absen_siswa = async (absenceId) => {
+    try {
+        const response = await ApiManager.get(`/absences/${absenceId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
+        }
+    }
+};
+
+export const edit_absen_siswa = async (absenceId,crendentials) => {
+    try {
+        const response = await ApiManager.patch(`/absences/${absenceId}`,crendentials,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal Edit Data");
+        }
+    }
+};
+
 
