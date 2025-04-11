@@ -255,7 +255,7 @@ export const edit_absen_siswa = async (absenceId,crendentials) => {
 
 
 
-export const detail_data_absen_siswa = async (absenceId) => {
+  const detail_data_absen_siswa = async (absenceId) => {
     try {
         const response = await ApiManager.get(`/absences/${absenceId}`,{
             headers: {
@@ -273,7 +273,7 @@ export const detail_data_absen_siswa = async (absenceId) => {
     }
 };
 
-export const edit_absen_siswa = async (absenceId,crendentials) => {
+  const edit_absen_siswa = async (absenceId,crendentials) => {
     try {
         const response = await ApiManager.patch(`/absences/${absenceId}`,crendentials,{
             headers: {
@@ -299,7 +299,7 @@ const checkUserRole = () => {
   return userRole;
 };
 
-export const nilai_siswa = async (tahunAjarId) => {
+  const nilai_siswa = async (tahunAjarId) => {
   const token = sessionStorage.getItem("token");
   const userRole = checkUserRole();
   
@@ -351,6 +351,4 @@ export const nilai_siswa = async (tahunAjarId) => {
     }
     throw err;
   }
-}
-}
-
+}}
