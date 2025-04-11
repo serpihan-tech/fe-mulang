@@ -252,54 +252,15 @@ export const edit_absen_siswa = async (absenceId,crendentials) => {
         toast.error("Gagal Edit Data");
         }
     }
-
-
-
-  const detail_data_absen_siswa = async (absenceId) => {
-    try {
-        const response = await ApiManager.get(`/absences/${absenceId}`,{
-            headers: {
-                "ngrok-skip-browser-warning": "69420",
-            }
-        });
-        return response.data;
-
-    } catch (err) {
-        if (err.message.includes('Network Error')) {
-        toast.error('Error 500: Server sedang bermasalah');
-        } else {
-        toast.error("Data tidak tersedia");
-        }
-    }
 };
 
-  const edit_absen_siswa = async (absenceId,crendentials) => {
-    try {
-        const response = await ApiManager.patch(`/absences/${absenceId}`,crendentials,{
-            headers: {
-                "ngrok-skip-browser-warning": "69420",
-            }
-        });
-        return response.data;
-
-    } catch (err) {
-        if (err.message.includes('Network Error')) {
-        toast.error('Error 500: Server sedang bermasalah');
-        } else {
-        toast.error("Gagal Edit Data");
-        }
-    }
-};
-
-
-// Add this function to check user's role
 const checkUserRole = () => {
   const userRole = sessionStorage.getItem("role"); // or however you store the user role
   console.log("Current user role:", userRole);
   return userRole;
 };
 
-  const nilai_siswa = async (tahunAjarId) => {
+export const nilai_siswa = async (tahunAjarId) => {
   const token = sessionStorage.getItem("token");
   const userRole = checkUserRole();
   
@@ -351,4 +312,4 @@ const checkUserRole = () => {
     }
     throw err;
   }
-}}
+}
