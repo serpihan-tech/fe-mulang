@@ -126,8 +126,8 @@ export const dropdown_data_guru = async () => {
         }
     }
 };
-
-export const data_semester = async (limit, page) => {
+//&search=${search}
+export const data_semester = async (limit, page, search) => {
     try {
         const response = await ApiManager.get(`/academic-years?page=${page}&limit=${limit}`,{
             headers: {
@@ -140,7 +140,43 @@ export const data_semester = async (limit, page) => {
         if (err.message.includes('Network Error')) {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
-        toast.error("Data semester tidak tersedia");
+        toast.error(err.message);
+        }
+    }
+};
+
+export const tambah_semester = async (crendentials) => {
+    try {
+        const response = await ApiManager.post(`/academic-years`,crendentials,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal membuat kelas");
+        }
+    }
+};
+
+export const hapus_semester = async (semesterId) => {
+    try {
+        const response = await ApiManager.delete(`/academic-years/${semesterId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal Hapus Data");
         }
     }
 };

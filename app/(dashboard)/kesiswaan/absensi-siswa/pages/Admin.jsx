@@ -12,6 +12,7 @@ import { useLoading } from "@/context/LoadingContext";
 import DataNotFound from "@/app/component/DataNotFound";
 import DataKelasModal from "../../_component/DataKelasModal";
 import EditAbsensiModal from "../../_component/EditAbsenModal";
+import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 
 export default function AbsensiSiswaAdmin() {
   const [absenData, setAbsenData] = useState(null);
@@ -23,7 +24,7 @@ export default function AbsensiSiswaAdmin() {
   const [isLoading, setIsLoading] = useState(false);
   const { setIsLoading: setPageLoading } = useLoading();
   const [isEditOpen, setEditOpen] = useState(false);
-  // const [isSuccess, setIsSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   // const [isTambahOpen, setTambahOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedSearch, setSearch] = useState('');
@@ -99,8 +100,9 @@ export default function AbsensiSiswaAdmin() {
       const response = await hapus_absen_siswa(selectedAbsenId);
       if(response){
         setDeleteOpen(false);
+        setIsSuccess(true)
         fetchDataAbsen();
-        toast.success(response.message)
+        setTimeout(() => setIsSuccess(false), 1200);
       }
        
       
@@ -127,7 +129,7 @@ export default function AbsensiSiswaAdmin() {
   const handleEdit = async (absenId) => {
     try{
       const data = await detail_data_absen_siswa(absenId)
-      console.log("data sebelum:",absenId,data.absence)
+      //console.log("data sebelum:",absenId,data.absence)
       setDetailDataAbsen(data.absence)
       setEditOpen(true)
       
@@ -140,13 +142,17 @@ export default function AbsensiSiswaAdmin() {
       status: editedData.status,
       reason: editedData.reason,
     };
-  
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
-      await edit_absen_siswa(editedData.id, payload);
-      toast.success("Data kelas berhasil diperbarui!");
-      setEditOpen(false); // Tutup modal setelah sukses
-      fetchDataAbsen()
+      const response = await edit_absen_siswa(editedData.id, payload);
+      if(response){
+        setIsSuccess(true)
+        setTimeout(() => setIsSuccess(false), 1200);
+        setEditOpen(false); 
+        fetchDataAbsen()
+      }
+      
       // Tambahkan fungsi untuk refresh data kelas jika perlu
     } catch (error) {
       toast.error("Gagal mengupdate data kelas!");
@@ -209,6 +215,13 @@ export default function AbsensiSiswaAdmin() {
           />
         </div>
       )}
+
+      {/* Pop-up Sukses */}
+      {isSuccess && (
+          <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+            <SuccessUpdatePopUp />
+          </div>
+        )}
       <div className="z-0 transition">        
         {/* Body */}
         <div>

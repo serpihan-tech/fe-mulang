@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
 
 export default function CalendarDropdown({ selectedDate, onSelect }) {
@@ -7,7 +7,9 @@ export default function CalendarDropdown({ selectedDate, onSelect }) {
     selectedDate ? new Date(selectedDate) : today
   );
   const [mode, setMode] = useState("date"); // 'date' | 'month' | 'year'
-
+  useEffect(() => {
+    setCurrentDate(selectedDate ? new Date(selectedDate) : today);
+  }, [selectedDate]);
   const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
   const startDay = startOfMonth.getDay(); // 0 (Sunday) - 6 (Saturday)
 
@@ -118,7 +120,7 @@ export default function CalendarDropdown({ selectedDate, onSelect }) {
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md space-y-4 min-w-[250px]">
+    <div className="p-4 bg-white rounded-lg shadow-md space-y-4 min-w-[250px] text-black">
       {/* Header */}
       <div className="flex justify-between items-center">
         <button onClick={handlePrev}>‹</button>

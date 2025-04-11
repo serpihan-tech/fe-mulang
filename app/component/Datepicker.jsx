@@ -10,7 +10,7 @@ function formatDate(date) {
   return `${day}-${month}-${year}`;
 }
 
-export default function CustomDatePicker({ value, onChange }) {
+export default function CustomDatePicker({ value, onChange, customFilterdateStyle}) {
   const [showCalendar, setShowCalendar] = useState(false);
 
   const toggleCalendar = () => setShowCalendar((prev) => !prev);
@@ -18,7 +18,7 @@ export default function CustomDatePicker({ value, onChange }) {
   return (
     <div className="relative">
       <div
-        className="flex items-center justify-between border border-blue-500 rounded-lg px-4 py-2 cursor-pointer min-w-[180px]"
+        className={customFilterdateStyle}
         onClick={toggleCalendar}
       >
         <span className="text-sm text-black">

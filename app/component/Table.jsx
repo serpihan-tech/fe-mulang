@@ -95,6 +95,7 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
           <CustomDatePicker
             value={selectedDate}
             onChange={handleDateChange}
+            customFilterdateStyle="flex items-center justify-between border border-blue-500 rounded-lg px-4 py-2 cursor-pointer min-w-[180px]"
           />
         </div>
         <div className="flex space-x-5">
