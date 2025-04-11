@@ -126,8 +126,8 @@ export const dropdown_data_guru = async () => {
         }
     }
 };
-
-export const data_semester = async (limit, page) => {
+//&search=${search}
+export const data_semester = async (limit, page, search) => {
     try {
         const response = await ApiManager.get(`/academic-years?page=${page}&limit=${limit}`,{
             headers: {
@@ -140,15 +140,51 @@ export const data_semester = async (limit, page) => {
         if (err.message.includes('Network Error')) {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
-        toast.error("Data semester tidak tersedia");
+        toast.error(err.message);
         }
     }
 };
 
-export const data_absen_siswa = async (page, date, limit) => {
+export const tambah_semester = async (crendentials) => {
+    try {
+        const response = await ApiManager.post(`/academic-years`,crendentials,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal membuat kelas");
+        }
+    }
+};
+
+export const hapus_semester = async (semesterId) => {
+    try {
+        const response = await ApiManager.delete(`/academic-years/${semesterId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal Hapus Data");
+        }
+    }
+};
+
+export const data_absen_siswa = async (page, date, limit, search, sortBy, sortOrder) => {
     
     try {
-        const response = await ApiManager.get(`/absences?page=${page}&tanggal=${date}&limit=${limit}`,{
+        const response = await ApiManager.get(`/absences?page=${page}&tanggal=${date}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -181,6 +217,80 @@ export const hapus_absen_siswa = async (absenId) => {
         }
     }
 };
+
+export const detail_data_absen_siswa = async (absenceId) => {
+    try {
+        const response = await ApiManager.get(`/absences/${absenceId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
+        }
+    }
+};
+
+export const edit_absen_siswa = async (absenceId,crendentials) => {
+    try {
+        const response = await ApiManager.patch(`/absences/${absenceId}`,crendentials,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal Edit Data");
+        }
+    }
+
+
+
+export const detail_data_absen_siswa = async (absenceId) => {
+    try {
+        const response = await ApiManager.get(`/absences/${absenceId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
+        }
+    }
+};
+
+export const edit_absen_siswa = async (absenceId,crendentials) => {
+    try {
+        const response = await ApiManager.patch(`/absences/${absenceId}`,crendentials,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal Edit Data");
+        }
+    }
+};
+
 
 // Add this function to check user's role
 const checkUserRole = () => {
@@ -241,4 +351,6 @@ export const nilai_siswa = async (tahunAjarId) => {
     }
     throw err;
   }
-};
+}
+}
+

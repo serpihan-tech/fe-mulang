@@ -52,14 +52,15 @@ export default function AdminDataSiswa() {
   };
 
   const columns = [
-      "nis",
-      "nisn",
-      "nama_lengkap",
-      "email",
-      "kelas",
-      "tahun_ajar",
-      "jenis_kelamin",
-      "status",
+    { label: "nis", sortKey: "tanggal" },
+    { label: "nisn", sortKey: "nis" },
+    { label: "nama_lengkap", sortKey: "namaSiswa" },
+    { label: "email", sortKey: "namaSiswa" },
+    { label: "kelas", sortKey: "namaSiswa" },
+    { label: "tahun_ajar", sortKey: "namaSiswa" },
+    { label: "jenis_kelamin", sortKey: "namaSiswa" },
+    { label: "status", sortKey: "namaSiswa" },
+
   ];
 
   

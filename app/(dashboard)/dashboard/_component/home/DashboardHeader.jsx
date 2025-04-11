@@ -68,7 +68,7 @@ export default function DashboardHeader() {
 
       {/* Right Section */}
       <div className="flex items-center gap-3">
-        <ThemeSwitcher />
+        {/* <ThemeSwitcher /> */}
         
         {/* Notification Dropdown */}
         <NotificationDropdown />

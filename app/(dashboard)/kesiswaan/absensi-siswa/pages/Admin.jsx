@@ -1,6 +1,6 @@
 "use client";
 
-import { data_absen_siswa, hapus_absen_siswa } from "@/app/api/ApiKesiswaan";
+import { data_absen_siswa, detail_data_absen_siswa, edit_absen_siswa, hapus_absen_siswa } from "@/app/api/ApiKesiswaan";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { format } from "date-fns";
@@ -10,6 +10,9 @@ import StatusIcon from "@/app/component/StatusIcon";
 import DeletePopUp from "@/app/component/DeletePopUp";
 import { useLoading } from "@/context/LoadingContext";
 import DataNotFound from "@/app/component/DataNotFound";
+import DataKelasModal from "../../_component/DataKelasModal";
+import EditAbsensiModal from "../../_component/EditAbsenModal";
+import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 
 export default function AbsensiSiswaAdmin() {
   const [absenData, setAbsenData] = useState(null);
@@ -20,19 +23,29 @@ export default function AbsensiSiswaAdmin() {
   const [isDeleteOpen, setDeleteOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { setIsLoading: setPageLoading } = useLoading();
-  // const [isEditOpen, setEditOpen] = useState(false);
-  // const [isSuccess, setIsSuccess] = useState(false);
+  const [isEditOpen, setEditOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   // const [isTambahOpen, setTambahOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
+  const [selectedSearch, setSearch] = useState('');
+  const [sortBy, setSortBy] = useState(""); 
+  const [sortOrder, setSortOrder] = useState(""); 
+  const [detailDataAbsen, setDetailDataAbsen] = useState(null)
 
   
+  //, date=selectedDate
+  const fetchDataAbsen = async (page=1,date=selectedDate, limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder) => {
 
-  const fetchDataAbsen = async (page=1, date=selectedDate, limitVal = limit) => {
-    setPageLoading(true)
     try {
-        const data = await data_absen_siswa(page, date, limitVal);
+      let formattedDate = "";
+      if (date) {
+        const d = new Date(date);
+        if (!isNaN(d)) {
+          formattedDate = format(d, "yyyy-MM-dd");
+        }} 
+        const data = await data_absen_siswa(page,formattedDate,limitVal,search,sortField,sortDir);
         console.log(data)
-        const dataArray = data.absences.absences.data
+        const dataArray = data?.absences.absences.data
         console.log(dataArray)
         if (Array.isArray(dataArray)) { 
             const formattedData = dataArray.map((item) => ({
@@ -53,27 +66,26 @@ export default function AbsensiSiswaAdmin() {
     } catch (error) {
         toast.error(error.message);
     } finally {
-        setPageLoading(false);
+
         setIsLoading(false);
     }
   };
 
   const columns = [
-    "tanggal",
-    "nis",
-    "nama_siswa",
-    "status",
-    "keterangan"    
+    { label: "tanggal", sortKey: "tanggal" },
+    { label: "nis", sortKey: "nis" },
+    { label: "nama_siswa", sortKey: "namaSiswa" },
+    { label: "status", sortKey: "status" },
+    { label: "keterangan", sortKey: "alasan" },
   ];
 
   const handleLimitChange = (newLimit) => {
     setLimit(newLimit);
-    fetchDataAbsen(currentPage, undefined, limit)
   };
 
   useEffect(() => {
     fetchDataAbsen();
-  }, [limit,selectedDate]);
+  }, [limit,selectedDate,selectedSearch, sortBy, sortOrder]);
 
   const handleDelete = (absenId) => {
     setSelectedAbsenId(absenId);
@@ -81,64 +93,73 @@ export default function AbsensiSiswaAdmin() {
   };
 
   const confirmDelete = async () => {
-    if (!selectedSemesterId) return;
+    if (!selectedAbsenId) return;
     setIsLoading(true);
 
     try {
       const response = await hapus_absen_siswa(selectedAbsenId);
       if(response){
         setDeleteOpen(false);
-        fetchDataKelas();
-        toast.success(response.message)
+        setIsSuccess(true)
+        fetchDataAbsen();
+        setTimeout(() => setIsSuccess(false), 1200);
       }
        
       
     } catch (error) {
-      toast.error("Gagal menghapus data");
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleDateChange = (date) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
-    setSelectedDate(formattedDate)
+    setSelectedDate(date);
   };
   
-  // const handleEdit = async (kelasId) => {
-  //   try{
-  //     const data = await detail_data_kelas(kelasId)
-  //     console.log("data sebelum:",data)
-  //     setDetailKelasData(data)
-  //     setEditOpen(true)
-      
-  //   } finally{}
-  // }
+  
+  const handleSearchChange = (search) => {
+    setSearch(search);
+  };
 
-  // const confirmEdit = async (editedData) => {
-  //   if (!editedData.nama || !editedData.waliKelas) {
-  //     toast.error("Nama Kelas dan Wali Kelas harus diisi!");
-  //     return;
-  //   }
-  
-  //   const payload = {
-  //     name: editedData.nama,
-  //     teacher_id: editedData.waliKelas,
-  //   };
-  
-  //   try {
-  //     setIsLoading(true);
-  //     await edit_kelas(editedData.id, payload);
-  //     toast.success("Data kelas berhasil diperbarui!");
-  //     setEditOpen(false); // Tutup modal setelah sukses
-  //     fetchDataKelas()
-  //     // Tambahkan fungsi untuk refresh data kelas jika perlu
-  //   } catch (error) {
-  //     toast.error("Gagal mengupdate data kelas!");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+  const handleSortChange = (key, direction) => {
+    setSortBy(key);
+    setSortOrder(direction);
+  };
+  const handleEdit = async (absenId) => {
+    try{
+      const data = await detail_data_absen_siswa(absenId)
+      //console.log("data sebelum:",absenId,data.absence)
+      setDetailDataAbsen(data.absence)
+      setEditOpen(true)
+      
+    } finally{}
+  }
+
+  const confirmEdit = async (editedData) => {
+    
+    const payload = {
+      status: editedData.status,
+      reason: editedData.reason,
+    };
+    setIsLoading(true);
+
+    try {
+      const response = await edit_absen_siswa(editedData.id, payload);
+      if(response){
+        setIsSuccess(true)
+        setTimeout(() => setIsSuccess(false), 1200);
+        setEditOpen(false); 
+        fetchDataAbsen()
+      }
+      
+      // Tambahkan fungsi untuk refresh data kelas jika perlu
+    } catch (error) {
+      toast.error("Gagal mengupdate data kelas!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // const handleTambah = async () => {
   //   try{
@@ -173,6 +194,17 @@ export default function AbsensiSiswaAdmin() {
 
   return (
     <>
+      {/* Modal edit */}
+      {isEditOpen && (
+        <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+          <EditAbsensiModal
+            onCancel={() => setEditOpen(false)}
+            onConfirm={confirmEdit}
+            isLoading={isLoading}
+            AbsenData={detailDataAbsen}
+          />
+        </div>
+      )}
       {/* Pop-up Konfirmasi Delete */}
       {isDeleteOpen && (
         <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
@@ -183,13 +215,19 @@ export default function AbsensiSiswaAdmin() {
           />
         </div>
       )}
+
+      {/* Pop-up Sukses */}
+      {isSuccess && (
+          <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+            <SuccessUpdatePopUp />
+          </div>
+        )}
       <div className="z-0 transition">        
         {/* Body */}
         <div>
           <div className="w-full ps-2">
             <div className="flex items-center">
               <h1 className="w-full text-black text-xl font-semibold">Data Absensi Siswa</h1> 
-              
             </div>
             <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
               <div className={absenData ? "max-w-screen-xl p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
@@ -197,14 +235,19 @@ export default function AbsensiSiswaAdmin() {
                     <TableComponent 
                         columns={columns} 
                         data={absenData} 
-                        // onEdit={handleEdit}
+                        onEdit={handleEdit}
                         onDelete ={handleDelete}
                         Aksi="EditDelete"
                         filterDate={true}
                         handleDateChange={handleDateChange}
+                        handleSearchChange={handleSearchChange}
+                        selectedSearch={selectedSearch}
                         selectedDate={selectedDate}
-                        title="Tabel Data Semester"
+                        title="Tabel Data Absensi Siswa"
                         dataKey='id_absen'
+                        onSortChange={handleSortChange}
+                        sortBy={sortBy}
+                        sortOrder={sortOrder}
                     /> : <DataNotFound /> }
               </div>
 
