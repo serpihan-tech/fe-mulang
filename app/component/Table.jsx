@@ -10,6 +10,7 @@ import '../globals.css';
 import CustomDatePicker from "./Datepicker";
 
 const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey, Aksi, filterDate,selectedDate,handleDateChange }) => {
+  console.log(data);
   const inputRef = useRef(null);
   const router = useRouter();
   const [sortConfig, setSortConfig] = useState({ key: columns[0], direction: "asc" });
@@ -105,7 +106,7 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
       return (
         <button 
           className="px-2 py-1.5 bg-white rounded-[5px] outline outline-1 outline-offset-[-1px] outline-[#0841e2]"
-          onClick={() => router.push("/penilaian/rekap-nilai/lihat-nilai")}
+          onClick={() => router.push(`/penilaian/rekap-nilai/lihat-nilai?id=${item.id}`)}
         >
           <div className="justify-start text-[#0841e2] text-sm font-medium">Lihat Nilai</div>
         </button>

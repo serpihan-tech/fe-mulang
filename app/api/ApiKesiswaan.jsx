@@ -182,3 +182,63 @@ export const hapus_absen_siswa = async (absenId) => {
     }
 };
 
+// Add this function to check user's role
+const checkUserRole = () => {
+  const userRole = sessionStorage.getItem("role"); // or however you store the user role
+  console.log("Current user role:", userRole);
+  return userRole;
+};
+
+export const nilai_siswa = async (tahunAjarId) => {
+  const token = sessionStorage.getItem("token");
+  const userRole = checkUserRole();
+  
+  console.log("Attempting to fetch scores with:", {
+    userRole,
+    tahunAjarId,
+    hasToken: !!token
+  });
+
+  if (!token) {
+    toast.error("Token tidak ditemukan. Silakan login kembali.");
+    window.location.href = '/login';
+    return;
+  }
+
+  try {
+    // Add user role to request if needed
+    const response = await ApiManager.get(
+      `/scores/my-scoring?tahunAjar=${tahunAjarId}`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-User-Role': userRole // Add this if your API needs it
+        },
+      }
+    );
+    
+    return response.data;
+  } catch (err) {
+    if (err.response?.status === 403) {
+      const errorMessage = err.response.data?.error?.message || "Anda tidak memiliki akses ke data ini";
+      console.error("Access denied:", {
+        userRole,
+        errorMessage,
+        endpoint: `/scores/mine?tahunAjar=${tahunAjarId}`
+      });
+      
+      // More specific error handling
+      if (errorMessage.includes("Tidak Memiliki Akses")) {
+        toast.error("Anda tidak memiliki izin untuk melihat nilai ini");
+        // Optionally redirect to appropriate page
+        // window.location.href = '/unauthorized';
+      } else {
+        toast.error(errorMessage);
+      }
+    }
+    throw err;
+  }
+};

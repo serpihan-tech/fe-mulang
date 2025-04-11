@@ -29,6 +29,7 @@ export default function RekapNilai() {
         if (Array.isArray(dataArray)) {
             // Mapping agar sesuai dengan format tabel
             const formattedData = dataArray.map((item) => ({
+                id: item.id,
                 nis: item.studentDetail?.nis || "Tidak Ada",
                 nama_siswa: item.name || "Tidak Ada",
                 kelas: item.classStudent[0]?.class?.name || "Tidak Ada",
