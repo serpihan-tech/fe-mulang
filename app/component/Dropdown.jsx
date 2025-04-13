@@ -43,7 +43,7 @@ export default function Dropdown({
   return (
     <div 
       ref={dropdownRef}
-      className={`relative cursor-pointer ${className} text-black dark:text-white`}
+      className={`relative cursor-pointer ${className} dark:text-white`}
       onClick={handleClick}
     >
       <div className={`flex items-center w-full ${containerStyle}`}>
@@ -56,12 +56,12 @@ export default function Dropdown({
         )}
         <div className="flex-grow mr-10">
           {!value && title && <p className="text-sm">{title}</p>}
-          <p className="text-sm font-medium">
+          <p className={`${value ? 'text-black' : 'text-netral-20' } text-sm font-medium`}>
             {value ? value.label : placeholder ||"" }
           </p>
         </div>
         <ArrowDown2 
-          className={`w-5 h-5 transition-transform duration-300 justify-end ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 transition-transform duration-300 justify-end ${value ? 'text-black' : 'text-netral-20' } ${isOpen ? 'rotate-180' : ''}`}
           color='currentColor'
         />
       </div>

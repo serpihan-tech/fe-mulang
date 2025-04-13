@@ -49,7 +49,7 @@ export const updateStudentProfile = async (id, payload, file) => {
         data.append(`student_detail[${key}]`, value);
     });
 
-    // Tambahkan file jika ada
+    //Tambahkan file jika ada
     if (file) {
         data.append("student_detail[profile_picture]", file);
         const response = await ApiManager.patch(`/students/${id}`, data,{
@@ -62,6 +62,8 @@ export const updateStudentProfile = async (id, payload, file) => {
         const response = await ApiManager.patch(`/students/${id}`, data);
         return response;
     }
+
+    
 
       
   } catch (error) {

@@ -96,8 +96,19 @@ export default function StudentDashboard() {
               non_presence={presenceData.tidak_hadir}
             />
 
-            {scheduleData && scheduleData.length > 0 && (
+            {scheduleData && scheduleData.length > 0 ? (
               <JadwalHariIni scheduleData={scheduleData} />
+            ) : (
+              <div className="text-center text-netral-50 mt-4">
+                <div className="w-full flex items-center justify-between">
+                  <h1 className="text-lg font-semibold">Jadwal Hari ini</h1>
+                </div>
+                <div className="p-10 flex flex-col items-center justify-center font-semibold">
+                  <img className="w-[45px] h-[45px] left-0 top-0 mb-5" alt="dasd" src="/svg/event.svg" />
+                  <p>Hari ini libur!</p>
+                  <p className="font-normal">Saatnya istirahat sejenak</p>
+                </div>
+              </div>
             )}
 
           </div>

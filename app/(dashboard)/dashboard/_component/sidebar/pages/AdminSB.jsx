@@ -10,8 +10,8 @@ export default function AdminBar({ open }) {
         colorIcon="currentColor"
         open={open}
         dropdownItems={[
-          { label: "Data Pegawai", url: "/kepegawaian/data-pegawai" },
-          { label: "Presensi Pegawai", url: "/kepegawaian/presensi-pegawai" },
+          { label: "Data Pegawai", url: "/kepegawaian/data-pegawai"},
+          { label: "Presensi Pegawai", url: "/kepegawaian/presensi-pegawai"},
           { label: "Jabatan", url: "/kepegawaian/jabatan" }
         ]}
       />
@@ -21,9 +21,9 @@ export default function AdminBar({ open }) {
         colorIcon="currentColor"
         open={open}
         dropdownItems={[
-          { label: "Data Siswa", url: "/kesiswaan/data-siswa" },
-          { label: "Data Kelas", url: "/kesiswaan/data-kelas" },
-          { label: "Tahun Ajar", url: "/kesiswaan/tahun-ajar" },
+          { label: "Data Siswa", url: "/kesiswaan/data-siswa"},
+          { label: "Data Kelas", url: "/kesiswaan/data-kelas"},
+          { label: "Tahun Ajar", url: "/kesiswaan/tahun-ajar"},
           { label: "Absensi Siswa", url: "/kesiswaan/absensi-siswa" }
         ]}
       />
@@ -44,7 +44,7 @@ export default function AdminBar({ open }) {
         open={open}
         dropdownItems={[
           { label: "Mata Pelajaran", url: "/kbm/mata-pelajaran" },
-          { label: "Jadwal Pelajaran", url: "/kbm/jadwal-pelajaran" }
+          { label: "Jadwal Pelajaran", url: "/kbm/jadwal-pelajaran"}
         ]}
       />
 

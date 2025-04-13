@@ -21,7 +21,7 @@ export default function CustomDatePicker({ value, onChange, customFilterdateStyl
         className={customFilterdateStyle}
         onClick={toggleCalendar}
       >
-        <span className="text-sm text-black">
+        <span className="text-sm ">
           {value ? formatDate(new Date(value)) : "Pilih tanggal"}
         </span>
         <Calendar size="20" variant="Bold" color="currentColor" />

@@ -30,9 +30,7 @@ export default function JadwalHariIni({ scheduleData }) {
 
   return (
     <div className="w-full space-y-7 my-6">
-      <div className="w-full flex items-center justify-between">
-        <h1 className="text-black text-lg font-semibold">Jadwal Hari ini</h1>
-      </div>
+      
       <div className="w-full space-y-8">
         { scheduleData && scheduleData.length > 0 ? (
           scheduleData

@@ -10,13 +10,13 @@ import ApiManager from "@/app/api/ApiManager"
 export default function Periode() {
   const { semesterId, setSemesterId, allSemesters } = useSemester()
   const [selectedPeriod, setSelectedPeriod] = useState(null)
-  console.log(allSemesters)
+  // console.log(allSemesters)
   
   useEffect(() => {
     if (semesterId) {
       const initialSemester = allSemesters.find((option) => option.value === semesterId)
-      console.log("semester inisial: ",semesterId)
-      console.log("initial:",initialSemester)
+      // console.log("semester inisial: ",semesterId)
+      // console.log("initial:",initialSemester)
       setSelectedPeriod(initialSemester || " ")
     }
   }, [allSemesters, semesterId])

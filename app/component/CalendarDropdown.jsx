@@ -123,8 +123,8 @@ export default function CalendarDropdown({ selectedDate, onSelect }) {
     <div className="p-4 bg-white rounded-lg shadow-md space-y-4 min-w-[250px] text-black">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <button onClick={handlePrev}>‹</button>
-        <button onClick={() => setMode(mode === "year" ? "date" : mode === "month" ? "year" : "month")} className="font-medium">
+        <button onClick={handlePrev} type="button">‹</button>
+        <button type="button" onClick={() => setMode(mode === "year" ? "date" : mode === "month" ? "year" : "month")} className="font-medium">
           {mode === "date" && format(currentDate, "MMMM yyyy")}
           {mode === "month" && currentDate.getFullYear()}
           {mode === "year" &&
@@ -132,7 +132,7 @@ export default function CalendarDropdown({ selectedDate, onSelect }) {
               Math.floor(currentDate.getFullYear() / 10) * 10 + 9
             }`}
         </button>
-        <button onClick={handleNext}>›</button>
+        <button type="button" onClick={handleNext}>›</button>
       </div>
 
       {/* Body */}

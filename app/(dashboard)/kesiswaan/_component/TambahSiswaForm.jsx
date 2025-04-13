@@ -1,190 +1,527 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dropdown from "@/app/component/Dropdown";
+import CustomDatePicker from "@/app/component/Datepicker";
+import { format } from "date-fns";
+import { data_kelas, data_semester } from "@/app/api/ApiKesiswaan";
+import { toast, ToastContainer } from "react-toastify";
+import { useSemester } from "@/provider/SemesterProvider";
+import getCroppedImg from "@/app/component/getCroppedImg";
+import ImageCropper from "@/app/component/ImageCropper";
 
-export default function TambahSiswaForm() {
-  const classOptions = [
-    { label: "X MIPA 1", value: "xmipa1" },
-    { label: "X MIPA 2", value: "xmipa2" },
-    { label: "X IPS 1", value: "xips1" },
-    { label: "X IPS 2", value: "xips2" },
-    { label: "XI MIPA 1", value: "ximipa1" },
-    { label: "XI MIPA 2", value: "ximipa2" },
-    { label: "XI IPS 1", value: "xiips1" },
-    { label: "XI IPS 2", value: "xiips2" },
-    { label: "XII MIPA 1", value: "xiimipa1" },
-    { label: "XII MIPA 2", value: "xiimipa2" },
-    { label: "XII IPS 1", value: "xiiips1" },
-    { label: "XII IPS 2", value: "xiiips2" },
+
+
+export default function TambahSiswaForm({data}) {
+  const [classOptions, setClassOption] = useState([])
+  const {allSemesters, fetchAllSemesters} = useSemester()
+  const [selectedPeriod, setSelectedPeriod] = useState(null)
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [originalFile, setOriginalFile] = useState(null);
+
+  const [formData, setFormData] = useState({
+    user:{
+      email:"",
+      password:"",
+      username:""
+    },
+    student:{
+      name:"",
+      is_graduate:"",
+    },
+    student_detail:{
+      gender:"",
+      religion:"",
+      birth_place: "",
+      birth_date: null,
+      address: "",
+      parents_name: "",
+      parents_phone: "",
+      parents_job: "",
+      students_phone: "",
+      nis: "",
+      nisn: "",
+      enrollment_year: "",
+      profile_picture: ""
+    },
+    student_class:{
+      classId:null,
+      academicYears:null,
+    }
+  })
+
+  const religionOptions = [
+    { label: "Islam", value: "Islam" },
+    { label: "Kristen", value: "Kristen" },
+    { label: "Katolik", value: "Katolik" },
+    { label: "Budha", value: "Budha" },
+    { label: "Hindu", value: "Hindu" },
+    { label: "Konghucu", value: "Konghucu" },
   ];
+  
+  useEffect(() => {
+    const fetchDataKelas = async (page,limit,search,sortField,sortDir) => {
+      try {
+          const data = await data_kelas(page=1,limit=99,search='', sortField='', sortDir='');
+          // console.log("kelazzzzz",data)
+          const formattedOptions = data?.theClass.theClass.map((kelas) => ({
+            label: kelas.name,
+            value: kelas.id,
+          }));
+          setClassOption(formattedOptions);
+      } catch (error) {
+          toast.error(error.message);
+      } finally {
+          // setLoading(false);
+      }
+    }
+
+    fetchDataKelas()
+  }, [])
 
   const tahunAjarOptions = [
-    { label: "Genap 2024-2025", value: "genap_2024_2025" },
-    { label: "Ganjil 2024-2025", value: "ganjil_2024_2025" },
-    { label: "Genap 2023-2024", value: "genap_2023_2024" },
-    { label: "Ganjil 2023-2024", value: "ganjil_2023_2024" },
+    { label: "Genap 2024-2025", value: "1" },
+    { label: "Ganjil 2024-2025", value: "2" },
+    { label: "Genap 2023-2024", value: "3" },
+    { label: "Ganjil 2023-2024", value: "4" },
   ];
-
-  const [selectedClass, setSelectedClass] = useState(null);
 
   const [selectedTahunAjar, setSelectedTahunAjar] = useState(null);
 
+  // console.log("kelas", ClassOption)
+  // console.log("semester:", allSemesters)
+  console.log('form: ', formData)
+
+  const setNestedValue = (obj, path, value) => {
+    const keys = path.split('.');
+    const lastKey = keys.pop();
+    const nested = keys.reduce((acc, key) => acc[key], obj);
+    nested[lastKey] = value;
+  };
+
+  const handleInputChange = (fieldPath) => (e) => {
+    const value = e.target.value;
+    setFormData((prev) => {
+      const updated = { ...prev };
+      setNestedValue(updated, fieldPath, value);
+      return updated;
+    });
+  };
+
+  const handleDateChange = (field) => (date) => {
+    setFormData((prev) => { 
+      const updated = { ...prev };
+      setNestedValue(updated, field, new Date(format(date,"yyyy-MM-dd")));
+      return updated });
+  };
+
+  const handleDropdownChange = (fieldPath) => (selectedOption) => {
+    setFormData((prev) => {
+      const updated = { ...prev };
+      setNestedValue(updated, fieldPath, selectedOption.value);
+      return updated;
+    });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setOriginalFile(file);
+      const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+      const maxSize = 2 * 1024 * 1024;
+  
+      if (!validTypes.includes(file.type)) {
+        alert("Format file harus .jpeg, .jpg, atau .png");
+        e.target.value = null;
+        return;
+      }
+  
+      if (file.size > maxSize) {
+        alert("Ukuran file maksimal 2MB");
+        e.target.value = null;
+        return;
+      }
+  
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCropComplete = async (imageSrc, croppedAreaPixels) => {
+    try {
+      const croppedImageBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
+      const fileName = originalFile?.name || "cropped-image.png";
+      setFormData((prev) => ({
+        ...prev,
+        user: {
+          ...prev.user,
+          profile_picture: new File([croppedImageBlob], fileName, {
+            type: "image/png",
+          }),
+        },
+      }));
+  
+      setSelectedImage(null); // tutup cropper
+    } catch (err) {
+      console.error("Crop failed:", err);
+    }
+  };
+  
+  const handleCancelCrop = () => {
+    setSelectedImage(null);
+  };
+
+  
+
   return (
-    <div className="w-full bg-white py-8 px-6 text-black">
-      <div className="flex space-x-16">
-        <div className="w-1/2">
-          <div className="text-black text-xl font-semibold">Data Siswa</div>
-          <form action="" className="mt-6 space-y-5">
-            <div className="w-full flex space-x-11">
-              <div className="w-1/2 space-y-[5px]">
-                <label className="text-black text-sm font-medium">NIS</label>
-                <input type="number" 
-                  placeholder="Masukkan NIS"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+    <div className="w-full bg-white py-5 px-6 text-black">
+    {selectedImage && (
+      <ImageCropper
+        image={selectedImage}
+        onCropComplete={handleCropComplete}
+        onCancel={handleCancelCrop}
+      />
+    )}
+    <ToastContainer/>
+      <form>
+        <div className="md:flex md:space-x-16">
+
+          {/* Data siswa */}
+          <div className="md:w-1/2 space-y-5">
+
+              <h1 className="text-black text-xl font-semibold ">Data Siswa</h1>
+              {/* Nis, Nisn */}
+              <div className="w-full flex space-x-10">
+                <div className="w-1/2 space-y-[5px]">
+                  <label className="text-black text-sm font-medium">NIS</label>
+                  <input type="number" 
+                    value={formData.student_detail.nis || ""}
+                    onChange={handleInputChange("student_detail.nis")}
+                    placeholder="Masukkan NIS"
+                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                  />
+                </div>
+                <div className="w-1/2 space-y-[5px]">
+                  <label className="text-black text-sm font-medium ">NISN</label>
+                  <input type="number" 
+                    value={formData.student_detail.nisn || ""}
+                    onChange={handleInputChange("student_detail.nisn")}
+                    placeholder="Masukkan NISN"
+                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                  />
+                </div>
               </div>
-              <div className="w-1/2 space-y-[5px]">
-                <label className="text-black text-sm font-medium">NISN</label>
-                <input type="number" 
-                  placeholder="Masukkan NISN"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+              
+              {/* Nama Lenkap */}
+              <div className="space-y-[5px]">
+                <label className="text-black text-sm font-medium">Nama Lengkap</label>
+                  <input type="text"
+                    value={formData.student.name || ""}
+                    onChange={handleInputChange("student.name")} 
+                    placeholder="Masukkan nama lengkap"
+                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                  />
               </div>
-            </div>
-            <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Nama Lengkap</label>
-                <input type="text" 
-                  placeholder="Masukkan nama lengkap"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
-            </div>
-            <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Nomor Telepon Siswa</label>
-                <input type="number" 
-                  placeholder="Masukkan nomor telepon siswa"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
-            </div>
-            <div className="w-full flex space-x-11">
+
+              {/* Tempat dan tanggal lahir */}
+              <div className="w-full flex space-x-10">
+                <div className="w-full space-y-[5px]">
+                  <label className="text-black text-sm font-medium">Tempat lahir</label>
+                  <input type="text" 
+                    value={formData.student_detail.birth_place || ""}
+                    onChange={handleInputChange("student_detail.birth_place")} 
+                    placeholder="Masukkan tempat lahir"
+                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                  />
+                </div>
+                <div className="w-full space-y-[5px]">
+                  <label className="text-black text-sm font-medium">Tanggal lahir</label>
+                  <CustomDatePicker
+                    required
+                    value={formData.student_detail.birth_date ?? null}
+                    onChange={handleDateChange('student_detail.birth_date')}
+                    customFilterdateStyle={`flex items-center justify-between border border-netral-20 focus:outline-pri-main rounded-lg px-4 py-2 cursor-pointer min-w-[180px] ${
+                        formData.student_detail.birth_date ? "text-black" : "text-netral-20"
+                    }`}
+                    />
+                </div>
+              </div>
+              
+              {/* Tanggal masuk */}
               <div className="w-full space-y-[5px]">
-                <label className="text-black text-sm font-medium">Kelas</label>
+                <label className="text-black text-sm font-medium">Tanggal Masuk</label>
+                <CustomDatePicker
+                  required
+                  value={formData.student_detail.enrollment_year ?? null}
+                  onChange={handleDateChange('student_detail.enrollment_year')}
+                  customFilterdateStyle={`flex items-center justify-between border border-netral-20 focus:outline-pri-main rounded-lg px-4 py-2 cursor-pointer min-w-[180px] ${
+                      formData.student_detail.enrollment_year ? "text-black" : "text-netral-20"
+                  }`}
+                  />
+              </div>
+
+              {/* Telp siswa */}
+              <div className="space-y-[5px]">
+                <label className="text-black text-sm font-medium">Nomor Telepon Siswa</label>
+                  <input type="text"
+                    inputMode="numeric"
+                    maxLength={13}
+                    minLength={11}
+                    value={formData.student_detail.students_phone ?? null}
+                    onChange={handleInputChange('student_detail.students_phone')}
+                    placeholder="Masukkan nomor telepon siswa"
+                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                  />
+              </div>
+
+              {/* Agama */}
+              <div className="w-full space-y-[5px]">
+                <label className="text-black text-sm font-medium">Agama</label>
                 <Dropdown
-                  options={classOptions}
-                  value={selectedClass}
-                  onChange={setSelectedClass}
-                  placeholder="Pilih kelas"
-                  className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-gray-200"
+                  options={religionOptions}
+                  value={religionOptions.find(opt => opt.value === formData.student_detail.religion) || null}
+                  onChange={handleDropdownChange("student_detail.religion")}
+                  placeholder="Pilih Agama"
+                  className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20"
                   dropdownStyle="dark:bg-black dark:text-white"
                 />
               </div>
-              <div className="w-full space-y-[5px]">
-                <label className="text-black text-sm font-medium">Tahun Ajar  </label>
-                <Dropdown
-                  options={tahunAjarOptions}
-                  value={selectedTahunAjar}
-                  onChange={setSelectedTahunAjar}
-                  placeholder="Pilih tahun ajar"
-                  className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-gray-200"
-                  dropdownStyle="dark:bg-black dark:text-white"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="text-black text-sm font-medium">Jenis Kelamin</label>
-              <div className="flex py-4 space-x-8">
-                <div className="flex items-center space-x-[18px]">
-                  <input id="laki-laki" type="radio" value="" name="laki-laki" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                  <label htmlFor="laki-laki" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Laki-Laki</label>
+
+              {/* kelas dan tahun ajar */}
+              <div className="w-full flex space-x-10">
+                {/* Kelas */}
+                <div className="w-full space-y-[5px]">
+                  <label className="text-black text-sm font-medium">Kelas</label>
+                  <Dropdown
+                    options={classOptions}
+                    value={classOptions.find(opt => opt.value === formData.student_class.classId) || null}
+                    onChange={handleDropdownChange("student_class.classId")}
+                    placeholder="Pilih kelas"
+                    className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20"
+                    dropdownStyle="dark:bg-black dark:text-white"
+                  />
                 </div>
-                <div className="flex items-center me-4">
-                    <input id="perempuan" type="radio" value="" name="perempuan" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                    <label htmlFor="perempuan" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Perempuan</label>
-                </div>
-              </div>
-            </div>
-            <div>
-              <label className="text-black text-sm font-medium">Pilih Status</label>
-              <div className="flex py-4 space-x-8">
-                <div className="flex items-center space-x-[18px]">
-                  <input id="aktif" type="radio" value="" name="aktif" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                  <label htmlFor="aktif" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Aktif</label>
-                </div>
-                <div className="flex items-center me-4">
-                    <input id="tidak-aktif" type="radio" value="" name="tidak-aktif" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                    <label htmlFor="tidak-aktif" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tidak Aktif</label>
+                {/* Tahun ajar */}
+                <div className="w-full space-y-[5px]">
+                  <label className="text-black text-sm font-medium">Tahun Ajar  </label>
+                  <Dropdown
+                    options={allSemesters}
+                    value={allSemesters.find(opt => opt.value === formData.student_class.academicYears) || null}
+                    onChange={handleDropdownChange("student_class.academicYears")}
+                    placeholder="Pilih tahun ajar"
+                    className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20"
+                    dropdownStyle="dark:bg-black dark:text-white"
+                  />
                 </div>
               </div>
-            </div>
-          </form>
-        </div>
-        <div className="w-1/2">
-          <div className="text-black text-xl font-semibold">Data Keluarga</div>
-          <form action="" className="mt-6 space-y-5">
+
+              {/* Label gender */}
+              <div>
+                <label className="text-black text-sm font-medium">Jenis Kelamin</label>
+                <div className="flex py-4 space-x-8">
+                <label className="flex items-center gap-2 text-black text-sm font-medium">
+                  <input
+                      type="radio"
+                      name="gender"
+                      value="laki-laki"
+                      checked={formData.student_detail.gender === "laki-laki"}
+                      onChange={handleInputChange("student_detail.gender")}
+                      className="w-5 h-5 accent-pri-main"
+                  />
+                  Laki-laki
+                </label>
+                <label className="flex items-center gap-2 text-black text-sm font-medium">
+                  <input
+                      type="radio"
+                      name="gender"
+                      value="perempuan"
+                      checked={formData.student_detail.gender === "perempuan"}
+                      onChange={handleInputChange("student_detail.gender")}
+                      className="w-5 h-5 accent-pri-main"
+                  />
+                  Perempuan
+                </label>
+                </div>
+              </div>
+
+              {/* Label Aktif / tidak Aktif */}
+              <div>
+                <label className="text-black text-sm font-medium">Pilih Status</label>
+                <div className="flex py-4 space-x-8">
+                <label className="flex items-center gap-2 text-black text-sm font-medium">
+                  <input
+                      type="radio"
+                      name="status"
+                      value="0"
+                      checked={formData.student.is_graduate === "0"}
+                      onChange={handleInputChange("student.is_graduate")}
+                      className="w-5 h-5 accent-pri-main"
+                  />
+                  Aktif
+                </label>
+                <label className="flex items-center gap-2 text-black text-sm font-medium">
+                  <input
+                      type="radio"
+                      name="status"
+                      value="1"
+                      checked={formData.student.is_graduate === "1"}
+                      onChange={handleInputChange("student.is_graduate")}
+                      className="w-5 h-5 accent-pri-main"
+                  />
+                  Tidak Aktif
+                </label>
+                </div>
+              </div>
+              
+          </div>
+          
+          {/* Data keluarga dan Data user */}
+          <div className="md:w-1/2 space-y-5 mb-6">
+            <h1 className="text-black text-xl font-semibold">Data Keluarga</h1>
+
+            {/* Nama Orang Tua / Wali */}
             <div className="space-y-[5px]">
               <label className="text-black text-sm font-medium">Nama Orang Tua / Wali</label>
-                <input type="text" 
-                  placeholder="Masukkan nama orang tua / wali"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+              <input 
+                type="text" 
+                value={formData.student_detail.parents_name || ""}
+                onChange={handleInputChange("student_detail.parents_name")}
+                placeholder="Masukkan nama orang tua / wali"
+                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+              />
             </div>
+
+              {/* Nomor Telepon Orang Tua / Wali */}
             <div className="space-y-[5px]">
               <label className="text-black text-sm font-medium">Nomor Telepon Orang Tua / Wali</label>
-                <input type="number" 
-                  placeholder="Masukkan nomor telepon orang tua / wali"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+              <input 
+                type="text" 
+                inputMode="numeric"
+                maxLength={13}
+                minLength={11}
+                value={formData.student_detail.parents_phone || ""}
+                onChange={handleInputChange("student_detail.parents_phone")}
+                placeholder="Masukkan nomor telepon orang tua / wali"
+                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+              />
             </div>
+
+            {/* Pekerjaan Orang Tua / Wali */}
             <div className="space-y-[5px]">
               <label className="text-black text-sm font-medium">Pekerjaan Orang Tua / Wali</label>
-                <input type="text" 
-                  placeholder="Masukkan pekerjaan orang tua / wali"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+              <input 
+                type="text" 
+                value={formData.student_detail.parents_job || ""}
+                onChange={handleInputChange("student_detail.parents_job")}
+                placeholder="Masukkan pekerjaan orang tua / wali"
+                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+              />
             </div>
+
+            {/* Alamat Orang Tua / Wali */}
             <div className="space-y-[5px]">
               <label className="text-black text-sm font-medium">Alamat Orang Tua / Wali</label>
-                <input type="text" 
-                  placeholder="Masukkan alamat orang tua / wali"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+              <input 
+                type="text" 
+                value={formData.student_detail.address || ""}
+                onChange={handleInputChange("student_detail.address")}
+                placeholder="Masukkan alamat orang tua / wali"
+                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+              />
             </div>
-          </form>
 
-          <div className="text-black my-5 text-xl font-semibold">Data User</div>
-          <form action="" className=" space-y-5">
+            <h1 className="text-black my-5 text-xl font-semibold">Data User</h1>
+
+            {/* Email Siswa */}
             <div className="space-y-[5px]">
               <label className="text-black text-sm font-medium">Email Siswa</label>
-                <input type="email" 
-                  placeholder="Masukkan email siswa"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+              <input 
+                type="email" 
+                value={formData.user.email || ""}
+                onChange={handleInputChange("user.email")}
+                placeholder="Masukkan email siswa"
+                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+              />
             </div>
+
+            {/* Username Siswa */}
             <div className="space-y-[5px]">
               <label className="text-black text-sm font-medium">Username Siswa</label>
-                <input type="text" 
-                  placeholder="Masukkan username siswa"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+              <input 
+                type="text" 
+                minLength={5}
+                maxLength={13}
+                value={formData.user.username || ""}
+                onChange={handleInputChange("user.username")}
+                placeholder="Masukkan username siswa"
+                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+              />
             </div>
+
+            {/* Kata Sandi Siswa */}
             <div className="space-y-[5px]">
               <label className="text-black text-sm font-medium">Kata Sandi Siswa</label>
-                <input type="password" 
-                  placeholder="Masukkan kata sandi baru"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+              <input 
+                type="password" 
+                minLength={8}
+                value={formData.user.password || ""}
+                onChange={handleInputChange("user.password")}
+                placeholder="Masukkan kata sandi baru"
+                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+              />
             </div>
-            
-          </form>
+
+          
+            <div className="space-y-[5px]">
+              <label className="text-black text-sm font-medium">Foto Profil</label>
+
+              <div className="w-full flex overflow-hidden rounded-md border border-netral-20 bg-white text-white text-sm">
+                <label
+                  htmlFor="file-upload"
+                  className="bg-pri-main px-4 py-2 cursor-pointer font-semibold shrink-0"
+                >
+                  Pilih file
+                </label>
+                
+                <input
+  id="file-upload"
+  type="file"
+  accept="image/jpeg, image/jpg, image/png"
+  className="hidden"
+  onChange={handleFileChange}
+/>
+
+                <div className={`${formData.user.profile_picture?"text-black":"text-netral-20"} px-4 py-2 w-full truncate text-black`}>
+                  {formData.user.profile_picture
+                    ? formData.user.profile_picture.name
+                    : "No file chosen"}
+                </div>
+                
+
+                
+              </div>
+              <p className="text-netral-20 text-sm">JPG, JPEG, PNG File (max. 2MB)</p>
+            </div>
+
+
+          
+          </div>
         </div>
-      </div>
-      <div className="w-full flex justify-end space-x-4">
-        <button className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 hover:bg-red-500 hover:text-white bg-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
-          Batal
-        </button>
-        <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
-          Simpan
-        </button>
-      </div>
+
+        {/* button */}
+        <div className="w-full flex justify-end space-x-4">
+          <button className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 hover:bg-red-500 hover:text-white bg-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+            Batal
+          </button>
+          <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+            Simpan
+          </button>
+        </div>
+
+      </form>
     </div>
   )
 }

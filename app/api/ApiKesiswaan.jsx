@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
 import ApiManager from "./ApiManager";
 
-export const data_siswa = async (page=1,limit) => {
+export const data_siswa = async (page,limit, search, sortBy, sortOrder) => {
     try {
-        const response = await ApiManager.get(`/students?page=${page}&limit=${limit}`,{
+        const response = await ApiManager.get(`/students?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -19,9 +19,63 @@ export const data_siswa = async (page=1,limit) => {
     }
 };
 
-export const data_kelas = async (page=1,limit) => {
+export const hapus_siswa= async (siswaId) => {
     try {
-        const response = await ApiManager.get(`/classes?page=${page}&limit=${limit}`,{
+        const response = await ApiManager.delete(`/students/${siswaId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal Hapus Data");
+        }
+    }
+};
+
+export const detail_data_siswa = async (siswaId) => {
+    try {
+        const response = await ApiManager.get(`/students/${siswaId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
+        }
+    }
+};
+
+export const edit_siswa= async (siswaId,crendentials) => {
+    try {
+        const response = await ApiManager.patch(`/students/${siswaId}`,crendentials,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal Edit Data");
+        }
+    }
+};
+
+export const data_kelas = async (page,limit, search, sortBy, sortOrder) => {
+    try {
+        const response = await ApiManager.get(`/classes?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -126,10 +180,10 @@ export const dropdown_data_guru = async () => {
         }
     }
 };
-//&search=${search}
-export const data_semester = async (limit, page, search) => {
+
+export const data_semester = async (limit, page, search, sortBy, sortOrder) => {
     try {
-        const response = await ApiManager.get(`/academic-years?page=${page}&limit=${limit}`,{
+        const response = await ApiManager.get(`/academic-years?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -177,6 +231,24 @@ export const hapus_semester = async (semesterId) => {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
         toast.error("Gagal Hapus Data");
+        }
+    }
+};
+
+export const detail_data_semester = async (semesterId) => {
+    try {
+        const response = await ApiManager.get(`/academic-years/${semesterId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
         }
     }
 };
@@ -232,6 +304,24 @@ export const detail_data_absen_siswa = async (absenceId) => {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
         toast.error("Data tidak tersedia");
+        }
+    }
+};
+
+export const edit_semester = async (semesterId,crendentials) => {
+    try {
+        const response = await ApiManager.patch(`/academic-years/${semesterId}`,crendentials,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal Edit Data");
         }
     }
 };

@@ -13,8 +13,10 @@ import { toast, ToastContainer } from "react-toastify";
 import DataKelasModal from "../_component/DataKelasModal";
 import TambahKelasModal from "../_component/TambahKelasModal";
 import DataNotFound from "@/app/component/DataNotFound";
+import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 
 export default function DataKelas() {
+  
   const [DetailkelasData, setDetailKelasData] = useState(null);
   const router = useRouter();
   const [kelasData, setKelasData] = useState(null);
@@ -28,11 +30,13 @@ export default function DataKelas() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isTambahOpen, setTambahOpen] = useState(false);
+  const [selectedSearch, setSearch] = useState('');
+  const [sortBy, setSortBy] = useState(""); 
+  const [sortOrder, setSortOrder] = useState(""); 
 
-
-  const fetchDataKelas = async (page = 1,limitVal = limit) => {
+  const fetchDataKelas = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder) => {
     try {
-        const data = await data_kelas(page, limitVal);
+        const data = await data_kelas(page, limitVal, search, sortField, sortDir);
         console.log("data",data)
         const dataArray = data?.theClass.theClass
         if (Array.isArray(dataArray)) {
@@ -57,9 +61,9 @@ export default function DataKelas() {
   };
 
   const columns = [
-    { label: "nama_kelas", sortKey: "tanggal" },
-    { label: "wali_kelas", sortKey: "nis" },
-    { label: "total_siswa", sortKey: "namaSiswa" },
+    { label: "nama_kelas", sortKey: "kelas" },
+    { label: "wali_kelas", sortKey: "waliKelas" },
+    { label: "total_siswa", sortKey: "jumlahSiswa" },
   ];
 
   const handleLimitChange = (newLimit) => {
@@ -67,9 +71,18 @@ export default function DataKelas() {
     fetchDataKelas(currentPage, newLimit); // Refresh data dengan limit baru
   };
 
+  const handleSearchChange = (search) => {
+    setSearch(search);
+  };
+
+  const handleSortChange = (key, direction) => {
+    setSortBy(key);
+    setSortOrder(direction);
+  };
+
   useEffect(() => {
       fetchDataKelas();
-  }, []);
+  }, [limit,selectedSearch,sortBy,sortOrder]);
 
   const handleDelete = (kelasId) => {
     setSelectedClassId(kelasId);
@@ -85,7 +98,7 @@ export default function DataKelas() {
       setIsSuccess(true);
       setDeleteOpen(false);
       fetchDataKelas(); // Reload data setelah sukses
-      setTimeout(() => setIsSuccess(false), 2000); // Pop-up sukses hilang otomatis
+      setTimeout(() => setIsSuccess(false), 1200); // Pop-up sukses hilang otomatis
     } catch (error) {
       toast.error("Gagal menghapus data");
     } finally {
@@ -127,12 +140,6 @@ export default function DataKelas() {
       setIsLoading(false);
     }
   };
-
-  const handleTambah = async () => {
-    try{
-      setTambahOpen(true)
-    } finally{}
-  }
 
   const confirmTambah = async (createdData) => {
     if (!createdData.nama || !createdData.waliKelas) {
@@ -200,10 +207,10 @@ export default function DataKelas() {
 
         {/* Pop-up Sukses */}
         {isSuccess && (
-          <div className="z-40 fixed top-10 right-10 bg-green-500 text-white p-3 rounded-lg shadow-lg">
-            Data berhasil dihapus!
-          </div>
-        )}
+            <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+              <SuccessUpdatePopUp />
+            </div>
+          )}
         <div>
           <div className="w-full ps-2">
           <div className="flex items-center">
@@ -232,6 +239,11 @@ export default function DataKelas() {
                           Aksi="EditDelete"
                           title="Tabel Data Kelas"
                           dataKey='id_kelas'
+                          handleSearchChange={handleSearchChange}
+                          selectedSearch={selectedSearch}
+                          onSortChange={handleSortChange}
+                          sortBy={sortBy}
+                          sortOrder={sortOrder}
                       /> : <DataNotFound /> }
                 </div>
 

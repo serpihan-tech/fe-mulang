@@ -1,6 +1,6 @@
 "use client";
 
-import { data_kelas, data_semester, detail_data_kelas, edit_kelas, hapus_kelas, hapus_semester, tambah_kelas, tambah_semester } from "@/app/api/ApiKesiswaan";
+import { data_kelas, data_semester, detail_data_kelas, detail_data_semester, edit_kelas, edit_semester, hapus_kelas, hapus_semester, tambah_kelas, tambah_semester } from "@/app/api/ApiKesiswaan";
 import Breadcrumb from "@/app/component/Breadcrumb";
 import DeletePopUp from "@/app/component/DeletePopUp";
 import PaginationComponent from "@/app/component/Pagination";
@@ -18,7 +18,7 @@ import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import TambahSemesterModal from "../_component/TambahSemester";
 
 export default function TahunAjar() {
-  const [DetailkelasData, setDetailKelasData] = useState(null);
+  const [DetailSemester, setDetailSemester] = useState(null);
   const router = useRouter();
   const [SemesterData, setSemesterData] = useState(null);
   const [meta, setMeta] = useState(null);
@@ -30,14 +30,16 @@ export default function TahunAjar() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isTambahOpen, setTambahOpen] = useState(false);
-  const [selectedSearch, setSearch] = useState(' ');
+  const [selectedSearch, setSearch] = useState('');
+  const [sortBy, setSortBy] = useState(""); 
+  const [sortOrder, setSortOrder] = useState(""); 
 
 
 
-  const fetchDataSemester = async (limitVal = limit, page=1, search=selectedSearch) => {
+  const fetchDataSemester = async (limitVal = limit, page=1, search=selectedSearch, sortField=sortBy, sortDir=sortOrder) => {
     setIsLoading(true);
     try {
-        const data = await data_semester(limitVal,page,search)
+        const data = await data_semester(limitVal,page,search, sortField, sortDir)
         const dataArray = data.data
         console.log(data)
         if (Array.isArray(dataArray)) {
@@ -63,11 +65,10 @@ export default function TahunAjar() {
     }
   };
 
-
   const columns = [
-    { label: "tahun_ajar", sortKey: "tanggal" },
-    { label: "tanggal_mulai", sortKey: "nis" },
-    { label: "tanggal_selesai", sortKey: "namaSiswa" },
+    { label: "tahun_ajar", sortKey: "tahunAjar" },
+    { label: "tanggal_mulai", sortKey: "tanggalMulai" },
+    { label: "tanggal_selesai", sortKey: "tanggalSelesai" },
     { label: "status", sortKey: "status" },
   ];
 
@@ -76,13 +77,22 @@ export default function TahunAjar() {
     fetchDataSemester(newLimit);
   };
 
-  useEffect(() => {
-    fetchDataSemester();
-  }, [limit,selectedSearch]);
-
   const handleSearchChange = (search) => {
     setSearch(search);
   };
+
+
+
+  const handleSortChange = (key, direction) => {
+    setSortBy(key);
+    setSortOrder(direction);
+  };
+
+  useEffect(() => {
+    fetchDataSemester();
+  }, [limit,selectedSearch,sortBy,sortOrder]);
+
+
 
   const handleDelete = (semesterId) => {
     setSelectedSemesterId(semesterId);
@@ -98,7 +108,7 @@ export default function TahunAjar() {
       setIsSuccess(true);
       setDeleteOpen(false);
       fetchDataSemester(); 
-      setTimeout(() => setIsSuccess(false), 2000); // Pop-up sukses hilang otomatis
+      setTimeout(() => setIsSuccess(false), 2000); 
     } catch (error) {
       toast.error("Gagal menghapus data");
     } finally {
@@ -106,52 +116,50 @@ export default function TahunAjar() {
     }
   };
   
-  // const handleEdit = async (kelasId) => {
-  //   try{
-  //     const data = await detail_data_kelas(kelasId)
-  //     console.log("data sebelum:",data)
-  //     setDetailKelasData(data)
-  //     setEditOpen(true)
+  const handleEdit = async (semesterId) => {
+    try{
+      const data = await detail_data_semester(semesterId)
+      console.log("data sebelum:",data.academicYears)
+      setDetailSemester(data.academicYears)
+      setEditOpen(true)
       
-  //   } finally{}
-  // }
+    } finally{}
+  }
 
-  // const confirmEdit = async (editedData) => {
-  //   if (!editedData.nama || !editedData.waliKelas) {
-  //     toast.error("Nama Kelas dan Wali Kelas harus diisi!");
-  //     return;
-  //   }
+  const confirmEdit = async (editedData) => {
+    
+    const payload = {
+      name: editedData.tahunAjar,
+      semester: editedData.semester,
+      date_start: format(new Date(editedData.date_start), "yyyy-MM-dd"),
+      date_end: format(new Date(editedData.date_end), "yyyy-MM-dd"),
+      status: parseInt(editedData.status),
+    };
   
-  //   const payload = {
-  //     name: editedData.nama,
-  //     teacher_id: editedData.waliKelas,
-  //   };
-  
-  //   try {
-  //     setIsLoading(true);
-  //     await edit_kelas(editedData.id, payload);
-  //     toast.success("Data kelas berhasil diperbarui!");
-  //     setEditOpen(false); // Tutup modal setelah sukses
-  //     fetchDataKelas()
-  //     // Tambahkan fungsi untuk refresh data kelas jika perlu
-  //   } catch (error) {
-  //     toast.error("Gagal mengupdate data kelas!");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+    try {
+      setIsLoading(true);
+      const response = await edit_semester(editedData.id, payload);
+      if(response){
+        setEditOpen(false);
+        fetchDataSemester();
+        setIsSuccess(true);
+        setTimeout(() => setIsSuccess(false), 2000); 
 
-  // const handleTambah = async () => {
-  //   try{
-  //     setTambahOpen(true)
-  //   } finally{}
-  // }
+      }
+      
+      // Tambahkan fungsi untuk refresh data kelas jika perlu
+    } catch (error) {
+      toast.error("Gagal mengupdate data kelas!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const confirmTambah = async (createdData) => {
     
     const payload = {
       name: createdData.tahunAjar,
-      semester: createdData.semester.value,
+      semester: createdData.semester,
       date_start: format(new Date(createdData.date_start), "yyyy-MM-dd"),
       date_end: format(new Date(createdData.date_end), "yyyy-MM-dd"),
       status: parseInt(createdData.status),
@@ -196,11 +204,11 @@ export default function TahunAjar() {
         {/* Modal Edit */}
         {isEditOpen && (
             <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
-              <DataKelasModal
+              <TambahSemesterModal
                 onCancel={() => setEditOpen(false)}
                 onConfirm={confirmEdit}
                 isLoading={isLoading}
-                kelasData={DetailkelasData}
+                semesterData={DetailSemester}
               />
             </div>
           )}
@@ -248,13 +256,16 @@ export default function TahunAjar() {
                     <TableComponent 
                         columns={columns} 
                         data={SemesterData} 
-                        // onEdit={handleEdit}
+                        onEdit={handleEdit}
                         onDelete ={handleDelete}
                         Aksi="EditDelete"
                         title="Tabel Data Semester"
                         dataKey='id_semester'
                         handleSearchChange={handleSearchChange}
                         selectedSearch={selectedSearch}
+                        onSortChange={handleSortChange}
+                        sortBy={sortBy}
+                        sortOrder={sortOrder}
                     /> : <DataNotFound /> }
               </div>
 

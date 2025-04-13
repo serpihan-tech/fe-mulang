@@ -34,9 +34,8 @@ export default function StudentProfile() {
     oldPassword : "",
     newPassword : "",
     newPasswordConfirmation : ""
-});
+  });
 
-  
   const dataURLtoFile = (dataUrl, filename) => {
     let arr = dataUrl.split(',');
     let mime = arr[0].match(/:(.*?);/)[1];
@@ -142,12 +141,13 @@ export default function StudentProfile() {
     }
 
     try {
+      //console.log(selectedFile)
       const response = await updateStudentProfile(studentId, payload, selectedFile)
       if(response.status == 200){
         toast.success(response.data.message)
         const newProfileImg = baseUrl+'/image/'+response.data.student.studentDetail.profilePicture
         setProfileImg(newProfileImg)
-        sessionStorage.setItem("profile_img", newProfileImg)
+        sessionStorage.setItem("profile_img", response.data.student.studentDetail.profilePicture)
         
         fetchDetailSiswa(); 
         
@@ -212,7 +212,7 @@ export default function StudentProfile() {
           )}
           <div className= "relative w-[150px] h-[150px] flex items-center">
             <Image 
-              src={imageSrc || (baseUrl+'/image/'+ studentData?.studentDetail.profilePicture)  } 
+              src={imageSrc ? imageSrc : (baseUrl+'/image/'+ studentData?.studentDetail.profilePicture)  } 
               className="rounded-full w-full h-full object-cover"
               alt="photo" 
               width={150} 
@@ -506,7 +506,7 @@ export default function StudentProfile() {
 
   return (
     <div>
-    <ToastContainer />
+      <ToastContainer />
       <h1 className="text-black text-xl font-semibold ">Profil Pengguna</h1>
       <div className="w-full py-5 px-4 mt-[25px]">
         <div className="w-full flex border-b-[1.5px] border-[#0841e2] space-x-4">

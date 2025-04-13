@@ -14,8 +14,10 @@ const ImageCropper = ({ image, onCropComplete, onCancel }) => {
     onCropComplete(image, croppedAreaPixels);
   };
 
+  console.log("image: ",image)
+
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="fixed text-black top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-4 rounded-lg shadow-lg w-96">
         <h2 className="text-lg font-semibold mb-4">Sesuikan ukuran gambar</h2>
         

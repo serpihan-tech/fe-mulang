@@ -9,8 +9,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../globals.css'; 
 import CustomDatePicker from "./Datepicker";
 
-const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey, Aksi, filterDate,selectedDate,handleDateChange }) => {
-  console.log(data);
+const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey, Aksi,onSortChange, filterDate,selectedDate,handleDateChange,selectedSearch,handleSearchChange }) => {
+  //console.log(data);
   const inputRef = useRef(null);
   const router = useRouter();
   const [sortConfig, setSortConfig] = useState({ key: columns[0], direction: "asc" });

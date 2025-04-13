@@ -11,8 +11,8 @@ export default function DashboardHeader() {
   const first_name = full_name.split(" ")[0];
   const [profileImgs, setProfileImgs] = useState([]);
   const { profileImg } = useProfile();
-  const role =   sessionStorage.getItem("role");
-  const data = sessionStorage.getItem("profile_data");
+  const role = typeof window !== "undefined" ? sessionStorage.getItem("role") : null;
+  const data = typeof window !== "undefined" ? sessionStorage.getItem("profile_data") : null;
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   useEffect(() => {

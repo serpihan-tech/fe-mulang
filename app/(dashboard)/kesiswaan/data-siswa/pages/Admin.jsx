@@ -1,9 +1,11 @@
 "use client";
 
-import { data_siswa } from "@/app/api/ApiKesiswaan";
+import { data_siswa, detail_data_siswa, hapus_siswa } from "@/app/api/ApiKesiswaan";
 import DataNotFound from "@/app/component/DataNotFound";
+import DeletePopUp from "@/app/component/DeletePopUp";
 import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
+import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import TableComponent from "@/app/component/Table";
 import { useLoading } from "@/context/LoadingContext";
 import { DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
@@ -19,16 +21,25 @@ export default function AdminDataSiswa() {
   const {setIsLoading} = useLoading();
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(null);
+  const [selectedSearch, setSearch] = useState(' ');
+  const [sortBy, setSortBy] = useState(" "); 
+  const [sortOrder, setSortOrder] = useState(" "); 
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
+  const [isDeleteOpen, setDeleteOpen] = useState(false);
+  const [isEditOpen, setEditOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isTambahOpen, setTambahOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const fetchDataSiswa = async (page = 1,limitVal = limit) => {
-    setIsLoading(true);  
+  const fetchDataSiswa = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder) => {
     try {
-          const data = await data_siswa(page,limitVal);
+          const data = await data_siswa(page,limitVal, search, sortField, sortDir);
           const dataArray = data.students.data
-          console.log(dataArray)
+          console.log("daribackend: ",dataArray)
           if (Array.isArray(dataArray)) {
               // Mapping agar sesuai dengan format tabel
               const formattedData = dataArray.map((item) => ({
+                  id_siswa: item.studentDetail.studentId,
                   nis: item.studentDetail?.nis || "Tidak Ada",
                   nisn: item.studentDetail?.nisn || "Tidak Ada",
                   nama_lengkap: item.name || "Tidak Ada",
@@ -47,26 +58,37 @@ export default function AdminDataSiswa() {
       } catch (error) {
           toast.error("Gagal memuat data siswa.");
       } finally {
-          setIsLoading(false);
       }
   };
 
   const columns = [
-    { label: "nis", sortKey: "tanggal" },
-    { label: "nisn", sortKey: "nis" },
-    { label: "nama_lengkap", sortKey: "namaSiswa" },
-    { label: "email", sortKey: "namaSiswa" },
-    { label: "kelas", sortKey: "namaSiswa" },
-    { label: "tahun_ajar", sortKey: "namaSiswa" },
-    { label: "jenis_kelamin", sortKey: "namaSiswa" },
-    { label: "status", sortKey: "namaSiswa" },
+    { label: "nis", sortKey: "nis" },
+    { label: "nisn", sortKey: "nisn" },
+    { label: "nama_lengkap", sortKey: "nama" },
+    { label: "email", sortKey: "email" },
+    { label: "kelas", sortKey: "kelas" },
+    { label: "tahun_ajar", sortKey: "tahunAjar" },
+    { label: "jenis_kelamin", sortKey: "jenisKelamin" },
+    { label: "status", sortKey: "status" },
 
   ];
 
+  const handleLimitChange = (newLimit) => {
+    setLimit(newLimit);
+  };
+
+  const handleSearchChange = (search) => {
+    setSearch(search);
+  };
+
+  const handleSortChange = (key, direction) => {
+    setSortBy(key);
+    setSortOrder(direction);
+  };
   
   useEffect(() => {
       fetchDataSiswa();
-  }, []);
+  }, [limit,selectedSearch,sortBy,sortOrder]);
 
   const getUniqueValues = (key) => {
     return [...new Set(siswaData.map((item) => item[key]))].filter(Boolean);
@@ -98,14 +120,62 @@ export default function AdminDataSiswa() {
     }
   }, [siswaData]);
 
-  console.log("datasiswa: ")
-  const handleLimitChange = (newLimit) => {
-    setLimit(newLimit);
-    fetchDataSiswa(currentPage, newLimit); // Refresh data dengan limit baru
-  };
+    const handleDelete = (siswaId) => {
+      setSelectedStudentId(siswaId);
+      console.log(siswaId)
+      setDeleteOpen(true);
+    };
+  
+    const confirmDelete = async () => {
+      if (!selectedStudentId) return;
+  
+      setLoading(true)
+      try {
+        const response = await hapus_siswa(selectedStudentId);
+        if (response) {
+          setIsSuccess(true);
+          setDeleteOpen(false);
+          fetchDataSiswa(); // Reload data setelah sukses
+          setTimeout(() => setIsSuccess(false), 2000); // Pop-up sukses hilang otomatis
+        }
+        
+      } catch (error) {
+        toast.error("Gagal menghapus data");
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    const handleEdit = async (siswaId) => {
+        try{
+          const data = await detail_data_siswa(siswaId)
+          console.log("data sebelum:",siswaId,data)
+          // setDetailDataAbsen(data.absence)
+          // setEditOpen(true)
+          
+        } finally{}
+      }
+  
     return (
     <>
+      {/* Pop-up Konfirmasi Delete */}
+      {isDeleteOpen && (
+          <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+            <DeletePopUp
+              onCancel={() => setDeleteOpen(false)}
+              onConfirm={confirmDelete}
+              isLoading={loading}
+            />
+          </div>
+        )}
+
+      {/* Pop-up Sukses */}
+      {isSuccess && (
+          <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+            <SuccessUpdatePopUp />
+          </div>
+        )
+      } 
       <div className="z-0 transition">
         <ToastContainer/>
         <div>
@@ -142,14 +212,22 @@ export default function AdminDataSiswa() {
             </div>
             
             <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-                <div className={siswaData ? "max-w-screen-xl p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+                <div className={siswaData ? "max-w-full p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
                     {siswaData ? 
                       <TableComponent 
+                          dataKey='id_siswa'
                           columns={columns} 
-                          data={siswaData} 
+                          data={siswaData}
+                          onEdit={handleEdit}
+                          onDelete ={handleDelete}
                           title="Data Siswa"
                           Aksi="EditDelete"
-                          filters={filters} 
+                          filters={filters}
+                          handleSearchChange={handleSearchChange}
+                          selectedSearch={selectedSearch}
+                          onSortChange={handleSortChange}
+                          sortBy={sortBy}
+                          sortOrder={sortOrder}
                       /> : <DataNotFound /> }
                 </div>
 

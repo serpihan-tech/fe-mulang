@@ -14,7 +14,6 @@ const Breadcrumb = ({
 }) => {
     const paths = usePathname() || ''
     const pathNames = paths.split('/').filter(path => path)
-
     return (
         <div className="text-sm text-black dark:text-white bg-[#FAFAFA] dark:bg-dark_net-quar transition duration-300">
             <ul className={containerClasses}>
@@ -25,7 +24,10 @@ const Breadcrumb = ({
                         if (index === 0) {
                             itemClasses = `${itemClasses} ${firstClasses}`
                         }
-                        let itemLink = capitalizeLinks ? link[0].toUpperCase() + link.slice(1, link.length) : link
+                        let formattedLink = link.replace(/-/g, ' ')
+                        let itemLink = capitalizeLinks 
+                            ? formattedLink.charAt(0).toUpperCase() + formattedLink.slice(1) 
+                            : formattedLink
                         
                         return (
                             <React.Fragment key={index}>

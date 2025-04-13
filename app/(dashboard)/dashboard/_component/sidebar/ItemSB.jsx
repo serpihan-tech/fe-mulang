@@ -80,7 +80,7 @@ export default function SidebarItem({
   const router = useRouter();
   const pathname = usePathname();
   const isActive = url && pathname === url;
-  const isDropdownActive = dropdownItems?.some(item => pathname === item.url);
+  const isDropdownActive = dropdownItems?.some(item => pathname.startsWith(item.url));
   const [shouldRenderText, setShouldRenderText] = useState(open);
 
   useEffect(() => {
@@ -149,7 +149,7 @@ export default function SidebarItem({
       
       {/* Dropdown untuk sidebar terbuka */}
       {dropdownItems && isOpen && open && (
-        <SidebarDropdown items={dropdownItems}/>
+        <SidebarDropdown items={dropdownItems} open={open}/>
       )}
 
       {/* Hover dropdown untuk sidebar tertutup */}

@@ -42,6 +42,8 @@ export default function RaporSiswa() {
     if (tahunAjarId) fetchScoreData();
   }, [tahunAjarId]);
 
+  console.log("sadsda",score)
+
   
 
   return (
@@ -70,15 +72,15 @@ export default function RaporSiswa() {
         </div>
 
         <div className='top-[15px] sm:top-[25px] relative'>
-          <p className="font-semibold text-[16px] sm:text-[20px] leading-[100%] tracking-[0px]">
+          {/* <p className="font-semibold text-[16px] sm:text-[20px] leading-[100%] tracking-[0px]">
             Tahun ajar {score&&(score.result[0].academicYear.name+" "+ capitalizeFirstLetter(score.result[0].academicYear.semester))}
-          </p>
+          </p> */}
         </div>
       </div>
 
       <div className="mt-[60px] -mx-3 sm:ml-[-20px] overflow-x-auto">
         <div className="min-w-[800px] sm:min-w-0">
-          <TabelRapor scoreData={score?.result[0].modules} />
+          {/* <TabelRapor scoreData={score?.result[0].modules} /> */}
         </div>
       </div>
     </div>
