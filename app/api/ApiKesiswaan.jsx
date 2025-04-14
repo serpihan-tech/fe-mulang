@@ -270,12 +270,6 @@ export const nilai_siswa = async (tahunAjarId) => {
     hasToken: !!token
   });
 
-  if (!token) {
-    toast.error("Token tidak ditemukan. Silakan login kembali.");
-    window.location.href = '/login';
-    return;
-  }
-
   try {
     // Add user role to request if needed
     const response = await ApiManager.get(
@@ -286,30 +280,17 @@ export const nilai_siswa = async (tahunAjarId) => {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'X-User-Role': userRole // Add this if your API needs it
+          'X-User-Role': userRole
         },
       }
     );
     
     return response.data;
   } catch (err) {
-    if (err.response?.status === 403) {
-      const errorMessage = err.response.data?.error?.message || "Anda tidak memiliki akses ke data ini";
-      console.error("Access denied:", {
-        userRole,
-        errorMessage,
-        endpoint: `/scores/mine?tahunAjar=${tahunAjarId}`
-      });
-      
-      // More specific error handling
-      if (errorMessage.includes("Tidak Memiliki Akses")) {
-        toast.error("Anda tidak memiliki izin untuk melihat nilai ini");
-        // Optionally redirect to appropriate page
-        // window.location.href = '/unauthorized';
-      } else {
-        toast.error(errorMessage);
-      }
+    if (err.message.includes('Network Error')) {
+    toast.error('Error 500: Server sedang bermasalah');
+    } else {
+    toast.error("Gagal Edit Data");
     }
-    throw err;
   }
 }

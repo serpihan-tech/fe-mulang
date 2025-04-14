@@ -1,160 +1,54 @@
-"use client"
-import { data_siswa, nilai_siswa } from "@/app/api/ApiKesiswaan";
-import { useLoading } from "@/context/LoadingContext";
+'use client'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from "next/navigation";
 import TabelRekapNilai from "../../component/TabelRekapNilai";
-import { useEffect, useState } from "react";
+import { nilai_siswa } from '@/app/api/ApiKesiswaan'
 import DataNotFound from "@/app/component/DataNotFound";
 import { toast } from "react-toastify";
+import capitalizeFirstLetter from '@/app/component/CapitalizedFirstLetter';
 
 export default function LihatNilai() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
-  const [siswaData, setSiswaData] = useState(null);
-  const { setIsLoading } = useLoading();
-  const [error, setError] = useState(null);
-  const [hasPermission, setHasPermission] = useState(true);
+  const [score, setScore] = useState(null);
   const academicYearId = searchParams.get('academicYear') || 5;
 
-  const formatSiswaData = (selectedSiswa, responseNilai) => {
-    if (responseNilai && responseNilai.result && responseNilai.result.length > 0) {
-      const formattedNilai = responseNilai.result[0].modules.map(module => ({
-        mata_pelajaran: module.name,
-        tugas_harian_1: module.scores.taskList[0] || '-',
-        tugas_harian_2: module.scores.taskList[1] || '-',
-        tugas_harian_3: module.scores.taskList[2] || '-',
-        tugas_harian_4: module.scores.taskList[3] || '-',
-        uts: module.scores.uts || '-',
-        uas: module.scores.uas || '-',
-        nilai_akhir: module.scores.total || '-'
-      }));
-
-      return {
-        id: selectedSiswa.id,
-        nis: selectedSiswa.studentDetail?.nis || "Tidak Ada",
-        nama_siswa: selectedSiswa.name || "Tidak Ada",
-        kelas: selectedSiswa.classStudent[0]?.class?.name || "Tidak Ada",
-        semester: responseNilai.result[0].academicYear.semester,
-        tahun_ajar: responseNilai.result[0].academicYear.name,
-        nilai: formattedNilai
-      };
-    } else {
-      toast.warning("Data nilai tidak ditemukan");
-      return {
-        id: selectedSiswa.id,
-        nis: selectedSiswa.studentDetail?.nis || "Tidak Ada",
-        nama_siswa: selectedSiswa.name || "Tidak Ada",
-        kelas: selectedSiswa.classStudent[0]?.class?.name || "Tidak Ada",
-        semester: "Tidak Ada",
-        tahun_ajar: "Tidak Ada",
-        nilai: []
-      };
-    }
-  };
-
-  const checkPermission = () => {
-    const userRole = sessionStorage.getItem("role");
-    const userId = sessionStorage.getItem("userId");
-    
-    console.log("Checking permissions:", { userRole, userId, requestedId: id });
-    
-    if (userRole === 'student' && userId !== id) {
-      return false;
-    }
-    return true;
-  };
-
-  const fetchAllData = async () => {
-    if (!id) return;
-
-    if (!checkPermission()) {
-      setHasPermission(false);
-      toast.error("Anda tidak memiliki akses untuk melihat data ini");
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-    
+  // Fetch score data
+  const fetchScoreData = async () => {
     try {
-      const responseSiswa = await data_siswa();
-      if (!responseSiswa?.students?.data) {
-        throw new Error("Data siswa tidak valid");
-      }
-
-      const selectedSiswa = responseSiswa.students.data.find(
-        siswa => siswa.id.toString() === id.toString()
-      );
-
-      if (!selectedSiswa) {
-        toast.error("Data siswa tidak ditemukan");
-        return;
-      }
-
-      const responseNilai = await nilai_siswa(academicYearId);
-      const formattedData = formatSiswaData(selectedSiswa, responseNilai);
-      setSiswaData(formattedData);
-
+      const data = await nilai_siswa(academicYearId)
+      setScore(data)
+      console.log(score)
     } catch (error) {
-      console.error('Error in fetchAllData:', error);
-      setError(error);
-      
-      if (error.response?.status === 403) {
-        setHasPermission(false);
-        toast.error("Anda tidak memiliki akses ke data ini");
-      } else {
-        toast.error("Gagal memuat data");
-      }
-    } finally {
-      setIsLoading(false);
+      toast.error("Gagal memuat data nilai.")
     }
   };
 
   useEffect(() => {
-    if (id) {
-      fetchAllData();
-    }
-  }, [id, academicYearId]);
-
-  if (!hasPermission) {
-    return (
-      <div className="flex flex-col items-center justify-center p-8">
-        <h2 className="text-xl font-bold text-red-500">Akses Ditolak</h2>
-        <p className="text-gray-600">Anda tidak memiliki izin untuk melihat data ini</p>
-        <button 
-          onClick={() => window.history.back()} 
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Kembali
-        </button>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center p-4">
-        <h2 className="text-red-500">Error: {error.message}</h2>
-      </div>
-    );
-  }
+    if (academicYearId) fetchScoreData();
+  }, [academicYearId]);
 
   if (!id) {
     return <DataNotFound />;
   }
 
+  // Destructure data dengan aman
+  const academicYear = score?.result?.[0]?.academicYear;
+  const student = score?.result?.[0]?.student;
+  const modules = score?.result?.[0]?.modules;
+
   return (
     <div className="w-full justify-center space-y-8 p-8">
       <header className="space-y-2">
         <div className="text-center justify-center text-black text-xl font-bold">
-          LAPORAN HASIL BELAJAR SEMESTER {siswaData?.semester?.toUpperCase()}
+          LAPORAN HASIL BELAJAR SEMESTER {academicYear && capitalizeFirstLetter(academicYear.semester)}
         </div>
         <div className="text-center justify-center text-black text-base font-medium">
-          Tahun Pelajaran {siswaData?.tahun_ajar}
+          Tahun Pelajaran {academicYear?.name}
         </div>
       </header>
 
-      {siswaData ? (
+      {score?.result?.[0] ? (
         <>
           <div className="self-stretch inline-flex justify-start items-center gap-16">
             <div className="flex justify-start items-center gap-2">
@@ -170,10 +64,10 @@ export default function LihatNilai() {
               </div>
               <div className="inline-flex flex-col justify-start items-start gap-2">
                 <div className="justify-center text-black text-base font-medium">
-                  {siswaData.nama_siswa}
+                  {student?.name || "Tidak Ada"}
                 </div>
                 <div className="text-center justify-center text-black text-base font-medium">
-                  {siswaData.nis}
+                  {student?.nis || "Tidak Ada"}
                 </div>
               </div>
             </div>
@@ -189,16 +83,18 @@ export default function LihatNilai() {
                 </div>
               </div>
               <div className="inline-flex flex-col justify-start items-start gap-2">
-                <div className="justify-center text-black text-base font-medium">{siswaData.semester}</div>
+                <div className="justify-center text-black text-base font-medium">
+                  {academicYear && capitalizeFirstLetter(academicYear.semester)}
+                </div>
                 <div className="text-center justify-center text-black text-base font-medium">
-                  {siswaData.kelas}
+                  {student?.class || "Tidak Ada"}
                 </div>
               </div>
             </div>
           </div>
 
           <div className="bg-white rounded-lg">
-            <TabelRekapNilai data={siswaData.nilai} />
+            <TabelRekapNilai data={modules || []} />
           </div>
         </>
       ) : (
