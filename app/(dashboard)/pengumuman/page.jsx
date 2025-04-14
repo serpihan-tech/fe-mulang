@@ -1,8 +1,10 @@
 "use client";
 
 import SmallButton from "@/app/component/SmallButton";
+import { useRouter } from "next/navigation";
 
-export default function MataPelajaran() {
+export default function Pengumuman() {
+  const router = useRouter();
   return (
     <>
       <div className="z-0 transition">
@@ -17,6 +19,7 @@ export default function MataPelajaran() {
                 colorIcon="white"
                 title={"Buat Pengumuman"}
                 hover={"hover:bg-blue-700"}
+                onClick={() => router.push(`/pengumuman/tambah`)}
               />
             </div>
           </div>

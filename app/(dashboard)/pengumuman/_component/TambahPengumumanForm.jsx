@@ -1,9 +1,12 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Dropdown from "@/app/component/Dropdown";
 import { AttachCircle } from "iconsax-react";
+import { useRouter } from "next/navigation";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function TambahPengumumanForm() {
+  const router = useRouter();
 
   const kategoriOptions = [
     { label: "Akademik", value: "akademik" },
@@ -21,10 +24,11 @@ export default function TambahPengumumanForm() {
   ];
 
   const [selectedKategori, setSelectedKategori] = useState(null);
-  
-  const [selectedPenerimaInformasi, setSelectedPenerimaInformasi] = useState(null);
 
-  const [tanggal, setTanggal] = useState('');
+  const [selectedPenerimaInformasi, setSelectedPenerimaInformasi] =
+    useState(null);
+
+  const [tanggal, setTanggal] = useState("");
 
   return (
     <div className="w-full bg-white py-8 px-6 ">
@@ -33,23 +37,34 @@ export default function TambahPengumumanForm() {
         <div className="w-1/2">
           <form action="" className="mt-6 space-y-5">
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Judul Pengumuman</label>
-                <input type="text" 
-                  placeholder="Masukkan judul pengumuman"
-                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+              <label className="text-black text-sm font-medium">
+                Judul Pengumuman
+              </label>
+              <input
+                type="text"
+                placeholder="Masukkan judul pengumuman"
+                className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
+              />
             </div>
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Deskripsi Pengumuman</label>
-                <input type="text" 
-                  placeholder="Masukkan deskripsi pengumuman"
-                  className="h-[206px] w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
-                />
+              <label className="text-black text-sm font-medium">
+                Deskripsi Pengumuman
+              </label>
+              <input
+                type="text"
+                placeholder="Masukkan deskripsi pengumuman"
+                className="h-[206px] w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal"
+              />
             </div>
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">File/gambar (opsional)</label>
+              <label className="text-black text-sm font-medium">
+                File/gambar (opsional)
+              </label>
               <div className="relative">
-                <input type="file" className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal opacity-0 absolute z-50 cursor-pointer" />
+                <input
+                  type="file"
+                  className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal opacity-0 absolute z-50 cursor-pointer"
+                />
                 <div className="w-full border border-gray-400 rounded-md py-2 px-4 text-sm font-normal flex items-center justify-between">
                   <span className="text-gray-400">Tambahkan file/gambar</span>
                   <AttachCircle
@@ -59,7 +74,7 @@ export default function TambahPengumumanForm() {
                   />
                 </div>
               </div>
-            </div>      
+            </div>
             <div className="w-full space-y-[5px]">
               <label className="text-black text-sm font-medium">Kategori</label>
               <Dropdown
@@ -76,9 +91,11 @@ export default function TambahPengumumanForm() {
         <div className="w-1/2">
           <form action="" className="mt-6 space-y-5">
             <div className="space-y-[5px]">
-            <label className="text-black text-sm font-medium">Tanggal Terbit</label>
-              <input 
-                type="date" 
+              <label className="text-black text-sm font-medium">
+                Tanggal Terbit
+              </label>
+              <input
+                type="date"
                 value={tanggal}
                 onChange={(e) => setTanggal(e.target.value)}
                 placeholder="Pilih tanggal terbit"
@@ -86,7 +103,9 @@ export default function TambahPengumumanForm() {
               />
             </div>
             <div className="w-full space-y-[5px]">
-              <label className="text-black text-sm font-medium">Penerima Informasi</label>
+              <label className="text-black text-sm font-medium">
+                Penerima Informasi
+              </label>
               <Dropdown
                 options={penerimaInformasiOptions}
                 value={selectedPenerimaInformasi}
@@ -100,7 +119,10 @@ export default function TambahPengumumanForm() {
         </div>
       </div>
       <div className="w-full flex justify-end space-x-4">
-        <button className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 hover:bg-red-500 hover:text-white bg-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+        <button
+          className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 hover:bg-red-500 hover:text-white bg-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400"
+          onClick={() => router.back()}
+        >
           Batal
         </button>
         <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
@@ -108,5 +130,5 @@ export default function TambahPengumumanForm() {
         </button>
       </div>
     </div>
-  )
+  );
 }
