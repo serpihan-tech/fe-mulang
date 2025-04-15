@@ -44,6 +44,9 @@ export const updateStudentProfile = async (id, payload, file) => {
     data.append("student[name]", payload.student.name);
     data.append("student[is_graduate]", payload.student.is_graduate ? 1 : 0);
 
+    data.append("class_student[class_id]", '');
+    data.append("class_student[academic_year_id]", '');
+
     // Tambahkan student_detail
     Object.entries(payload.student_detail).forEach(([key, value]) => {
         data.append(`student_detail[${key}]`, value);

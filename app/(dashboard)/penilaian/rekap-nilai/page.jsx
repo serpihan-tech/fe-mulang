@@ -19,11 +19,14 @@ export default function RekapNilai() {
   const {setIsLoading} = useLoading();
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(null);
+  const [selectedSearch, setSearch] = useState(' ');
+  const [sortBy, setSortBy] = useState(" "); 
+  const [sortOrder, setSortOrder] = useState(" "); 
 
-  const fetchDataSiswa = async (page = 1,limitVal = limit) => {
+  const fetchDataSiswa = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder) => {
     setIsLoading(true);
     try {
-        const data = await data_siswa(page,limitVal);
+        const data = await data_siswa(page,limitVal, search, sortField, sortDir);
         const dataArray = data.students.data
         console.log(dataArray)
         if (Array.isArray(dataArray)) {
@@ -77,7 +80,7 @@ export default function RekapNilai() {
     }
   }, [siswaData]);
 
-  console.log("datasiswa: ")
+  console.log("datasiswa: ",siswaData)
   const handleLimitChange = (newLimit) => {
     setLimit(newLimit);
     fetchDataSiswa(currentPage, newLimit); // Refresh data dengan limit baru
