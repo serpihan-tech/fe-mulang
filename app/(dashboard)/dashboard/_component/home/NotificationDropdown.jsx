@@ -43,7 +43,7 @@ export default function NotificationDropdown() {
         className="relative"
       >
         <Notification 
-          className="w-7 md:w-10 bg-netral-20 p-1.5 md:p-2 rounded-full" 
+          className="w-8 md:w-10 bg-netral-20 p-1.5 md:p-2 rounded-full" 
           variant="Outline" 
           color="black" 
         />
@@ -53,10 +53,10 @@ export default function NotificationDropdown() {
       {isOpen && (
         <div 
           ref={dropdownRef}
-          className="fixed right-10 top-20 w-[397px] p-5 bg-white rounded-[25px] outline outline-[0.50px] outline-offset-[-0.50px] outline-[#cccccc] inline-flex flex-col justify-start items-start gap-5 z-[9999]"
+          className="fixed right-8 md:right-10 top-14 md:top-20 w-[250px] md:w-[397px] p-3 md:p-5 bg-white rounded-xl md:rounded-[25px] outline outline-[0.50px] outline-offset-[-0.50px] outline-[#cccccc] inline-flex flex-col justify-start items-start md:gap-5 z-[9999]"
         >
           <div className="self-stretch bg-white inline-flex justify-between items-center">
-            <div className="justify-center text-black text-xl font-semibold">
+            <div className="justify-center text-black text-md font-semibold">
               Notifikasi
             </div>
             <div className="w-8 h-8 relative cursor-pointer">
@@ -64,9 +64,9 @@ export default function NotificationDropdown() {
             </div>
           </div>
 
-          <div className="w-full space-y-3">
+          <div className="w-full space-y-2 md:space-y-3">
             <div className="w-full flex justify-end">
-              <div className="text-[#0841e2] text-sm font-semibold">
+              <div className="text-[#0841e2] text-xs font-semibold">
                 Show all
               </div>
             </div>
