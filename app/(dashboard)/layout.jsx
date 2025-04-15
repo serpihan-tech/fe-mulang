@@ -67,7 +67,7 @@ export default function DashboardLayout({ children }) {
               <DashboardHeader />
             </div>
             
-            <div className={`${sidebarOpen ? "ml-11 md:ml-[200px] lg:ml-[256px]" : "ml-[50px] md:ml-[60px] lg:ml-[80px]"} py-4 px-6 mt-14 md:mt-20 lg:mt-24 transition-all duration-300 ease-in-out`}>
+            <div className={`${sidebarOpen ? "ml-11 md:ml-[200px] lg:ml-[256px]" : "ml-[50px] md:ml-[60px] lg:ml-[80px]"} py-4 px-6 mt-14 md:mt-20 lg:mt-28 transition-all duration-300 ease-in-out`}>
               {role && role ==="admin" || role ==="teacher"?
                 <Breadcrumb
                   separator={<span> / </span>}
