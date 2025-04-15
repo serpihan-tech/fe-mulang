@@ -35,7 +35,7 @@ export default function NotificationDropdown() {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="flex items-center">
       {/* Tombol Notifikasi */}
       <button 
         ref={buttonRef}

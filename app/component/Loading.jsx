@@ -7,7 +7,7 @@ export default function Loading() {
     <div className="fixed inset-0 bg-white z-50 flex justify-center items-center">
       <Lottie
         animationData={animationData}
-        className="w-1/2"
+        className="w-full md:w-3/4 lg:w-1/2"
         loop={true}
       />
     </div>

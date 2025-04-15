@@ -71,7 +71,7 @@ export default function DashboardHeader() {
         {/* <ThemeSwitcher /> */}
         
         {/* Notification Dropdown */}
-        <NotificationDropdown />
+        <NotificationDropdown/>
         
         {role === "admin" ?
           <div className="flex gap-3 items-center">
