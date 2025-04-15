@@ -167,7 +167,7 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
                   {columns.map((key) => (
                     <td
                       key={key.label}
-                      className="py-3 px-6 text-gray-900 dark:text-gray-100 max-w-[160px] truncate whitespace-nowrap"
+                      className="py-3 px-6 text-gray-900 dark:text-gray-100 max-w-[10px] truncate whitespace-nowrap"
                       title={item[key.label]}
                     >
                       {item[key.label]}

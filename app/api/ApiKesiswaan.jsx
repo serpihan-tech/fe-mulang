@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import ApiManager from "./ApiManager";
+import { format } from "date-fns";
 
 export const data_siswa = async (page,limit, search, sortBy, sortOrder) => {
     try {
@@ -69,6 +70,58 @@ export const edit_siswa= async (siswaId,crendentials) => {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
         toast.error("Gagal Edit Data");
+        }
+    }
+};
+
+export const tambah_siswa = async (payload) => {
+    try {
+        const file = payload?.student_detail?.profile_picture || null
+        const birth_date = payload?.student_detail?.birth_date || null
+        const enrollment_year = payload?.student_detail?.enrollment_year || null
+        
+        const data = new FormData();
+        
+        Object.entries(payload.user).forEach(([key, value]) => {
+            data.append(`user[${key}]`, value);
+        });
+        
+        Object.entries(payload.class_student).forEach(([key, value]) => {
+            data.append(`class_student[${key}]`, value);
+        });
+        
+        data.append("student[name]", payload.student.name);
+        
+        Object.entries(payload.student_detail).forEach(([key, value]) => {
+            data.append(`student_detail[${key}]`, value);
+        });
+
+        if (birth_date){
+            data.set("student_detail[birth_date]", format(birth_date,"yyyy-MM-dd"))
+        }
+
+        if (enrollment_year){
+            data.set("student_detail[enrollment_year]", format(enrollment_year,"yyyy-MM-dd"))
+        }
+        
+        if (file) {
+            data.append("student_detail[profile_picture]", file);
+            const response = await ApiManager.post(`/students`, data,{
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
+            });
+            return response;
+        } else {
+            const response = await ApiManager.post(`/students`, data);
+            return response;
+        }
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error(err.message);
         }
     }
 };

@@ -11,7 +11,7 @@ import ImageCropper from "@/app/component/ImageCropper";
 
 
 
-export default function TambahSiswaForm({data}) {
+export default function TambahSiswaForm({data, onConfirm}) {
   const [classOptions, setClassOption] = useState([])
   const {allSemesters, fetchAllSemesters} = useSemester()
   const [selectedPeriod, setSelectedPeriod] = useState(null)
@@ -27,7 +27,7 @@ export default function TambahSiswaForm({data}) {
     },
     student:{
       name:"",
-      is_graduate:"",
+      is_graduate:"0",
     },
     student_detail:{
       gender:"",
@@ -41,12 +41,12 @@ export default function TambahSiswaForm({data}) {
       students_phone: "",
       nis: "",
       nisn: "",
-      enrollment_year: "",
+      enrollment_year: null,
       profile_picture: ""
     },
-    student_class:{
-      classId:null,
-      academicYears:null,
+    class_student:{
+      class_id:null,
+      academic_year_id:null,
     }
   })
 
@@ -91,6 +91,11 @@ export default function TambahSiswaForm({data}) {
   // console.log("kelas", ClassOption)
   // console.log("semester:", allSemesters)
   console.log('form: ', formData)
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onConfirm(formData);
+  };
 
   const setNestedValue = (obj, path, value) => {
     const keys = path.split('.');
@@ -156,15 +161,15 @@ export default function TambahSiswaForm({data}) {
       const fileName = originalFile?.name || "cropped-image.png";
       setFormData((prev) => ({
         ...prev,
-        user: {
-          ...prev.user,
+        student_detail: {
+          ...prev.student_detail,
           profile_picture: new File([croppedImageBlob], fileName, {
             type: "image/png",
           }),
         },
       }));
   
-      setSelectedImage(null); // tutup cropper
+      setSelectedImage(null); 
     } catch (err) {
       console.error("Crop failed:", err);
     }
@@ -185,8 +190,8 @@ export default function TambahSiswaForm({data}) {
         onCancel={handleCancelCrop}
       />
     )}
-    <ToastContainer/>
-      <form>
+    
+      <form onSubmit={handleSubmit}>
         <div className="md:flex md:space-x-16">
 
           {/* Data siswa */}
@@ -296,9 +301,9 @@ export default function TambahSiswaForm({data}) {
                 <div className="w-full space-y-[5px]">
                   <label className="text-black text-sm font-medium">Kelas</label>
                   <Dropdown
-                    options={classOptions}
-                    value={classOptions.find(opt => opt.value === formData.student_class.classId) || null}
-                    onChange={handleDropdownChange("student_class.classId")}
+                    options={classOptions || null}
+                    value={classOptions.find(opt => opt.value === formData.class_student.class_id) || null}
+                    onChange={handleDropdownChange("class_student.class_id")}
                     placeholder="Pilih kelas"
                     className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20"
                     dropdownStyle="dark:bg-black dark:text-white"
@@ -309,8 +314,8 @@ export default function TambahSiswaForm({data}) {
                   <label className="text-black text-sm font-medium">Tahun Ajar  </label>
                   <Dropdown
                     options={allSemesters}
-                    value={allSemesters.find(opt => opt.value === formData.student_class.academicYears) || null}
-                    onChange={handleDropdownChange("student_class.academicYears")}
+                    value={allSemesters.find(opt => opt.value === formData.class_student.academic_year_id) || null}
+                    onChange={handleDropdownChange("class_student.academic_year_id")}
                     placeholder="Pilih tahun ajar"
                     className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20"
                     dropdownStyle="dark:bg-black dark:text-white"
@@ -356,6 +361,7 @@ export default function TambahSiswaForm({data}) {
                       type="radio"
                       name="status"
                       value="0"
+                      disabled={data?false:true}
                       checked={formData.student.is_graduate === "0"}
                       onChange={handleInputChange("student.is_graduate")}
                       className="w-5 h-5 accent-pri-main"
@@ -367,6 +373,7 @@ export default function TambahSiswaForm({data}) {
                       type="radio"
                       name="status"
                       value="1"
+                      disabled={data?false:true}
                       checked={formData.student.is_graduate === "1"}
                       onChange={handleInputChange("student.is_graduate")}
                       className="w-5 h-5 accent-pri-main"
@@ -487,16 +494,16 @@ export default function TambahSiswaForm({data}) {
                 </label>
                 
                 <input
-  id="file-upload"
-  type="file"
-  accept="image/jpeg, image/jpg, image/png"
-  className="hidden"
-  onChange={handleFileChange}
-/>
+                  id="file-upload"
+                  type="file"
+                  accept="image/jpeg, image/jpg, image/png"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
 
-                <div className={`${formData.user.profile_picture?"text-black":"text-netral-20"} px-4 py-2 w-full truncate text-black`}>
-                  {formData.user.profile_picture
-                    ? formData.user.profile_picture.name
+                <div className={`${formData.student_detail.profile_picture?"text-black":"text-netral-20"} px-4 py-2 w-full truncate text-black`}>
+                  {formData.student_detail.profile_picture
+                    ? formData.student_detail.profile_picture.name
                     : "No file chosen"}
                 </div>
                 
@@ -513,7 +520,9 @@ export default function TambahSiswaForm({data}) {
 
         {/* button */}
         <div className="w-full flex justify-end space-x-4">
-          <button className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 hover:bg-red-500 hover:text-white bg-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+          <button 
+            type="submit"
+            className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 hover:bg-red-500 hover:text-white bg-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
             Batal
           </button>
           <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">

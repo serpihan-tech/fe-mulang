@@ -16,7 +16,12 @@ export default function DataSiswa() {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     const userRole = sessionStorage.getItem("role");
+    const createSiswa = sessionStorage.getItem("create_siswa");
     
+    if(createSiswa){
+      toast.success(createSiswa)
+      sessionStorage.removeItem('create_siswa')
+    }
 
     if (!token || !userRole) {
       toast.error("Session anda terputus, harap login ulang");

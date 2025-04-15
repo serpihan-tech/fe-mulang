@@ -146,15 +146,9 @@ export default function AdminDataSiswa() {
       }
     };
 
-    const handleEdit = async (siswaId) => {
-        try{
-          const data = await detail_data_siswa(siswaId)
-          console.log("data sebelum:",siswaId,data)
-          // setDetailDataAbsen(data.absence)
-          // setEditOpen(true)
-          
-        } finally{}
-      }
+    const handleEdit = (id) => {
+      router.push(`/kesiswaan/data-siswa/edit/${id}`);
+    };
   
     return (
     <>
