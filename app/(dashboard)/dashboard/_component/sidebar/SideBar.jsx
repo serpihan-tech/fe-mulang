@@ -16,7 +16,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
   return (
     <div
       className={`${
-        isOpen ? "w-42 lg:w-64" : "w-5 md:w-18 lg:w-20"
+        isOpen ? "w-42 lg:w-64" : "w-5 md:w-16 lg:w-20"
       } fixed bg-white dark:bg-dark_net-pri p-3 lg:p-5 shadow-lg min-h-screen transition-all duration-300 ease-in-out z-20`}
     >
       <div
@@ -29,7 +29,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
       </div>
 
       <div className={`${
-          isOpen ? "flex" : "hidden"
+          isOpen ? "flex" : "hidden md:flex"
         } gap-4 items-center justify-center`}>
         <Image src="/svg/logo.svg" alt="Mulang logo" width={50} height={50} priority />
         <h1
@@ -42,7 +42,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
       </div>
 
       <div className={`${
-          isOpen ? "flex" : "hidden"
+          isOpen ? "flex" : "hidden md:flex"
         }  flex-col py-5 mb-5`}>
         <SidebarItem title="Dashboard" icon={Home} colorIcon="currentColor" url="/dashboard" open={isOpen} />
         {role === "student" && <StudentSB open={isOpen} />}

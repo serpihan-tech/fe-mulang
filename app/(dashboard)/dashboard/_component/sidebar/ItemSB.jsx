@@ -56,7 +56,7 @@ export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true }) => {
   return (
     <button
       className={`${
-        open ? "flex" : "hidden"
+        open ? "flex" : "hidden md:flex"
       } w-full items-center p-2  text-err-main hover:bg-err-main rounded-xl hover:text-netral-0 transition`}
       onClick={handleLogout}
     >
