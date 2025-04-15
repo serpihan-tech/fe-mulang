@@ -31,7 +31,7 @@ export default function Periode() {
       value={selectedPeriod}
       onChange={handleDropdownChange}
       icon={Calendar}
-      iconSize="w-8"
+      iconSize="w-10"
       title="Periode"
       className="h-16 flex p-3.5 rounded-md bg-white dark:bg-transparent dark:border-2 dark:border-pri-border gap-5 cursor-pointer relative flex-grow"
       containerStyle="gap-2.5"

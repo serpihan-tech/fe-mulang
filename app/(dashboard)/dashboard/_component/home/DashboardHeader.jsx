@@ -53,12 +53,12 @@ export default function DashboardHeader() {
 
   // console.log("data:",data)
   return (
-    <div className="relative bg-white dark:bg-black text-black dark:text-white px-10 py-6 flex justify-between items-center border-b border-gray-200 transition z-50">
+    <div className="relative bg-white dark:bg-black text-black dark:text-white px-5 py-3 md:px-9 md:py-4 lg:px-10 lg:py-6 flex justify-between items-center border-b border-gray-200 transition z-50">
       {/* Left Section */}
       <div className="flex items-center gap-4">
-        <div className="flex-col justify-start items-start space-y-2">
-          <div className="text-[#0a181f] text-base font-bold leading-tight">Halo, {full_name}!</div>
-          <div className="text-[#666c6f] text-sm font-normal leading-[16.80px]">
+        <div className="flex-col justify-start items-start space-y-1 lg:space-y-2 hidden md:flex">
+          <div className="text-[#0a181f] text-sm lg:text-base font-bold leading-tight">Halo, {full_name}!</div>
+          <div className="text-[#666c6f] text-xs lg:text-sm font-normal leading-[16.80px]">
             {role === "admin"
               ? "Selamat datang di dashboard admin Mulang."
               : "Selamat datang di dashboard Mulang!"}
@@ -71,7 +71,7 @@ export default function DashboardHeader() {
         {/* <ThemeSwitcher /> */}
         
         {/* Notification Dropdown */}
-        <NotificationDropdown />
+        <NotificationDropdown/>
         
         {role === "admin" ?
           <div className="flex gap-3 items-center">
@@ -85,13 +85,13 @@ export default function DashboardHeader() {
           >
             <Image 
               src={ profileImg || profileImgs[0] || "/svg/logo.svg"} 
-              className="rounded-full" 
+              className="rounded-full w-8 h-8 md:w-9 md:h-9 lg:w-10 m lg:h-10" 
               alt="photo" 
               width={40} 
               height={40} 
               priority 
             />
-            <h1 className="font-semibold text-xl text-black dark:text-white transition">{first_name}</h1>
+            <h1 className="hidden md:flex font-semibold text-lg lg:text-xl text-black dark:text-white transition">{first_name}</h1>
           </button>
         }
       </div>

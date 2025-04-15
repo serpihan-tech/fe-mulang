@@ -10,7 +10,7 @@ export default function MataPelajaranTeacher() {
         <div>
           <div className="w-full ps-2 space-y-8">
             <h1 className="w-full text-black text-xl font-semibold">Mata Pelajaran</h1> 
-            <div className="flex gap-6 max-w-full flex-wrap px-5">
+            <div className="gap-6 grid grid-cols-3">
               <MapelCard
                 path={"/svg/physic.svg" }
                 bgColor={"bg-[#0841e2]"}

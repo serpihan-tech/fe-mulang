@@ -31,7 +31,7 @@ export default function JadwalHariIni({ scheduleData }) {
   return (
     <div className="w-full space-y-7 my-6">
       
-      <div className="w-full space-y-8">
+      <div className="w-full space-y-5 md:space-y-8">
         { scheduleData && scheduleData.length > 0 ? (
           scheduleData
             .sort((a, b) => moment(a.startTime, "HH:mm:ss") - moment(b.startTime, "HH:mm:ss")) // Sorting berdasarkan start_time
