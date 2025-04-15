@@ -43,8 +43,7 @@ export default function NotificationDropdown() {
         className="relative"
       >
         <Notification 
-          className="bg-netral-20 p-2 rounded-full" 
-          size="40" 
+          className="w-7 md:w-10 bg-netral-20 p-1.5 md:p-2 rounded-full" 
           variant="Outline" 
           color="black" 
         />

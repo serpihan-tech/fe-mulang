@@ -88,8 +88,8 @@ export default function StudentDashboard() {
   return (
     <>
       <div className="z-0 transition">
-        <div className="bg-[#FAFAFA] dark:bg-black flex space-x-6">
-          <div className="w-2/3 pl-8 pr-4">
+        <div className="bg-[#FAFAFA] dark:bg-black lg:flex space-x-6">
+          <div className="w-full lg:w-2/3 px-2 lg:pl-8 lg:pr-4">
             <Kehadiran
               total_presence={presenceData.total}
               presence={presenceData.hadir}
