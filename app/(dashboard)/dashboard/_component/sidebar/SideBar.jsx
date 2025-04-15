@@ -16,8 +16,8 @@ export default function SideBar({isOpen,toggleSidebar}) {
   return (
     <div
       className={`${
-        isOpen ? "w-64" : "w-16 md:w-20"
-      } fixed bg-white dark:bg-dark_net-pri p-3 md:p-5 shadow-lg min-h-screen transition-all duration-300 ease-in-out z-20`}
+        isOpen ? "w-42 lg:w-64" : "w-16 md:w-18 lg:w-20"
+      } fixed bg-white dark:bg-dark_net-pri p-3 lg:p-5 shadow-lg min-h-screen transition-all duration-300 ease-in-out z-20`}
     >
       <div
         className={`absolute top-8 ${
@@ -25,7 +25,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
         } p-2 rounded-full bg-pri-main cursor-pointer transition-transform duration-300 ease-in-out`}
         onClick={toggleSidebar}
       >
-        <ArrowLeft2 color="white" className="w-[18px] md:w-[22px]" />
+        <ArrowLeft2 color="white" className="w-[18px] md:w-[20px] lg:w-[22px]" />
       </div>
 
       <div className="flex gap-4 items-center justify-center">
