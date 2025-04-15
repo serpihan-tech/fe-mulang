@@ -55,7 +55,9 @@ export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true }) => {
   };
   return (
     <button
-      className="w-full flex items-center p-2  text-err-main hover:bg-err-main rounded-xl hover:text-netral-0 transition"
+      className={`${
+        open ? "flex" : "hidden"
+      } w-full items-center p-2  text-err-main hover:bg-err-main rounded-xl hover:text-netral-0 transition`}
       onClick={handleLogout}
     >
       {/* Bagian Kiri: Ikon dan Teks */}
