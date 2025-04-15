@@ -63,11 +63,11 @@ export default function DashboardLayout({ children }) {
             toggleSidebar={() => setSidebarOpen(!sidebarOpen)} 
           />
           <main className={`bg-[#FAFAFA] dark:bg-dark_net-quar flex-1 transition-all duration-300 ease-in-out `}>
-            <div className={`overflow-hidden z-10 fixed right-0 ${sidebarOpen ? "left-[200px] lg:left-[256px] " : "left-[58px] md:left-[65px] lg:left-[80px]"} transition-all duration-300 ease-in-out`}>
+            <div className={`overflow-hidden z-10 fixed right-0 ${sidebarOpen ? "left-[200px] lg:left-[256px] " : "left-[58px] md:left-[62px] lg:left-[80px]"} transition-all duration-300 ease-in-out`}>
               <DashboardHeader />
             </div>
             
-            <div className={`${sidebarOpen ? "ml-11 md:ml-[200px] lg:ml-[256px]" : "ml-[50px] md:ml-[80px]"} py-4 px-6 mt-14 md:mt-24 transition-all duration-300 ease-in-out`}>
+            <div className={`${sidebarOpen ? "ml-11 md:ml-[200px] lg:ml-[256px]" : "ml-[50px] md:ml-[60px] lg:ml-[80px]"} py-4 px-6 mt-14 md:mt-20 lg:mt-24 transition-all duration-300 ease-in-out`}>
               {role && role ==="admin" || role ==="teacher"?
                 <Breadcrumb
                   separator={<span> / </span>}

@@ -25,7 +25,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
         } p-2 rounded-full bg-pri-main cursor-pointer transition-transform duration-300 ease-in-out`}
         onClick={toggleSidebar}
       >
-        <ArrowLeft2 color="white" className="w-[18px] md:w-[20px] lg:w-[22px]" />
+        <ArrowLeft2 color="white" className="w-[18px] lg:w-[22px]" />
       </div>
 
       <div className="flex gap-4 items-center justify-center">
