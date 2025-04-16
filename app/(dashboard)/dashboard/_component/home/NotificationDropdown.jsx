@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Notification, CloseCircle } from 'iconsax-react';
 import Notif from '@/app/(dashboard)/notification/_component/Notif';
+import { useRouter } from 'next/navigation';
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
+  const router = useRouter();
 
   // Fungsi untuk toggle dropdown
   const toggleDropdown = (e) => {
@@ -66,9 +68,9 @@ export default function NotificationDropdown() {
 
           <div className="w-full space-y-2 md:space-y-3">
             <div className="w-full flex justify-end">
-              <div className="text-[#0841e2] text-xs font-semibold">
+              <button className="text-[#0841e2] text-xs font-semibold cursor-pointer hover:font-extrabold hover:underline" onClick={() => router.push('/notification')}>
                 Show all
-              </div>
+              </button>
             </div>
 
             <Notif
