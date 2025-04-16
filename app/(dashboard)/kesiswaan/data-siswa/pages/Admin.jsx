@@ -147,7 +147,8 @@ export default function AdminDataSiswa() {
     };
 
     const handleEdit = (id) => {
-      router.push(`/kesiswaan/data-siswa/edit/${id}`);
+
+      router.push(`/kesiswaan/data-siswa/${id}`);
     };
   
     return (
@@ -183,6 +184,8 @@ export default function AdminDataSiswa() {
                 colorIcon="white"
                 title={"Kenaikan Kelas"}
                 hover={"hover:bg-green-700"}
+                onClick={() => router.push('/kesiswaan/data-siswa/kenaikan-kelas')}
+
               />
               <SmallButton
                 type="button"

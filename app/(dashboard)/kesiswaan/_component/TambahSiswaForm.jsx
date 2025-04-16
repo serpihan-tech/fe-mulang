@@ -50,6 +50,44 @@ export default function TambahSiswaForm({data, onConfirm}) {
     }
   })
 
+  useEffect(() => {
+    if (!data) return;
+  
+    setFormData({
+      user: {
+        email: data.user?.email || "",
+        password: "", // Tidak dikembalikan oleh API
+        username: data.user?.username || "",
+      },
+      student: {
+        name: data.name || "",
+        is_graduate: String(data.isGraduate ?? "0"),
+      },
+      student_detail: {
+        gender: data.studentDetail?.gender?.toLowerCase() || "",
+        religion: data.studentDetail?.religion || "",
+        birth_place: data.studentDetail?.birthPlace || "",
+        birth_date: data.studentDetail?.birthDate || null,
+        address: data.studentDetail?.address || "",
+        parents_name: data.studentDetail?.parentsName || "",
+        parents_phone: data.studentDetail?.parentsPhone || "",
+        parents_job: data.studentDetail?.parentsJob || "",
+        students_phone: data.studentDetail?.studentsPhone || "",
+        nis: data.studentDetail?.nis || "",
+        nisn: data.studentDetail?.nisn || "",
+        enrollment_year: data.studentDetail?.enrollmentYear || null,
+        profile_picture: "",
+      },
+      class_student: {
+        class_id: data.classStudent?.[0]?.classId || null,
+        academic_year_id: data.classStudent?.[0]?.academicYearId || null,
+      },
+    });
+  }, [data]);
+  
+  
+  
+
   const religionOptions = [
     { label: "Islam", value: "Islam" },
     { label: "Kristen", value: "Kristen" },
@@ -157,15 +195,12 @@ export default function TambahSiswaForm({data, onConfirm}) {
 
   const handleCropComplete = async (imageSrc, croppedAreaPixels) => {
     try {
-      const croppedImageBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
-      const fileName = originalFile?.name || "cropped-image.png";
+      const { file } = await getCroppedImg(imageSrc, croppedAreaPixels, originalFile?.name, originalFile?.type);
       setFormData((prev) => ({
         ...prev,
         student_detail: {
           ...prev.student_detail,
-          profile_picture: new File([croppedImageBlob], fileName, {
-            type: "image/png",
-          }),
+          profile_picture: file,
         },
       }));
   

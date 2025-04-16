@@ -116,14 +116,20 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
       <div ref={inputRef} className="relative w-64">
         {isFilterOpen ? (
           <div className="relative">
-            <input
-              type="text"
-              placeholder="Cari data..."
-              value={selectedSearch}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full h-10 p-2 pl-4d pr-10 border border-blue-500 rounded-full outline-none transition-all duration-300"
-              autoFocus
-            />
+          <input
+            type="text"
+            placeholder="Cari data..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSearchChange(searchQuery);
+                setFilterOpen(false);
+              }
+            }}
+            className="w-full h-10 p-2 pl-4 pr-10 border border-blue-500 rounded-full outline-none transition-all duration-300"
+            autoFocus
+          />
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
               <SearchNormal color="#0841E2" variant="Outline" size={20} />
             </div>

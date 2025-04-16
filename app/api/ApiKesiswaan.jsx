@@ -56,14 +56,48 @@ export const detail_data_siswa = async (siswaId) => {
     }
 };
 
-export const edit_siswa= async (siswaId,crendentials) => {
+export const edit_siswa= async (siswaId,payload) => {
     try {
-        const response = await ApiManager.patch(`/students/${siswaId}`,crendentials,{
-            headers: {
-                "ngrok-skip-browser-warning": "69420",
-            }
+        const file = payload?.student_detail?.profile_picture || null
+        const birth_date = payload?.student_detail?.birth_date || null
+        const enrollment_year = payload?.student_detail?.enrollment_year || null
+        
+        const data = new FormData();
+        
+        Object.entries(payload.user).forEach(([key, value]) => {
+            data.append(`user[${key}]`, value);
         });
-        return response.data;
+        
+        Object.entries(payload.class_student).forEach(([key, value]) => {
+            data.append(`class_student[${key}]`, value);
+        });
+        
+        data.append("student[name]", payload.student.name);
+        
+        Object.entries(payload.student_detail).forEach(([key, value]) => {
+            data.append(`student_detail[${key}]`, value);
+        });
+
+        if (birth_date){
+            data.set("student_detail[birth_date]", format(birth_date,"yyyy-MM-dd"))
+        }
+
+        if (enrollment_year){
+            data.set("student_detail[enrollment_year]", format(enrollment_year,"yyyy-MM-dd"))
+        }
+        
+        if (file) {
+            data.append("student_detail[profile_picture]", file);
+            const response = await ApiManager.patch(`/students/${siswaId}`, data,{
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
+            });
+            return response.data;
+        } else {
+            const response = await ApiManager.patch(`/students/${siswaId}`, data);
+            return response.data;
+        }
 
     } catch (err) {
         if (err.message.includes('Network Error')) {
