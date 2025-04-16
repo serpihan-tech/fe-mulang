@@ -7,7 +7,7 @@ export default function Notif({
   date,
   title,
   content,
-  contentGap = 'space-y-3',
+  contentGap = 'space-y-1',
   variant = 'default',
   subjectName,
   bgSubject,
@@ -26,7 +26,7 @@ export default function Notif({
       case 'subject':
         return (
           <div className={`ms-[12px] px-2 py-1 ${bgSubject} rounded-[10px] justify-center items-center`}>
-            <div className="justify-center text-black text-sm font-normal">{subjectName}</div>
+            <div className="justify-center text-black text-[10px] md:text-sm font-normal">{subjectName}</div>
           </div>
         );
       default:
@@ -41,7 +41,7 @@ export default function Notif({
           src={imgSource} 
           width={48} 
           height={48} 
-          className="w-full p-1.5 object-cover"
+          className="rounded-full h-full w-full object-cover"
           alt={sender}
         />
       </div>
