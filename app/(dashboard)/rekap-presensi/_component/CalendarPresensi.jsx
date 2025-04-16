@@ -150,7 +150,7 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
   const renderUpcomingEvents = () => {
     if (upcomingEvents.length === 0) {
       return (
-        <div className="w-full py-8 flex-col justify-center items-center gap-2.5 inline-flex">
+        <div className="w-full py-3 md:py-6 lg:py-8 flex-col justify-center items-center gap-2.5 inline-flex">
           <div className="w-[45px] h-[45px] relative">
             <img className="w-[45px] h-[45px] left-0 top-0 absolute" src="/svg/event.svg" />
           </div>
@@ -179,10 +179,10 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
 
   return (
     <>
-      <div className="lg:w-2/3">
+      <div className="w-full xl:w-2/3">
         <div className="overflow-hidden p-2.5 bg-white rounded-lg">
           {/* Header */}
-          <div className="flex justify-between items-center text-black bg-white text-base font-semibold mb-6">
+          <div className="flex justify-between items-center text-black bg-white text-base font-semibold mb-2 md:mb-6">
             <button 
               onClick={prevMonth} 
               className={`p-1.5 rounded-md ${buttonBorder}`}
@@ -198,7 +198,7 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
               {currentDate.toLocaleString("default", { month: "long" })}{" "}
               {currentDate.getFullYear()}
             </span>
-            <button onClick={nextMonth}>
+            <button onClick={nextMonth} className={`p-1.5 rounded-md ${buttonBorder}`}>
               <ArrowRight2 
                 size="22" 
                 color="currentColor" 
@@ -208,11 +208,11 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
           </div>
 
           {/* Day Names */}
-          <div className="flex flex-wrap text-center text-sm font-normal justify-between cursor-pointer">
+          <div className="grid grid-cols-7 text-center text-sm font-normal justify-between cursor-pointer gap-3">
             {dayNames.map((day, index) => (
               <div 
                 key={index} 
-                className="w-[14.25%] p-7 text-[#333333]"
+                className="p-2 md:p-4 xl:p-7 text-[#333333]"
               >
                 {day}
               </div>
@@ -220,7 +220,7 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
           </div>
 
           {/* Days */}
-          <div className="flex flex-wrap text-center text-xl font-bold gap-3 cursor-pointer">
+          <div className="grid grid-cols-7 text-center text-sm md:text-xl font-bold gap-3 cursor-pointer">
             {daysInMonth.map((dayObj) => {
               const dateStr = dayObj.date.toDateString();
               const data = presenceMap[dateStr];
@@ -237,8 +237,7 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
                   key={dayObj.date.toISOString()}
                   className={`
                     calendar-date
-                    w-[12.65%]
-                    p-7
+                    p-2 md:p-4 xl:p-7
                     rounded-md
                     border border-[#0841e2]
                     ${bgColor}
@@ -258,15 +257,15 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
 
           {/* Upcoming Events */}
           <div className="mt-4">
-            <p className="text-base font-medium text-[#333333]">Acara yang akan datang</p>
-            <div className="w-full py-6 flex flex-col items-center gap-2.5">
+            <p className="text-sm md:text-base font-medium text-[#333333]">Acara yang akan datang</p>
+            <div className="w-full py-2 md:py-3 lg:py-6 flex flex-col items-center gap-1.5 md:gap-2.5">
               {renderUpcomingEvents()}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="lg:w-1/3">
+      <div className="w-full xl:w-1/3 mt-3 md:mt-0">
         <div className="w-full flex space-x-4">
           <div className="w-1/2 px-4 py-3 bg-white rounded-[10px] outline outline-1 outline-offset-[-1px] outline-[#adc0f5] justify-start items-center gap-3">
             <div className="text-center justify-center text-black text-lg font-bold">{countStatus('Hadir')} Hari</div>
