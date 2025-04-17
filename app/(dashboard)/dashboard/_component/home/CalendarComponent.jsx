@@ -155,23 +155,23 @@ export default function CalendarComponent() {
         </button>
       </div>
   
-      <div className={`flex flex-wrap cursor-pointer`}>
+      <div className={`grid grid-cols-7 py-2.5 cursor-pointer`}>
         {dayNames.map((day, index) => (
           <div 
             key={index} 
-            className="w-[14.25%] p-2.5 text-center text-sm font-normal text-[#333333]"
+            className="text-center text-sm font-normal text-[#333333]"
           >
             {day}
           </div>
         ))}
       </div>
   
-      <div className={`flex flex-wrap cursor-pointer rounded-full`}>
+      <div className={`grid grid-cols-7 cursor-pointer rounded-full`}>
         {daysInMonth.map((dayObj) => (
           <div
             key={dayObj.date.toISOString()}
             className={`
-              w-[14.25%] p-2.5 text-center text-sm font-medium 
+              p-2.5 text-center text-sm font-medium 
               ${dayObj.type === 'prev-month' || dayObj.type === 'next-month' ? 'text-[#CCCCCC] opacity-50' : ''}
               ${dayObj.date.getDate() === new Date().getDate() && 
                 dayObj.date.getMonth() === new Date().getMonth() ? 'bg-blue-600 rounded-full text-white' : ''}
