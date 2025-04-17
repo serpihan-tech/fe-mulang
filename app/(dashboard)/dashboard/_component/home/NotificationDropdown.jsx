@@ -45,9 +45,9 @@ export default function NotificationDropdown() {
         className="relative"
       >
         <Notification 
-          className="w-8 md:w-9 lg:w-10 bg-netral-20 p-1.5 md:p-2 rounded-full" 
+          className={`${isOpen? "bg-blue-600" : "bg-netral-20"} w-8 md:w-9 lg:w-10 p-1.5 md:p-2 rounded-full`} 
           variant="Outline" 
-          color="black" 
+          color={`${isOpen? "white" : "black"}`} 
         />
       </button>
 
@@ -55,7 +55,7 @@ export default function NotificationDropdown() {
       {isOpen && (
         <div 
           ref={dropdownRef}
-          className="fixed right-8 md:right-10 top-14 md:top-20 w-[250px] md:w-[397px] p-3 md:p-5 bg-white rounded-xl md:rounded-[25px] outline outline-[0.50px] outline-offset-[-0.50px] outline-[#cccccc] inline-flex flex-col justify-start items-start md:gap-5 z-[9999]"
+          className="fixed right-8 md:right-10 top-14 md:top-20 w-[250px] md:w-[300px] lg:w-[397px] p-3 md:p-5 bg-white rounded-xl md:rounded-[25px] outline outline-[0.50px] outline-offset-[-0.50px] outline-[#cccccc] inline-flex flex-col justify-start items-start md:gap-1 lg:gap-5 z-[9999]"
         >
           <div className="self-stretch bg-white inline-flex justify-between items-center">
             <div className="justify-center text-black text-md font-semibold">
