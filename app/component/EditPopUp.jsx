@@ -33,7 +33,7 @@ export default function EditPopUp({onCancel, onConfirm ,isLoading}) {
         <button 
           onClick={onConfirm}
           className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
-          Ubah
+          {isLoading ? "Mengubah..." : "Ubah" }
         </button>
       </div>
     </div>

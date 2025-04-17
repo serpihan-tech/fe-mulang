@@ -8,12 +8,21 @@ import { useTheme } from "@/provider/ThemeProvider";
 import 'react-datepicker/dist/react-datepicker.css';
 import '../globals.css'; 
 import CustomDatePicker from "./Datepicker";
+import MultiSelectDropdown from "./MultiSelectDropdown";
 
-const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dataKey, Aksi,onSortChange, filterDate,selectedDate,handleDateChange,selectedSearch,handleSearchChange }) => {
+const TableComponent = ({ 
+  columns, data, title, filters=[], 
+  onDelete, onEdit, 
+  dataKey, Aksi,
+  filterDate, selectedDate,
+  onSortChange, handleDateChange, handleSearchChange, onFilterChange}) => {
   //console.log(data);
   const inputRef = useRef(null);
   const router = useRouter();
-  const [sortConfig, setSortConfig] = useState({ key: columns[0], direction: "asc" });
+  const [sortConfig, setSortConfig] = useState({ 
+    key: columns[0], 
+    direction: "asc" 
+  });
   const [filterValues, setFilterValues] = useState({});
   const [isFilterOpen, setFilterOpen] = useState(false);
   const { theme } = useTheme();
@@ -87,6 +96,14 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
     }
   };
 
+  const handleFilterChange = (key, selected) => {
+    const updated = { ...filterValues, [key]: selected };
+    setFilterValues(updated);
+    if (typeof onFilterChange === "function") {
+      onFilterChange(updated);
+    }
+  };
+
   return (
     <div className="w-full overflow-hidden mx-auto">
     <div className="mb-5 flex justify-between items-center text-black dark:text-white">
@@ -99,18 +116,44 @@ const TableComponent = ({ columns, data, title,filters=[], onDelete, onEdit, dat
             customFilterdateStyle="flex items-center justify-between border border-blue-500 rounded-lg px-4 py-2 cursor-pointer min-w-[180px]"
           />
         </div>
-        <div className="flex space-x-5">
-          {/* {filters.map((filter) => (
-            <Dropdown
-              key={filter.key}
-              options={filter.options.map((opt) => ({ value: opt, label: opt }))}
-              value={filterValues[filter.key]}
-              onChange={(selectedOption) => handleFilterChange(filter.key, selectedOption)}
-              title={filter.label}
-              className={`w-auto h-10 p-2 rounded-md border ${isDark ? "bg-[#222222] border-[#ADC0F5] text-[#E0E0E0]" : "bg-white border-gray-200 text-black"}`}
-                          dropdownStyle={isDark ? "dark:bg-[#222222] dark:text-[#E0E0E0]" : ""}
-            />
-          ))} */}
+
+        <div className={` ${!filterDate ? "hidden" : ""}`}>
+          <CustomDatePicker
+            value={selectedDate}
+            onChange={handleDateChange}
+            customFilterdateStyle="flex items-center justify-between border border-blue-500 rounded-lg px-4 py-2 cursor-pointer min-w-[180px]"
+          />
+        </div>
+        <div className="flex space-x-5 items-center">
+          {filters.map((filter) => {
+            if (filter.type === "multiselect") {
+              return (
+                <MultiSelectDropdown
+                  key={filter.key}
+                  fetchOptions={filter.fetchOptions}
+                  options={filter.options}
+                  placeholder={filter.label}
+                  onSelect={(val) => handleFilterChange(filter.key, val)}
+                />
+              );
+            } 
+            {/* else if (filter.type === "singleselect") {
+              return (
+                <Dropdown
+                  key={filter.key}
+                  options={filter.options}
+                  value={filter.options.find(opt => opt.value === filter.selectedOptions.value) || null}
+                  onChange={(val) => {
+                    handleFilterChange(filter.key, val.value);
+                    //filter.handleOptionChange(val)
+                  }}
+                  className="w-auto p-2 rounded-md items-center bg-white border  min-w-40 "
+                  placeholder={filter.placeholder}
+                />
+              );
+            } */}
+            return null;
+          })}
         </div>
       </div>
       <div ref={inputRef} className="relative w-64">

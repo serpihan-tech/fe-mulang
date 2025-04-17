@@ -7,7 +7,7 @@ import NotificationDropdown from "./NotificationDropdown";
 
 export default function DashboardHeader() {
   const router = useRouter();
-  const full_name = sessionStorage.getItem("full_name");
+  const [full_name, setFull_name] = useState(sessionStorage.getItem("full_name"))
   const first_name = full_name.split(" ")[0];
   const [profileImgs, setProfileImgs] = useState([]);
   const { profileImg } = useProfile();
@@ -32,7 +32,7 @@ export default function DashboardHeader() {
 
             setProfileImgs(images);
 
-          } else if(role === "teacher") {
+          } else if(role === "teacher" || role == "admin") {
             const user = JSON.parse(data);
             let image = user.data.profile.profilePicture || [];
             let images = baseUrl+"/image/"+image
@@ -49,9 +49,14 @@ export default function DashboardHeader() {
         }
       }
     }
-  }, []);
+  }, []);  
 
-  // console.log("data:",data)
+  useEffect(() => {
+    setFull_name(sessionStorage.getItem("full_name"))
+  }, [sessionStorage.getItem("full_name")])
+  
+
+  console.log("data:",data)
   return (
     <div className="relative bg-white dark:bg-black text-black dark:text-white px-5 py-3 md:px-9 md:py-4 lg:px-10 lg:py-6 flex justify-between items-center border-b border-gray-200 transition z-50">
       {/* Left Section */}
@@ -73,27 +78,20 @@ export default function DashboardHeader() {
         {/* Notification Dropdown */}
         <NotificationDropdown/>
         
-        {role === "admin" ?
-          <div className="flex gap-3 items-center">
-            <Image src={"/svg/logo.svg"} alt="user photo" width={40} height={40} priority />
-            <h1 className="font-semibold text-xl text-black dark:text-white transition">{role}</h1>
-          </div>
-              : 
-          <button 
-            className="flex gap-3 items-center cursor-pointer hover:opacity-80 transition"
-            onClick={() => router.push("/profile")}
-          >
-            <Image 
-              src={ profileImg || profileImgs[0] || "/svg/logo.svg"} 
-              className="rounded-full w-8 h-8 md:w-9 md:h-9 lg:w-10 m lg:h-10" 
-              alt="photo" 
-              width={40} 
-              height={40} 
-              priority 
-            />
-            <h1 className="hidden md:flex font-semibold text-lg lg:text-xl text-black dark:text-white transition">{first_name}</h1>
-          </button>
-        }
+        <button 
+          className="flex gap-3 items-center cursor-pointer hover:opacity-80 transition"
+          onClick={() => router.push("/profile")}
+        >
+          <Image 
+            src={ profileImg || profileImgs[0] || "/svg/logo.svg"} 
+            className="rounded-full w-8 h-8 md:w-9 md:h-9 lg:w-10 m lg:h-10" 
+            alt="photo" 
+            width={40} 
+            height={40} 
+            priority 
+          />
+          <h1 className="hidden md:flex font-semibold text-lg lg:text-xl text-black dark:text-white transition">{role === "admin" ? "Admin" : first_name }</h1>
+        </button>
       </div>
     </div>
   );

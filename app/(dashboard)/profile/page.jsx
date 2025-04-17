@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import TeacherProfile from "./pages/Teacher";
 import StudentProfile from "./pages/Student";
 import { useLoading } from "@/context/LoadingContext";
+import AdminProfile from "./pages/Admin";
+import { ToastContainer } from "react-toastify";
 
 export default function DataSiswa() {
   const router = useRouter()
@@ -24,7 +26,7 @@ export default function DataSiswa() {
               
         
               // Redirect if the user is not an admin
-              if (userRole !== "teacher"&& userRole !== "student") {
+              if (!userRole) {
                 alert("Anda tidak memiliki akses ke halaman ini");
                 router.replace("/dashboard");
               }
@@ -34,8 +36,13 @@ export default function DataSiswa() {
           }, [router]);
   return (
     <>
-      {role === "teacher" && <TeacherProfile />}
-      {role === "student" && <StudentProfile />}
+      <ToastContainer />
+      <div className="mx-2">
+      
+        {role === "admin" && <AdminProfile />}
+        {role === "teacher" && <TeacherProfile />}
+        {role === "student" && <StudentProfile />}
+      </div>
     </>
   );
 }

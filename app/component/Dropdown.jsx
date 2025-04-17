@@ -13,7 +13,7 @@ export default function Dropdown({
   dropdownStyle,
   containerStyle, 
   iconSize = "w-5",
-  placeholder
+  placeholder,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -61,7 +61,7 @@ export default function Dropdown({
           </p>
         </div>
         <ArrowDown2 
-          className={`w-5 h-5 transition-transform duration-300 justify-end ${value ? 'text-black' : 'text-netral-20' } ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 transition-transform duration-300 justify-end ${value ? 'text-black' : 'text-black' } ${isOpen ? 'rotate-180' : ''}`}
           color='currentColor'
         />
       </div>

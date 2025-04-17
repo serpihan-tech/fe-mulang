@@ -5,52 +5,23 @@ import {
   getProfileStudent,
   updateStudentProfile,
 } from "@/app/api/siswa/ApiSiswa";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useProfile } from "@/provider/ProfileProvider";
 import ImageCropper from "@/app/component/ImageCropper";
 import getCroppedImg from "@/app/component/getCroppedImg";
-import { change_password } from "@/app/api/ApiAuth";
-import EditPopUp from "@/app/component/EditPopUp";
 import { useLoading } from "@/context/LoadingContext";
+import ChangePasswordForm from "../../dashboard/_component/home/ChangePassword";
 
 export default function StudentProfile() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const data = JSON.parse(sessionStorage.getItem("profile_data"));
   const studentId = data.data.profile.id;
-  const [error, setError] = useState(false);
-  const [errors, setErrors] = useState(false);
   const [studentData, setStudentData] = useState(null);
   const { setIsLoading } = useLoading();
   const [imageSrc, setImageSrc] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const { setProfileImg } = useProfile();
   const [croppingImage, setCroppingImage] = useState(null);
-  const [oldPassword, setOldPassword] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
-  const [formData, setFormData] = useState({
-    oldPassword: "",
-    newPassword: "",
-    newPasswordConfirmation: "",
-  });
-
-  const dataURLtoFile = (dataUrl, filename) => {
-    let arr = dataUrl.split(",");
-    let mime = arr[0].match(/:(.*?);/)[1];
-    let bstr = atob(arr[1]);
-    let n = bstr.length;
-    let u8arr = new Uint8Array(n);
-
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-
-    return new File([u8arr], filename, { type: mime });
-  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -98,12 +69,7 @@ export default function StudentProfile() {
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+
 
   useEffect(() => {
     fetchDetailSiswa();
@@ -111,7 +77,6 @@ export default function StudentProfile() {
 
   useEffect(() => {
     if (studentData) {
-      let images = studentData.studentDetail.profilePicture;
       setTanggal(formatDate(new Date(studentData.studentDetail.birthDate)));
 
       console.log("sdee:", studentData);
@@ -171,45 +136,6 @@ export default function StudentProfile() {
     }
   };
 
-  const handleChangePassword = async (e) => {
-    setIsLoading(true);
-    e.preventDefault();
-    const payload = {
-      oldPassword: formData.oldPassword,
-      newPassword: formData.newPassword,
-      newPasswordConfirmation: formData.newPasswordConfirmation,
-    };
-
-    try {
-      const response = await change_password(payload);
-      console.log(response);
-      if (response && response.status == 200) {
-        toast.success(response.data.message);
-        fetchDetailSiswa();
-        setError(false);
-        setErrors(false);
-      } else {
-        setErrors(true);
-      }
-    } finally {
-      setIsLoading(false);
-      setIsEdit(false);
-      setFormData({
-        oldPassword: "",
-        newPassword: "",
-        newPasswordConfirmation: "",
-      });
-    }
-  };
-
-  const handleEdit = async (e) => {
-    e.preventDefault();
-    if (formData.newPassword == formData.newPasswordConfirmation) {
-      setIsEdit(true);
-    } else {
-      setError(true);
-    }
-  };
 
   const renderContent = () => {
     if (activeTab === "editProfile") {
@@ -223,7 +149,7 @@ export default function StudentProfile() {
               onCancel={() => setCroppingImage(null)}
             />
           )}
-          <div className="relative w-[150px] h-[150px] flex items-center">
+          <div className="relative w-[150px] h-[150px] flex items-center justify-center">
             <Image
               src={
                 imageSrc
@@ -428,150 +354,14 @@ export default function StudentProfile() {
       );
     } else if (activeTab === "changePassword") {
       return (
-        <div className="mt-3 md:mt-6 text-black">
-          {/* Pop-up Konfirmasi Delete */}
-          {isEdit && (
-            <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
-              <EditPopUp
-                onCancel={() => setIsEdit(false)}
-                onConfirm={handleChangePassword}
-              />
-            </div>
-          )}
-
-          <form onSubmit={handleEdit}>
-            <div className="space-y-[5px] mb-5">
-              <label className="text-black text-sm font-medium">
-                Kata Sandi Lama
-              </label>
-              <div className="relative w-full">
-                <input
-                  name="oldPassword"
-                  value={formData.oldPassword}
-                  onChange={handleChange}
-                  placeholder="Masukkan kata sandi lama"
-                  type={showOldPassword ? "text" : "password"}
-                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200
-                    bg-white text-gray-900 placeholder-gray-400 pr-12
-                    dark:bg-gray-800 dark:text-white dark:placeholder-netral-30 
-                    ${
-                      error || errors
-                        ? "border-err-main focus:ring-err-main dark:border-red-400 dark:focus:ring-red-400"
-                        : "border-gray-300 focus:ring-pri-main dark:border-netral-30 dark:focus:ring-pri-border"
-                    }`}
-                  required
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-4 flex items-center justify-center text-gray-500 dark:text-gray-300"
-                  onClick={() => setShowOldPassword(!showOldPassword)}
-                >
-                  {showOldPassword ? (
-                    <EyeSlash size="20" color="#7F7F7F" variant="Outline" />
-                  ) : (
-                    <Eye size="20" color="#7F7F7F" variant="Outline" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div className="space-y-[5px] mb-5">
-              <label className="text-black text-sm font-medium">
-                Kata Sandi Baru
-              </label>
-              <div className="relative w-full">
-                <input
-                  name="newPassword"
-                  value={formData.newPassword}
-                  onChange={handleChange}
-                  placeholder="Masukkan kata sandi lama"
-                  type={showPassword ? "text" : "password"}
-                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200
-                    bg-white text-gray-900 placeholder-gray-400 pr-12
-                    dark:bg-gray-800 dark:text-white dark:placeholder-netral-30 
-                    ${
-                      error || errors
-                        ? "border-err-main focus:ring-err-main dark:border-red-400 dark:focus:ring-red-400"
-                        : "border-gray-300 focus:ring-pri-main dark:border-netral-30 dark:focus:ring-pri-border"
-                    }`}
-                  required
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-4 flex items-center justify-center text-gray-500 dark:text-gray-300"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeSlash size="20" color="#7F7F7F" variant="Outline" />
-                  ) : (
-                    <Eye size="20" color="#7F7F7F" variant="Outline" />
-                  )}
-                </button>
-              </div>
-              {error && (
-                <span className="text-xs text-err-main absolute">
-                  Kata sandi baru dan konfirmasi kata sandi baru harus sama!
-                </span>
-              )}
-            </div>
-
-            <div className="space-y-[5px] mb-5">
-              <label className="text-black text-sm font-medium">
-                Konfirmasi Kata Sandi Baru
-              </label>
-              <div className="relative w-full">
-                <input
-                  name="newPasswordConfirmation"
-                  value={formData.newPasswordConfirmation}
-                  onChange={handleChange}
-                  placeholder="Masukkan kata sandi lama"
-                  type={showConfirmPassword ? "text" : "password"}
-                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200
-                    bg-white text-gray-900 placeholder-gray-400 pr-12
-                    dark:bg-gray-800 dark:text-white dark:placeholder-netral-30 
-                    ${
-                      error || errors
-                        ? "border-err-main focus:ring-err-main dark:border-red-400 dark:focus:ring-red-400"
-                        : "border-gray-300 focus:ring-pri-main dark:border-netral-30 dark:focus:ring-pri-border"
-                    }`}
-                  required
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-4 flex items-center justify-center text-gray-500 dark:text-gray-300"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showOldPassword ? (
-                    <EyeSlash size="20" color="#7F7F7F" variant="Outline" />
-                  ) : (
-                    <Eye size="20" color="#7F7F7F" variant="Outline" />
-                  )}
-                </button>
-              </div>
-              {error && (
-                <span className="text-xs text-err-main">
-                  Kata sandi baru dan konfirmasi kata sandi baru harus sama!
-                </span>
-              )}
-            </div>
-
-            <div className="w-full flex justify-center md:justify-end pt-6 md:pt-8 lg:pt-[50px]">
-              <button
-                className="w-3/4 md:w-[147px] px-2 py-2.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400"
-                type="submit"
-              >
-                Simpan
-              </button>
-            </div>
-          </form>
-        </div>
+        <ChangePasswordForm />
       );
     }
   };
 
   return (
     <div className="px-4">
-      <ToastContainer />
+      
       <h1 className="text-center md:text-start text-black text-xl font-semibold ">Profil Pengguna</h1>
       <div className="w-full py-5 mt-3 md:mt-[25px]">
         <div className="w-full flex border-b-[1.5px] border-[#0841e2] space-x-4">

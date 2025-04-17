@@ -13,7 +13,7 @@ import ImageCropper from "@/app/component/ImageCropper";
 
 export default function TambahSiswaForm({data, onConfirm}) {
   const [classOptions, setClassOption] = useState([])
-  const {allSemesters, fetchAllSemesters} = useSemester()
+  const {allSemesters} = useSemester()
   const [selectedPeriod, setSelectedPeriod] = useState(null)
   const [selectedClass, setSelectedClass] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -116,15 +116,6 @@ export default function TambahSiswaForm({data, onConfirm}) {
 
     fetchDataKelas()
   }, [])
-
-  const tahunAjarOptions = [
-    { label: "Genap 2024-2025", value: "1" },
-    { label: "Ganjil 2024-2025", value: "2" },
-    { label: "Genap 2023-2024", value: "3" },
-    { label: "Ganjil 2023-2024", value: "4" },
-  ];
-
-  const [selectedTahunAjar, setSelectedTahunAjar] = useState(null);
 
   // console.log("kelas", ClassOption)
   // console.log("semester:", allSemesters)

@@ -2,9 +2,9 @@ import { toast } from "react-toastify";
 import ApiManager from "./ApiManager";
 import { format } from "date-fns";
 
-export const data_siswa = async (page,limit, search, sortBy, sortOrder) => {
+export const data_siswa = async (page,limit, search, sortBy, sortOrder, kelas) => {
     try {
-        const response = await ApiManager.get(`/students?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,{
+        const response = await ApiManager.get(`/students?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}${kelas}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }

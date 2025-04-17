@@ -1,17 +1,20 @@
 "use client";
 
-import { data_siswa, detail_data_siswa, hapus_siswa } from "@/app/api/ApiKesiswaan";
+import { data_kelas, data_semester, data_siswa, detail_data_siswa, hapus_siswa } from "@/app/api/ApiKesiswaan";
 import DataNotFound from "@/app/component/DataNotFound";
 import DeletePopUp from "@/app/component/DeletePopUp";
+import MultiSelectDropdown from "@/app/component/MultiSelectDropdown";
 import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
 import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import TableComponent from "@/app/component/Table";
 import { useLoading } from "@/context/LoadingContext";
+import { useSemester } from "@/provider/SemesterProvider";
 import { DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+
 
 export default function AdminDataSiswa() {
 
@@ -26,14 +29,28 @@ export default function AdminDataSiswa() {
   const [sortOrder, setSortOrder] = useState(" "); 
   const [selectedStudentId, setSelectedStudentId] = useState(null);
   const [isDeleteOpen, setDeleteOpen] = useState(false);
-  const [isEditOpen, setEditOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isTambahOpen, setTambahOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedSemester, setSelectedSemester] = useState(null)
+  const [classFilter, setClassFilter] = useState(null)
+  const [selectedPeriod, setSelectedPeriod] = useState(null)
+  const [allSemesters, setAllSemesters] = useState([]); 
+  
 
-  const fetchDataSiswa = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder) => {
+  const convertToQuery = (obj) => {
+    return Object.entries(obj)
+      .flatMap(([key, values]) =>
+        Array.isArray(values)
+          ? values.map((value) => `&${key}=${encodeURIComponent(value)}`)
+          : [`&${key}=${encodeURIComponent(values)}`]
+      )
+      .join('')
+  };
+
+  const fetchDataSiswa = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder, kelas=classFilter) => {
     try {
-          const data = await data_siswa(page,limitVal, search, sortField, sortDir);
+          setIsLoading(true)
+          const data = await data_siswa(page,limitVal, search, sortField, sortDir, kelas);
           const dataArray = data.students.data
           console.log("daribackend: ",dataArray)
           if (Array.isArray(dataArray)) {
@@ -51,6 +68,7 @@ export default function AdminDataSiswa() {
               }));
 
               setSiswaData(formattedData);
+              setIsLoading(false)
           }
 
           setMeta(data.students.meta); // Simpan metadata untuk paginasi
@@ -58,8 +76,29 @@ export default function AdminDataSiswa() {
       } catch (error) {
           toast.error("Gagal memuat data siswa.");
       } finally {
+        setIsLoading(false)
       }
   };
+
+
+  // // untuk mengambil data semester nanti 
+  // useEffect(() => {
+  //   const fetchAllSemesters = async (limitVal = 99, page=1, search='', sortField='', sortDir='') => {
+  //     try {
+  //       const data = await data_semester(limitVal,page,search,sortField,sortDir);
+  //       console.log("Data mentah semester",data)
+  //       const formattedSemesters = data.data?.map((semester) => ({
+  //         label: semester.name,
+  //         value: semester.name,
+  //       }));
+  //       setAllSemesters(formattedSemesters)
+  //     } catch (error) {
+  //       console.error("Gagal memuat data semester:", error);
+  //     }
+  //   };
+
+  //   fetchAllSemesters();
+  // }, []);
 
   const columns = [
     { label: "nis", sortKey: "nis" },
@@ -72,6 +111,41 @@ export default function AdminDataSiswa() {
     { label: "status", sortKey: "status" },
 
   ];
+
+  // const handleOptionChange = (value) => {
+  //   if(value){
+  //     setSelectedSemester(value);
+  //     console.log("sdasdasd", value)
+  //   }
+  // }; 
+
+  const filters = [
+    {
+      key: "kelas",
+      label: "Kelas",
+      type: "multiselect",
+      fetchOptions: () => data_kelas(1, 99, '', '', '').then(res =>
+        res.theClass.theClass.map(kelas => ({
+          label: kelas.name,
+          value: kelas.name
+        }))
+      ),
+    },
+    {
+      key: "tahunAjar",
+      placeholder: "Tahun Ajar",
+      type: "singleselect",
+      options: allSemesters,
+      selectedOptions:selectedSemester,
+      //handleOptionChange:handleOptionChange,
+    },
+  ];
+
+  const handleFilterDropdownChange = (value) => {
+    const query = convertToQuery(value)
+    setClassFilter(query)
+  };
+  console.log(classFilter)
 
   const handleLimitChange = (newLimit) => {
     setLimit(newLimit);
@@ -88,70 +162,42 @@ export default function AdminDataSiswa() {
   
   useEffect(() => {
       fetchDataSiswa();
-  }, [limit,selectedSearch,sortBy,sortOrder]);
+  }, [limit,selectedSearch,sortBy,sortOrder,classFilter,selectedPeriod]);
 
-  const getUniqueValues = (key) => {
-    return [...new Set(siswaData.map((item) => item[key]))].filter(Boolean);
+  const handleDelete = (siswaId) => {
+    setSelectedStudentId(siswaId);
+    console.log(siswaId)
+    setDeleteOpen(true);
   };
-  
-  // State untuk menyimpan filter yang tersedia
-  const [filters, setFilters] = useState([]);
-  
-  useEffect(() => {
-    if (siswaData && siswaData.length > 0) {
-        setFilters([
-            {
-                key: "kelas",
-                label: "Kelas",
-                options: getUniqueValues("kelas"),
-            },
-            {
-                key: "tahun_ajar",
-                label: "Tahun Ajar",
-                options: getUniqueValues("tahun_ajar"),
-            },
-            {
-                key: "jenis_kelamin",
-                label: "Jenis Kelamin",
-                options: getUniqueValues("jenis_kelamin"),
-            },
-            
-        ]);
-    }
-  }, [siswaData]);
 
-    const handleDelete = (siswaId) => {
-      setSelectedStudentId(siswaId);
-      console.log(siswaId)
-      setDeleteOpen(true);
-    };
-  
-    const confirmDelete = async () => {
-      if (!selectedStudentId) return;
-  
-      setLoading(true)
-      try {
-        const response = await hapus_siswa(selectedStudentId);
-        if (response) {
-          setIsSuccess(true);
-          setDeleteOpen(false);
-          fetchDataSiswa(); // Reload data setelah sukses
-          setTimeout(() => setIsSuccess(false), 2000); // Pop-up sukses hilang otomatis
-        }
-        
-      } catch (error) {
-        toast.error("Gagal menghapus data");
-      } finally {
-        setLoading(false);
+  const confirmDelete = async () => {
+    if (!selectedStudentId) return;
+
+    setLoading(true)
+    try {
+      const response = await hapus_siswa(selectedStudentId);
+      if (response) {
+        setIsSuccess(true);
+        setDeleteOpen(false);
+        fetchDataSiswa(); // Reload data setelah sukses
+        setTimeout(() => setIsSuccess(false), 2000); // Pop-up sukses hilang otomatis
       }
-    };
+      
+    } catch (error) {
+      toast.error("Gagal menghapus data");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const handleEdit = (id) => {
+  const handleEdit = (id) => {
 
-      router.push(`/kesiswaan/data-siswa/${id}`);
-    };
+    router.push(`/kesiswaan/data-siswa/${id}`);
+  };
+
   
-    return (
+  
+  return (
     <>
       {/* Pop-up Konfirmasi Delete */}
       {isDeleteOpen && (
@@ -173,6 +219,7 @@ export default function AdminDataSiswa() {
       } 
       <div className="z-0 transition">
         <ToastContainer/>
+        
         <div>
             <div className="w-full ps-2 flex">
             <h1 className="w-full text-black text-xl font-semibold">Data Siswa Admin</h1> 
@@ -225,6 +272,7 @@ export default function AdminDataSiswa() {
                           onSortChange={handleSortChange}
                           sortBy={sortBy}
                           sortOrder={sortOrder}
+                          onFilterChange={handleFilterDropdownChange}
                       /> : <DataNotFound /> }
                 </div>
 
