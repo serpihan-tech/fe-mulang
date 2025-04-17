@@ -49,7 +49,7 @@ export default function LoginForm() {
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="bg-white dark:bg-netral-100/10 dark:backdrop-blur-md dark:border-2 dark:border-pri-border px-6 md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl md:shadow-md flex h-full w-full md:w-[600px] lg:w-[1000px] mx-10 z-10">
+      <div className="bg-white dark:bg-netral-100/10 dark:backdrop-blur-md dark:border-2 dark:border-pri-border px-2 md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl md:shadow-md flex h-full w-full md:w-[600px] lg:w-[1000px] mx-10 z-10">
         
         {/* Gambar Login */}
         <div className="flex-1 text-center hidden lg:flex items-center">
