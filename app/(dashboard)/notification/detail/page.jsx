@@ -1,10 +1,11 @@
+"use client"
 import { ArrowUp, Document } from "iconsax-react";
 import Image from "next/image";
 
 export default function DetailNotif () {
   return (
     <div className="w-full bg-neutral-50 min-h-screen space-y-[18px] p-2 md:p- lg:p-10">
-      <div className="flex items-center space-x-5 md:space-x-8">
+      <div className="flex items-center space-x-5 md:space-x-8" onClick={() => window.history.back()}>
         <ArrowUp
           size={24}
           color="#7f7f7f"

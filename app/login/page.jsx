@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import LoginForm from "../component/LoginForm";
 import Image from "next/image";
 import ThemeSwitcher from "../component/ThemeSwitcher";
@@ -28,37 +28,45 @@ export default function LoginPage() {
 
   if (!mounted) return null; // Hindari hydration error
   return (
-    
     <div className="bg-white dark:bg-dark_net-pri relative overflow-hidden min-h-screen flex items-center justify-center">
       <ToastContainer />
-      <img 
-        src="svg/ellipse_top.svg" 
-        alt="Background" 
-        className="absolute -top-16 -left-10 h-3/4 w-1/2" 
+      <img
+        src="svg/ellipse_top.svg"
+        alt="Background"
+        className="hidden md:block absolute -top-16 -left-10 h-3/4 w-1/2"
       />
-      
-      <div className="flex flex-col gap-4 items-center w-full">
-        <Image 
-          src="/svg/logo.svg" 
-          alt="Login" 
-          width={50} 
-          height={50} 
-          className="object-contain md:hidden" />
-                
-
-        <LoginForm/>
+      <img
+        src="svg/topMobile1.svg"
+        alt="Background"
+        className="w-full -top-10 absolute md:hidden"
+      />
+      <img
+        src="svg/topMobile2.svg"
+        alt="Background"
+        className="w-full top-0 absolute md:hidden"
+      />
+      <div className="absolute w-20 h-20 top-16 object-contain md:hidden bg-white rounded-3xl p-3.5 items-center">
+        <Image
+          src="/svg/logo.svg"
+          alt="Login"
+          width={57}
+          height={57}
+          className="object-contain md:hidden"
+        />
       </div>
-      
 
-      <img 
-        src="svg/ellipse_bottom.svg" 
-        alt="Background" 
-        className="absolute -bottom-80 -right-24 h-3/4 w-1/2" 
+      <div className="flex flex-col gap-4 items-center w-full">
+        <LoginForm />
+      </div>
+
+      <img
+        src="svg/ellipse_bottom.svg"
+        alt="Background"
+        className="absolute -bottom-80 -right-24 h-3/4 w-1/2"
       />
       <div className="absolute bottom-5 right-5">
-      <ThemeSwitcher />
+        <ThemeSwitcher />
       </div>
-    
     </div>
   );
 }
