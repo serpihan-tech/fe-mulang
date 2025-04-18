@@ -11,6 +11,7 @@ export default function RekapPresensi() {
     try {
       const data = await getStudentHistoryPresence()
       const dataArray = data.studentsPresence.absences
+      console.log("daribackend: ",dataArray)
       setData(dataArray)
     } catch (error) {
       toast.error("Gagal memuat data nilai.")

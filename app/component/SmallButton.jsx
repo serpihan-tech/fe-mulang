@@ -9,11 +9,15 @@ export default function SmallButton({
   iconSize = "w-5",
   bgColor,
   colorIcon,
+  bgColorDisabled,
+  bgBorder,
   title,
   hover,
-  textColor = "text-white"
+  textColor = "text-white",
+  disabled = false,
 }) {
   const renderIcon = () => {
+    if (!icon) return null; 
     if (typeof icon === 'string') {
       // Jika icon adalah string (path gambar)
       return (
@@ -41,12 +45,18 @@ export default function SmallButton({
     <button
       type={type}
       onClick={onClick}
-      className={`h-9 px-[15px] min-w-fit py-2 rounded-xl justify-end items-center gap-2.5 inline-flex ${bgColor} ${hover} cursor-pointer transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400`}
+      disabled={disabled}
+      className={`h-9 px-[15px] min-w-fit py-2 rounded-xl justify-end items-center gap-2.5 inline-flex ${
+                  disabled ? `${bgColorDisabled}` : `${bgColor} ${hover} ${bgBorder} ${textColor} transition-shadow  ease-in-out duration-300 hover:shadow-md hover:shadow-gray-400`
+                } cursor-pointer `}
     >
-      <div className={`${iconSize} flex items-center justify-start`}>
-        {renderIcon()}
-      </div>
-      <p className={`${textColor} text-sm font-medium whitespace-nowrap`}>{title}</p>
+      {icon && (
+        <div className={`${iconSize} flex items-center justify-start`}>
+          {renderIcon()}
+        </div>
+      )}
+      
+      <p className={` text-sm font-medium whitespace-nowrap`}>{title}</p>
     </button>
   );
 }

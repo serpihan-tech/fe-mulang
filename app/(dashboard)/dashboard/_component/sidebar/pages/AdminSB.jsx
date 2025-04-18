@@ -12,7 +12,6 @@ export default function AdminBar({ open }) {
         dropdownItems={[
           { label: "Data Pegawai", url: "/kepegawaian/data-pegawai"},
           { label: "Presensi Pegawai", url: "/kepegawaian/presensi-pegawai"},
-          { label: "Jabatan", url: "/kepegawaian/jabatan" }
         ]}
       />
       <SidebarItem
@@ -34,7 +33,6 @@ export default function AdminBar({ open }) {
         open={open}
         dropdownItems={[
           { label: "Kompetensi", url: "/penilaian/kompetensi" },
-          { label: "Sikap", url: "/penilaian/sikap" }
         ]}
       />
       <SidebarItem

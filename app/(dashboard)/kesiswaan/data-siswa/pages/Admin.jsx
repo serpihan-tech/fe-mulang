@@ -32,10 +32,17 @@ export default function AdminDataSiswa() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedSemester, setSelectedSemester] = useState(null)
-  const [classFilter, setClassFilter] = useState(null)
+  const [classFilter, setClassFilter] = useState("")
   const [selectedPeriod, setSelectedPeriod] = useState(null)
   const [allSemesters, setAllSemesters] = useState([]); 
   
+  useEffect(() => {
+    const succesSiswa = sessionStorage.getItem("succes_naik_kelas")
+    if (succesSiswa) {
+      toast.success(succesSiswa)
+      sessionStorage.removeItem('succes_naik_kelas')
+    }
+  }, [])
 
   const convertToQuery = (obj) => {
     return Object.entries(obj)
@@ -162,7 +169,7 @@ export default function AdminDataSiswa() {
   
   useEffect(() => {
       fetchDataSiswa();
-  }, [limit,selectedSearch,sortBy,sortOrder,classFilter,selectedPeriod]);
+  }, [limit,selectedSearch,sortBy,sortOrder,classFilter,selectedPeriod,classFilter]);
 
   const handleDelete = (siswaId) => {
     setSelectedStudentId(siswaId);
@@ -241,15 +248,15 @@ export default function AdminDataSiswa() {
                 colorIcon="black"
                 title={"Download Excel"}
                 hover={"hover:bg-yellow-400"}
-                textColor="black"
+                textColor="text-black"
               />
               <SmallButton
                 type="button"
                 icon={ProfileAdd}
-                bgColor="bg-blue-600"
+                bgColor="bg-pri-main"
                 colorIcon="white"
                 title={"Tambah Siswa"}
-                hover={"hover:bg-blue-700"}
+                hover={"hover:bg-pri-hover"}
                 onClick={() => router.push('/kesiswaan/data-siswa/tambah')}
               />
             </div>

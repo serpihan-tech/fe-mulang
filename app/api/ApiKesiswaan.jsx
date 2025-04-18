@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import ApiManager from "./ApiManager";
 import { format } from "date-fns";
-
+ 
 export const data_siswa = async (page,limit, search, sortBy, sortOrder, kelas) => {
     try {
         const response = await ApiManager.get(`/students?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}${kelas}`,{
@@ -156,6 +156,24 @@ export const tambah_siswa = async (payload) => {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
         toast.error(err.message);
+        }
+    }
+};
+
+export const naik_kelas_siswa = async (payload) => {
+    try {
+        const response = await ApiManager.post(`/students/promote`,payload,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal membuat kelas");
         }
     }
 };

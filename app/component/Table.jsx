@@ -14,6 +14,8 @@ const TableComponent = ({
   columns, data, title, filters=[], 
   onDelete, onEdit, 
   dataKey, Aksi,
+  enableSort=true, enableSearch=true,
+  enableSelect, selectedRows = [], onSelectRow, onSelectAll,
   filterDate, selectedDate,
   onSortChange, handleDateChange, handleSearchChange, onFilterChange}) => {
   //console.log(data);
@@ -157,62 +159,91 @@ const TableComponent = ({
         </div>
       </div>
       <div ref={inputRef} className="relative w-64">
-        {isFilterOpen ? (
+        
+      {enableSearch && (
+        isFilterOpen ? (
           <div className="relative">
-          <input
-            type="text"
-            placeholder="Cari data..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleSearchChange(searchQuery);
-                setFilterOpen(false);
-              }
-            }}
-            className="w-full h-10 p-2 pl-4 pr-10 border border-blue-500 rounded-full outline-none transition-all duration-300"
-            autoFocus
-          />
+            <input
+              type="text"
+              placeholder="Cari data..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearchChange(searchQuery);
+                  setFilterOpen(false);
+                }
+              }}
+              className="w-full h-10 p-2 pl-4 pr-10 border border-blue-500 rounded-full outline-none transition-all duration-300"
+              autoFocus
+            />
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
               <SearchNormal color="#0841E2" variant="Outline" size={20} />
             </div>
           </div>
         ) : (
           <div
-            className=" ml-52 w-10 h-10 p-2 rounded-full bg-gray-200 cursor-pointer transition-all duration-300"
+            className="ml-52 w-10 h-10 p-2 rounded-full bg-gray-200 cursor-pointer transition-all duration-300"
             onClick={() => setFilterOpen(true)}
           >
             <SearchNormal color="#0841E2" variant="Outline" size={24} />
           </div>
-        )}
+        )
+      )}
       </div>
     </div>
       <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg">
         <table className="w-auto min-w-full table-fixed border-collapse text-xs">
           <thead>
             <tr className="bg-[#ADC0F5]/10 dark:bg-blue-700 text-black dark:text-gray-200 font-semibold">
-              <th className="px-6 py-1 text-left">NO</th>
+              {enableSelect ? (
+                <th className=" pl-6 text-left">
+                  <label className="inline-flex items-center gap-2 cursor-pointer justify-start w-full">
+                    <input
+                      type="checkbox"
+                      className="accent-pri-main rounded-sm cursor-pointer"
+                      checked={data.length > 0 && selectedRows.length === data.length}
+                      onChange={(e) => onSelectAll?.(e.target.checked)}
+                    />
+                    <span className="text-xs font-bold">PILIH SEMUA</span>
+                  </label>
+                </th>
+              ) : (
+                <th className="px-6 py-1 text-left">NO</th>
+              )}
               {columns.map((col) => (
                 <th
                   key={col.label}
-                  className="px-6 py-1 text-left cursor-pointer select-none"
-                  onClick={() => sortData(col.sortKey)}
+                  className={`px-6 py-1 text-left ${enableSort ? 'cursor-pointer' : ''} select-none`}
+                  onClick={enableSort ? () => sortData(col.sortKey) : undefined}
                 >
                   <div className="flex items-center gap-2">
                     <span>{col.label.replace(/_/g, " ").toUpperCase()}</span>
-                    {renderSortIcons(col.sortKey)}
+                    {enableSort && renderSortIcons(col.sortKey)}
                   </div>
                 </th>
               ))}
               {/* Tambahan kolom Aksi */}
-              <th className="px-6 py-1 text-center">AKSI</th>
+              {Aksi && (<th className="px-6 py-1 text-center">AKSI</th>)}
+              
             </tr>
           </thead>
           <tbody>
             {data.length > 0 ? (
               data.map((item, index) => (
                 <tr key={index} className="border-2 border-[#ADC0F5]/10">
-                  <td className="py-3 px-6 text-gray-900 dark:text-gray-100 text-left">{index + 1}</td>
+                  {enableSelect ? (
+                    <td className="pl-6 text-left">
+                      <input
+                        type="checkbox"
+                        className="accent-pri-main rounded-sm cursor-pointer"
+                        checked={selectedRows.includes(item[dataKey])}
+                        onChange={(e) => onSelectRow?.(e.target.checked, item)}
+                      />
+                    </td>
+                  ) : (
+                    <td className="px-6 py-2 text-gray-900">{index + 1}</td>
+                  )}
                   {columns.map((key) => (
                     <td
                       key={key.label}
@@ -223,9 +254,12 @@ const TableComponent = ({
                     </td>
                   ))}
                   {/* Kolom Aksi */}
-                  <td className="py-3 px-6 flex gap-2 justify-center">
-                    {renderAksi(item)}
-                  </td>
+                  {Aksi && (
+                    <td className="py-3 px-6 flex gap-2 justify-center">
+                      {renderAksi(item)}
+                    </td>
+                  )}
+                  
                 </tr>
               ))
             ) : (
