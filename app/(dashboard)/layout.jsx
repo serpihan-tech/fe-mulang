@@ -81,7 +81,7 @@ export default function DashboardLayout({ children }) {
                   sidebarOpen
                     ? "ml-4 md:ml-[200px] lg:ml-[256px]"
                     : "ml-[15px] md:ml-[60px] lg:ml-[80px]"
-                } py-4 px-6 mt-14 md:mt-20 lg:mt-28 transition-all duration-300 ease-in-out`}
+                } md:py-2 md:px-3 lg:py-4 lg:px-6 mt-14 md:mt-20 lg:mt-28 transition-all duration-300 ease-in-out`}
               >
                 {(role && role === "admin") || role === "teacher" ? (
                   <BreadcrumbRenderer />

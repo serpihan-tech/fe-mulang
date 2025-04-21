@@ -22,8 +22,8 @@ export default function TeacherDashboard() {
       
       <div className="z-0 transition">
       
-        <div className="bg-[#FAFAFA]  dark:bg-black flex pt-8 px-6 gap-5 ">
-          <div className="px-4">
+        <div className="bg-[#FAFAFA]  dark:bg-black lg:flex md:pt-4 md:px-3 lg:pt-8 lg:px-6 gap-5 ">
+          <div className="w-full lg:w-2/3 lg:px-4">
             <div className="w-full flex gap-6">
               <Card2
                 bgColor={"bg-indigo-200"}
@@ -51,7 +51,7 @@ export default function TeacherDashboard() {
             <JadwalMengajar/>
           </div>
           
-          <div>
+          <div className="w-full lg:w-1/3">
             <Periode/>
             <Informasi/>
             <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">
