@@ -1,6 +1,6 @@
 export default function Presensi () {
   return (
-    <div className="w-full px-4 py-5 space-y-4 lg:space-y-5 rounded-[15px] border-[0.5px] border-[#aaaaaa]">
+    <div className="w-full px-3 py-3 md:px-4 md:py-5 space-y-4 lg:space-y-5 rounded-[15px] border-[0.5px] border-[#aaaaaa]">
       <div className="w-full flex items-center justify-between">
         <div className="space-y-1 lg:space-y-2">
           <h1 className="text-black text-sm md:text-base lg:text-lg font-semibold">Presensi Harian</h1>
