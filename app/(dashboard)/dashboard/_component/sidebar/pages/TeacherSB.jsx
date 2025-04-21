@@ -3,7 +3,7 @@ import SidebarItem from "../ItemSB";
 
 export default function TeacherSB( {open} ) {
   return (
-    <div className="flex flex-col gap-4 my-4">
+    <div className="flex flex-col gap-4 my-4 min-w-14">
       
       <SidebarItem
         title="Kesiswaan"

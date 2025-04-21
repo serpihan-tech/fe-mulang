@@ -6,12 +6,20 @@ import DataSiswaAdmin from "./pages/Admin";
 import AbsensiSiswaAdmin from "./pages/Admin";
 import AbsensiSiswaTeacher from "./pages/Teacher";
 import { useLoading } from "@/context/LoadingContext";
+import { useBreadcrumb } from "@/context/BreadCrumbContext";
 
 export default function AbsensiSiswa() {
   const router = useRouter();
   const pathname = usePathname()
   const [role, setRole] = useState(null);
   const { setIsLoading } = useLoading();
+
+  const { setShowBreadcrumb } = useBreadcrumb();
+  
+  useEffect(() => {
+    setShowBreadcrumb(true);
+    return () => setShowBreadcrumb(false);
+  }, [setShowBreadcrumb]);
 
   console.log("router:",pathname)
 

@@ -4,6 +4,7 @@ import { ThemeProvider } from "../provider/ThemeProvider";
 import { ProfileProvider } from "@/provider/ProfileProvider";
 import { LoadingProvider } from "../context/LoadingContext";
 import Navigation from "../app/component/Navigation";
+import { BreadcrumbProvider } from "@/context/BreadCrumbContext";
 
 const PlusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -36,7 +37,9 @@ export default function RootLayout({ children }) {
           <Navigation />
           <ProfileProvider>
             <ThemeProvider>
-              {children}
+              <BreadcrumbProvider>
+                {children}
+              </BreadcrumbProvider>
             </ThemeProvider>
           </ProfileProvider>
         </LoadingProvider>
