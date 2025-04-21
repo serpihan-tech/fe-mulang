@@ -5,6 +5,7 @@ import DataNotFound from "@/app/component/DataNotFound";
 import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
 import TableComponent from "@/app/component/Table";
+import { useBreadcrumb } from "@/context/BreadCrumbContext";
 import { useLoading } from "@/context/LoadingContext";
 import { Award } from "iconsax-react";
 import { useRouter } from "next/navigation";
@@ -21,7 +22,13 @@ export default function RekapNilai() {
   const [limit, setLimit] = useState(null);
   const [selectedSearch, setSearch] = useState(' ');
   const [sortBy, setSortBy] = useState(" "); 
-  const [sortOrder, setSortOrder] = useState(" "); 
+  const [sortOrder, setSortOrder] = useState(" ");
+  const { setShowBreadcrumb } = useBreadcrumb();
+  
+  useEffect(() => {
+    setShowBreadcrumb(true);
+    return () => setShowBreadcrumb(false);
+  }, [setShowBreadcrumb]); 
 
   const fetchDataSiswa = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder) => {
     setIsLoading(true);
@@ -91,7 +98,7 @@ export default function RekapNilai() {
       <div className="z-0 transition">
         <div>
           <div className="w-full ps-2 flex">
-            <div className="w-full flex justify-between  mt-[46px]  ">
+            <div className="w-full flex justify-between">
               <h1 className="w-full text-black text-xl font-semibold">Rekap Nilai</h1> 
               <SmallButton
                 type="button"

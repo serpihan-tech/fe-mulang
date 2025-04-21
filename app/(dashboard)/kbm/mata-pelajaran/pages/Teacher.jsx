@@ -9,7 +9,6 @@ export default function MataPelajaranTeacher() {
       <div className="z-0 transition">
         <div>
           <div className="w-full ps-2 space-y-8">
-            <h1 className="w-full text-black text-xl font-semibold">Mata Pelajaran</h1> 
             <div className="gap-6 grid grid-cols-3">
               <MapelCard
                 path={"/svg/physic.svg" }
