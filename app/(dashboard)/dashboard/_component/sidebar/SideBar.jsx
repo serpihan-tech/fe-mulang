@@ -16,7 +16,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
   return (
     <div
       className={`${
-        isOpen ? "w-48 lg:w-64" : "w-5 md:w-16 lg:w-20"
+        isOpen ? "w-52 lg:w-64" : "w-5 md:w-16 lg:w-20"
       } fixed bg-white dark:bg-dark_net-pri p-3 lg:p-5 shadow-lg min-h-screen transition-all duration-300 ease-in-out z-20`}
     >
       <div

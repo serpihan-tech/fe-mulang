@@ -19,7 +19,7 @@ export default function Jadwal({
       </div>
       <div className={`w-full px-4 md:px-[21.4px] py-2 md:py-3 space-y-3 lg:space-y-[18px] rounded-[15.05px] ${bgColor}`}>
         <div className=" flex items-center justify-between lg:mb-0">
-          <p className="text-[#0841e2] text-xs md:text-base lg:text-lg font-bold">{title} ({startTime} - {endTime})</p>
+          <p className="text-[#0841e2] text-sm md:text-base lg:text-lg font-bold">{title} ({startTime} - {endTime})</p>
           <div className={`px-2 md:px-3 py-1.5 rounded-[15.05px] ${statusColor}`}>
             <p className={`${statusTextColor} text-[10px] font-bold`}>{status}</p>
           </div>

@@ -31,9 +31,9 @@ export default function TeacherProfile() {
                 />
               </div>
             </div>
-            <form action="" className="mt-6 space-y-5">
-              <div className="w-full flex space-x-11">
-                <div className="w-1/2 space-y-[5px]">
+            <form action="" className="mt-3 md:mt-6 space-y-2 md:space-y-5">
+              <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
+                <div className="w-full md:w-1/2 space-y-[5px]">
                   <label className="text-black text-sm font-medium">Nama Lengkap</label>
                   <input type="text" 
                     disabled
@@ -41,7 +41,7 @@ export default function TeacherProfile() {
                     className="w-full rounded-md py-2 px-4 text-sm font-medium bg-[#cccccc] placeholder-black"
                   />
                 </div>
-                <div className="w-1/2 space-y-[5px]">
+                <div className="w-full md:w-1/2 space-y-[5px]">
                   <label className="text-black text-sm font-medium">Email</label>
                   <input type="email" 
                     disabled
@@ -50,8 +50,8 @@ export default function TeacherProfile() {
                   />
                 </div>
               </div>
-              <div className="w-full flex space-x-11">
-                <div className="w-1/2 space-y-[5px]">
+              <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
+                <div className="w-full md:w-1/2 space-y-[5px]">
                   <label className="text-black text-sm font-medium">NIP</label>
                   <input type="number" 
                     disabled
@@ -59,7 +59,7 @@ export default function TeacherProfile() {
                     className="w-full rounded-md py-2 px-4 text-sm font-medium bg-[#cccccc] placeholder-black"
                   />
                 </div>
-                <div className="w-1/2 space-y-[5px]">
+                <div className="w-full md:w-1/2 space-y-[5px]">
                   <label className="text-black text-sm font-medium">No. Telepon</label>
                   <input type="number" 
                     placeholder="081234567891011"
@@ -67,10 +67,10 @@ export default function TeacherProfile() {
                   />
                 </div>
               </div>
-              <div className="w-full flex space-x-11">
-                <div className="w-1/2 space-y-[5px]">
+              <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
+                <div className="w-full md:w-1/2 space-y-[5px]">
                   <label className="text-black text-sm font-medium">Jenis Kelamin</label>
-                  <div className="flex py-4 space-x-8">
+                  <div className="flex py-1 md:py-4 space-x-8">
                     <div className="flex items-center space-x-[18px]">
                       <input id="laki-laki" type="radio" value="" name="laki-laki" defaultChecked disabled className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
                       <label htmlFor="laki-laki" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Laki-Laki</label>
@@ -81,9 +81,9 @@ export default function TeacherProfile() {
                     </div>
                   </div>
                 </div>
-                <div className="w-1/2 space-y-[5px]">
+                <div className="w-full md:w-1/2 space-y-[5px]">
                   <label className="text-black text-sm font-medium">Pilih Status</label>
-                  <div className="flex py-4 space-x-8">
+                  <div className="flex py-1 md:py-4 space-x-8">
                     <div className="flex items-center space-x-[18px]">
                       <input id="aktif" type="radio" value="" name="aktif" defaultChecked disabled className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
                       <label htmlFor="aktif" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Aktif</label>
@@ -102,8 +102,8 @@ export default function TeacherProfile() {
                     className="w-full rounded-md py-2 px-4 text-sm font-medium bg-[#cccccc] placeholder-black"
                   />
               </div>
-              <div className="w-full flex space-x-11">
-                <div className="w-1/2 space-y-[5px]">
+              <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
+                <div className="w-full md:w-1/2 space-y-[5px]">
                   <label className="text-black text-sm font-medium">Tempat Lahir</label>
                   <input type="text" 
                     disabled
@@ -111,7 +111,7 @@ export default function TeacherProfile() {
                     className="w-full rounded-md py-2 px-4 text-sm font-medium bg-[#cccccc] placeholder-black"
                   />
                 </div>
-                <div className="w-1/2 space-y-[5px]">
+                <div className="w-full md:w-1/2  space-y-[5px]">
                   <label className="text-black text-sm font-medium">Tanggal Lahir</label>
                   <input 
                     type="date" 
@@ -123,8 +123,8 @@ export default function TeacherProfile() {
                   />
                 </div>
               </div>
-              <div className="w-full flex justify-end pt-[50px]">
-                <button className="w-[147px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+              <div className="w-full flex justify-center md:justify-end pt-6 md:pt-8 lg:pt-[50px]">
+                <button className="w-full md:w-[147px] px-2 py-2.5 rounded-full md:rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
                   Simpan
                 </button>
               </div>
@@ -133,7 +133,7 @@ export default function TeacherProfile() {
       );
   } else if (activeTab === "changePassword") {
     return (
-      <div className="mt-6 space-y-5">
+      <div className="mt-3 md:mt-6 space-y-2 md:space-y-5">
           <div className="space-y-[5px]">
             <label className="text-black text-sm font-medium">Kata Sandi Lama</label>
             <input type="password" 
@@ -155,8 +155,8 @@ export default function TeacherProfile() {
               className="w-full rounded-md py-2 px-4 text-sm font-medium border border-gray-400"
             />
           </div>
-          <div className="w-full flex justify-end pt-[50px]">
-            <button className="w-[147px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-800 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+          <div className="w-full flex justify-center md:justify-end pt-6 md:pt-8 lg:pt-[50px]">
+            <button className="w-full md:w-[147px] px-2 py-2.5 rounded-full md:rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
               Simpan
             </button>
           </div>
@@ -168,7 +168,7 @@ export default function TeacherProfile() {
   return (
     <div>
       <h1 className="text-black text-xl font-semibold ">Profil Pengguna</h1>
-      <div className="w-full py-5 px-4 mt-[25px]">
+      <div className="w-full py-5 mt-3 md:mt-[25px]">
         <div className="w-full flex border-b-[1.5px] border-[#0841e2] space-x-4">
           <button 
             onClick={() => setActiveTab("editProfile")}
@@ -181,7 +181,7 @@ export default function TeacherProfile() {
             >Ubah Kata Sandi
           </button>
         </div>
-        <div className="w-full p-[25px]">
+        <div className="w-full py-5 px-2 md:p-[25px]">
           {renderContent()} 
         </div>
       </div>
