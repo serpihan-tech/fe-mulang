@@ -1,6 +1,16 @@
 "use client";
 
+import { useBreadcrumb } from "@/context/BreadCrumbContext";
+import { useEffect } from "react";
+
 export default function Kompetensi() {
+  const { setShowBreadcrumb } = useBreadcrumb();
+  
+  useEffect(() => {
+    setShowBreadcrumb(true);
+    return () => setShowBreadcrumb(false);
+  }, [setShowBreadcrumb]);
+
   return (
     <>
       <div className="z-0 transition">

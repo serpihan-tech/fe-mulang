@@ -11,7 +11,7 @@ export default function MapelCard ({
   textColor="text-white"
 }) {
   return (
-    <div className={`w-[348px] flex ${bgColor} py-3 px-5 space-x-[22px] rounded-[15px]`} >
+    <div className={`flex ${bgColor} py-3 px-5 space-x-[22px] rounded-[15px]`} >
       <Image 
         src={path}
         width={80} 

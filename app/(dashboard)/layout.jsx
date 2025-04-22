@@ -5,27 +5,27 @@ import SideBar from "./dashboard/_component/sidebar/SideBar";
 import { ThemeProvider } from "../../provider/ThemeProvider";
 import { toast } from "react-toastify";
 import DashboardHeader from "./dashboard/_component/home/DashboardHeader";
-import Breadcrumb from "../component/Breadcrumb";
+import BreadcrumbRenderer from "../component/BreadcrumbRenderer";
 import { Copyright } from "iconsax-react";
 import { SemesterProvider } from "@/provider/SemesterProvider";
 import { useLoading } from "../../context/LoadingContext";
+import { BreadcrumbProvider } from "@/context/BreadCrumbContext";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { setIsLoading } = useLoading();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const role = typeof window !== "undefined" ? sessionStorage.getItem("role") : null;
-
+  const role =
+    typeof window !== "undefined" ? sessionStorage.getItem("role") : null;
 
   // Cek token saat halaman dimuat
   useEffect(() => {
-    
     const token = sessionStorage.getItem("token");
     const role = sessionStorage.getItem("role");
 
     if (!token || !role) {
-      toast.error('harap login ulang')
+      toast.error("harap login ulang");
       router.replace("/login");
     } else {
       setIsAuthenticated(true);
@@ -53,40 +53,55 @@ export default function DashboardLayout({ children }) {
   }, []);
 
   if (!isAuthenticated) return null;
-  
+
   return (
     <SemesterProvider>
       <ThemeProvider>
-        <div className="flex min-h-screen">
-          <SideBar 
-            isOpen={sidebarOpen}
-            toggleSidebar={() => setSidebarOpen(!sidebarOpen)} 
-          />
-          <main className={`bg-[#FAFAFA] dark:bg-dark_net-quar flex-1 transition-all duration-300 ease-in-out `}>
-            <div className={`overflow-hidden z-10 fixed right-0 ${sidebarOpen ? "md:left-[200px] lg:left-[256px] " : "left-[22px] md:left-[62px] lg:left-[80px]"} transition-all duration-300 ease-in-out`}>
-              <DashboardHeader />
-            </div>
-            
-            <div className={`${sidebarOpen ? "ml-4 md:ml-[200px] lg:ml-[256px]" : "ml-[15px] md:ml-[60px] lg:ml-[80px]"} py-4 px-6 mt-14 md:mt-20 lg:mt-28 transition-all duration-300 ease-in-out`}>
-              {role && role ==="admin" || role ==="teacher"?
-                <Breadcrumb
-                  separator={<span> / </span>}
-                  firstClasses="text-pri-main font-semibold"
-                  containerClasses="flex items-center"
-                  listClasses="hover:underline m-2"
-                  capitalizeLinks
-                /> : ""
-              }
-              {children}
-              <footer className="w-full flex justify-start items-center space-x-2.5 ms-2 mt-[31px] text-black dark:text-white">
-                <Copyright className="w-[18px] h-[18px]" color="currentColor" />
-              <p className="text-xs font-normal">2025. Mulang All Right reserved</p>
-            </footer>
-            </div>
-            
-          </main>
+        <BreadcrumbProvider>
+          <div className="flex min-h-screen">
+            <SideBar
+              isOpen={sidebarOpen}
+              toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+            />
+            <main
+              className={`bg-[#FAFAFA] dark:bg-dark_net-quar flex-1 transition-all duration-300 ease-in-out `}
+            >
+              <div
+                className={`overflow-hidden z-10 fixed right-0 ${
+                  sidebarOpen
+                    ? "md:left-[200px] lg:left-[256px] "
+                    : "left-[22px] md:left-[62px] lg:left-[80px]"
+                } transition-all duration-300 ease-in-out`}
+              >
+                <DashboardHeader />
+              </div>
 
-        </div>
+              <div
+                className={`${
+                  sidebarOpen
+                    ? "ml-4 md:ml-[200px] lg:ml-[256px]"
+                    : "ml-[20px] md:ml-[60px] lg:ml-[80px]"
+                } py-4 px-6 mt-14 md:mt-20 lg:mt-28 transition-all duration-300 ease-in-out`}
+              >
+                {(role && role === "admin") || role === "teacher" ? (
+                  <BreadcrumbRenderer />
+                ) : (
+                  ""
+                )}
+                {children}
+                <footer className="w-full flex justify-start items-center space-x-2.5 ms-2 mt-[31px] text-black dark:text-white">
+                  <Copyright
+                    className="w-[18px] h-[18px]"
+                    color="currentColor"
+                  />
+                  <p className="text-xs font-normal">
+                    2025. Mulang All Right reserved
+                  </p>
+                </footer>
+              </div>
+            </main>
+          </div>
+        </BreadcrumbProvider>
       </ThemeProvider>
     </SemesterProvider>
   );

@@ -113,7 +113,7 @@ export default function StudentDashboard() {
 
           </div>
 
-          <div className="w-full lg:w-1/3 pe-4 lg:pe-8">
+          <div className="w-full lg:w-1/3">
             <Periode />
             <Informasi />
             <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">

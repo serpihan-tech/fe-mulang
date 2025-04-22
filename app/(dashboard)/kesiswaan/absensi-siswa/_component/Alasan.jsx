@@ -17,7 +17,7 @@ export default function Alasan() {
         />
       </div>
       <div className="w-full flex justify-end space-x-4 mt-5">
-        <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+        <button className="w-[103px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
           Simpan
         </button>
       </div>

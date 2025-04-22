@@ -33,7 +33,7 @@ export default function LoginPage() {
       <img
         src="svg/ellipse_top.svg"
         alt="Background"
-        className="hidden md:block absolute -top-16 -left-10 h-3/4 w-1/2"
+        className="hidden md:block absolute md:-top-32 lg:-top-16 -left-10 h-3/4 md:w-3/4 lg:w-1/2"
       />
       <img
         src="svg/topMobile1.svg"

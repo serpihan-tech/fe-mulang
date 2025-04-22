@@ -176,7 +176,7 @@ export default function StudentProfile() {
             </label>
           </div>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-2 md:space-y-5">
+          <form onSubmit={handleSubmit} className="mt-3 md:mt-6 space-y-2 md:space-y-5">
             <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
               <div className="w-full md:w-1/2 space-y-[5px]">
                 <label className="text-black text-sm font-medium">
@@ -345,7 +345,7 @@ export default function StudentProfile() {
               </div>
             </div>
             <div className="w-full flex justify-center md:justify-end pt-6 md:pt-8 lg:pt-[50px]">
-              <button className="w-3/4 md:w-[147px] px-2 py-2.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+              <button className="w-full md:w-[147px] px-2 py-2.5 rounded-full md:rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
                 Simpan
               </button>
             </div>
@@ -386,7 +386,7 @@ export default function StudentProfile() {
             Ubah Kata Sandi
           </button>
         </div>
-        <div className="w-full p-2 md:p-[25px]">{renderContent()}</div>
+        <div className="w-full py-5 px-2 md:p-[25px]">{renderContent()}</div>
       </div>
     </div>
   );

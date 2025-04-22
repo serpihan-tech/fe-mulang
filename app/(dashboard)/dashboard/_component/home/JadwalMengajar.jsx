@@ -2,8 +2,8 @@ import Jadwal from "./Jadwal";
 
 export default function JadwalMengajar({heading}) {
   return (
-    <div className="w-full space-y-7 my-6">
-      <div className="w-full space-y-8">
+    <div className="w-full space-y-7 my-2 md:my-3 lg:my-6">
+      <div className="w-full space-y-3 md:space-y-5 lg:space-y-8">
         <Jadwal 
           startTime={"07:30"}
           endTime={"10:00"}
