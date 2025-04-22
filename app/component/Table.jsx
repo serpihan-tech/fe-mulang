@@ -12,11 +12,11 @@ import MultiSelectDropdown from "./MultiSelectDropdown";
 
 const TableComponent = ({ 
   columns, data, title, filters=[], 
-  onDelete, onEdit, 
+  onDelete, onEdit, onDetailEdit=false,
   dataKey, Aksi,
   enableSort=true, enableSearch=true,
   enableSelect, selectedRows = [], onSelectRow, onSelectAll,
-  filterDate, selectedDate,
+  filterDate, selectedDate, dFPlaceholder ,
   onSortChange, handleDateChange, handleSearchChange, onFilterChange}) => {
   //console.log(data);
   const inputRef = useRef(null);
@@ -74,11 +74,19 @@ const TableComponent = ({
     };
   }, [isFilterOpen]);
 
+  const handleEditClick = (item) => {
+    if (onDetailEdit) {
+      onEdit(item); // kirim semua data
+    } else {
+      onEdit(item[dataKey]); // kirim hanya ID
+    }
+  };
+
   const renderAksi = (item) => {
     if (Aksi === "EditDelete") {
       return (
         <>
-        <button onClick={() => onEdit(item[dataKey])}>
+        <button onClick={() => handleEditClick(item)}>
           <Edit2 size="20" color="#FFCF43" variant="Bold" />
         </button>
         <button onClick={() => onDelete(item[dataKey])}>
@@ -115,14 +123,7 @@ const TableComponent = ({
           <CustomDatePicker
             value={selectedDate}
             onChange={handleDateChange}
-            customFilterdateStyle="flex items-center justify-between border border-blue-500 rounded-lg px-4 py-2 cursor-pointer min-w-[180px]"
-          />
-        </div>
-
-        <div className={` ${!filterDate ? "hidden" : ""}`}>
-          <CustomDatePicker
-            value={selectedDate}
-            onChange={handleDateChange}
+            placeholder={dFPlaceholder}
             customFilterdateStyle="flex items-center justify-between border border-blue-500 rounded-lg px-4 py-2 cursor-pointer min-w-[180px]"
           />
         </div>

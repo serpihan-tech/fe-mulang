@@ -8,6 +8,7 @@ import { useProfile } from "@/provider/ProfileProvider";
 import getCroppedImg from "@/app/component/getCroppedImg";
 import { useLoading } from "@/context/LoadingContext";
 import ChangePasswordForm from "../../dashboard/_component/home/ChangePassword";
+import { set } from "date-fns";
 
 export default function AdminProfile() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -92,11 +93,15 @@ export default function AdminProfile() {
     }));
   };
 
+  // console.log("adminData", adminData);
+  // console.log("imageSrcs", baseUrl +"/image/"+adminData?.admin?.profilePicture);
+
   const [activeTab, setActiveTab] = useState("editProfile");
 
 	const handleSubmit = async (e) => {
 		const oldAdminEmail = adminData?.admin?.user?.email;
 		const adminEmail = adminData?.user?.email;
+    setIsLoading(true);
 
 		e.preventDefault();
 
@@ -135,7 +140,9 @@ export default function AdminProfile() {
 		} catch (error) {
 			toast.error(error);
 			alert("Terjadi kesalahan saat memperbarui data.");
-		}
+		} finally {
+      setIsLoading(false);
+    }
 	};
 	
 	console.log("data:",adminId)
@@ -159,7 +166,7 @@ export default function AdminProfile() {
                   ? imageSrc
                   : baseUrl +
                     "/image/" +
-                    adminData?.admin?.profile_picture
+                    adminData?.admin?.profilePicture
               }
                 alt="Profile Photo"
                 width={150}

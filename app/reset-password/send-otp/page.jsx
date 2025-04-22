@@ -46,7 +46,7 @@ export default function ResetPasswordPage() {
         className="absolute -bottom-40 -right-24 h-3/4 w-1/2" 
       />
       <div className="absolute bottom-5 right-5">
-      <ThemeSwitcher />
+      {/* <ThemeSwitcher /> */}
       </div>
     </div>
   );

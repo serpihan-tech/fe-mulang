@@ -10,19 +10,23 @@ function formatDate(date) {
   return `${day}-${month}-${year}`;
 }
 
-export default function CustomDatePicker({ value, onChange, customFilterdateStyle}) {
+export default function CustomDatePicker({ value, onChange, customFilterdateStyle, placeholder="Pilih tanggal", disabled = false}) {
   const [showCalendar, setShowCalendar] = useState(false);
 
-  const toggleCalendar = () => setShowCalendar((prev) => !prev);
+  const toggleCalendar = () => {
+    if (!disabled) {
+      setShowCalendar((prev) => !prev);
+    }
+  };
 
   return (
     <div className="relative">
       <div
-        className={customFilterdateStyle}
+        className={`${customFilterdateStyle} ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
         onClick={toggleCalendar}
       >
         <span className="text-sm ">
-          {value ? formatDate(new Date(value)) : "Pilih tanggal"}
+          {value ? formatDate(new Date(value)) : placeholder}
         </span>
         <Calendar size="20" variant="Bold" color="currentColor" />
       </div>

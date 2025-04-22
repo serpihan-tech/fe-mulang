@@ -45,6 +45,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
       profile_picture: ""
     },
     class_student:{
+      class_student_id:null,
       class_id:null,
       academic_year_id:null,
     }
@@ -79,6 +80,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
         profile_picture: "",
       },
       class_student: {
+        class_student_id: data.classStudent?.[0]?.id || null,
         class_id: data.classStudent?.[0]?.classId || null,
         academic_year_id: data.classStudent?.[0]?.academicYearId || null,
       },

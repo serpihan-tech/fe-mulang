@@ -169,7 +169,7 @@ export default function AdminDataSiswa() {
   
   useEffect(() => {
       fetchDataSiswa();
-  }, [limit,selectedSearch,sortBy,sortOrder,classFilter,selectedPeriod,classFilter]);
+  }, [limit,selectedSearch,sortBy,sortOrder,classFilter,selectedPeriod]);
 
   const handleDelete = (siswaId) => {
     setSelectedStudentId(siswaId);
@@ -222,8 +222,7 @@ export default function AdminDataSiswa() {
           <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
             <SuccessUpdatePopUp />
           </div>
-        )
-      } 
+        )} 
       <div className="z-0 transition">
         <ToastContainer/>
         

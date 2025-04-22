@@ -1,7 +1,7 @@
 import { createImage } from "./utils"; // Fungsi tambahan untuk membuat gambar dari base64
 
 
-const getCroppedImg = async (imageSrc, pixelCrop, originalName = "cropped_image.jpg", originalType = "image/jpeg") => {
+const getCroppedImg = async (imageSrc, pixelCrop, originalName = `${crypto.randomUUID()}`, originalType = "image/jpeg") => {
   const image = await createImage(imageSrc);
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");

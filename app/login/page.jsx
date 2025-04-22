@@ -65,7 +65,7 @@ export default function LoginPage() {
         className="absolute -bottom-80 -right-24 h-3/4 w-1/2"
       />
       <div className="absolute bottom-5 right-5">
-        <ThemeSwitcher />
+        {/* <ThemeSwitcher /> */}
       </div>
     </div>
   );

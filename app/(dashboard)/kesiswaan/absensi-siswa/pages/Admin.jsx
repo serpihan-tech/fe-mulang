@@ -117,7 +117,6 @@ export default function AbsensiSiswaAdmin() {
     setSelectedDate(date);
   };
   
-  
   const handleSearchChange = (search) => {
     setSearch(search);
   };
