@@ -210,12 +210,12 @@ const TableComponent = ({
                   </label>
                 </th>
               ) : (
-                <th className="px-6 py-1 text-left">NO</th>
+                <th className="px-2 md:px-4 lg:px-6 py-1 text-left">NO</th>
               )}
               {columns.map((col) => (
                 <th
                   key={col.label}
-                  className={`px-6 py-1 text-left ${enableSort ? 'cursor-pointer' : ''} select-none`}
+                  className={`px-2 md:px-4 lg:px-6 py-1 text-left ${enableSort ? 'cursor-pointer' : ''} select-none`}
                   onClick={enableSort ? () => sortData(col.sortKey) : undefined}
                 >
                   <div className="flex items-center gap-2">
@@ -225,7 +225,7 @@ const TableComponent = ({
                 </th>
               ))}
               {/* Tambahan kolom Aksi */}
-              {Aksi && (<th className="px-6 py-1 text-center">AKSI</th>)}
+              {Aksi && (<th className="px-2 md:px-4 lg:px-6 py-1 text-center">AKSI</th>)}
               
             </tr>
           </thead>
@@ -243,12 +243,12 @@ const TableComponent = ({
                       />
                     </td>
                   ) : (
-                    <td className="px-6 py-2 text-gray-900">{index + 1}</td>
+                    <td className="px-2 md:px-4 lg:px-6 py-2 text-gray-900">{index + 1}</td>
                   )}
                   {columns.map((key) => (
                     <td
                       key={key.label}
-                      className="py-3 px-6 text-gray-900 dark:text-gray-100 max-w-[10px] truncate whitespace-nowrap"
+                      className="py-3 px-2 md:px-4 lg:px-6 text-gray-900 dark:text-gray-100 max-w-[10px] truncate whitespace-nowrap"
                       title={item[key.label]}
                     >
                       {item[key.label]}
@@ -256,7 +256,7 @@ const TableComponent = ({
                   ))}
                   {/* Kolom Aksi */}
                   {Aksi && (
-                    <td className="py-3 px-6 flex gap-2 justify-center">
+                    <td className="py-3 px-2 md:px-4 lg:px-6 flex gap-2 justify-center">
                       {renderAksi(item)}
                     </td>
                   )}

@@ -36,14 +36,14 @@ const PaginationComponent = ({ meta, onPageChange, onLimitChange  }) => {
   };
 
   return (
-    <div className="flex p-5 w-full justify-between items-center">
+    <div className="lg:flex p-2 lg:p-5 w-full justify-between items-center">
       {/* Informasi jumlah data (mentok kiri) */}
-      <div className="text-sm text-gray-600 mb-2">
+      <div className="text-xs md:text-sm text-gray-600 mb-2">
         <span>
           Showing {(currentPage - 1) * perPage + 1} to {Math.min(currentPage * perPage, total)} of {total} entries
         </span>
         <select
-          className="border px-2 py-1 rounded text-sm ml-2"
+          className="border lg:px-2 py-1 rounded text-sm ml-1 lg:ml-2"
           value={perPage}
           onChange={(e) => onLimitChange(Number(e.target.value))}
         >
@@ -56,8 +56,8 @@ const PaginationComponent = ({ meta, onPageChange, onLimitChange  }) => {
       </div>
 
       {/* Pagination Controls (tengah halaman) */}
-      <div className="flex-1 flex justify-center">
-        <div className="flex items-center space-x-2 -ml-64">
+      <div className="md:flex-1 flex justify-center">
+        <div className="flex items-center space-x-1 lg:space-x-2 lg:-ml-64 mt-2 lg:mt-0">
           {/* Tombol Previous */}
           <button
             className={`px-2 py-1 rounded ${previousPageUrl ? "text-pri-main hover:bg-gray-300" : " text-netral-40 cursor-not-allowed"}`}
