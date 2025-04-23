@@ -228,7 +228,7 @@ export default function AdminDataSiswa() {
         
         <div>
             <div className="w-full ps-2 flex">
-            <h1 className="w-full text-black text-xl font-semibold">Data Siswa Admin</h1> 
+            <h1 className="w-full flex items-center text-black text-xl font-semibold">Data Siswa Admin</h1> 
             <div className="w-full flex items-center justify-end gap-5">
               <SmallButton
                 type="button"
