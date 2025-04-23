@@ -50,10 +50,10 @@ export default function AdminDashboard() {
       
       <div className="z-0 transition">
       
-        <div className="bg-[#FAFAFA] dark:bg-dark_net-quar flex gap-5">
+        <div className="bg-[#FAFAFA] dark:bg-dark_net-quar lg:flex gap-5">
           
-          <div>
-            <div className="flex gap-5">
+          <div className="w-full lg:w-2/3 lg:px-4 space-y-5 lg:space-y-9">
+            <div className="w-full grid grid-cols-2 gap-2 lg:gap-0 md:grid-cols-4 space-x-2 lg:space-x-5">
               <SumCard icon={People} value={dashboardData?.data.total_students} label="Total Siswa"/>
               <SumCard icon={Teacher} value={dashboardData?.data.total_teachers} label="Total Guru"/>
               <SumCard icon={Book} value={dashboardData?.data.total_modules} label="Total Mapel"/>
@@ -64,7 +64,7 @@ export default function AdminDashboard() {
             <Pusatinformasi/>
           </div>
           
-          <div>
+          <div className="w-full lg:w-1/3 mt-4 md:mt-7 lg:mt-0">
             <Periode
               className="w-full"
             />

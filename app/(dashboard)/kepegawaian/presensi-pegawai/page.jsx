@@ -16,6 +16,7 @@ import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import TambahSemesterModal from "../../kesiswaan/_component/TambahSemester";
 import { format } from "date-fns";
 import { hapus_absen_siswa } from "@/app/api/ApiKesiswaan";
+import { useBreadcrumb } from "@/context/BreadCrumbContext";
 
 export default function PresensiPegawai() {
   const [meta, setMeta] = useState(null);
@@ -34,6 +35,12 @@ export default function PresensiPegawai() {
   const [isTambahOpen, setTambahOpen] = useState(false);
   const [detailAbsenData, setDetailAbsenData] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const { setShowBreadcrumb } = useBreadcrumb();
+  
+  useEffect(() => {
+    setShowBreadcrumb(true);
+    return () => setShowBreadcrumb(false);
+  }, [setShowBreadcrumb]);
 
   const fetchDataAbsen = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder, date=selectedDate) => {
     try {
@@ -293,7 +300,7 @@ export default function PresensiPegawai() {
                       onEdit={handleEdit}
                       onDetailEdit={true}
                       onDelete ={handleDelete}
-                      title="Data Absen Pegawai"
+                      title="Tabel Presensi Pegawai"
                       Aksi="EditDelete"
                       //filters={filters}
                       filterDate={true}

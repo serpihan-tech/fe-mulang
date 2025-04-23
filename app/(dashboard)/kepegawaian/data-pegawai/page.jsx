@@ -7,6 +7,7 @@ import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
 import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import TableComponent from "@/app/component/Table";
+import { useBreadcrumb } from "@/context/BreadCrumbContext";
 import { useLoading } from "@/context/LoadingContext";
 import { DocumentDownload, ProfileAdd } from "iconsax-react";
 import { useRouter } from "next/navigation";
@@ -27,7 +28,12 @@ export default function DataPegawai() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [selectedTeacherId, setSelectedTeacherId] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const { setShowBreadcrumb } = useBreadcrumb();
+  
+  useEffect(() => {
+    setShowBreadcrumb(true);
+    return () => setShowBreadcrumb(false);
+  }, [setShowBreadcrumb]);
 
   useEffect(() => {
     const succesPegawai = sessionStorage.getItem("create_pegawai")
@@ -144,9 +150,9 @@ export default function DataPegawai() {
         </div>
       )} 
       <div className="z-0 transition">
-          <div className="w-full ps-2 mt-12 flex">
-            <h1 className="w-full text-black text-xl font-semibold">Data Pegawai</h1> 
-            <div className="w-full flex items-center justify-end gap-5">
+          <div className="w-full ps-2 mt-4 md:mt-6 :mt-12 flex">
+            <h1 className="w-full flex items-center text-black text-xl font-semibold">Data Pegawai</h1> 
+            <div className="w-full flex items-center justify-end gap-2 md:gap-5">
               <SmallButton
                 type="button"
                 icon={DocumentDownload}
@@ -171,7 +177,7 @@ export default function DataPegawai() {
             </div>
           </div>
           <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-            <div className={guruData ? "max-w-full p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+            <div className={guruData ? "max-w-full p-2 lg:p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
                 {guruData ? 
                   <TableComponent 
                       dataKey='id_guru'
@@ -179,7 +185,7 @@ export default function DataPegawai() {
                       data={guruData}
                       onEdit={handleEdit}
                       onDelete ={handleDelete}
-                      title="Data Pegawai"
+                      title="Tabel Data Pegawai"
                       Aksi="EditDelete"
                       //filters={filters}
                       handleSearchChange={handleSearchChange}
