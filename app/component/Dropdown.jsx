@@ -54,14 +54,14 @@ export default function Dropdown({
             variant="Bold"
           />
         )}
-        <div className="flex-grow mr-10">
+        <div className="flex-grow me-1">
           <p className="text-black text-base font-bold">{title}</p>
           <p className="text-black text-sm font-normal">
             {value ? value.label : placeholder ||"" }
           </p>
         </div>
         <ArrowDown2 
-          className={`w-5 h-5 transition-transform duration-300 justify-end ${value ? 'text-black' : 'text-black' } ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 transition-transform duration-300 justify-end ${value ? 'text-black' : 'text-black' } ${isOpen ? 'rotate-180' : ''}`}
           color='currentColor'
         />
       </div>
