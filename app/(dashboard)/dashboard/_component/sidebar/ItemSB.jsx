@@ -27,10 +27,11 @@ const HoverDropdown = ({ items, position = 'right' }) => {
   );
 };
 
-export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true }) => {
-  const router = useRouter()
+export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true, onConfirm }) => {
   const [shouldRenderText, setShouldRenderText] = useState(open)
   const [loading, setLoading] = useState(false)
+  const [logoutOpen, setLogoutOpen] = useState(false)
+
   useEffect(() => {
     if (open) {
       setTimeout(() => setShouldRenderText(true), 300); 
@@ -39,26 +40,14 @@ export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true }) => {
     }
   }, [open])
 
-  const handleLogout = async () => {
-    setLoading(true)
-    try {
-      const response = await logout(); 
-      if(response){
-        sessionStorage.setItem("log_out", response.message)
-        router.push("/login")
-      }
-    } catch (error) {
-      toast.error("Gagal logout, silakan coba lagi.")
-    } finally {
-      setLoading(false)
-    }
-  };
+  console
+
   return (
     <button
       className={`${
         open ? "flex" : "hidden md:flex"
       } w-full items-center p-2  text-err-main hover:bg-err-main rounded-xl hover:text-netral-0 transition`}
-      onClick={handleLogout}
+      onClick={onConfirm}
     >
       {/* Bagian Kiri: Ikon dan Teks */}
       <div className="flex items-center">
