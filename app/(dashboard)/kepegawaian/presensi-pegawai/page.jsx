@@ -33,7 +33,7 @@ export default function PresensiPegawai() {
   const [editOpen, setEditOpen] = useState(false);
   const [isTambahOpen, setTambahOpen] = useState(false);
   const [detailAbsenData, setDetailAbsenData] = useState(null);
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const fetchDataAbsen = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder, date=selectedDate) => {
     try {
