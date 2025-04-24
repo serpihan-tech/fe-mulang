@@ -159,7 +159,7 @@ const TableComponent = ({
           })}
         </div>
       </div>
-      <div ref={inputRef} className="relative md:w-64">
+      <div ref={inputRef} className="relative lg:w-64">
         
       {enableSearch && (
         isFilterOpen ? (
@@ -184,7 +184,7 @@ const TableComponent = ({
           </div>
         ) : (
           <div
-            className="md:ml-52 w-10 h-10 p-2 rounded-full bg-gray-200 cursor-pointer transition-all duration-300"
+            className="lg:ml-52 w-10 h-10 p-2 rounded-full bg-gray-200 cursor-pointer transition-all duration-300"
             onClick={() => setFilterOpen(true)}
           >
             <SearchNormal color="#0841E2" variant="Outline" size={24} />
