@@ -14,6 +14,7 @@ import DataKelasModal from "../_component/DataKelasModal";
 import TambahKelasModal from "../_component/TambahKelasModal";
 import DataNotFound from "@/app/component/DataNotFound";
 import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
+import { useBreadcrumb } from "@/context/BreadCrumbContext";
 
 export default function DataKelas() {
   
@@ -33,6 +34,12 @@ export default function DataKelas() {
   const [selectedSearch, setSearch] = useState('');
   const [sortBy, setSortBy] = useState(""); 
   const [sortOrder, setSortOrder] = useState(""); 
+  const { setShowBreadcrumb } = useBreadcrumb();
+  
+  useEffect(() => {
+    setShowBreadcrumb(true);
+    return () => setShowBreadcrumb(false);
+  }, [setShowBreadcrumb]);
 
   const fetchDataKelas = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder) => {
     try {
@@ -215,7 +222,7 @@ export default function DataKelas() {
           <div className="w-full ps-2">
           <div className="flex items-center">
             <h1 className="w-full text-black text-xl font-semibold">Data Kelas</h1> 
-            <div className="w-full flex items-center justify-end gap-5">
+            <div className="w-full flex items-center justify-end gap-2 lg:gap-5">
               <SmallButton
                 onClick={() => setTambahOpen(true)}
                 type="button"
@@ -229,7 +236,7 @@ export default function DataKelas() {
             </div>
             </div>
             <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-                <div className={kelasData ? "max-w-screen-xl p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+                <div className={kelasData ? "max-w-screen-xl p-2 lg:p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
                     {kelasData ? 
                       <TableComponent 
                           columns={columns} 
