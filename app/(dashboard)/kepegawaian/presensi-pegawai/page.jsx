@@ -269,15 +269,14 @@ export default function PresensiPegawai() {
       <div className="z-0 transition">
         <div className="w-full ps-2 mt-12 flex">
           <h1 className="w-full text-black text-xl font-semibold">Data Presensi Pegawai</h1> 
-          <div className="w-full flex items-center justify-end gap-5">
+          <div className="flex items-center justify-end gap-2 md:gap-5">
             <SmallButton
               type="button"
               icon={DocumentDownload}
-              bgColor="bg-[#ffcf43]"
-              colorIcon="black"
+              bgColor="bg-green-600"
+              colorIcon="white"
               title={"Download Excel"}
-              hover={"hover:bg-yellow-400"}
-              textColor="black"
+              hover={"hover:bg-green-400"}
             />
             <SmallButton
               type="button"
