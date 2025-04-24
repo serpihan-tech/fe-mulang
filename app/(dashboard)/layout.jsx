@@ -64,7 +64,7 @@ export default function DashboardLayout({ children }) {
               toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
             />
             <main
-              className={`bg-[#FAFAFA] dark:bg-dark_net-quar flex-1 transition-all duration-300 ease-in-out `}
+              className={`bg-[#FAFAFA] dark:bg-dark_net-quar flex-1 transition-all duration-300 ease-in-out overflow-x-auto`}
             >
               <div
                 className={`overflow-hidden z-10 fixed right-0 ${

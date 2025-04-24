@@ -116,15 +116,15 @@ const TableComponent = ({
 
   return (
     <div className="w-full overflow-hidden mx-auto">
-    <div className="mb-5 flex justify-between items-center text-black dark:text-white">
-      <div className="flex items-center space-x-5">
-        <h1 className="text-lg font-semibold ">{title}</h1>
+    <div className="w-full mb-5 flex space-x-2 justify-between items-center text-black dark:text-white">
+      <div className="flex items-center space-x-1 md:space-x-5">
+        <h1 className="text-lg font-semibold">{title}</h1>
         <div className={` ${!filterDate ? "hidden" : ""}`}>
           <CustomDatePicker
             value={selectedDate}
             onChange={handleDateChange}
             placeholder={dFPlaceholder}
-            customFilterdateStyle="flex items-center justify-between border border-blue-500 rounded-lg px-4 py-2 cursor-pointer min-w-[180px]"
+            customFilterdateStyle="flex items-center justify-between border border-blue-500 rounded-lg px-2 md:px-4 py-2 cursor-pointer whitespace-nowrap space-x-1.5"
           />
         </div>
         <div className="flex space-x-5 items-center">
@@ -159,7 +159,7 @@ const TableComponent = ({
           })}
         </div>
       </div>
-      <div ref={inputRef} className="relative w-64">
+      <div ref={inputRef} className="relative lg:w-64">
         
       {enableSearch && (
         isFilterOpen ? (
@@ -184,7 +184,7 @@ const TableComponent = ({
           </div>
         ) : (
           <div
-            className="ml-52 w-10 h-10 p-2 rounded-full bg-gray-200 cursor-pointer transition-all duration-300"
+            className="lg:ml-52 w-10 h-10 p-2 rounded-full bg-gray-200 cursor-pointer transition-all duration-300"
             onClick={() => setFilterOpen(true)}
           >
             <SearchNormal color="#0841E2" variant="Outline" size={24} />
@@ -193,7 +193,7 @@ const TableComponent = ({
       )}
       </div>
     </div>
-      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-x-auto">
         <table className="w-auto min-w-full table-fixed border-collapse text-xs">
           <thead>
             <tr className="bg-[#ADC0F5]/10 dark:bg-blue-700 text-black dark:text-gray-200 font-semibold">

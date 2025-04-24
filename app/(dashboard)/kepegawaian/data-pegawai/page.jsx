@@ -150,17 +150,16 @@ export default function DataPegawai() {
         </div>
       )} 
       <div className="z-0 transition">
-          <div className="w-full ps-2 mt-4 md:mt-6 :mt-12 flex">
+          <div className="w-full ps-2 mt-4 md:mt-6 lg:mt-12 flex">
             <h1 className="w-full flex items-center text-black text-xl font-semibold">Data Pegawai</h1> 
-            <div className="w-full flex items-center justify-end gap-2 md:gap-5">
+            <div className="w-full flex items-center justify-end gap-2 lg:gap-5">
               <SmallButton
                 type="button"
                 icon={DocumentDownload}
-                bgColor="bg-[#ffcf43]"
-                colorIcon="black"
+                bgColor="bg-green-600"
+                colorIcon="white"
                 title={"Download Excel"}
-                hover={"hover:bg-yellow-400"}
-                textColor="black"
+                hover={"hover:bg-green-400"}
               />
               <SmallButton
                 type="button"
@@ -177,7 +176,7 @@ export default function DataPegawai() {
             </div>
           </div>
           <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-            <div className={guruData ? "max-w-full p-2 lg:p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+            <div className={guruData ? "max-w-full p-2 lg:p-5 overflow-x-auto" : "flex items-center justify-center text-black dark:text-white p-28 "}>
                 {guruData ? 
                   <TableComponent 
                       dataKey='id_guru'

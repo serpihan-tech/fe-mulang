@@ -56,7 +56,7 @@ export default function SmallButton({
         </div>
       )}
       
-      <p className={`text-xs md:text-sm font-medium whitespace-nowrap`}>{title}</p>
+      <p className={`hidden md:block text-xs md:text-sm font-medium whitespace-nowrap`}>{title}</p>
     </button>
   );
 }
