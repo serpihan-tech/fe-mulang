@@ -8,6 +8,7 @@ import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
 import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import TableComponent from "@/app/component/Table";
+import { useBreadcrumb } from "@/context/BreadCrumbContext";
 import { useLoading } from "@/context/LoadingContext";
 import { useSemester } from "@/provider/SemesterProvider";
 import { DocumentDownload, Notepad2, ProfileAdd } from "iconsax-react";
@@ -35,6 +36,12 @@ export default function AdminDataSiswa() {
   const [classFilter, setClassFilter] = useState("")
   const [selectedPeriod, setSelectedPeriod] = useState(null)
   const [allSemesters, setAllSemesters] = useState([]); 
+  const { setShowBreadcrumb } = useBreadcrumb();
+  
+  useEffect(() => {
+    setShowBreadcrumb(true);
+    return () => setShowBreadcrumb(false);
+  }, [setShowBreadcrumb]);
   
   useEffect(() => {
     const succesSiswa = sessionStorage.getItem("succes_naik_kelas")
@@ -229,25 +236,24 @@ export default function AdminDataSiswa() {
         <div>
             <div className="w-full ps-2 flex">
             <h1 className="w-full flex items-center text-black text-xl font-semibold">Data Siswa Admin</h1> 
-            <div className="w-full flex items-center justify-end gap-5">
+            <div className="w-full flex items-center justify-end gap-2 lg:gap-5">
               <SmallButton
                 type="button"
                 icon={Notepad2}
-                bgColor="bg-[#0e9035]"
-                colorIcon="white"
+                bgColor="bg-[#ffcf43]"
+                colorIcon="black"
                 title={"Kenaikan Kelas"}
-                hover={"hover:bg-green-700"}
+                hover={"hover:bg-yellow-600"}
                 onClick={() => router.push('/kesiswaan/data-siswa/kenaikan-kelas')}
-
+                textColor="black"
               />
               <SmallButton
                 type="button"
                 icon={DocumentDownload}
-                bgColor="bg-[#ffcf43]"
-                colorIcon="black"
+                bgColor="bg-green-600"
+                colorIcon="white"
                 title={"Download Excel"}
-                hover={"hover:bg-yellow-400"}
-                textColor="text-black"
+                hover={"hover:bg-green-400"}
               />
               <SmallButton
                 type="button"
