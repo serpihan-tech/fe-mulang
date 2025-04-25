@@ -161,7 +161,7 @@ export default function DataKelas() {
 
     try {
       setIsLoading(true);
-      await tambah_kelas(payload);
+      const response = await tambah_kelas(payload);
       toast.success("Data kelas berhasil dibuat!");
       setTambahOpen(false); // Tutup modal setelah sukses
       fetchDataKelas()

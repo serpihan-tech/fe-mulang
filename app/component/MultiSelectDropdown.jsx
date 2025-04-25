@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 import { ArrowDown2 } from "iconsax-react";
 
-export default function MultiSelectDropdown({ fetchOptions, options = [], onSelect, placeholder = "Kelas" }) {
+export default function MultiSelectDropdown({ 
+    fetchOptions, 
+    options = [], 
+    onSelect, 
+    placeholder = "Kelas", 
+    wideInput = "min-w-40",
+    textInputSize = "text-sm",
+    textDropDownSize = "text-sm",
+    wideDropdown = "w-full"
+  }) {
   const [selected, setSelected] = useState([]);
   const [open, setOpen] = useState(false);
   const [classOption, setClassOption] = useState([]);
@@ -43,10 +52,10 @@ export default function MultiSelectDropdown({ fetchOptions, options = [], onSele
   const isSelected = (item) => selected.includes(item);
 
   return (
-    <div className="relative min-w-40">
+    <div className={`relative ${wideInput}`}>
       <button
         onClick={() => setOpen(!open)}
-        className={`w-full p-2 rounded-md border  text-sm flex items-center justify-between ${
+        className={`w-full p-2 rounded-md border ${textInputSize} flex items-center justify-between ${
           selected.length > 0 ? "bg-pri-main text-white" : "text-black"
         }`}
       >
@@ -62,7 +71,7 @@ export default function MultiSelectDropdown({ fetchOptions, options = [], onSele
       </button>
 
       {open && (
-        <div className="absolute mt-2 w-full bg-white border rounded-md shadow z-50 max-h-64 overflow-y-auto">
+        <div className={`absolute mt-2 ${wideDropdown} bg-white ${textDropDownSize} border rounded-md shadow z-50 max-h-64 overflow-y-auto`}>
           {classOption.map((kelas) => (
             <label
               key={kelas.value}

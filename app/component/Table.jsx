@@ -136,6 +136,10 @@ const TableComponent = ({
                   fetchOptions={filter.fetchOptions}
                   options={filter.options}
                   placeholder={filter.label}
+                  wideInput={filter.wideInput}
+                  textInputSize={filter.textSize}
+                  textDropDownSize={filter.textDropDownSize}
+                  wideDropdown={filter.wideDropdown}
                   onSelect={(val) => handleFilterChange(filter.key, val)}
                 />
               );

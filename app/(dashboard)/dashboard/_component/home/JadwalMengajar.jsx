@@ -1,6 +1,11 @@
+'use client'
+import { useEffect } from "react";
 import Jadwal from "./Jadwal";
 
-export default function JadwalMengajar({heading}) {
+
+export default function JadwalMengajar() {
+  
+
   return (
     <div className="w-full space-y-7 my-2 md:my-3 lg:my-6">
       <div className="w-full space-y-3 md:space-y-5 lg:space-y-8">

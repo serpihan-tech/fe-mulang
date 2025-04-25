@@ -1,6 +1,28 @@
+'use client'
 import JadwalMengajar from "@/app/(dashboard)/dashboard/_component/home/JadwalMengajar";
+import { toast } from "react-toastify";
+import { JadwalGuru } from "@/app/api/guru/ApiKBM";
+import { useEffect } from "react";
 
 export default function JadwalMengajarGuru() {
+  const fetchJadwalGuru = async () => {
+    //setIsLoading(true);
+    try {
+      const data = await JadwalGuru();
+      if(data){
+        console.log("Data jadwal:", data);
+        //setDetailGuru(data.teacher);
+      }
+    } catch (error) {
+      toast.error("Gagal mengambil data detail guru:", error.message);
+    } finally {
+      //setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchJadwalGuru();
+  }, []);
   return (
     <div className="w-full max-h-max md:flex">
       <div className="px-2 md:px-8 lg:px-16 space-y-1 md:space-y-4 lg:space-y-8 w-full md:w-2/3">
