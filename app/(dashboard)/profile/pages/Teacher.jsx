@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Edit } from "iconsax-react";
 import Image from "next/image";
+import ChangePasswordForm from "../../dashboard/_component/home/ChangePassword";
 
 export default function TeacherProfile() {
   const formatDate = (date) => {
@@ -133,34 +134,7 @@ export default function TeacherProfile() {
       );
   } else if (activeTab === "changePassword") {
     return (
-      <div className="mt-3 md:mt-6 space-y-2 md:space-y-5">
-          <div className="space-y-[5px]">
-            <label className="text-black text-sm font-medium">Kata Sandi Lama</label>
-            <input type="password" 
-              placeholder="Masukkan kata sandi lama"
-              className="w-full rounded-md py-2 px-4 text-sm font-medium border border-gray-400 "
-            />
-          </div>
-          <div className="space-y-[5px]">
-            <label className="text-black text-sm font-medium">Kata Sandi Baru</label>
-            <input type="password" 
-              placeholder="Masukkan kata sandi baru"
-              className="w-full rounded-md py-2 px-4 text-sm font-medium border border-gray-400"
-            />
-          </div>
-          <div className="space-y-[5px]">
-            <label className="text-black text-sm font-medium">Konfirmasi Kata Sandi Baru</label>
-            <input type="password" 
-              placeholder="Ulangi kata sandi baru"
-              className="w-full rounded-md py-2 px-4 text-sm font-medium border border-gray-400"
-            />
-          </div>
-          <div className="w-full flex justify-center md:justify-end pt-6 md:pt-8 lg:pt-[50px]">
-            <button className="w-full md:w-[147px] px-2 py-2.5 rounded-full md:rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
-              Simpan
-            </button>
-          </div>
-        </div>
+       <ChangePasswordForm />
       );
     }
   };
