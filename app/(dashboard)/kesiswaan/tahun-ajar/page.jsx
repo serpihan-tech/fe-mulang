@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import DataNotFound from "@/app/component/DataNotFound";
 import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import TambahSemesterModal from "../_component/TambahSemester";
+import { useBreadcrumb } from "@/context/BreadCrumbContext";
 
 export default function TahunAjar() {
   const [DetailSemester, setDetailSemester] = useState(null);
@@ -33,8 +34,12 @@ export default function TahunAjar() {
   const [selectedSearch, setSearch] = useState('');
   const [sortBy, setSortBy] = useState(""); 
   const [sortOrder, setSortOrder] = useState(""); 
-
-
+  const { setShowBreadcrumb } = useBreadcrumb();
+  
+  useEffect(() => {
+    setShowBreadcrumb(true);
+    return () => setShowBreadcrumb(false);
+  }, [setShowBreadcrumb]);
 
   const fetchDataSemester = async (limitVal = limit, page=1, search=selectedSearch, sortField=sortBy, sortDir=sortOrder) => {
     setIsLoading(true);
@@ -237,7 +242,7 @@ export default function TahunAjar() {
           <div className="w-full ps-2">
             <div className="flex items-center">
               <h1 className="w-full text-black text-xl font-semibold">Data Semester</h1> 
-              <div className="w-full flex items-center justify-end gap-5">
+              <div className="w-full flex items-center justify-end gap-2 lg:gap-5">
                 <SmallButton
                   onClick={() => setTambahOpen(true)}
                   type="button"
@@ -251,7 +256,7 @@ export default function TahunAjar() {
               </div>
             </div>
             <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-              <div className={SemesterData ? "max-w-screen-xl p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+              <div className={SemesterData ? "max-w-screen-xl p-2 lg:p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
                   {SemesterData ? 
                     <TableComponent 
                         columns={columns} 

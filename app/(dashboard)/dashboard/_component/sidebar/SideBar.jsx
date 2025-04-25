@@ -10,6 +10,7 @@ import { logout } from "@/app/api/ApiAuth";
 import { useRouter } from "next/navigation";
 import LogOutPopUp from "@/app/component/LogoutPopUp";
 import { toast } from "react-toastify";
+import ThemeSwitcher from "@/app/component/ThemeSwitcher";
 
 export default function SideBar({isOpen,toggleSidebar}) {
   const [role, setRole] = useState(null);
@@ -54,7 +55,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
       <div
         className={`${
           isOpen ? "w-52 lg:w-64" : "w-5 md:w-16 lg:w-20"
-        } fixed bg-white dark:bg-dark_net-pri p-3 lg:p-5 shadow-lg min-h-screen transition-all duration-300 ease-in-out z-20`}
+        } fixed bg-white dark:bg-dark_net-ter p-3 lg:p-5 shadow-lg min-h-screen transition-all duration-300 ease-in-out z-20`}
       >
         <div
           className={`absolute top-8 ${
@@ -80,13 +81,20 @@ export default function SideBar({isOpen,toggleSidebar}) {
 
         <div className={`${
             isOpen ? "flex" : "hidden md:flex"
-          }  flex-col py-5 mb-5`}>
+          }  flex-col pt-5 pb-3`}>
           <SidebarItem title="Dashboard" icon={Home} colorIcon="currentColor" url="/dashboard" open={isOpen} />
           {role === "student" && <StudentSB open={isOpen} />}
           {role === "teacher" && <TeacherSB open={isOpen} />}
           {role === "admin" && <AdminSB open={isOpen} />}
+          
         </div>
-
+        
+        <div className={`${
+            isOpen ? "flex" : "hidden md:flex"
+          }  mb-7`}>
+          <ThemeSwitcher open={isOpen}/>
+        </div>
+        
         <Logoutbtn title='Log out' open={isOpen} icon={LogoutCurve} colorIcon="currentColor"  onConfirm={handleLogout}/>
       </div>
     </>

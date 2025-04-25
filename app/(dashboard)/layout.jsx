@@ -10,6 +10,7 @@ import { Copyright } from "iconsax-react";
 import { SemesterProvider } from "@/provider/SemesterProvider";
 import { useLoading } from "../../context/LoadingContext";
 import { BreadcrumbProvider } from "@/context/BreadCrumbContext";
+import { useTheme } from "../../provider/ThemeProvider"; // Tambahkan import ini jika belum ada
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -64,7 +65,7 @@ export default function DashboardLayout({ children }) {
               toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
             />
             <main
-              className={`bg-[#FAFAFA] dark:bg-dark_net-quar flex-1 transition-all duration-300 ease-in-out overflow-x-auto`}
+              className={`bg-[#FAFAFA] dark:bg-dark_net-pri flex-1 transition-all duration-300 ease-in-out overflow-x-auto`}
             >
               <div
                 className={`overflow-hidden z-10 fixed right-0 ${
@@ -89,7 +90,7 @@ export default function DashboardLayout({ children }) {
                   ""
                 )}
                 {children}
-                <footer className="w-full flex justify-start items-center space-x-2.5 ms-2 mt-[31px] text-black dark:text-white">
+                <footer className="w-full flex justify-start items-center space-x-2.5 ms-2 mt-[31px] text-black dark:text-pri-border">
                   <Copyright
                     className="w-[18px] h-[18px]"
                     color="currentColor"
