@@ -47,10 +47,8 @@ export default function AdminDashboard() {
   
   return (
     <>
-      
-      <div className="z-0 transition">
-      
-        <div className="bg-[#FAFAFA] dark:bg-dark_net-quar lg:flex gap-5">
+      <div className="z-0 transition-colors duration-300">
+        <div className="bg-[#FAFAFA] dark:bg-dark_net-pri lg:flex gap-5">
           
           <div className="w-full lg:w-2/3 lg:px-4 space-y-5 lg:space-y-9">
             <div className="w-full grid grid-cols-2 gap-2 lg:gap-0 md:grid-cols-4 space-x-2 lg:space-x-5">
@@ -68,10 +66,13 @@ export default function AdminDashboard() {
             <Periode
               className="w-full"
             />
-            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">
+            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white dark:bg-dark_net-tri dark:text-white gap-5 shadow-sm">
               <div>
-                <p className="text-lg font-bold">Kalender</p>
-                <CalendarComponent icon={ArrowRight2} buttonBorder={"border-[0.5px] border-[#CCC]"}/>
+                <p className="text-lg font-bold text-black dark:text-white">Kalender</p>
+                <CalendarComponent 
+                  icon={ArrowRight2} 
+                  buttonBorder={"border-[0.5px] border-[#CCC] dark:border-gray-700"}
+                />
               </div>
             </div>
           </div>
