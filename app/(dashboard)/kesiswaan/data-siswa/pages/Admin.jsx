@@ -235,60 +235,60 @@ export default function AdminDataSiswa() {
         
         <div>
             <div className="w-full ps-2 flex">
-            <h1 className="w-full flex items-center text-black text-xl font-semibold">Data Siswa Admin</h1> 
-            <div className="w-full flex items-center justify-end gap-2 lg:gap-5">
-              <SmallButton
-                type="button"
-                icon={Notepad2}
-                bgColor="bg-[#ffcf43]"
-                colorIcon="black"
-                title={"Kenaikan Kelas"}
-                hover={"hover:bg-yellow-600"}
-                onClick={() => router.push('/kesiswaan/data-siswa/kenaikan-kelas')}
-                textColor="black"
-              />
-              <SmallButton
-                type="button"
-                icon={DocumentDownload}
-                bgColor="bg-green-600"
-                colorIcon="white"
-                title={"Download Excel"}
-                hover={"hover:bg-green-400"}
-              />
-              <SmallButton
-                type="button"
-                icon={ProfileAdd}
-                bgColor="bg-pri-main"
-                colorIcon="white"
-                title={"Tambah Siswa"}
-                hover={"hover:bg-pri-hover"}
-                onClick={() => router.push('/kesiswaan/data-siswa/tambah')}
-              />
-            </div>
+              <h1 className="w-full flex items-center text-black text-xl font-semibold">Data Siswa Admin</h1> 
+              <div className="w-full flex items-center justify-end gap-2 lg:gap-5">
+                <SmallButton
+                  type="button"
+                  icon={Notepad2}
+                  bgColor="bg-[#ffcf43]"
+                  colorIcon="black"
+                  title={"Kenaikan Kelas"}
+                  hover={"hover:bg-yellow-600"}
+                  onClick={() => router.push('/kesiswaan/data-siswa/kenaikan-kelas')}
+                  textColor="black"
+                />
+                <SmallButton
+                  type="button"
+                  icon={DocumentDownload}
+                  bgColor="bg-green-600"
+                  colorIcon="white"
+                  title={"Download Excel"}
+                  hover={"hover:bg-green-400"}
+                />
+                <SmallButton
+                  type="button"
+                  icon={ProfileAdd}
+                  bgColor="bg-pri-main"
+                  colorIcon="white"
+                  title={"Tambah Siswa"}
+                  hover={"hover:bg-pri-hover"}
+                  onClick={() => router.push('/kesiswaan/data-siswa/tambah')}
+                />
+              </div>
             </div>
             
             <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-                <div className={siswaData ? "max-w-full p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
-                    {siswaData ? 
-                      <TableComponent 
-                          dataKey='id_siswa'
-                          columns={columns} 
-                          data={siswaData}
-                          onEdit={handleEdit}
-                          onDelete ={handleDelete}
-                          title="Data Siswa"
-                          Aksi="EditDelete"
-                          filters={filters}
-                          handleSearchChange={handleSearchChange}
-                          selectedSearch={selectedSearch}
-                          onSortChange={handleSortChange}
-                          sortBy={sortBy}
-                          sortOrder={sortOrder}
-                          onFilterChange={handleFilterDropdownChange}
-                      /> : <DataNotFound /> }
-                </div>
+              <div className={siswaData ? "max-w-full p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+                  {siswaData ? 
+                    <TableComponent 
+                        dataKey='id_siswa'
+                        columns={columns} 
+                        data={siswaData}
+                        onEdit={handleEdit}
+                        onDelete ={handleDelete}
+                        title="Data Siswa"
+                        Aksi="EditDelete"
+                        filters={filters}
+                        handleSearchChange={handleSearchChange}
+                        selectedSearch={selectedSearch}
+                        onSortChange={handleSortChange}
+                        sortBy={sortBy}
+                        sortOrder={sortOrder}
+                        onFilterChange={handleFilterDropdownChange}
+                    /> : <DataNotFound /> }
+              </div>
 
-                {meta && <PaginationComponent meta={meta} onPageChange={fetchDataSiswa} onLimitChange={handleLimitChange}/>}
+              {meta && <PaginationComponent meta={meta} onPageChange={fetchDataSiswa} onLimitChange={handleLimitChange}/>}
             </div>
         </div>
       </div>  

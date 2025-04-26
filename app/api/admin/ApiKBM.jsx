@@ -91,9 +91,9 @@ export const dropdown_data_ruangan = async () => {
     }
 };
 
-export const dropdown_nama_mapel = async () => {
+export const dropdown_nama_mapel = async (semesterId) => {
     try {
-        const response = await ApiManager.get(`/modules/list-names`,{
+        const response = await ApiManager.get(`/modules/list-names?tahunAjar=${semesterId}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -130,6 +130,24 @@ export const dropdown_data_mapel = async () => {
 export const dropdown_data_kelas = async () => {
     try {
         const response = await ApiManager.get(`/classes/list-classes`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
+        }
+    }
+};
+
+export const mata_pelajaran = async (page,limit, semesterId, kelas) => {
+    try {
+        const response = await ApiManager.get(`/modules?page=${page}&limit=${limit}&tahunAjar=${semesterId}${kelas}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }

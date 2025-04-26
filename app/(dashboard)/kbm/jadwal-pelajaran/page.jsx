@@ -226,7 +226,7 @@ export default function JadwalPelajaran() {
       key: "mapel",
       label: "Mata Pelajaran",
       type: "multiselect",
-      fetchOptions: () => dropdown_nama_mapel().then(res =>
+      fetchOptions: () => dropdown_nama_mapel(semesterId).then(res =>
         res.modules.map(mapel => ({
           label: mapel.name,
           value: mapel.name

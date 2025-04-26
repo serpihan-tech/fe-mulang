@@ -4,6 +4,7 @@ import moment from "moment";
 import { getStudentSchedule } from "@/app/api/siswa/ApiSiswa";
 import JadwalHari from "../dashboard/_component/home/JadwalHari";
 import { useLoading } from "@/context/LoadingContext";
+import { useSemester } from "@/provider/SemesterProvider";
 
 // Urutan hari dalam seminggu
 const weekDaysOrder = [
@@ -17,9 +18,15 @@ const weekDaysOrder = [
 ];
 
 export default function JadwalLengkapSiswa() {
-  const [scheduleData, setScheduleData] = useState({});
-  const { setIsLoading } = useLoading();
-  const studentId = sessionStorage.getItem("student_id");
+  const [scheduleData, setScheduleData] = useState({})
+  const { setIsLoading } = useLoading()
+  const studentId = sessionStorage.getItem("student_id")
+
+  const {allSemesters, semesterId} = useSemester()
+  const semesterName  = allSemesters.find(opt => opt.value === semesterId)
+  const label = semesterName ? semesterName.label : 'Semester tidak ditemukan'
+
+  //console.log("Semester ID", label)
 
   const refs = useRef([]);
   const [maxHeight, setMaxHeight] = useState("auto");
@@ -30,6 +37,7 @@ export default function JadwalLengkapSiswa() {
       setMaxHeight(Math.max(...heights) + "px");
     }
   }, [scheduleData]);
+
   useEffect(() => {
     fetchSchedule();
   }, []);
@@ -41,9 +49,9 @@ export default function JadwalLengkapSiswa() {
       if (Array.isArray(data.schedule)) {
         const groupedSchedule = data.schedule.reduce((acc, item) => {
           if (!acc[item.days]) {
-            acc[item.days] = [];
+            acc[item.days] = []
           }
-          acc[item.days].push(item);
+          acc[item.days].push(item)
           return acc;
         }, {});
 
@@ -66,10 +74,11 @@ export default function JadwalLengkapSiswa() {
     }
   };
 
+  console.log("Data jadwal:", scheduleData)
   return (
     <div className=" text-black ">
       <h1 className="flex justify-center md:justify-start text-sm md:text-base lg:text-xl font-semibold md:mb-3 lg:mb-4">
-        Jadwal Pelajaran 2025/2026 Genap
+        Jadwal Pelajaran {label}
       </h1>
       <div className="md:flex items-start relative">
         {weekDaysOrder
