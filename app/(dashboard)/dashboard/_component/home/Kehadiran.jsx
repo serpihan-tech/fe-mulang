@@ -18,15 +18,15 @@ export default function Kehadiran({ total_presence, presence, non_presence }) {
       
       {/* Statistik Kehadiran */}
       <div className="flex justify-between">
-        <h2 className="text-[#0841e2] dark:text-blue-400 text-lg md:text-2xl lg:text-[35px] font-bold">{presencePercentage}%</h2>
+        <h2 className="text-[#0841e2] dark:text-[#5D8BF8] text-lg md:text-2xl lg:text-[35px] font-bold">{presencePercentage}%</h2>
         <div className="flex justify-between space-x-4 lg:space-x-16">
           <div className="flex space-x-2 items-center">
             <p className="text-black dark:text-slate-100 text-xs md:text-base lg:text-xl font-normal">{presence} hadir</p>
-            <div className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 bg-[#0841e2] dark:bg-[#84a0f1] rounded-full" />
+            <div className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 bg-[#0841e2] dark:bg-[#5D8BF8] rounded-full" />
           </div>
           <div className="flex space-x-2 items-center">
             <p className="text-black dark:text-slate-100 text-xs md:text-base lg:text-xl font-normal">{non_presence} tidak hadir</p>
-            <div className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 bg-red-600 dark:bg-red-500 rounded-full" />
+            <div className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 bg-[#dc1010] dark:bg-[#ff4022] rounded-full" />
           </div>
         </div>
       </div>
