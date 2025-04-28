@@ -214,47 +214,48 @@ export default function DataKelas() {
 
         {/* Pop-up Sukses */}
         {isSuccess && (
-            <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
-              <SuccessUpdatePopUp />
-            </div>
-          )}
+          <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+            <SuccessUpdatePopUp />
+          </div>
+        )}
+
         <div>
           <div className="w-full ps-2">
-          <div className="flex items-center">
-            <h1 className="w-full text-black text-xl font-semibold">Data Kelas</h1> 
-            <div className="w-full flex items-center justify-end gap-2 lg:gap-5">
-              <SmallButton
-                onClick={() => setTambahOpen(true)}
-                type="button"
-                icon={ProfileAdd}
-                bgColor="bg-blue-600"
-                colorIcon="white"
-                title={"Tambah Kelas"}
-                hover={"hover:bg-blue-700"}
-              />
-            
-            </div>
+            <div className="flex items-center">
+              <h1 className="w-full text-black text-xl font-semibold">Data Kelas</h1> 
+              <div className="w-full flex items-center justify-end gap-2 lg:gap-5">
+                <SmallButton
+                  onClick={() => setTambahOpen(true)}
+                  type="button"
+                  icon={ProfileAdd}
+                  bgColor="bg-blue-600"
+                  colorIcon="white"
+                  title={"Tambah Kelas"}
+                  hover={"hover:bg-blue-700"}
+                />
+              
+              </div>
             </div>
             <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-                <div className={kelasData ? "max-w-screen-xl p-2 lg:p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
-                    {kelasData ? 
-                      <TableComponent 
-                          columns={columns} 
-                          data={kelasData} 
-                          onEdit={handleEdit}
-                          onDelete ={handleDelete}
-                          Aksi="EditDelete"
-                          title="Tabel Data Kelas"
-                          dataKey='id_kelas'
-                          handleSearchChange={handleSearchChange}
-                          selectedSearch={selectedSearch}
-                          onSortChange={handleSortChange}
-                          sortBy={sortBy}
-                          sortOrder={sortOrder}
-                      /> : <DataNotFound /> }
-                </div>
+              <div className={kelasData ? "max-w-screen-xl p-2 lg:p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+                {kelasData ? 
+                  <TableComponent 
+                      columns={columns} 
+                      data={kelasData} 
+                      onEdit={handleEdit}
+                      onDelete ={handleDelete}
+                      Aksi="EditDelete"
+                      title="Tabel Data Kelas"
+                      dataKey='id_kelas'
+                      handleSearchChange={handleSearchChange}
+                      selectedSearch={selectedSearch}
+                      onSortChange={handleSortChange}
+                      sortBy={sortBy}
+                      sortOrder={sortOrder}
+                  /> : <DataNotFound /> }
+              </div>
 
-                {meta && <PaginationComponent meta={meta} onPageChange={fetchDataKelas} onLimitChange={handleLimitChange}/>}
+              {meta && <PaginationComponent meta={meta} onPageChange={fetchDataKelas} onLimitChange={handleLimitChange}/>}
             </div>
           </div>
         </div>

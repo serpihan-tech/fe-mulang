@@ -12,6 +12,7 @@ export default function AdminBar({ open }) {
         dropdownItems={[
           { label: "Data Pegawai", url: "/kepegawaian/data-pegawai"},
           { label: "Presensi Pegawai", url: "/kepegawaian/presensi-pegawai"},
+          { label: "Ruangan", url: "/kepegawaian/ruangan"},
         ]}
       />
       <SidebarItem

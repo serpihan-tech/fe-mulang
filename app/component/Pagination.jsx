@@ -4,6 +4,7 @@ import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 
 const PaginationComponent = ({ meta, onPageChange, onLimitChange  }) => {
   if (!meta) return null;
+  console.log("meta", meta)
 
   const { currentPage, lastPage, perPage, total, previousPageUrl, nextPageUrl } = meta;
 

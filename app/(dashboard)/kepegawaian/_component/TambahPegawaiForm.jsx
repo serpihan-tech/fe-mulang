@@ -7,9 +7,6 @@ import ImageCropper from "@/app/component/ImageCropper";
 import Dropdown from "@/app/component/Dropdown";
 import getCroppedImg from "@/app/component/getCroppedImg";
 
-
-
-
 export default function TambahPegawaiForm({data, onConfirm}) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [originalFile, setOriginalFile] = useState(null);

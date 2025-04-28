@@ -212,3 +212,75 @@ export const edit_absen_guru= async (absenId, payload) => {
         }
     }
 };
+
+export const data_ruangan = async (page,limit, search, sortBy, sortOrder) => {
+    try {
+        const response = await ApiManager.get(`/rooms?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
+        }
+    }
+};
+
+export const tambah_ruangan= async (payload) => {
+    try {
+        const response = await ApiManager.post(`/rooms`,payload,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal membuat data");
+        }
+    }
+};
+
+export const edit_ruangan= async (payload,ruanganId) => {
+    try {
+        const response = await ApiManager.patch(`/rooms/${ruanganId}`,payload,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal mengedit data");
+        }
+    }
+};
+
+export const hapus_ruangan= async (ruanganId) => {
+    try {
+        const response = await ApiManager.delete(`/rooms/${ruanganId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal menghapus data");
+        }
+    }
+};
