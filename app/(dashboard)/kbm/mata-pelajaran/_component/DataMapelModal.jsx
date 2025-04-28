@@ -9,12 +9,13 @@ import { useSemester } from "@/provider/SemesterProvider";
 import { dropdown_data_guru } from "@/app/api/ApiKesiswaan";
 
 
-export default function DataMapelModal({ onCancel, onConfirm, jadwalData, isLoading, onEdit, selectedDate }) {
+export default function DataMapelModal({ onCancel, onConfirm, mapelData, isLoading, onEdit, selectedDate }) {
   const [guruOptions, setGuruOptions] = useState([]);
   const { semesterId,allSemesters } = useSemester()
   const [mapelOptions, setMapelOptions] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [query, setQuery] = useState("");
+  console.log("mapelData", mapelData)
 
   const handleInputChange = (e) => {
     const input = e.target.value;
@@ -71,10 +72,10 @@ export default function DataMapelModal({ onCancel, onConfirm, jadwalData, isLoad
   const [formData, setFormData] = useState({
     id: '',
     name: '',
-    kode_mapel:'',
     teacher_id: null,
     academic_year_id: null,
-    thumbnail: '',
+    thumbnailFile: '',
+    thumbnailPath: '', 
   })
 
   const templateImages = [
@@ -88,29 +89,49 @@ export default function DataMapelModal({ onCancel, onConfirm, jadwalData, isLoad
 
   ];
 
-  // useEffect(() => {
-  //   if (jadwalData) {
-  //     setFormData({
-  //       id: jadwalData.id_jadwal?.toString() || '',
-  //       class_id: jadwalData.id_kelas || null,
-  //       days: jadwalData.hari || "",
-  //       module_id: jadwalData.id_mapel || null,
-  //       room_id: jadwalData.id_ruangan || null,
-  //       start_time: jadwalData.jam_mulai || "",
-  //       end_time: jadwalData.jam_selesai || "",
-  //     });
-  //   }
-  // }, [jadwalData]);
+  const handleThumbnailSelect = (imageName) => {
+    const imagePath = `/svg/template-module-card/${imageName}`;
+    const imageUrl = `${window.location.origin}${imagePath}`; // ambil full URL
+  
+    fetch(imageUrl)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], imageName, { type: blob.type });
+        setFormData(prev => ({
+          ...prev,
+          thumbnailPath: imagePath,
+          thumbnailFile: file,
+        }));
+      });
+  };
 
-  const handleSubmit = () => {
-    const payload = {
-      name: formData.name,
-      teacher_id: formData.teacher_id,
-      academic_year_id: formData.academic_year_id,
-      thumbnail:""
-    };
-    console.log("payload", payload)
-    onConfirm(payload);
+  useEffect(() => {
+    if (mapelData) {
+      setFormData({
+        id: mapelData.id_mapel || '',
+        name: mapelData.mata_pelajaran || '',
+        teacher_id: mapelData.id_guru || '',
+        academic_year_id: mapelData.id_tahun_ajar || '',
+        thumbnailPath: mapelData.thumbnail ? `/svg/template-module-card/${mapelData.thumbnail.split('/').pop()}` : '',
+
+      });
+    }
+  }, [mapelData]);
+
+  const handleSubmit = async () => {
+    const formDataPayload = new FormData();
+  
+    formDataPayload.append("name", formData.name);
+    formDataPayload.append("teacher_id", formData.teacher_id);
+    formDataPayload.append("academic_year_id", formData.academic_year_id);
+  
+    if (formData.thumbnailFile) {
+      formDataPayload.append("thumbnail", formData.thumbnailFile);
+    }
+  
+    console.log("Submitting FormData:", formDataPayload);
+  
+    await onConfirm(formDataPayload);
   };
 
 
@@ -123,7 +144,7 @@ export default function DataMapelModal({ onCancel, onConfirm, jadwalData, isLoad
         <div className="bg-white w-full max-w-md rounded-xl p-6 shadow-lg">
 
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">{jadwalData ? "Edit" : "Tambah"} Data</h2>
+                <h2 className="text-lg font-semibold">{mapelData ? "Edit" : "Tambah"} Data</h2>
                 <CloseCircle size="24" color="currentColor" variant="Bold" className="ml-auto cursor-pointer" onClick={onCancel} />
             </div>
             
@@ -193,11 +214,11 @@ export default function DataMapelModal({ onCancel, onConfirm, jadwalData, isLoad
                     <div
                       key={index}
                       className={`w-16 h-16 flex items-center justify-center rounded-full border cursor-pointer transition-all duration-200
-                        ${formData.thumbnail === `/svg/template-module-card/${image}` 
+                        ${formData.thumbnailPath === `/svg/template-module-card/${image}` 
                           ? "opacity-100 border-blue-500" 
                           : "opacity-50 border-gray-300"
                         }`}
-                      onClick={() => setFormData({ ...formData, thumbnail: `/svg/template-module-card/${image}` })}
+                        onClick={() => handleThumbnailSelect(image)}
                     >
                       <img
                         src={`/svg/template-module-card/${image}`}
@@ -219,7 +240,7 @@ export default function DataMapelModal({ onCancel, onConfirm, jadwalData, isLoad
                  Batal
                 </button>
                 <button
-                    //onClick={handleSubmit}
+                    onClick={handleSubmit}
                     disabled={isLoading}
                     className={`px-4 py-2 rounded-md text-white ${
                         isLoading

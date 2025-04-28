@@ -145,9 +145,9 @@ export const dropdown_data_kelas = async () => {
     }
 };
 
-export const mata_pelajaran = async (page,limit, semesterId, kelas) => {
+export const mata_pelajaran = async (page,limit, semesterId,search,sortBy,sortOrder, kelas) => {
     try {
-        const response = await ApiManager.get(`/modules?page=${page}&limit=${limit}&tahunAjar=${semesterId}${kelas}`,{
+        const response = await ApiManager.get(`/modules?page=${page}&limit=${limit}&tahunAjar=${semesterId}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}${kelas}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -162,3 +162,58 @@ export const mata_pelajaran = async (page,limit, semesterId, kelas) => {
         }
     }
 };
+
+export const tambah_mapel = async (payload) => {
+    try {
+        const response = await ApiManager.post(`/modules`, payload, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        return response;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error(err.message);
+        }
+    }
+};
+
+export const edit_mapel = async (payload,moduleId) => {
+    try {
+        const response = await ApiManager.patch(`/modules/${moduleId}`, payload, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        return response;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error(err.message);
+        }
+    }
+};
+
+export const hapus_mapel = async (mapelId) => {
+    try {
+        const response = await ApiManager.delete(`/modules/${mapelId}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Gagal Hapus Data");
+        }
+    }
+};
+
