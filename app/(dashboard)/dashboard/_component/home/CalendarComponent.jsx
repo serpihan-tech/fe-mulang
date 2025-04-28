@@ -112,7 +112,7 @@ export default function CalendarComponent() {
             <img className="w-[45px] h-[45px] left-0 top-0 absolute" src="/svg/event.svg" />
           </div>
           <div className="opacity-80 justify-start items-start gap-2.5 inline-flex">
-            <div className="text-[#333333] justify-center text-xs font-normal">No upcoming events</div>
+            <div className="text-[#333333] dark:text-slate-300 justify-center text-xs font-normal">No upcoming events</div>
           </div>
         </div>
       );
@@ -122,7 +122,7 @@ export default function CalendarComponent() {
       return (
         <div key={`${event.name}-${event.date}`} className="flex w-full">
           <div className="w-1/12 flex justify-center items-center ps-1 pe-4">
-            <div className="text-black text-sm font-semibold justify-center">{day}</div>
+            <div className="text-black dark:text-slate-100 text-sm font-semibold justify-center">{day}</div>
           </div>
           <div className="w-full bg-red-600 rounded-md p-2">
             <div className="text-white w-full text-sm font-normal justify-start">
@@ -135,8 +135,8 @@ export default function CalendarComponent() {
   };
 
   return (
-    <div className="w-full overflow-hidden p-2.5 bg-white rounded-lg">
-      <div className="flex justify-between items-center text-black bg-white text-lg font-medium mb-6">
+    <div className="w-full overflow-hidden bg-white dark:bg-dark_net-ter rounded-lg">
+      <div className="flex justify-between items-center text-black dark:text-slate-100 bg-white dark:bg-dark_net-ter text-lg font-medium mb-6">
         <button 
           onClick={prevMonth} 
           className="p-1.5 rounded-md border-[1px]"
@@ -159,7 +159,7 @@ export default function CalendarComponent() {
         {dayNames.map((day, index) => (
           <div 
             key={index} 
-            className="text-center text-sm font-normal text-[#333333]"
+            className="text-center text-sm font-normal text-[#333333] dark:text-slate-100"
           >
             {day}
           </div>
@@ -175,7 +175,7 @@ export default function CalendarComponent() {
               ${dayObj.type === 'prev-month' || dayObj.type === 'next-month' ? 'text-[#CCCCCC] opacity-50' : ''}
               ${dayObj.date.getDate() === new Date().getDate() && 
                 dayObj.date.getMonth() === new Date().getMonth() ? 'bg-blue-600 rounded-full text-white' : ''}
-              ${selectedDate && dayObj.date.toDateString() === selectedDate.toDateString() ? 'bg-blue-100 rounded-full' : ''}
+              ${selectedDate && dayObj.date.toDateString() === selectedDate.toDateString() ? 'bg-blue-100 dark:bg-blue-300 rounded-full' : ''}
               ${isNationalHoliday(dayObj.date) ? 'bg-red-500 text-white rounded-full' : ''}
               ${dayObj.date.getDay() === 0 ? 'text-red-500' : ''}
             `}
@@ -188,7 +188,7 @@ export default function CalendarComponent() {
   
       {/* Bagian upcoming events tetap sama */}
       <div className="upcoming-events">
-        <p className="text-base font-medium text-[#333333] mt-4">Upcoming Event</p>
+        <p className="text-base font-medium text-[#333333] dark:text-slate-100 mt-4">Upcoming Event</p>
         <div className="w-full py-6 flex-col items-center gap-2.5 inline-flex">
           {renderUpcomingEvents()}
         </div>

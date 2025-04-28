@@ -33,8 +33,9 @@ export default function Periode() {
       icon={Calendar}
       iconSize="w-10"
       title="Periode"
-      className="h-16 flex p-3.5 rounded-md bg-white dark:bg-transparent dark:border-2 dark:border-pri-border gap-5 cursor-pointer relative flex-grow"
+      className="h-16 flex p-3.5 rounded-md bg-white dark:bg-dark_net-ter gap-5 cursor-pointer relative flex-grow"
       containerStyle="gap-2.5"
+      arrowColor="bg-black dark:bg-slate-100"
     />
   );
 }

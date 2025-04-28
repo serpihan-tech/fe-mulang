@@ -55,20 +55,20 @@ export default function NotificationDropdown() {
       {isOpen && (
         <div 
           ref={dropdownRef}
-          className="fixed right-5 md:right-8 lg:right-10 top-14 md:top-16 lg:top-20 w-[250px] md:w-[300px] lg:w-[397px] p-3 md:p-5 bg-white rounded-xl md:rounded-[25px] outline outline-[0.50px] outline-offset-[-0.50px] outline-[#cccccc] inline-flex flex-col justify-start items-start md:gap-1 lg:gap-5 z-[9999]"
+          className="fixed right-5 md:right-8 lg:right-10 top-14 md:top-16 lg:top-20 w-[250px] md:w-[300px] lg:w-[397px] p-3 md:p-5 bg-white dark:bg-dark_net-ter rounded-xl md:rounded-[25px] outline outline-[0.50px] outline-offset-[-0.50px] outline-[#cccccc] inline-flex flex-col justify-start items-start md:gap-1 lg:gap-5 z-[9999]"
         >
-          <div className="self-stretch bg-white inline-flex justify-between items-center">
-            <div className="justify-center text-black text-base font-semibold">
+          <div className="self-stretch inline-flex justify-between items-center">
+            <div className="justify-center text-black dark:text-slate-100 text-base font-semibold">
               Notifikasi
             </div>
             <div className="w-8 h-8 relative cursor-pointer">
-              <CloseCircle size="26" color="#292D32" variant="Bulk" />
+              <CloseCircle size="26" color="#292D32" variant="Bulk" className="dark:bg-white rounded-full"/>
             </div>
           </div>
 
           <div className="w-full space-y-2 md:space-y-3">
             <div className="w-full flex justify-end">
-              <button className="text-[#0841e2] text-xs font-semibold cursor-pointer hover:font-extrabold hover:underline" onClick={() => router.push('/notification')}>
+              <button className="text-[#0841e2] dark:text-[#5D8BF8] text-xs font-semibold cursor-pointer hover:font-extrabold hover:underline" onClick={() => router.push('/notification')}>
                 Show all
               </button>
             </div>
