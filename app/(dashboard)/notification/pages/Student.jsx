@@ -2,8 +2,8 @@ import Notif from "../_component/Notif";
 
 export default function NotificationStudent () {
   return (
-    <div className="w-full bg-neutral-50 p-2 md:-4 lg:p-8 min-h-screen">
-      <h1 className="text-black text-xl font-semibold">Notifikasi</h1>
+    <div className="w-full bg-neutral-50 dark:bg-dark_net-pri min-h-screen">
+      <h1 className="text-black dark:text-slate-100 text-xl font-semibold">Notifikasi</h1>
       <div className="mt-7 space-y-3">
         <Notif
           variant="subject"
