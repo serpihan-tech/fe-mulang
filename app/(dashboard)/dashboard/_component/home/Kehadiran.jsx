@@ -9,7 +9,7 @@ export default function Kehadiran({ total_presence, presence, non_presence }) {
     const {semesterId,allSemester} = useSemester()
 
   return (
-    <div className="dark:bg-dark_net-ter w-full space-y-3 md:space-y-5 lg:space-y-6 p-5 rounded-2xl">
+    <div className="dark:bg-dark_net-ter w-full space-y-3 md:space-y-5 lg:space-y-6 dark:p-2 dark:md:p-3 dark:lg:p-5 rounded-2xl">
       {/* Judul dan Deskripsi */}
       <div className="w-full md:space-y-2 lg:space-y-4">
         <h1 className="text-black dark:text-slate-100 text-base md:text-xl lg:text-[28px] font-bold">Total Kehadiran</h1>
