@@ -76,7 +76,7 @@ export default function JadwalLengkapSiswa() {
 
   console.log("Data jadwal:", scheduleData)
   return (
-    <div className=" text-black ">
+    <div className=" text-black dark:text-slate-100">
       <h1 className="flex justify-center md:justify-start text-sm md:text-base lg:text-xl font-semibold md:mb-3 lg:mb-4">
         Jadwal Pelajaran {label}
       </h1>

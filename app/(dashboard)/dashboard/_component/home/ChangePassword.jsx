@@ -76,7 +76,7 @@ export default function ChangePasswordForm({ fetchData }) {
       <form onSubmit={handleEdit}>
         {/* Kata Sandi Lama */}
         <div className="space-y-[5px] mb-5">
-          <label className="text-black text-sm font-medium">Kata Sandi Lama</label>
+          <label className="text-black dark:text-slate-100 text-sm font-medium">Kata Sandi Lama</label>
           <div className="relative w-full">
             <input
               name="oldPassword"
@@ -101,7 +101,7 @@ export default function ChangePasswordForm({ fetchData }) {
 
         {/* Kata Sandi Baru */}
         <div className="space-y-[5px] mb-5">
-          <label className="text-black text-sm font-medium">Kata Sandi Baru</label>
+          <label className="text-black dark:text-slate-100 text-sm font-medium">Kata Sandi Baru</label>
           <div className="relative w-full">
             <input
               name="newPassword"
@@ -132,7 +132,7 @@ export default function ChangePasswordForm({ fetchData }) {
 
         {/* Konfirmasi Kata Sandi Baru */}
         <div className="space-y-[5px] mb-5">
-          <label className="text-black text-sm font-medium">Konfirmasi Kata Sandi Baru</label>
+          <label className="text-black dark:text-slate-100 text-sm font-medium">Konfirmasi Kata Sandi Baru</label>
           <div className="relative w-full">
             <input
               name="newPasswordConfirmation"
