@@ -155,7 +155,7 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
             <img className="w-[45px] h-[45px] left-0 top-0 absolute" src="/svg/event.svg" />
           </div>
           <div className="opacity-80 justify-start items-start gap-2.5 inline-flex">
-            <div className="text-[#333333] justify-center text-xs font-normal">Tidak ada acara yang akan datang</div>
+            <div className="text-[#333333] dark:text-slate-300 justify-center text-xs font-normal">Tidak ada acara yang akan datang</div>
           </div>
         </div>
       );
@@ -165,7 +165,7 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
       return (
         <div key={`${event.name}-${event.date}`} className="flex w-full">
           <div className="w-1/12 flex justify-center items-center ps-1 pe-4">
-            <div className="text-black text-sm font-semibold justify-center">{day}</div>
+            <div className="text-black dark:text-slate-100 text-sm font-semibold justify-center">{day}</div>
           </div>
           <div className="w-full bg-red-600 rounded-md p-2">
             <div className="text-white w-full text-sm font-normal justify-start">
@@ -180,9 +180,9 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
   return (
     <>
       <div className="w-full xl:w-2/3">
-        <div className="overflow-hidden p-2.5 bg-white rounded-lg">
+        <div className="overflow-hidden p-2.5 bg-white dark:bg-dark_net-ter rounded-lg">
           {/* Header */}
-          <div className="flex justify-between items-center text-black bg-white text-base font-semibold mb-2 md:mb-6">
+          <div className="flex justify-between items-center text-black dark:text-slate-100 bg-white dark:bg-dark_net-ter text-base font-semibold mb-2 md:mb-6">
             <button 
               onClick={prevMonth} 
               className={`p-1.5 rounded-md ${buttonBorder}`}
@@ -212,7 +212,7 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
             {dayNames.map((day, index) => (
               <div 
                 key={index} 
-                className="p-2 md:p-4 xl:p-7 text-[#333333]"
+                className="p-2 md:p-4 xl:p-7 text-[#333333] dark:text-slate-100"
               >
                 {day}
               </div>
@@ -257,7 +257,7 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
 
           {/* Upcoming Events */}
           <div className="mt-4">
-            <p className="text-sm md:text-base font-medium text-[#333333]">Acara yang akan datang</p>
+            <p className="text-sm md:text-base font-medium text-[#333333] dark:text-slate-100">Acara yang akan datang</p>
             <div className="w-full py-2 md:py-3 lg:py-6 flex flex-col items-center gap-1.5 md:gap-2.5">
               {renderUpcomingEvents()}
             </div>
@@ -267,23 +267,23 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
 
       <div className="w-full xl:w-1/3 mt-3 md:mt-0">
         <div className="w-full flex space-x-4">
-          <div className="w-1/2 px-4 py-3 bg-white rounded-[10px] outline outline-1 outline-offset-[-1px] outline-[#adc0f5] justify-start items-center gap-3">
-            <div className="text-center justify-center text-black text-lg font-bold">{countStatus('Hadir')} Hari</div>
+          <div className="w-1/2 px-4 py-3 bg-white dark:bg-dark_net-ter rounded-[10px] outline outline-1 outline-offset-[-1px] outline-[#adc0f5] justify-start items-center gap-3">
+            <div className="text-center justify-center text-black dark:text-slate-100 text-lg font-bold">{countStatus('Hadir')} Hari</div>
               <div className="flex justify-center items-center gap-2">
                 <div className="w-2 h-2 bg-[#0841e2] rounded-full" />
-                <div className="text-center justify-center text-black text-base font-medium">Hadir</div>
+                <div className="text-center justify-center text-black dark:text-slate-100 text-base font-medium">Hadir</div>
             </div>
           </div>
-          <div className="w-1/2 px-4 py-3 bg-white rounded-[10px] outline outline-1 outline-offset-[-1px] outline-[#adc0f5] justify-start items-center gap-3">
-            <div className="text-center justify-center text-black text-lg font-bold">{countStatus('Tidak Hadir')} Hari</div>
+          <div className="w-1/2 px-4 py-3 bg-white dark:bg-dark_net-ter rounded-[10px] outline outline-1 outline-offset-[-1px] outline-[#adc0f5] justify-start items-center gap-3">
+            <div className="text-center justify-center text-black dark:text-slate-100 text-lg font-bold">{countStatus('Tidak Hadir')} Hari</div>
               <div className="flex justify-center items-center gap-2">
                 <div className="w-2 h-2 bg-[#dc1010] rounded-full" />
-                <div className="text-center justify-center text-black text-base font-medium">Tidak Hadir</div>
+                <div className="text-center justify-center text-black dark:text-slate-100 text-base font-medium">Tidak Hadir</div>
             </div>
           </div>
         </div>
         <div className="mt-7 w-full inline-flex flex-col justify-start items-start gap-4">
-          <div className="self-stretch justify-center text-black text-base font-bold">Keterangan</div>
+          <div className="self-stretch justify-center text-black dark:text-slate-100 text-base font-bold">Keterangan</div>
           {!selectedDate && getMonthlyPresences()
             .filter(p => p.reason)
             .map((p, idx) => {
@@ -291,8 +291,8 @@ export default function CalendarPresensi({ icon:Icon, iconVariant = 'Bold', butt
               return (
                 <div key={idx} className="self-stretch inline-flex justify-start items-center gap-3">
                   <div className="inline-flex flex-col justify-start items-center gap-1">
-                    <div className="text-center text-black text-sm font-normal">{date.toLocaleDateString('id-ID', { weekday: 'short' })}</div>
-                    <div className="text-center text-black text-lg font-bold">{date.getDate()}</div>
+                    <div className="text-center text-black dark:text-slate-100 text-sm font-normal">{date.toLocaleDateString('id-ID', { weekday: 'short' })}</div>
+                    <div className="text-center text-black dark:text-slate-100 text-lg font-bold">{date.getDate()}</div>
                   </div>
                   <div className="flex-1 px-3 py-2 bg-[#dc1010] rounded-[5px] flex justify-start items-center gap-2.5">
                     <div className="text-white text-sm font-medium">{p.reason}</div>
