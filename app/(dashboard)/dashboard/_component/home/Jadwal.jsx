@@ -1,4 +1,4 @@
-import { Location } from "iconsax-react";
+import { Location, People } from "iconsax-react";
 
 export default function Jadwal({
   startTime,
@@ -8,7 +8,8 @@ export default function Jadwal({
   statusColor,
   status,
   statusTextColor = "text-white",
-  place
+  place,
+  class_name
 }) {
   return (
     <div className="flex w-full space-x-3">
@@ -35,6 +36,12 @@ export default function Jadwal({
         <div className="flex items-center space-x-2">
           <Location color="#0841E2" variant="Bold" className="w-[18px] h-[18px]" />
           <p className="text-black text-sm font-normal">{place}</p>
+        </div>
+
+        {/* Kelas */}
+        <div className="flex items-center space-x-2">
+          <People color="#0841E2" variant="Bold" className="w-[18px] h-[18px]" />
+          <p className="text-black text-sm font-normal">{class_name}</p>
         </div>
 
         {/* Tombol Aksi */}

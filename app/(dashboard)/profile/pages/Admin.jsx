@@ -127,7 +127,7 @@ export default function AdminProfile() {
 				toast.success(response.data.message);
 				const newProfileImg =
 					baseUrl +
-					"/image/" +
+					"/file/" +
 					response.data.admin.profilePicture;
 				setProfileImg(newProfileImg);
 				sessionStorage.setItem(
@@ -165,7 +165,7 @@ export default function AdminProfile() {
                 imageSrc
                   ? imageSrc
                   : baseUrl +
-                    "/image/" +
+                    "/file/" +
                     adminData?.admin?.profilePicture
               }
                 alt="Profile Photo"

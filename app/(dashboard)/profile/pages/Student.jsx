@@ -120,7 +120,7 @@ export default function StudentProfile() {
         toast.success(response.data.message);
         const newProfileImg =
           baseUrl +
-          "/image/" +
+          "/file/" +
           response.data.student.studentDetail.profilePicture;
         setProfileImg(newProfileImg);
         sessionStorage.setItem(
@@ -155,7 +155,7 @@ export default function StudentProfile() {
                 imageSrc
                   ? imageSrc
                   : baseUrl +
-                    "/image/" +
+                    "/file/" +
                     studentData?.studentDetail.profilePicture
               }
               className="rounded-full w-full h-full object-cover"

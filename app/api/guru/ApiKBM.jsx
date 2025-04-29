@@ -9,3 +9,12 @@ export const JadwalGuru = async () => {
         toast.error("Gagal mengambil data jadwal:", error.message);
     }
 };
+
+export const mapelGuru = async () => {
+    try {
+        const response = await ApiManager.get(`/classes/teacher/mine`);
+        return response.data;
+    } catch (error) {
+        toast.error("Gagal mengambil data kelas:", error.message);
+    }
+};

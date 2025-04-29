@@ -21,7 +21,7 @@ export default function JadwalMengajar({day, schedule=[]}) {
 
 
   return (
-    <div className="flex flex-col items-center p-2 md:p-4 rounded-lg min-w-[320px] mx-4">
+    <div className="flex flex-col items-center py-2 md:py-4 rounded-lg min-w-[320px] mx-4">
       <h2 className="text-sm md:text-base lg:text-lg text-pri-main font-semibold mb-2">{day}</h2>
       <div className="w-full space-y-5">
         {schedule.length > 0 ? (
@@ -64,11 +64,12 @@ export default function JadwalMengajar({day, schedule=[]}) {
                   status={status} // Status hanya untuk hari ini
                   statusColor={statusColor} // Warna status
                   statusTextColor={statusTextColor}
+                  class_name={item.class.name}
                 />
               );
             })
         ) : (
-          <p className="text-gray-500">Tidak ada jadwal</p>
+          <p className="text-black">Tidak ada jadwal</p>
         )}
       </div>
     </div>

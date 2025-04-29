@@ -23,7 +23,7 @@ export default function DashboardHeader() {
           if (role === "student"){
             const user = JSON.parse(data);
             let image = user?.data.profile.details.profilePicture || [];
-            let images = baseUrl+"/image/"+image
+            let images = baseUrl+"/file/"+image
             console.log("images link:" ,images)
             // Jika hanya satu string, ubah menjadi array
             if (typeof images === "string") {
@@ -35,7 +35,7 @@ export default function DashboardHeader() {
           } else if(role === "teacher" || role == "admin") {
             const user = JSON.parse(data);
             let image = user.data.profile.profilePicture || [];
-            let images = baseUrl+"/image/"+image
+            let images = baseUrl+"/file/"+image
             // Jika hanya satu string, ubah menjadi array
             if (typeof images === "string") {
               images = [images];

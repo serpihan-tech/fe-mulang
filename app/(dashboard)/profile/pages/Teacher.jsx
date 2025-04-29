@@ -79,7 +79,7 @@ export default function TeacherProfile() {
         toast.success(response.data.message);
         const newProfileImg =
           baseUrl +
-          "/image/" +
+          "/file/" +
           response.data.teacher.profilePicture;
         setProfileImg(newProfileImg);
         sessionStorage.setItem(
@@ -134,7 +134,7 @@ export default function TeacherProfile() {
                   imageSrc
                     ? imageSrc
                     : baseUrl +
-                      "/image/" +
+                      "/file/" +
                       detailGuru?.profilePicture
                 }
                 alt="Profile Photo"

@@ -62,7 +62,6 @@ export default function Ruangan() {
 
   const handleLimitChange = (newLimit) => {
     setLimit(newLimit);
-    fetchDataRuangan(currentPage, newLimit); // Refresh data dengan limit baru
 
   };
 
@@ -77,7 +76,7 @@ export default function Ruangan() {
 
   useEffect(() => {
     fetchDataRuangan();
-  },[currentPage, limit, selectedSearch, sortBy, sortOrder])
+  },[ limit, selectedSearch, sortBy, sortOrder])
 
   const handleEdit = (data) => {
     setSelectedData(data);

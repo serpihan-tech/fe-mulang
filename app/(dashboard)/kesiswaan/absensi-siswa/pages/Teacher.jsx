@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useLoading } from "@/context/LoadingContext";
 
 export default function AbsensiSiswaTeacher() {
+  
   const classOptions = [
     { label: "X MIPA 1", value: "xmipa1" },
     { label: "X MIPA 2", value: "xmipa2" },

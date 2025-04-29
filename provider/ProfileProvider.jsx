@@ -10,7 +10,7 @@ export const ProfileProvider = ({ children }) => {
   const linkImg = typeof window !== "undefined" ?  sessionStorage.getItem("profile_img") : null;
   useEffect(() => {
     
-    setProfileImg(linkImg ? `${baseUrl}/image/${linkImg}` : null);
+    setProfileImg(linkImg ? `${baseUrl}/file/${linkImg}` : null);
   },[linkImg]); // Hanya dijalankan setelah komponen di-mount (client-side)
 
   return (
