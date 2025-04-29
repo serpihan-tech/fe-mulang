@@ -179,7 +179,7 @@ export default function StudentProfile() {
           <form onSubmit={handleSubmit} className="mt-3 md:mt-6 space-y-2 md:space-y-5">
             <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
               <div className="w-full md:w-1/2 space-y-[5px]">
-                <label className="text-black text-sm font-medium">
+                <label className="text-black dark:text-slate-100 text-sm font-medium">
                   Nama Lengkap
                 </label>
                 <input
@@ -190,7 +190,7 @@ export default function StudentProfile() {
                 />
               </div>
               <div className="w-full md:w-1/2 space-y-[5px]">
-                <label className="text-black text-sm font-medium">Email</label>
+                <label className="text-black dark:text-slate-100 text-sm font-medium">Email</label>
                 <input
                   type="email"
                   disabled
@@ -201,7 +201,7 @@ export default function StudentProfile() {
             </div>
             <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
               <div className="w-full md:w-1/2 space-y-[5px]">
-                <label className="text-black text-sm font-medium">
+                <label className="text-black dark:text-slate-100 text-sm font-medium">
                   NIS / NISN
                 </label>
                 <input
@@ -216,7 +216,7 @@ export default function StudentProfile() {
                 />
               </div>
               <div className="w-full md:w-1/2 space-y-[5px]">
-                <label className="text-black text-sm font-medium">
+                <label className="text-black dark:text-slate-100 text-sm font-medium">
                   No. Telepon
                 </label>
                 <input
@@ -233,13 +233,13 @@ export default function StudentProfile() {
                       },
                     }))
                   }
-                  className="w-full text-black rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
+                  className="w-full text-black dark:text-slate-100 rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
                 />
               </div>
             </div>
             <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
               <div className="w-full md:w-1/2 space-y-[5px]">
-                <label className="text-black text-sm font-medium">
+                <label className="text-black dark:text-slate-100 text-sm font-medium">
                   Jenis Kelamin
                 </label>
 
@@ -274,7 +274,7 @@ export default function StudentProfile() {
                 </div>
               </div>
               <div className="w-full md:w-1/2 space-y-[5px]">
-                <label className="text-black text-sm font-medium">
+                <label className="text-black dark:text-slate-100 text-sm font-medium">
                   Pilih Status
                 </label>
                 <div className="flex py-1 md:py-4 space-x-8">
@@ -311,7 +311,7 @@ export default function StudentProfile() {
               </div>
             </div>
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Agama</label>
+              <label className="text-black dark:text-slate-100 text-sm font-medium">Agama</label>
               <input
                 type="text"
                 disabled
@@ -321,7 +321,7 @@ export default function StudentProfile() {
             </div>
             <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
               <div className="w-full md:w-1/2 space-y-[5px]">
-                <label className="text-black text-sm font-medium">
+                <label className="text-black dark:text-slate-100 text-sm font-medium">
                   Tempat Lahir
                 </label>
                 <input
@@ -332,7 +332,7 @@ export default function StudentProfile() {
                 />
               </div>
               <div className="w-full md:w-1/2 space-y-[5px]">
-                <label className="text-black text-sm font-medium">
+                <label className="text-black dark:text-slate-100 text-sm font-medium">
                   Tanggal Lahir
                 </label>
                 <input
@@ -362,7 +362,7 @@ export default function StudentProfile() {
   return (
     <div className="px-4">
       
-      <h1 className="text-center md:text-start text-black text-xl font-semibold ">Profil Pengguna</h1>
+      <h1 className="text-center md:text-start text-black dark:text-slate-100 text-xl font-semibold ">Profil Pengguna</h1>
       <div className="w-full py-5 mt-3 md:mt-[25px]">
         <div className="w-full flex border-b-[1.5px] border-[#0841e2] space-x-4">
           <button
