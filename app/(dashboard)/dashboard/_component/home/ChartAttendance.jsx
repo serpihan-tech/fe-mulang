@@ -85,9 +85,9 @@ export default function ChartAttendance() {
   ];
 
   return (
-    <div className={`mt-5 px-5 py-4 rounded-md  ${isDark ? "bg-[#181818] border-[#ADC0F5] border-2" : "bg-white"}`}>
+    <div className={`mt-5 px-5 py-4 rounded-md  ${isDark ? "bg-dark_net-ter " : "bg-white"}`}>
             <div className="flex justify-between items-center mb-4">
-                <p className={`text-lg font-bold ${isDark ? "text-[#E0E0E0]" : "text-black"}`}>Kehadiran</p>
+                <p className={`text-lg font-bold ${isDark ? "text-slate-100" : "text-black"}`}>Kehadiran</p>
                 <div className="flex gap-2">
                     <Dropdown
                         options={timeOptions}

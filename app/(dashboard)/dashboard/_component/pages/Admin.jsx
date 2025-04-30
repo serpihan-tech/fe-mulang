@@ -66,8 +66,8 @@ export default function AdminDashboard() {
             <Periode
               className="w-full"
             />
-            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white dark:bg-dark_net-tri dark:text-white gap-5 shadow-sm">
-              <div>
+            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white dark:bg-dark_net-ter dark:text-white gap-5 shadow-sm">
+              <div className="space-y-1 md:space-y-3 lg:space-y-5">
                 <p className="text-lg font-bold text-black dark:text-white">Kalender</p>
                 <CalendarComponent 
                   icon={ArrowRight2} 
