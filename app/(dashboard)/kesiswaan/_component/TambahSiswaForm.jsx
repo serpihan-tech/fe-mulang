@@ -227,7 +227,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
 
               <h1 className="text-black dark:text-slate-100 text-xl font-semibold ">Data Siswa</h1>
               {/* Nis, Nisn */}
-              <div className="w-full flex space-x-10">
+              <div className="w-full md:flex md:space-x-10 space-y-5 md:space-y-0">
                 <div className="w-1/2 space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium">NIS</label>
                   <input type="number" 
@@ -260,7 +260,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
               </div>
 
               {/* Tempat dan tanggal lahir */}
-              <div className="w-full flex space-x-10">
+              <div className="w-full md:flex md:space-x-10 space-y-5 md:space-y-0">
                 <div className="w-full space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium">Tempat lahir</label>
                   <input type="text" 
@@ -324,7 +324,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
               </div>
 
               {/* kelas dan tahun ajar */}
-              <div className="w-full flex space-x-10">
+              <div className="w-full md:flex md:space-x-10 space-y-5 md:space-y-0">
                 {/* Kelas */}
                 <div className="w-full space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium">Kelas</label>
