@@ -195,7 +195,7 @@ export default function Ruangan() {
     )}
       <div className="w-full ps-2">
         <div className="flex items-center">
-          <h1 className="w-full text-black text-xl font-semibold">Data Ruangan</h1> 
+          <h1 className="w-full text-black dark:text-slate-100 text-xl font-semibold">Data Ruangan</h1> 
           <div className="w-full flex items-center justify-end gap-2 lg:gap-5">
             <SmallButton
               onClick={() => setTambahOpen(true)}
@@ -210,7 +210,7 @@ export default function Ruangan() {
           </div>
         </div>
         <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-          <div className={ruanganData ? "max-w-screen-xl p-2 lg:p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+          <div className={ruanganData ? "max-w-screen-xl dark:bg-dark_net-ter p-2 lg:p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
             {ruanganData ? 
               <TableComponent 
                 columns={columns} 

@@ -72,7 +72,7 @@ const PaginationComponent = ({ meta, onPageChange, onLimitChange  }) => {
           {getPageNumbers().map((page, index) => (
             <button
               key={index}
-              className={`px-3 py-1 border rounded-md text-sm ${currentPage === page ? "bg-pri-main text-white" : "bg-netral-0 text-pri-main hover:bg-gray-300"}`}
+              className={`px-3 py-1 border rounded-md text-sm ${currentPage === page ? "bg-pri-main text-white" : "bg-netral-0 dark:bg-dark_net-ter text-pri-main dark:text-slate-300 hover:bg-gray-300"}`}
               onClick={() => typeof page === "number" && onPageChange(page)}
               disabled={page === "..."}
             >
@@ -86,7 +86,7 @@ const PaginationComponent = ({ meta, onPageChange, onLimitChange  }) => {
             onClick={() => nextPageUrl && onPageChange(currentPage + 1)}
             disabled={!nextPageUrl}
           >
-            <ArrowRight2 variant="Outline" color="currentColor" size={16} />
+            <ArrowRight2 variant="Outline" color="currentColor" size={16}/>
           </button>
         </div>
       </div>
