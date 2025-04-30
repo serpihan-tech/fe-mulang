@@ -87,10 +87,10 @@ const TableComponent = ({
       return (
         <>
         <button onClick={() => handleEditClick(item)}>
-          <Edit2 size="20" color="#FFCF43" variant="Bold" />
+          <Edit2 size="20" color="#FFCF43" variant="Bold" className="transition-shadow ease-in-out duration-300 hover:shadow-md hover:scale-125"/>
         </button>
         <button onClick={() => onDelete(item[dataKey])}>
-          <Trash size="20" color="#DC1010" variant="Bold" />
+          <Trash size="20" color="#DC1010" variant="Bold" className="transition-shadow ease-in-out duration-300 hover:shadow-md hover:scale-125"/>
         </button>
       </>
       );
