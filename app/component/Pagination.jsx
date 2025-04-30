@@ -39,12 +39,12 @@ const PaginationComponent = ({ meta, onPageChange, onLimitChange  }) => {
   return (
     <div className="lg:flex p-2 lg:p-5 w-full justify-between items-center">
       {/* Informasi jumlah data (mentok kiri) */}
-      <div className="text-xs md:text-sm text-gray-600 mb-2">
+      <div className="text-xs md:text-sm text-gray-600 dark:text-slate-300 mb-2">
         <span>
           Showing {(currentPage - 1) * perPage + 1} to {Math.min(currentPage * perPage, total)} of {total} entries
         </span>
         <select
-          className="border lg:px-2 py-1 rounded text-sm ml-1 lg:ml-2"
+          className="border lg:px-2 py-1 rounded text-sm ml-1 lg:ml-2 dark:bg-dark_net-ter"
           value={perPage}
           onChange={(e) => onLimitChange(Number(e.target.value))}
         >
@@ -61,7 +61,7 @@ const PaginationComponent = ({ meta, onPageChange, onLimitChange  }) => {
         <div className="flex items-center space-x-1 lg:space-x-2 lg:-ml-64 mt-2 lg:mt-0">
           {/* Tombol Previous */}
           <button
-            className={`px-2 py-1 rounded ${previousPageUrl ? "text-pri-main hover:bg-gray-300" : " text-netral-40 cursor-not-allowed"}`}
+            className={`px-2 py-1 rounded ${previousPageUrl ? "text-pri-main dark:text-[#5D8BF8] hover:bg-gray-300" : " text-netral-40 cursor-not-allowed"}`}
             onClick={() => previousPageUrl && onPageChange(currentPage - 1)}
             disabled={!previousPageUrl}
           >
@@ -82,7 +82,7 @@ const PaginationComponent = ({ meta, onPageChange, onLimitChange  }) => {
 
           {/* Tombol Next */}
           <button
-            className={`px-2 py-1 text-pri-main rounded ${nextPageUrl ? " hover:bg-gray-300" : " text-gray-400 cursor-not-allowed"}`}
+            className={`px-2 py-1 text-pri-main dark:text-[#5D8BF8] rounded ${nextPageUrl ? " hover:bg-gray-300" : " text-gray-400 cursor-not-allowed"}`}
             onClick={() => nextPageUrl && onPageChange(currentPage + 1)}
             disabled={!nextPageUrl}
           >

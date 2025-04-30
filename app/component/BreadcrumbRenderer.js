@@ -9,7 +9,7 @@ const BreadcrumbRenderer = () => {
   return (
     <Breadcrumb
       separator={<span> / </span>}
-      firstClasses="text-pri-main font-semibold"
+      firstClasses="text-pri-main dark:text-[#5D8BF8] font-semibold"
       containerClasses="flex items-center"
       listClasses="hover:underline m-2"
       capitalizeLinks

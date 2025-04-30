@@ -115,7 +115,7 @@ const TableComponent = ({
   };
 
   return (
-    <div className="w-full overflow-hidden mx-auto">
+    <div className="w-full overflow-hidden mx-auto bg-dark_net-ter ">
     <div className="w-full mb-5 flex space-x-2 justify-between items-center text-black dark:text-white">
       <div className="flex items-center space-x-1 md:space-x-5">
         <h1 className="text-lg font-semibold">{title}</h1>
@@ -219,7 +219,7 @@ const TableComponent = ({
               {columns.map((col) => (
                 <th
                   key={col.label}
-                  className={`px-2 md:px-4 lg:px-6 py-1 text-left ${enableSort ? 'cursor-pointer' : ''} select-none`}
+                  className={`px-2 md:px-4 lg:px-6 py-1 text-left dark:text-slate-100 ${enableSort ? 'cursor-pointer' : ''} select-none`}
                   onClick={enableSort ? () => sortData(col.sortKey) : undefined}
                 >
                   <div className="flex items-center gap-2">
@@ -247,7 +247,7 @@ const TableComponent = ({
                       />
                     </td>
                   ) : (
-                    <td className="px-2 md:px-4 lg:px-6 py-2 text-gray-900">{index + 1}</td>
+                    <td className="px-2 md:px-4 lg:px-6 py-2 text-gray-900 dark:text-slate-100">{index + 1}</td>
                   )}
                   {columns.map((key) => (
                     <td
