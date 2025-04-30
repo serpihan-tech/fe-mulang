@@ -210,7 +210,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
   
 
   return (
-    <div className="w-full bg-white py-5 px-6 text-black">
+    <div className="w-full bg-white dark:bg-dark_net-ter py-5 px-6 text-black dark:text-slate-100">
     {selectedImage && (
       <ImageCropper
         image={selectedImage}
@@ -225,59 +225,59 @@ export default function TambahSiswaForm({data, onConfirm}) {
           {/* Data siswa */}
           <div className="md:w-1/2 space-y-5">
 
-              <h1 className="text-black text-xl font-semibold ">Data Siswa</h1>
+              <h1 className="text-black dark:text-slate-100 text-xl font-semibold ">Data Siswa</h1>
               {/* Nis, Nisn */}
               <div className="w-full flex space-x-10">
                 <div className="w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">NIS</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">NIS</label>
                   <input type="number" 
                     value={formData.student_detail.nis || ""}
                     onChange={handleInputChange("student_detail.nis")}
                     placeholder="Masukkan NIS"
-                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                    className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
                   />
                 </div>
                 <div className="w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium ">NISN</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium ">NISN</label>
                   <input type="number" 
                     value={formData.student_detail.nisn || ""}
                     onChange={handleInputChange("student_detail.nisn")}
                     placeholder="Masukkan NISN"
-                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                    className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
                   />
                 </div>
               </div>
               
               {/* Nama Lenkap */}
               <div className="space-y-[5px]">
-                <label className="text-black text-sm font-medium">Nama Lengkap</label>
+                <label className="text-black dark:text-slate-100 text-sm font-medium">Nama Lengkap</label>
                   <input type="text"
                     value={formData.student.name || ""}
                     onChange={handleInputChange("student.name")} 
                     placeholder="Masukkan nama lengkap"
-                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                    className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
                   />
               </div>
 
               {/* Tempat dan tanggal lahir */}
               <div className="w-full flex space-x-10">
                 <div className="w-full space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Tempat lahir</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Tempat lahir</label>
                   <input type="text" 
                     value={formData.student_detail.birth_place || ""}
                     onChange={handleInputChange("student_detail.birth_place")} 
                     placeholder="Masukkan tempat lahir"
-                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                    className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
                   />
                 </div>
                 <div className="w-full space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Tanggal lahir</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Tanggal lahir</label>
                   <CustomDatePicker
                     required
                     value={formData.student_detail.birth_date ?? null}
                     onChange={handleDateChange('student_detail.birth_date')}
-                    customFilterdateStyle={`flex items-center justify-between border border-netral-20 focus:outline-pri-main rounded-lg px-4 py-2 cursor-pointer min-w-[180px] ${
-                        formData.student_detail.birth_date ? "text-black" : "text-netral-20"
+                    customFilterdateStyle={`flex items-center justify-between border border-netral-20 dark:bg-dark_net-ter focus:outline-pri-main rounded-lg px-4 py-2 cursor-pointer min-w-[180px] ${
+                        formData.student_detail.birth_date ? "text-black dark:text-slate-100" : "text-netral-20"
                     }`}
                     />
                 </div>
@@ -285,20 +285,20 @@ export default function TambahSiswaForm({data, onConfirm}) {
               
               {/* Tanggal masuk */}
               <div className="w-full space-y-[5px]">
-                <label className="text-black text-sm font-medium">Tanggal Masuk</label>
+                <label className="text-black dark:text-slate-100 text-sm font-medium">Tanggal Masuk</label>
                 <CustomDatePicker
                   required
                   value={formData.student_detail.enrollment_year ?? null}
                   onChange={handleDateChange('student_detail.enrollment_year')}
-                  customFilterdateStyle={`flex items-center justify-between border border-netral-20 focus:outline-pri-main rounded-lg px-4 py-2 cursor-pointer min-w-[180px] ${
-                      formData.student_detail.enrollment_year ? "text-black" : "text-netral-20"
+                  customFilterdateStyle={`flex items-center justify-between border border-netral-20 dark:bg-dark_net-ter focus:outline-pri-main rounded-lg px-4 py-2 cursor-pointer min-w-[180px] ${
+                      formData.student_detail.enrollment_year ? "text-black dark:text-slate-100" : "text-netral-20"
                   }`}
                   />
               </div>
 
               {/* Telp siswa */}
               <div className="space-y-[5px]">
-                <label className="text-black text-sm font-medium">Nomor Telepon Siswa</label>
+                <label className="text-black dark:text-slate-100 text-sm font-medium">Nomor Telepon Siswa</label>
                   <input type="text"
                     inputMode="numeric"
                     maxLength={13}
@@ -306,19 +306,19 @@ export default function TambahSiswaForm({data, onConfirm}) {
                     value={formData.student_detail.students_phone ?? null}
                     onChange={handleInputChange('student_detail.students_phone')}
                     placeholder="Masukkan nomor telepon siswa"
-                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                    className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
                   />
               </div>
 
               {/* Agama */}
               <div className="w-full space-y-[5px]">
-                <label className="text-black text-sm font-medium">Agama</label>
+                <label className="text-black dark:text-slate-100 text-sm font-medium">Agama</label>
                 <Dropdown
                   options={religionOptions}
                   value={religionOptions.find(opt => opt.value === formData.student_detail.religion) || null}
                   onChange={handleDropdownChange("student_detail.religion")}
                   placeholder="Pilih Agama"
-                  className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20"
+                  className="w-full h-10 p-2 rounded-md bg-whiteborder border-netral-20 dark:bg-dark_net-ter"
                   dropdownStyle="dark:bg-black dark:text-white"
                 />
               </div>
@@ -327,25 +327,25 @@ export default function TambahSiswaForm({data, onConfirm}) {
               <div className="w-full flex space-x-10">
                 {/* Kelas */}
                 <div className="w-full space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Kelas</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Kelas</label>
                   <Dropdown
                     options={classOptions || null}
                     value={classOptions.find(opt => opt.value === formData.class_student.class_id) || null}
                     onChange={handleDropdownChange("class_student.class_id")}
                     placeholder="Pilih kelas"
-                    className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20"
+                    className="w-full h-10 p-2 rounded-md bg-white border border-netral-20 dark:bg-dark_net-ter"
                     dropdownStyle="dark:bg-black dark:text-white"
                   />
                 </div>
                 {/* Tahun ajar */}
                 <div className="w-full space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Tahun Ajar  </label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Tahun Ajar  </label>
                   <Dropdown
                     options={allSemesters}
                     value={allSemesters.find(opt => opt.value === formData.class_student.academic_year_id) || null}
                     onChange={handleDropdownChange("class_student.academic_year_id")}
                     placeholder="Pilih tahun ajar"
-                    className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20"
+                    className="w-full h-10 p-2 rounded-md bg-white border border-netral-20 dark:bg-dark_net-ter"
                     dropdownStyle="dark:bg-black dark:text-white"
                   />
                 </div>
@@ -353,9 +353,9 @@ export default function TambahSiswaForm({data, onConfirm}) {
 
               {/* Label gender */}
               <div>
-                <label className="text-black text-sm font-medium">Jenis Kelamin</label>
+                <label className="text-black dark:text-slate-100 text-sm font-medium">Jenis Kelamin</label>
                 <div className="flex py-4 space-x-8">
-                <label className="flex items-center gap-2 text-black text-sm font-medium">
+                <label className="flex items-center gap-2 text-black dark:text-slate-100 text-sm font-medium">
                   <input
                       type="radio"
                       name="gender"
@@ -366,7 +366,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
                   />
                   Laki-laki
                 </label>
-                <label className="flex items-center gap-2 text-black text-sm font-medium">
+                <label className="flex items-center gap-2 text-black dark:text-slate-100 text-sm font-medium">
                   <input
                       type="radio"
                       name="gender"
@@ -382,9 +382,9 @@ export default function TambahSiswaForm({data, onConfirm}) {
 
               {/* Label Aktif / tidak Aktif */}
               <div>
-                <label className="text-black text-sm font-medium">Pilih Status</label>
+                <label className="text-black dark:text-slate-100 text-sm font-medium">Pilih Status</label>
                 <div className="flex py-4 space-x-8">
-                <label className="flex items-center gap-2 text-black text-sm font-medium">
+                <label className="flex items-center gap-2 text-black dark:text-slate-100 text-sm font-medium">
                   <input
                       type="radio"
                       name="status"
@@ -396,7 +396,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
                   />
                   Aktif
                 </label>
-                <label className="flex items-center gap-2 text-black text-sm font-medium">
+                <label className="flex items-center gap-2 text-black dark:text-slate-100 text-sm font-medium">
                   <input
                       type="radio"
                       name="status"
@@ -415,23 +415,23 @@ export default function TambahSiswaForm({data, onConfirm}) {
           
           {/* Data keluarga dan Data user */}
           <div className="md:w-1/2 space-y-5 mb-6">
-            <h1 className="text-black text-xl font-semibold">Data Keluarga</h1>
+            <h1 className="text-black dark:text-slate-100 text-xl font-semibold">Data Keluarga</h1>
 
             {/* Nama Orang Tua / Wali */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Nama Orang Tua / Wali</label>
+              <label className="text-black dark:text-slate-100 text-sm font-medium">Nama Orang Tua / Wali</label>
               <input 
                 type="text" 
                 value={formData.student_detail.parents_name || ""}
                 onChange={handleInputChange("student_detail.parents_name")}
                 placeholder="Masukkan nama orang tua / wali"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
               {/* Nomor Telepon Orang Tua / Wali */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Nomor Telepon Orang Tua / Wali</label>
+              <label className="text-black dark:text-slate-100 text-sm font-medium">Nomor Telepon Orang Tua / Wali</label>
               <input 
                 type="text" 
                 inputMode="numeric"
@@ -440,51 +440,51 @@ export default function TambahSiswaForm({data, onConfirm}) {
                 value={formData.student_detail.parents_phone || ""}
                 onChange={handleInputChange("student_detail.parents_phone")}
                 placeholder="Masukkan nomor telepon orang tua / wali"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
             {/* Pekerjaan Orang Tua / Wali */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Pekerjaan Orang Tua / Wali</label>
+              <label className="text-black dark:text-slate-100 text-sm font-medium">Pekerjaan Orang Tua / Wali</label>
               <input 
                 type="text" 
                 value={formData.student_detail.parents_job || ""}
                 onChange={handleInputChange("student_detail.parents_job")}
                 placeholder="Masukkan pekerjaan orang tua / wali"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
             {/* Alamat Orang Tua / Wali */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Alamat Orang Tua / Wali</label>
+              <label className="text-black dark:text-slate-100 text-sm font-medium">Alamat Orang Tua / Wali</label>
               <input 
                 type="text" 
                 value={formData.student_detail.address || ""}
                 onChange={handleInputChange("student_detail.address")}
                 placeholder="Masukkan alamat orang tua / wali"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
-            <h1 className="text-black my-5 text-xl font-semibold">Data User</h1>
+            <h1 className="text-black dark:text-slate-100 my-5 text-xl font-semibold">Data User</h1>
 
             {/* Email Siswa */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Email Siswa</label>
+              <label className="text-black dark:text-slate-100 text-sm font-medium">Email Siswa</label>
               <input 
                 type="email" 
                 value={formData.user.email || ""}
                 onChange={handleInputChange("user.email")}
                 placeholder="Masukkan email siswa"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
             {/* Username Siswa */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Username Siswa</label>
+              <label className="text-black dark:text-slate-100 text-sm font-medium">Username Siswa</label>
               <input 
                 type="text" 
                 minLength={5}
@@ -492,28 +492,28 @@ export default function TambahSiswaForm({data, onConfirm}) {
                 value={formData.user.username || ""}
                 onChange={handleInputChange("user.username")}
                 placeholder="Masukkan username siswa"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
             {/* Kata Sandi Siswa */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Kata Sandi Siswa</label>
+              <label className="text-black dark:text-slate-100 text-sm font-medium">Kata Sandi Siswa</label>
               <input 
                 type="password" 
                 minLength={8}
                 value={formData.user.password || ""}
                 onChange={handleInputChange("user.password")}
                 placeholder="Masukkan kata sandi baru"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
           
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Foto Profil</label>
+              <label className="text-black dark:text-slate-100 text-sm font-medium">Foto Profil</label>
 
-              <div className="w-full flex overflow-hidden rounded-md border border-netral-20 bg-white text-white text-sm">
+              <div className="w-full flex overflow-hidden rounded-md border border-netral-20 dark:bg-dark_net-ter bg-white text-white text-sm">
                 <label
                   htmlFor="file-upload"
                   className="bg-pri-main px-4 py-2 cursor-pointer font-semibold shrink-0"
@@ -529,7 +529,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
                   onChange={handleFileChange}
                 />
 
-                <div className={`${formData.student_detail.profile_picture?"text-black":"text-netral-20"} px-4 py-2 w-full truncate text-black`}>
+                <div className={`${formData.student_detail.profile_picture?"text-black dark:text-slate-100":"text-netral-20"} px-4 py-2 w-full truncate text-black dark:text-slate-100`}>
                   {formData.student_detail.profile_picture
                     ? formData.student_detail.profile_picture.name
                     : "No file chosen"}
@@ -550,10 +550,10 @@ export default function TambahSiswaForm({data, onConfirm}) {
         <div className="w-full flex justify-end space-x-4">
           <button 
             type="submit"
-            className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 hover:bg-red-500 hover:text-white bg-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+            className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 dark:border-[#ff4022] text-red-600 dark:text-[#ff4022] hover:bg-red-500 dark:hover:bg-[#ff4022] dark:hover:text-slate-100 hover:text-white bg-white dark:bg-dark_net-quar transition-shadow duration-300 hover:shadow-md hover:scale-105 dark:hover:shadow-none">
             Batal
           </button>
-          <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+          <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-500 hover:shadow-md hover:scale-105">
             Simpan
           </button>
         </div>
