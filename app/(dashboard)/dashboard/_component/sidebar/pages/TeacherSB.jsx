@@ -1,7 +1,15 @@
 import { Home, People, Award, Book1 } from "iconsax-react";
 import SidebarItem from "../ItemSB";
+import { useEffect, useState } from "react";
 
 export default function TeacherSB( {open} ) {
+  const[waliKelas, setWalikelas]= useState(false)
+  useEffect(() => {
+    const isWaliKelas = sessionStorage.getItem("wali_kelas");
+    if (isWaliKelas) {
+      setWalikelas(isWaliKelas); // pastikan boolean, bukan string
+    }
+  }, []);
   return (
     <div className="flex flex-col gap-4 my-4 min-w-14">
       
@@ -20,10 +28,17 @@ export default function TeacherSB( {open} ) {
         icon={Award}
         open={open}
         colorIcon="currentColor"
-        dropdownItems={[
-          { label: "Kompetensi", url: "/penilaian/kompetensi" },
-          { label: "Rekap Nilai", url: "/penilaian/rekap-nilai" }
-        ]}
+        dropdownItems={
+          waliKelas
+            ? [
+                { label: "Kompetensi", url: "/penilaian/kompetensi" },
+                { label: "Rekap Nilai", url: "/penilaian/rekap-nilai" },
+              ]
+            : [
+                { label: "Kompetensi", url: "/penilaian/kompetensi" },
+              ]
+        }
+        
       />
 
       <SidebarItem
