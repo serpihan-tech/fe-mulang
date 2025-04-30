@@ -179,7 +179,7 @@ const TableComponent = ({
                   setFilterOpen(false);
                 }
               }}
-              className="w-full h-10 p-2 pl-4 pr-10 border border-blue-500 rounded-full outline-none transition-all duration-300"
+              className="w-full h-10 p-2 pl-4 pr-10 border border-blue-500 dark:border-[#5D8BF8] dark:text-slate-100 dark:bg-dark_net-ter rounded-full outline-none transition-all duration-300"
               autoFocus
             />
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
