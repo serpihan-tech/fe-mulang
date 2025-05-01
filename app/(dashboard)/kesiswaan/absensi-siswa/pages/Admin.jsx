@@ -53,6 +53,7 @@ export default function AbsensiSiswaAdmin() {
                 tanggal: format(new Date(item?.date), "dd-MM-yyyy") || "Tidak ada",
                 nis: item?.classStudent?.student.studentDetail.nis || "Tidak ada",
                 nama_siswa: item?.classStudent?.student.name || "Tidak ada",
+                mata_pelajaran: item.schedule?.module?.name || "Tidak ada",
                 status: <StatusIcon status={item?.status}/> || "Tidak ada",
                 keterangan: item?.reason || "-",
 
@@ -76,6 +77,7 @@ export default function AbsensiSiswaAdmin() {
     { label: "nis", sortKey: "nis" },
     { label: "nama_siswa", sortKey: "namaSiswa" },
     { label: "status", sortKey: "status" },
+    { label: "mata_pelajaran", sortKey: "mapel" },
     { label: "keterangan", sortKey: "alasan" },
   ];
 

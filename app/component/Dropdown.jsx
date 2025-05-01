@@ -55,6 +55,11 @@ export default function Dropdown({
           />
         )}
         <div className="flex-grow me-1 ">
+          {title && (
+            <p className="text-black dark:text-slate-100 text-base font-bold mb-1">
+              {title}
+            </p>
+          )}
           <p className="text-black dark:text-slate-300 text-sm font-normal ">
             {value ? value.label : placeholder ||"" }
           </p>
