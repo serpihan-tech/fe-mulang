@@ -34,7 +34,6 @@ export default function DashboardHeader() {
 
           } else if(role === "teacher" || role == "admin") {
             const user = JSON.parse(data);
-            sessionStorage.setItem("wali_kelas",data.profile?.isGuardian)
             console.log("user: ", user)
             let image = user.data.profile.profilePicture || [];
             let images = baseUrl+"/file/"+image

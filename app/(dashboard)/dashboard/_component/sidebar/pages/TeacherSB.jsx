@@ -3,13 +3,15 @@ import SidebarItem from "../ItemSB";
 import { useEffect, useState } from "react";
 
 export default function TeacherSB( {open} ) {
-  const[waliKelas, setWalikelas]= useState(false)
+  const data = typeof window !== "undefined" ? sessionStorage.getItem("profile_data") : null;
+
+  const[waliKelas, setWalikelas]= useState("")
   useEffect(() => {
-    const isWaliKelas = sessionStorage.getItem("wali_kelas");
-    if (isWaliKelas) {
-      setWalikelas(isWaliKelas); // pastikan boolean, bukan string
-    }
+    const user = JSON.parse(data);
+    setWalikelas(user.data?.profile?.isGuardian)
   }, []);
+
+  //console.log("walikelas", waliKelas)
   return (
     <div className="flex flex-col gap-4 my-4 min-w-14">
       
