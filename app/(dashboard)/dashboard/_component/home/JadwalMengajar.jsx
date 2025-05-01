@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Jadwal from "./Jadwal";
 import moment from "moment";
 
@@ -9,6 +9,8 @@ export default function JadwalMengajar({day, schedule=[]}) {
     new Date()
   );
 
+  const [absenceAllowed, setAbsenceAllowed] = useState(false)
+
   const now = moment();
 
   const bgColors = [
@@ -17,6 +19,13 @@ export default function JadwalMengajar({day, schedule=[]}) {
     "bg-[#ffe8e8]",
     "bg-[#e8ffec]",
   ]
+  useEffect(() => {
+    if (day === today) {
+      setAbsenceAllowed(true);
+    } else {
+      setAbsenceAllowed(false);
+    }
+  }, [day]);
 
 
 
@@ -40,6 +49,7 @@ export default function JadwalMengajar({day, schedule=[]}) {
               if (day === today) {
                 const startTime = moment(item.startTime, "HH:mm:ss");
                 const endTime = moment(item.endTime, "HH:mm:ss");
+                
 
                 if (now.isAfter(endTime)) {
                   status = "Done";
@@ -65,6 +75,7 @@ export default function JadwalMengajar({day, schedule=[]}) {
                   statusColor={statusColor} // Warna status
                   statusTextColor={statusTextColor}
                   class_name={item.class.name}
+                  absenceAllowed={absenceAllowed}
                 />
               );
             })
