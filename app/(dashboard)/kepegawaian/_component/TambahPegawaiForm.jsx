@@ -162,7 +162,7 @@ export default function TambahPegawaiForm({data, onConfirm}) {
   
 
   return (
-    <div className="w-full bg-white py-5 px-6 text-black">
+    <div className="w-full bg-white dark:bg-dark_net-ter py-5 px-6 text-black dark:text-slate-100">
     {selectedImage && (
       <ImageCropper
         image={selectedImage}
@@ -177,50 +177,50 @@ export default function TambahPegawaiForm({data, onConfirm}) {
           {/* Data guru */}
           <div className="md:w-1/2 space-y-5">
 
-              <h1 className="text-black text-xl font-semibold ">Data Pegawai</h1>
+              <h1 className="text-black dark:text-slate-100  text-xl font-semibold ">Data Pegawai</h1>
               {/* Nip */}
               <div className="w-full">
                 <div className="space-y-[5px]">
-                  <label className="text-black text-sm font-medium">NIP</label>
+                  <label className="text-black dark:text-slate-100  text-sm font-medium">NIP</label>
                   <input type="number" 
                     value={formData.teacher.nip || ""}
                     onChange={handleInputChange("teacher.nip")}
                     placeholder="Masukkan NIP"
-                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                    className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
                   />
                 </div>
               </div>
               
               {/* Nama Lenkap */}
               <div className="space-y-[5px]">
-                <label className="text-black text-sm font-medium">Nama Lengkap</label>
+                <label className="text-black dark:text-slate-100  text-sm font-medium">Nama Lengkap</label>
                   <input type="text"
                     value={formData.teacher.name || ""}
                     onChange={handleInputChange("teacher.name")} 
                     placeholder="Masukkan nama lengkap"
-                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                    className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
                   />
               </div>
 
               {/* Tempat dan tanggal lahir */}
               <div className="w-full flex space-x-10">
                 <div className="w-full space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Tempat lahir</label>
+                  <label className="text-black dark:text-slate-100  text-sm font-medium">Tempat lahir</label>
                   <input type="text" 
                     value={formData.teacher.birth_place || ""}
                     onChange={handleInputChange("teacher.birth_place")} 
                     placeholder="Masukkan tempat lahir"
-                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                    className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
                   />
                 </div>
                 <div className="w-full space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Tanggal lahir</label>
+                  <label className="text-black dark:text-slate-100  text-sm font-medium">Tanggal lahir</label>
                   <CustomDatePicker
                     required
                     value={formData.teacher.birth_date ?? null}
                     onChange={handleDateChange('teacher.birth_date')}
-                    customFilterdateStyle={`flex items-center justify-between border border-netral-20 focus:outline-pri-main rounded-lg px-4 py-2 cursor-pointer min-w-[180px] ${
-                        formData.teacher.birth_date ? "text-black" : "text-netral-20"
+                    customFilterdateStyle={`flex items-center justify-between border border-netral-20 dark:bg-dark_net-ter focus:outline-pri-main rounded-lg px-4 py-2 cursor-pointer min-w-[180px] ${
+                        formData.teacher.birth_date ? "text-black dark:text-slate-100 " : "text-netral-20"
                     }`}
                     />
                 </div>
@@ -228,7 +228,7 @@ export default function TambahPegawaiForm({data, onConfirm}) {
               
               {/* Telp  */}
               <div className="space-y-[5px]">
-                <label className="text-black text-sm font-medium">Nomor Telepon</label>
+                <label className="text-black dark:text-slate-100  text-sm font-medium">Nomor Telepon</label>
                   <input type="text"
                     inputMode="numeric"
                     maxLength={13}
@@ -236,32 +236,32 @@ export default function TambahPegawaiForm({data, onConfirm}) {
                     value={formData.teacher.phone ?? null}
                     onChange={handleInputChange('teacher.phone')}
                     placeholder="Masukkan nomor telepon pegawai"
-                    className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                    className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
                   />
               </div>
 
               {/* Agama */}
               <div className="w-full space-y-[5px]">
-                <label className="text-black text-sm font-medium">Agama</label>
+                <label className="text-black dark:text-slate-100  text-sm font-medium">Agama</label>
                 <Dropdown
                   options={religionOptions}
                   value={religionOptions.find(opt => opt.value === formData.teacher.religion) || null}
                   onChange={handleDropdownChange("teacher.religion")}
                   placeholder="Pilih Agama"
-                  className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20"
+                  className="w-full h-10 p-2 rounded-md bg-white border border-netral-20 dark:bg-dark_net-ter"
                   dropdownStyle="dark:bg-black dark:text-white"
                 />
               </div>
 
               {/* Agama */}
               <div className="w-full space-y-[5px]">
-                <label className="text-black text-sm font-medium">Jabatan</label>
+                <label className="text-black dark:text-slate-100  text-sm font-medium">Jabatan</label>
                 <Dropdown
                   options={roleOptions}
                   value={roleOptions.find(opt => opt.value === formData.role.name) || null}
                   onChange={handleDropdownChange("role.name")}
                   placeholder="Pilih Jabatan"
-                  className="w-full h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20"
+                  className="w-full h-10 p-2 rounded-md bg-white border border-netral-20 dark:bg-dark_net-ter"
                   dropdownStyle="dark:bg-black dark:text-white"
                 />
               </div>
@@ -271,9 +271,9 @@ export default function TambahPegawaiForm({data, onConfirm}) {
 
               {/* Label gender */}
               <div>
-                <label className="text-black text-sm font-medium">Jenis Kelamin</label>
+                <label className="text-black dark:text-slate-100  text-sm font-medium">Jenis Kelamin</label>
                 <div className="flex py-4 space-x-8">
-                <label className="flex items-center gap-2 text-black text-sm font-medium">
+                <label className="flex items-center gap-2 text-black dark:text-slate-100  text-sm font-medium">
                   <input
                       type="radio"
                       name="gender"
@@ -284,7 +284,7 @@ export default function TambahPegawaiForm({data, onConfirm}) {
                   />
                   Laki-laki
                 </label>
-                <label className="flex items-center gap-2 text-black text-sm font-medium">
+                <label className="flex items-center gap-2 text-black dark:text-slate-100  text-sm font-medium">
                   <input
                       type="radio"
                       name="gender"
@@ -302,34 +302,34 @@ export default function TambahPegawaiForm({data, onConfirm}) {
           {/* Data keluarga dan Data user */}
           <div className="md:w-1/2 space-y-5 mb-6">
             
-            <h1 className="text-black mb-5 text-xl font-semibold">Data User</h1>
+            <h1 className="text-black dark:text-slate-100  mb-5 text-xl font-semibold">Data User</h1>
             {/* Alamat Pegawai */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Alamat Pegawai</label>
+              <label className="text-black dark:text-slate-100  text-sm font-medium">Alamat Pegawai</label>
               <input 
                 type="text" 
                 value={formData.teacher.address || ""}
                 onChange={handleInputChange("teacher.address")}
                 placeholder="Masukkan username pegawai"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
             {/* Email Pegawai */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Email Pegawai</label>
+              <label className="text-black dark:text-slate-100  text-sm font-medium">Email Pegawai</label>
               <input 
                 type="email" 
                 value={formData.user.email || ""}
                 onChange={handleInputChange("user.email")}
                 placeholder="Masukkan email pegawai"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
             {/* Username Pegawai */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Username Pegawai</label>
+              <label className="text-black dark:text-slate-100  text-sm font-medium">Username Pegawai</label>
               <input 
                 type="text" 
                 minLength={5}
@@ -337,28 +337,28 @@ export default function TambahPegawaiForm({data, onConfirm}) {
                 value={formData.user.username || ""}
                 onChange={handleInputChange("user.username")}
                 placeholder="Masukkan username pegawai"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
             {/* Kata Sandi Pegawai */}
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Kata Sandi Pegawai</label>
+              <label className="text-black dark:text-slate-100  text-sm font-medium">Kata Sandi Pegawai</label>
               <input 
                 type="password" 
                 minLength={8}
                 value={formData.user.password || ""}
                 onChange={handleInputChange("user.password")}
                 placeholder="Masukkan kata sandi baru"
-                className="w-full border border-netral-20 rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
+                className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
               />
             </div>
 
           
             <div className="space-y-[5px]">
-              <label className="text-black text-sm font-medium">Foto Profil</label>
+              <label className="text-black dark:text-slate-100  text-sm font-medium">Foto Profil</label>
 
-              <div className="w-full flex overflow-hidden rounded-md border border-netral-20 bg-white text-white text-sm">
+              <div className="w-full flex overflow-hidden rounded-md border border-netral-20 dark:bg-dark_net-ter bg-white text-white text-sm">
                 <label
                   htmlFor="file-upload"
                   className="bg-pri-main px-4 py-2 cursor-pointer font-semibold shrink-0"
@@ -374,7 +374,7 @@ export default function TambahPegawaiForm({data, onConfirm}) {
                   onChange={handleFileChange}
                 />
 
-                <div className={`${formData.teacher.profile_picture?"text-black":"text-netral-20"} px-4 py-2 w-full truncate text-black`}>
+                <div className={`${formData.teacher.profile_picture?"text-black dark:text-slate-100 ":"text-netral-20"} px-4 py-2 w-full truncate text-black dark:text-slate-100 `}>
                   {formData.teacher.profile_picture
                     ? formData.teacher.profile_picture.name
                     : "No file chosen"}
@@ -395,10 +395,10 @@ export default function TambahPegawaiForm({data, onConfirm}) {
         <div className="w-full flex justify-end space-x-4">
           <button 
             type="submit"
-            className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 text-red-600 hover:bg-red-500 hover:text-white bg-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+            className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 dark:border-[#ff4022] text-red-600 dark:text-[#ff4022] hover:bg-red-500 dark:hover:bg-[#ff4022] dark:hover:text-slate-100 hover:text-white bg-white dark:bg-dark_net-quar transition-shadow duration-300 hover:shadow-md hover:scale-105 dark:hover:shadow-none">
             Batal
           </button>
-          <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+          <button className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-500 hover:shadow-md hover:scale-105">
             Simpan
           </button>
         </div>

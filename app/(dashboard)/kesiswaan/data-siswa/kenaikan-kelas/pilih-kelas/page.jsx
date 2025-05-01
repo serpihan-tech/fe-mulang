@@ -223,16 +223,16 @@ export default function PilihKelasPage() {
         
       <div>
             <div className="w-full ps-2 flex">
-              <h1 className="w-full text-black text-xl font-semibold">Data Siswa Admin</h1> 
+              <h1 className="w-full text-black dark:text-slate-100 text-xl font-semibold">Data Siswa Admin</h1> 
             </div>
             
-            <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
+            <div className="flex flex-col justify-end bg-white dark:bg-dark_net-ter rounded-lg my-5">
               <div className="p-5 flex flex-col space-y-2">
-                <h1 className="w-full text-black text-lg font-semibold">Pilih Kelas dan tahun ajar</h1>
+                <h1 className="w-full text-black dark:text-slate-100 text-lg font-semibold">Pilih Kelas dan tahun ajar</h1>
                 <div className="flex gap-x-4 flex-wrap">
                   {dropdowns.map((dropdown, idx) => (
-                    <div key={idx} className="flex flex-col ">
-                      <label className="mb-1 text-sm font-semibold text-gray-700 dark:text-white">
+                    <div key={idx} className="flex flex-col w-40 md:w-52">
+                      <label className="mb-1 text-sm font-semibold text-gray-700 dark:text-slate-300">
                         {dropdown.label}
                       </label>
                       <Dropdown
@@ -240,8 +240,8 @@ export default function PilihKelasPage() {
                         value={dropdown.value}
                         onChange={handleDropdownChange(dropdown.setValue)}
                         placeholder={dropdown.placeholder}
-                        className="w-auto h-10 p-2 rounded-md bg-white dark:bg-black border border-netral-20 text-black"
-                        dropdownStyle="dark:bg-black dark:text-white"
+                        className="w-auto h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter border border-netral-20 text-black"
+                        dropdownStyle="dark:bg-dark-net-ter dark:text-white"
                       />
                     </div>
                   ))}

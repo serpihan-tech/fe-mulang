@@ -87,10 +87,10 @@ const TableComponent = ({
       return (
         <>
         <button onClick={() => handleEditClick(item)}>
-          <Edit2 size="20" color="#FFCF43" variant="Bold" />
+          <Edit2 size="20" color="#FFCF43" variant="Bold" className="transition-shadow ease-in-out duration-300 hover:shadow-md hover:scale-125"/>
         </button>
         <button onClick={() => onDelete(item[dataKey])}>
-          <Trash size="20" color="#DC1010" variant="Bold" />
+          <Trash size="20" color="#DC1010" variant="Bold" className="transition-shadow ease-in-out duration-300 hover:shadow-md hover:scale-125"/>
         </button>
       </>
       );
@@ -179,7 +179,7 @@ const TableComponent = ({
                   setFilterOpen(false);
                 }
               }}
-              className="w-full h-10 p-2 pl-4 pr-10 border border-blue-500 rounded-full outline-none transition-all duration-300"
+              className="w-full h-10 p-2 pl-4 pr-10 border border-blue-500 dark:border-[#5D8BF8] dark:text-slate-100 dark:bg-dark_net-ter rounded-full outline-none transition-all duration-300"
               autoFocus
             />
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -219,7 +219,7 @@ const TableComponent = ({
               {columns.map((col) => (
                 <th
                   key={col.label}
-                  className={`px-2 md:px-4 lg:px-6 py-1 text-left ${enableSort ? 'cursor-pointer' : ''} select-none`}
+                  className={`px-2 md:px-4 lg:px-6 py-1 text-left dark:text-slate-100 ${enableSort ? 'cursor-pointer' : ''} select-none`}
                   onClick={enableSort ? () => sortData(col.sortKey) : undefined}
                 >
                   <div className="flex items-center gap-2">
@@ -247,7 +247,7 @@ const TableComponent = ({
                       />
                     </td>
                   ) : (
-                    <td className="px-2 md:px-4 lg:px-6 py-2 text-gray-900">{index + 1}</td>
+                    <td className="px-2 md:px-4 lg:px-6 py-2 text-gray-900 dark:text-slate-100">{index + 1}</td>
                   )}
                   {columns.map((key) => (
                     <td

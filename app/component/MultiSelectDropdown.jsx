@@ -56,7 +56,7 @@ export default function MultiSelectDropdown({
       <button
         onClick={() => setOpen(!open)}
         className={`w-full p-2 rounded-md border ${textInputSize} flex items-center justify-between ${
-          selected.length > 0 ? "bg-pri-main text-white" : "text-black"
+          selected.length > 0 ? "bg-pri-main text-white dark" : "text-black dark:text-slate-100"
         }`}
       >
         <span className="flex items-center gap-2">
@@ -71,11 +71,11 @@ export default function MultiSelectDropdown({
       </button>
 
       {open && (
-        <div className={`absolute mt-2 ${wideDropdown} bg-white ${textDropDownSize} border rounded-md shadow z-50 max-h-64 overflow-y-auto`}>
+        <div className={`absolute mt-2 ${wideDropdown} bg-white dark:bg-dark_net-ter ${textDropDownSize} border rounded-md shadow z-50 max-h-64 overflow-y-auto`}>
           {classOption.map((kelas) => (
             <label
               key={kelas.value}
-              className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-dark_net-sec cursor-pointer"
             >
               <input
                 type="checkbox"

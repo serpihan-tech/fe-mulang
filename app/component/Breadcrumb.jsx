@@ -15,7 +15,7 @@ const Breadcrumb = ({
   const paths = usePathname() || "";
   const pathNames = paths.split("/").filter((path) => path);
   return (
-    <div className="text-sm text-black dark:text-white bg-[#FAFAFA] dark:bg-dark_net-quar transition duration-300 md:mb-5 lg:mb-10">
+    <div className="text-sm text-black dark:text-slate-100 bg-[#FAFAFA] dark:bg-dark_net-pri transition duration-300 md:mb-5 lg:mb-10">
       <ul className={containerClasses}>
         {pathNames.map((link, index) => {
           let href = `/${pathNames.slice(0, index + 1).join("/")}`;

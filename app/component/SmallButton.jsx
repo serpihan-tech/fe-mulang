@@ -47,7 +47,7 @@ export default function SmallButton({
       onClick={onClick}
       disabled={disabled}
       className={`h-9 px-2.5 md:px-[15px] min-w-fit py-2 rounded-lg md:rounded-xl justify-end items-center gap-1.5 md:gap-2.5 inline-flex ${
-                  disabled ? `${bgColorDisabled}` : `${bgColor} ${hover} ${bgBorder} ${textColor} transition-shadow  ease-in-out duration-300 hover:shadow-md hover:shadow-gray-400`
+                  disabled ? `${bgColorDisabled}` : `${bgColor} ${hover} ${bgBorder} ${textColor} transition-shadow  ease-in-out duration-300 hover:shadow-md hover:scale-105`
                 } cursor-pointer `}
     >
       {icon && (
