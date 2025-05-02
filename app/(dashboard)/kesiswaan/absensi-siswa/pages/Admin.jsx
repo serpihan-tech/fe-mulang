@@ -228,10 +228,10 @@ export default function AbsensiSiswaAdmin() {
         <div>
           <div className="w-full ps-2">
             <div className="flex items-center">
-              <h1 className="w-full text-black text-xl font-semibold">Data Absensi Siswa</h1> 
+              <h1 className="w-full text-black dark:text-slate-100 text-xl font-semibold">Data Absensi Siswa</h1> 
             </div>
             <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-              <div className={absenData ? "max-w-screen-xl p-2 lg:p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+              <div className={absenData ? "max-w-screen-xl p-2 lg:p-5 dark:bg-dark_net-ter" : "flex items-center justify-center text-black dark:text-white p-28"}>
                   {absenData ? 
                     <TableComponent 
                         columns={columns} 
