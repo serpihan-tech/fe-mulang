@@ -76,6 +76,8 @@ export default function JadwalMengajar({day, schedule=[]}) {
                   statusTextColor={statusTextColor}
                   class_name={item.class.name}
                   absenceAllowed={absenceAllowed}
+                  module_id={item.moduleId}
+                  class_id={item.classId}
                 />
               );
             })

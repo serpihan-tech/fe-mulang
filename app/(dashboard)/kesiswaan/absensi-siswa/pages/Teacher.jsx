@@ -98,9 +98,15 @@ export default function AbsensiSiswaTeacher() {
               />
             </div>
           </div>
-          <div className="px-5 mt-7">
-            <AbsenTable data={siswaData} columns={columns} />
-          </div>
+          {selectedClass && selectedMapel ? (
+            <div className="px-5 mt-7">
+              <AbsenTable data={siswaData} columns={columns} />
+            </div>
+          ):(
+            <div className="px-5 mt-7">
+              Pilih Kelas dan Mapel terlebih dahulu
+            </div>
+          )}
         </div>
       </div>
     </>

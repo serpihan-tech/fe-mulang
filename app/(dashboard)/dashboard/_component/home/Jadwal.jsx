@@ -1,4 +1,5 @@
 import { Location, People } from "iconsax-react";
+import { useRouter } from "next/navigation";
 
 export default function Jadwal({
   startTime,
@@ -10,8 +11,24 @@ export default function Jadwal({
   statusTextColor = "text-white",
   place,
   class_name,
-  absenceAllowed=false
+  absenceAllowed=false,
+  module_id,
+  class_id
 }) {
+
+  const router = useRouter()
+
+  const handleAbsensi = () => {
+    if (!absenceAllowed) return
+    sessionStorage.setItem("module_id", module_id);
+    sessionStorage.setItem("class_id", class_id);
+    router.push("/kesiswaan/absensi-siswa");
+  };
+
+  const handlePengumuman = () => {
+    router.push("/pengumuman/tambah");
+  };
+
   return (
     <div className="flex w-full space-x-3">
       {/* Waktu */}
@@ -48,13 +65,17 @@ export default function Jadwal({
         {/* Tombol Aksi */}
         <div className="flex space-x-2">
         <button
+          onClick={handleAbsensi}
           className={`px-4 py-2 rounded-md text-white text-xs font-semibold transition
             ${absenceAllowed ? "bg-[#0841e2] hover:bg-[#0637c2] cursor-pointer " : "bg-[#0841e2]/50 cursor-not-allowed"}`}
-          disabled={absenceAllowed}
+          disabled={!absenceAllowed}
         >
           Mulai Absensi
         </button>
-          <button className="px-4 py-2 bg-[#ffcf43] rounded-md text-black text-xs font-semibold">
+          <button 
+          onClick={handlePengumuman}
+            className="px-4 py-2 bg-[#ffcf43] rounded-md text-black text-xs font-semibold"
+          >
             Buat Pengumuman
           </button>
         </div>
