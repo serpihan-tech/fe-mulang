@@ -62,7 +62,7 @@ export default function NotificationDropdown() {
               Notifikasi
             </div>
             <div className="w-8 h-8 relative cursor-pointer">
-              <CloseCircle size="26" color="#292D32" variant="Bulk" className="dark:bg-white rounded-full"/>
+              <CloseCircle size="26" color="currentColor" variant="Bulk" className="dark:text-slate-100 rounded-full"/>
             </div>
           </div>
 
