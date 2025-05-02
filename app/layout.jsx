@@ -20,29 +20,27 @@ export default function RootLayout({ children }) {
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script
-            dangerouslySetInnerHTML={{
-                __html: `
+          dangerouslySetInnerHTML={{
+            __html: `
                 (function() {
                     let theme = localStorage.getItem("theme") || "light";
                     document.documentElement.classList.toggle("dark", theme === "dark");
                 })();
             `,
-            }}
+          }}
         />
       </head>
-      <body
-        className={` ${PlusJakarta.className} antialiased`}
-      >
-        <LoadingProvider>
-          <Navigation />
-          <ProfileProvider>
-            <ThemeProvider>
+      <body className={` ${PlusJakarta.className} antialiased`}>
+        <ThemeProvider>
+          <LoadingProvider>
+            <ProfileProvider>
               <BreadcrumbProvider>
+                <Navigation />{" "}
                 {children}
               </BreadcrumbProvider>
-            </ThemeProvider>
-          </ProfileProvider>
-        </LoadingProvider>
+            </ProfileProvider>
+          </LoadingProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
