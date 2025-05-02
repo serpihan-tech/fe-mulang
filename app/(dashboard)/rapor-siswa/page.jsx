@@ -31,7 +31,7 @@ export default function RaporSiswa() {
       );
       setSelectedPeriod(initialSemester || " ")
     }
-  }, [allSemesters, semesterId])
+  }, [semesterId])
 
   const handleDropdownChange = (selectedOption) => {
     setSelectedPeriod(selectedOption)
@@ -72,9 +72,9 @@ export default function RaporSiswa() {
         </div>
 
         <div className='top-[15px] sm:top-[25px] relative'>
-          {/* <p className="font-semibold text-[16px] sm:text-[20px] leading-[100%] tracking-[0px]">
+          <p className="font-semibold text-[16px] sm:text-[20px] leading-[100%] tracking-[0px]">
             Tahun ajar {score&&(score.result[0].academicYear.name+" "+ capitalizeFirstLetter(score.result[0].academicYear.semester))}
-          </p> */}
+          </p>
         </div>
       </div>
 

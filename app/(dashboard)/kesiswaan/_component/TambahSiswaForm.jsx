@@ -65,7 +65,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
         is_graduate: String(data.isGraduate ?? "0"),
       },
       student_detail: {
-        gender: data.studentDetail?.gender?.toLowerCase() || "",
+        gender: data.studentDetail?.gender || "",
         religion: data.studentDetail?.religion || "",
         birth_place: data.studentDetail?.birthPlace || "",
         birth_date: data.studentDetail?.birthDate || null,
@@ -318,7 +318,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
                   value={religionOptions.find(opt => opt.value === formData.student_detail.religion) || null}
                   onChange={handleDropdownChange("student_detail.religion")}
                   placeholder="Pilih Agama"
-                  className="w-full h-10 p-2 rounded-md bg-whiteborder border-netral-20 dark:bg-dark_net-ter"
+                  className="w-full h-10 p-2 rounded-md bg-white border border-netral-20 dark:bg-dark_net-ter"
                   dropdownStyle="dark:bg-black dark:text-white"
                 />
               </div>
@@ -359,8 +359,8 @@ export default function TambahSiswaForm({data, onConfirm}) {
                   <input
                       type="radio"
                       name="gender"
-                      value="laki-laki"
-                      checked={formData.student_detail.gender === "laki-laki"}
+                      value="Laki-laki"
+                      checked={formData.student_detail.gender === "Laki-laki"}
                       onChange={handleInputChange("student_detail.gender")}
                       className="w-5 h-5 accent-pri-main"
                   />
@@ -370,8 +370,8 @@ export default function TambahSiswaForm({data, onConfirm}) {
                   <input
                       type="radio"
                       name="gender"
-                      value="perempuan"
-                      checked={formData.student_detail.gender === "perempuan"}
+                      value="Perempuan"
+                      checked={formData.student_detail.gender === "Perempuan"}
                       onChange={handleInputChange("student_detail.gender")}
                       className="w-5 h-5 accent-pri-main"
                   />

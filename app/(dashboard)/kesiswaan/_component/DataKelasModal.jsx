@@ -42,6 +42,7 @@ export default function DataKelasModal({
     if (kelasData) {
       setIdKelas(kelasData.id);
       setNamaKelas(kelasData.name);
+      setJumlahSiswa(kelasData.totalStudents)
       if (kelasData.teacher) {
         setSelectedWaliKelas({
           label: kelasData.teacher.name,
@@ -69,7 +70,7 @@ export default function DataKelasModal({
           size="24"
           color="currentColor"
           variant="Bold"
-          className="ml-auto cursor-pointer"
+          className="ml-auto cursor-pointer text-black"
           onClick={onCancel}
         />
       </div>
@@ -80,6 +81,15 @@ export default function DataKelasModal({
             <input
               type="number"
               value={idKelas}
+              disabled
+              className="w-full border bg-[#aaaaaa] rounded-md py-2 px-3 text-sm font-normal"
+            />
+          </div>
+          <div className="space-y-[6px]">
+            <label className="text-black text-sm font-medium">Total Siswa</label>
+            <input
+              type="number"
+              value={jumlahSiswa}
               disabled
               className="w-full border bg-[#aaaaaa] rounded-md py-2 px-3 text-sm font-normal"
             />
