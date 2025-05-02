@@ -236,7 +236,7 @@ export default function DataKelas() {
               
               </div>
             </div>
-            <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
+            <div className="w-full flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
               <div className={kelasData ? "max-w-screen-xl p-2 lg:p-5 dark:bg-dark_net-ter" : "flex items-center justify-center text-black dark:text-white p-28"}>
                 {kelasData ? 
                   <TableComponent 
