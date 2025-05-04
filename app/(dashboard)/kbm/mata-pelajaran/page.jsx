@@ -32,7 +32,7 @@ export default function KBM() {
     }
 
     setIsLoading(false);
-  }, [router]);
+  }, [router])
 
   return (
     <div className="text-black dark:text-white">
@@ -40,5 +40,5 @@ export default function KBM() {
       {role === "admin" && <MataPelajaranAdmin />}
       {role === "teacher" && <MataPelajaranTeacher />}
     </div>
-  );
+  )
 }

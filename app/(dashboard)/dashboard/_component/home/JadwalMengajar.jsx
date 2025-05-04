@@ -78,6 +78,7 @@ export default function JadwalMengajar({day, schedule=[]}) {
                   absenceAllowed={absenceAllowed}
                   module_id={item.moduleId}
                   class_id={item.classId}
+                  schedule_id={item.id}
                 />
               );
             })

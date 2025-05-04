@@ -13,7 +13,8 @@ export default function Jadwal({
   class_name,
   absenceAllowed=false,
   module_id,
-  class_id
+  class_id,
+  schedule_id
 }) {
 
   const router = useRouter()
@@ -22,6 +23,7 @@ export default function Jadwal({
     if (!absenceAllowed) return
     sessionStorage.setItem("module_id", module_id);
     sessionStorage.setItem("class_id", class_id);
+    sessionStorage.setItem("schedule_id", schedule_id);
     router.push("/kesiswaan/absensi-siswa");
   };
 

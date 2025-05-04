@@ -8,4 +8,14 @@ export const AbsensiSiswa = async (moduleId,classId) => {
     } catch (error) {
         toast.error("Gagal mengambil data jadwal:", error.message);
     }
-};
+}
+
+export const EditAbsensiSiswa = async (payload) => {
+    try {
+        const response = await ApiManager.post(`/absences/mass/students`,payload);
+        return response.data;
+    } catch (error) {
+        toast.error("Gagal mengambil data jadwal:", error.message);
+    }
+}
+

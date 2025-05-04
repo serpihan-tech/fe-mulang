@@ -46,56 +46,62 @@ export default function AbsensiSiswaTeacher() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
-const fetchDataAbsen = async (moduleId = selectedMapel.value, classId = selectedClass.value) => {
-  if (!selectedMapel.value || !selectedClass.value) return;
+  const fetchDataAbsen = async (moduleId = selectedMapel.value, classId = selectedClass.value) => {
+    if (!selectedMapel.value || !selectedClass.value) return;
 
-  setIsLoading(true);
-  try {
-    const res = await AbsensiSiswa(moduleId, classId);
-    const { students, dates } = res.absences;
+    setIsLoading(true);
+    try {
+      const res = await AbsensiSiswa(moduleId, classId);
+      //console.log("res",res)
+      const { students, dates } = res.absences;
+      console.log("students: ",students)
+      console.log("dates: ",dates)
 
-    // Bentuk kolom (tanggal)
-    const columns = [
-      { key: 'id', label: 'No' },
-      { key: 'nis', label: 'NIS' },
-      { key: 'nama', label: 'Nama' },
-      ...dates.map((dateObj, index) => ({
-        key: `status_${index}`,
-        label: 'Status',
-        date: dateObj.date,
-        week: dateObj.day,
-        absences: dateObj.absences,
-      }))
-    ];
-    setAbsenTableColumns(columns);
 
-    // Bentuk baris (per siswa)
-    const formattedData = students.map((student, studentIndex) => {
-      const row = {
-        id: studentIndex + 1,
-        nis: student.nis,
-        nama: student.name,
-      };
+      // Bentuk kolom (tanggal)
+      const columns = [
+        { key: 'id', label: 'No' },
+        { key: 'nis', label: 'NIS' },
+        { key: 'nama', label: 'Nama' },
+        ...dates.map((dateObj, index) => ({
+          key: `status_${index}`,
+          label: 'Status',
+          date: dateObj.date,
+          week: dateObj.day,
+          absences: dateObj.absences,
+          scheduleId: dateObj.scheduleId,
+          fillable: false,
+        }))
+      ];
+      setAbsenTableColumns(columns);
 
-      dates.forEach((dateObj, dateIndex) => {
-        const absence = dateObj.absences.find(
-          (abs) => abs.classStudentId === student.classStudentId
-        );
-        row[`status_${dateIndex}`] = absence?.status || '-';
+      // Bentuk baris (per siswa)
+      const formattedData = students.map((student, studentIndex) => {
+        const row = {
+          id: studentIndex + 1,
+          nis: student.nis,
+          nama: student.name,
+        };
+
+        dates.forEach((dateObj, dateIndex) => {
+          const absence = dateObj.absences.find(
+            (abs) => abs.classStudentId === student.classStudentId
+          );
+          row[`status_${dateIndex}`] = absence?.status || '-';
+        });
+
+        return row;
       });
 
-      return row;
-    });
-
-    setAbsenTableData(formattedData);
-  } catch (error) {
-    toast.error(error.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
+      setAbsenTableData(formattedData);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Ambil data jadwal saat awal
   useEffect(() => {
@@ -128,24 +134,11 @@ const fetchDataAbsen = async (moduleId = selectedMapel.value, classId = selected
     }
   }, [selectedMapel, selectedClass]);
 
-    const columns = [
-      { key: 'id', label: 'No' },
-      { key: 'nis', label: 'NIS' },
-      { key: 'nama', label: 'Nama' },
-      { key: 'status', date: '3 Februari 2025', week: 'Minggu ke-1' },
-      { key: 'status', date: '10 Februari 2025', week: 'Minggu ke-2' },
-      { key: 'status', date: '17 Februari 2025', week: 'Minggu ke-3' },
-      { key: 'status', date: '24 Februari 2025', week: 'Minggu ke-4' },
-      { key: 'status', date: '2 Maret 2025', week: 'Minggu ke-5' },
-      { key: 'status', date: '9 Maret 2025', week: 'Minggu ke-6' },
-    ];
-
-    console.log("mapel: ", mapelOption)
-    console.log("jadwal: ", dataJadwal)
-    console.log("KelasOption: ",classOption)
-    console.log("selected Mapel: ", selectedMapel)
-    console.log("selected Kelas: ", selectedClass)
-
+  console.log("mapel: ", mapelOption)
+  console.log("jadwal: ", dataJadwal)
+  console.log("KelasOption: ",classOption)
+  console.log("selected Mapel: ", selectedMapel)
+  console.log("selected Kelas: ", selectedClass)
 
   return (
     <>

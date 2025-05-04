@@ -1,46 +1,109 @@
 import { Edit, Folder, TickCircle } from 'iconsax-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
+import SmallButton from '@/app/component/SmallButton';
 
 const AbsenTable = ({ data, columns }) => {
+  const [editableColumns, setEditableColumns] = useState(columns);
   const [selectedStatus, setSelectedStatus] = useState({});
-  console.log("columns: ",columns)
+  console.log("columns: ",editableColumns)
+  console.log("data",data)
+
+  useEffect(() => {
+    if (columns && columns.length > 0) {
+      setEditableColumns(columns);
+    }
+  
+    
+  }, [columns]);
+
+  const handleDisableFillable = async (colKey) => {
+    console.log("colkey: ",colKey)
+    const targetColumn = editableColumns.find(col => col.key === colKey.key);
+    if (!targetColumn) return;
+  
+    const colIndex = editableColumns.findIndex(col => col.key === colKey.key);
+    const columnDate = format(new Date(colKey.date), 'yyyy-MM-dd'); // format date
+    const scheduleId = 132; // <- Sesuaikan dengan nilai sebenarnya
+  
+    // Susun payload absences
+    const absencesPayload = data.map((student, rowIndex) => {
+      const status = selectedStatus[rowIndex]?.[colKey];
+      const reason = status === "Izin" ? student.reason || "Perlu alasan" : null; // Sesuaikan pengambilan reason
+      return {
+        classStudentId: student.classStudentId,
+        status,
+        reason,
+      };
+    }).filter(abs => abs?.status); // pastikan status terisi
+  
+    const payload = {
+      date: columnDate,
+      scheduleId,
+      absences: absencesPayload,
+    };
+  
+    try {
+      await EditAbsensiSiswa(payload);
+  
+      // Setelah berhasil simpan, ubah fillable jadi false
+      setEditableColumns((prev) =>
+        prev.map((col) =>
+          col.key === colKey ? { ...col, fillable: false } : col
+        )
+      );
+    } catch (err) {
+      console.error("Gagal simpan:", err);
+    }
+  };
 
   /// handleStatusChange dan getStatusColor pakai dynamic key
-const handleStatusChange = (rowIndex, columnKey, status) => {
-  setSelectedStatus((prev) => ({
-    ...prev,
-    [rowIndex]: {
-      ...prev[rowIndex],
-      [columnKey]: status,
-    },
-  }));
-};
+  const handleStatusChange = (rowIndex, columnKey, status) => {
+    setSelectedStatus((prev) => ({
+      ...prev,
+      [rowIndex]: {
+        ...prev[rowIndex],
+        [columnKey]: status,
+      },
+    }));
+  };
 
-const getStatusColor = (rowIndex, columnKey, status) => {
-  if (selectedStatus[rowIndex]?.[columnKey] === status) {
-    switch (status) {
-      case 'Hadir':
-        return 'bg-green-600 text-white';
-      case 'Izin':
-        return 'bg-[#FFCF43] text-black';
-      case 'Sakit':
-        return 'bg-[#0841E2] text-white';
-      case 'Alpha':
-        return 'bg-[#DC1010] text-white';
-      default:
-        return 'bg-white text-black border-[#CCCCCC] border-[1.5px]';
+  const handleEnableFillable = (colKey) => {
+    console.log("colKey",colKey)
+    setEditableColumns((prev) =>
+      prev.map((col) =>
+        col.key === colKey ? { ...col, fillable: true } : col
+      )
+    );
+  };
+
+
+  console.log("editable columns: ",editableColumns)
+
+  const getStatusColor = (rowIndex, columnKey, status) => {
+    if (selectedStatus[rowIndex]?.[columnKey] === status) {
+      switch (status) {
+        case 'Hadir':
+          return 'bg-green-600 text-white';
+        case 'Izin':
+          return 'bg-[#FFCF43] text-black';
+        case 'Sakit':
+          return 'bg-[#0841E2] text-white';
+        case 'Alfa':
+          return 'bg-[#DC1010] text-white';
+        default:
+          return 'bg-white text-black border-[#CCCCCC] border-[1.5px]';
+      }
     }
-  }
-  return 'bg-white text-black border-[#CCCCCC] border-[1.5px]';
-};
+    return 'bg-white text-black border-[#CCCCCC] border-[1.5px]';
+  };
 
   return (
     <table className='bg-white'>
       <thead>
         <tr>
-          {columns.map((column, index) => (
+          {editableColumns.map((column, index) => (
             <th key={index} className='px-5 py-[10px] text-black text-lg font-semibold'>
             {column.key.startsWith('status_') ? (
               <>
@@ -48,6 +111,17 @@ const getStatusColor = (rowIndex, columnKey, status) => {
                   {format(new Date(column.date), 'd MMMM yyyy', { locale: id })}
                 </p>
                 <p className='text-black text-sm font-normal text-left'>Minggu ke-{index-2}</p>
+                {column.fillable === false ? 
+                  <div className='flex space-x-2 text-success-main text-xs items-center mt-2'>
+                    <TickCircle 
+                      size={14}
+                      color='currentColor'
+                      variant='Bold'
+                    />
+                    <p>Terverifikasi</p>
+                  </div>
+                  : null
+                }
               </>
             ) : (
               <p className='text-black text-lg font-semibold text-left'>{column.label}</p>
@@ -59,7 +133,7 @@ const getStatusColor = (rowIndex, columnKey, status) => {
       <tbody>
         {data.map((item, index) => (
           <tr key={item.id}>
-            {columns.map((column, colIndex) => (
+            {editableColumns.map((column, colIndex) => (
               <td
                 key={colIndex}
                 className={`p-[10px] text-base font-medium text-black whitespace-nowrap ${
@@ -69,60 +143,59 @@ const getStatusColor = (rowIndex, columnKey, status) => {
                 {column.key === 'id' ? (
                   index + 1
                 ) : column.key.startsWith('status_') ? (
-                <div className='w-full flex space-x-3 px-5 py-[10px] items-center'>
-                  {['Hadir', 'Izin', 'Sakit', 'Alpha'].map((status) => (
-                    <div
-                      key={status}
-                      className={`rounded-full w-12 h-12 text-[10px] font-semibold justify-center items-center flex cursor-pointer ${getStatusColor(index, column.key, status)}`}
-                      onClick={() => handleStatusChange(index, column.key, status)}
-                    >
-                      {status}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                item[column.key]
-              )}
+                  <div className='w-full flex space-x-2 px-5 py-[10px] items-center'>
+                    {['Hadir', 'Izin', 'Sakit', 'Alfa'].map((status) => {
+                      const isDisabled = column.fillable === false;
+                      return (
+                        <div
+                          key={status}
+                          className={`rounded-full w-12 h-12 text-[10px] font-semibold justify-center items-center flex
+                            ${getStatusColor(index, column.key, status)}
+                            ${isDisabled ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                          onClick={() => {
+                            if (!isDisabled) {
+                              handleStatusChange(index, column.key, status);
+                            }
+                          }}
+                        >
+                          {status}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  item[column.key]
+                )}
               </td>
             ))}
           </tr>
         ))}
       </tbody>
+
       <tfoot>
         <tr>
-          {columns.map((column, colIndex) => (
+          {editableColumns.map((column, colIndex) => (
             <td key={colIndex} className='justify center px-7'>
-              {column.key === 'status' && (
-                // <div className='flex gap-3'>
-                //   <button className="w-full flex py-[10px] bg-[#cee8d6] px-3 rounded-[10px] items-center">
-                //     <Folder
-                //       variant='Bold'
-                //       size={24}
-                //       color='#0e9035'
-                //     />
-                //     <TickCircle
-                //       variant='Bold'
-                //       size={6}
-                //       color='white'
-                //       className='relative -left-4 top-1'
-                //     />
-                //     <p className='text-[#07481a] text-sm font-semibold whitespace-nowrap'>Data Tersimpan</p>
-                //   </button>
-                //   <button className='px-3 bg-[#0841e2] rounded-[10px] justify-center items-center'>
-                //     <Edit
-                //       size={20}
-                //       color='white'
-                //     />
-                //   </button>
-                // </div>
-                <button className="w-full flex py-[10px] px-8 bg-[#0841e2] rounded-[10px] items-center gap-3 justify-center mt-2 hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
-                  <Folder
-                    variant='Bold'
-                    size={24}
-                    color='white'
-                  />
-                  <p className='text-white text-sm font-semibold'>Simpan</p>
-                </button>
+              {column.key.startsWith('status_') && column.fillable === false ? (
+                <SmallButton 
+                  bgColor={"bg-pri-main"}
+                  icon={Edit}
+                  colorIcon={"currentColor"}
+                  iconSize={24}
+                  title="Edit"
+                  minBtnSize='min-w-full'
+                  onClick={() => handleEnableFillable(column.key)}
+                />
+              ): (column.key.startsWith('status_') &&
+                <SmallButton 
+                  bgColor={"bg-pri-main"}
+                  icon={Folder}
+                  colorIcon={"currentColor"}
+                  iconSize={24}
+                  title="Tambah"
+                  minBtnSize='min-w-full'
+                  onClick={() => handleDisableFillable(column)}
+                />
               )}
             </td>
           ))}
