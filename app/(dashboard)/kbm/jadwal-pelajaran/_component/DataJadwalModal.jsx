@@ -143,7 +143,7 @@ export default function DataJadwalModal({ onCancel, onConfirm, jadwalData, isLoa
         <div className="space-y-4">
           {/* ID Jadwal */}
           <div className={`${formData.id === "" ? "hidden" : ""}`}>
-            <Input label="ID" value={formData.id} disabled />
+            <Input label="ID" value={formData.id} disabled className="bg-gray-200 text-black" />
           </div>
 
           {/* Hari */}
@@ -274,7 +274,7 @@ const Input = ({ label, value, disabled, onChange}) => (
             disabled={disabled}
             placeholder="-"
             onChange={onChange}
-            className={`w-full mt-1 text-sm  text-black dark:text-slate-100 px-3 py-2 border border-gray-300 rounded-md ${disabled ? "bg-gray-200 text-black" : "bg-white dark:bg-dark_net-ter"}`}
+            className={`w-full mt-1 text-sm  text-black px-3 py-2 border border-gray-300 rounded-md ${disabled ? "bg-gray-200 text-black" : "bg-white dark:bg-dark_net-ter"}`}
         />
     </div>
 );

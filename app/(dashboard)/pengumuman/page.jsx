@@ -10,7 +10,7 @@ export default function Pengumuman() {
       <div className="z-0 transition">
         <div>
           <div className="w-full ps-2 flex">
-            <h1 className="w-full text-black text-xl font-semibold">List Pengumuman</h1> 
+            <h1 className="w-full text-black dark:text-slate-100 text-xl font-semibold">List Pengumuman</h1> 
             <div className="w-full flex items-center justify-end gap-5">
               <SmallButton
                 type="button"

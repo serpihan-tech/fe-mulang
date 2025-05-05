@@ -118,7 +118,7 @@ const TableComponent = ({
     <div className="w-full overflow-hidden mx-auto">
     <div className="w-full mb-5 flex space-x-2 justify-between items-center text-black dark:text-white">
       <div className="flex items-center space-x-1 md:space-x-5">
-        <h1 className="text-lg font-semibold">{title}</h1>
+        <h1 className="text-lg font-semibold lg:whitespace-nowrap">{title}</h1>
         <div className={` ${!filterDate ? "hidden" : ""}`}>
           <CustomDatePicker
             value={selectedDate}
