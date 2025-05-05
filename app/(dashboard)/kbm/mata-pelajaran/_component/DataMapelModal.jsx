@@ -140,118 +140,138 @@ export default function DataMapelModal({ onCancel, onConfirm, mapelData, isLoadi
   console.log("semesterOptions", allSemesters)
   console.log("mapelOptions", mapelOptions)
   return (
-    <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center text-black">
-        <div className="bg-white w-full max-w-md rounded-xl p-6 shadow-lg">
+    <div className="w-[485px] bg-white dark:bg-dark_net-sec pb-[38px] rounded-lg">
+      <div className="w-full h-[54px] flex px-5 py-4 rounded-t-lg bg-[#adc0f5]/10 dark:bg-dark_net-pri items-center">
+        <h2 className="text-black dark:text-slate-100 text-xl font-semibold">
+          {mapelData ? "Edit" : "Tambah"} Data
+        </h2>
+        <CloseCircle
+          size="24"
+          color="currentColor"
+          variant="Bulk"
+          className="ml-auto cursor-pointer dark:text-slate-100"
+          onClick={onCancel}
+        />
+      </div>
+      <div className="w-full px-5">
+        <div className="space-y-4">
+          {/* ID Jadwal */}
+          <div className={`${formData.id === "" ? "hidden" : ""}`}>
+            <Input label="ID" value={formData.id} disabled />
+          </div>
 
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">{mapelData ? "Edit" : "Tambah"} Data</h2>
-                <CloseCircle size="24" color="currentColor" variant="Bold" className="ml-auto cursor-pointer" onClick={onCancel} />
-            </div>
-            
-            <div className="space-y-4">
+          {/* Nama Mapel */}
+          <div className="relative">
+            <Input
+              label="Mata Pelajaran"
+              placeholder="Masukkan nama mapel.."
+              value={formData.name}
+              onChange={handleInputChange}
+              className="bg-white dark:bg-dark_net-ter border text-black dark:text-slate-100"
+            />
 
-              { /* ID Jadwal */}
-              <div className={`${formData.id === '' ? "hidden" : ""}`}>
-                <Input 
-                  label="ID" 
-                  value={formData.id} 
-                  disabled />
-              </div>
+            {suggestions.length > 0 && (
+              <ul className="absolute z-10 bg-black border w-full mt-1 rounded shadow">
+                {suggestions.map((item, index) => (
+                  <li
+                    key={index}
+                    className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                    onClick={() => handleSelectSuggestion(item)}
+                  >
+                    {item.label}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-              { /* Nama Mapel */}
-              <div className="relative">
-                <Input 
-                  label="Mata Pelajaran" 
-                  placeholder="Masukkan nama mapel.."  
-                  value={formData.name}
-                  onChange={handleInputChange}
-                />
+          {/* Guru pengampu */}
+          <div>
+            <label className="text-sm font-medium">Guru pengampu</label>
+            <Dropdown
+              placeholder="Pilih guru"
+              value={
+                guruOptions.find((opt) => opt.value === formData.teacher_id) ||
+                null
+              }
+              onChange={(val) =>
+                setFormData({ ...formData, teacher_id: val.value })
+              }
+              className={
+                "w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter border border-[#cccccc] "
+              }
+              options={guruOptions}
+            />
+          </div>
 
-                {suggestions.length > 0 && (
-                  <ul className="absolute z-10 bg-white border w-full mt-1 rounded shadow">
-                    {suggestions.map((item,index) => (
-                      <li
-                        key={index}
-                        className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                        onClick={() => handleSelectSuggestion(item)}
-                      >
-                        {item.label}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+          {/* Tahun Ajar */}
+          <div>
+            <label className="text-sm font-medium">Tahun Ajar</label>
+            <Dropdown
+              placeholder="Pilih tahun ajar"
+              value={
+                allSemesters.find(
+                  (opt) => opt.value === formData.academic_year_id
+                ) || null
+              }
+              onChange={(val) =>
+                setFormData({ ...formData, academic_year_id: val.value })
+              }
+              className={
+                "w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter border border-[#cccccc] "
+              }
+              options={allSemesters}
+            />
+          </div>
 
-              {/* Guru pengampu */}
-              <div>
-                <label className="text-sm font-medium">Guru pengampu</label>
-                <Dropdown
-                  placeholder="Pilih guru"
-                  value={guruOptions.find(opt => opt.value === formData.teacher_id) || null}
-                  onChange={(val) => setFormData({ ...formData, teacher_id: val.value })}
-                  className={"w-full h-10 p-2 rounded-md bg-white border border-[#cccccc] "}
-                  options={guruOptions}
-                />
-              </div>
-
-              {/* Tahun Ajar */}
-              <div>
-                <label className="text-sm font-medium">Tahun Ajar</label>
-                <Dropdown
-                  placeholder="Pilih tahun ajar"
-                  value={allSemesters.find(opt => opt.value === formData.academic_year_id) || null}
-                  onChange={(val) => setFormData({ ...formData, academic_year_id: val.value })}
-                  className={"w-full h-10 p-2 rounded-md bg-white border border-[#cccccc] "}
-                  options={allSemesters}
-                />
-              </div>
-
-              {/* Pilih Template Thumbnail */}
-              <div className="">
-                <label className="text-sm font-medium mb-2 block">Pilih Template Thumbnail</label>
-                <div className="flex flex-wrap gap-4">
-                  {templateImages.map((image, index) => (
-                    <div
-                      key={index}
-                      className={`w-16 h-16 flex items-center justify-center rounded-full border cursor-pointer transition-all duration-200
-                        ${formData.thumbnailPath === `/svg/template-module-card/${image}` 
-                          ? "opacity-100 border-blue-500" 
-                          : "opacity-50 border-gray-300"
-                        }`}
-                        onClick={() => handleThumbnailSelect(image)}
-                    >
-                      <img
-                        src={`/svg/template-module-card/${image}`}
-                        alt={`Template ${index + 1}`}
-                        className="w-16 h-16 object-contain" // <<< ini kecil, sekitar 50% ukuran normal
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-
-            <div className="flex justify-end mt-6 space-x-3">
-                <button
-                    onClick={onCancel}
-                    className="px-4 py-2 border border-red-500 text-red-500 rounded-md hover:bg-red-50"
+          {/* Pilih Template Thumbnail */}
+          <div className="">
+            <label className="text-sm font-medium mb-2 block">
+              Pilih Template Thumbnail
+            </label>
+            <div className="flex flex-wrap gap-4">
+              {templateImages.map((image, index) => (
+                <div
+                  key={index}
+                  className={`w-16 h-16 flex items-center justify-center rounded-full border cursor-pointer transition-all duration-200
+          ${
+            formData.thumbnailPath === `/svg/template-module-card/${image}`
+              ? "opacity-100 border-blue-500"
+              : "opacity-50 border-gray-300"
+          }`}
+                  onClick={() => handleThumbnailSelect(image)}
                 >
-                 Batal
-                </button>
-                <button
-                    onClick={handleSubmit}
-                    disabled={isLoading}
-                    className={`px-4 py-2 rounded-md text-white ${
-                        isLoading
-                        ? "bg-blue-300 cursor-not-allowed"
-                        : "bg-blue-600 hover:bg-blue-700"
-                    }`}
-                    >
-                    {isLoading ? "Menyimpan..." : "Simpan"}
-                </button>
+                  <img
+                    src={`/svg/template-module-card/${image}`}
+                    alt={`Template ${index + 1}`}
+                    className="w-16 h-16 object-contain" // <<< ini kecil, sekitar 50% ukuran normal
+                  />
+                </div>
+              ))}
             </div>
+          </div>
         </div>
+        <div className="w-full flex justify-end space-x-4 mt-5">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 dark:border-[#ff4022] text-red-600 dark:text-[#ff4022] hover:bg-red-500 dark:hover:bg-[#ff4022] dark:hover:text-slate-100 hover:text-white bg-white dark:bg-dark_net-quar transition-shadow duration-300 hover:scale-105"
+          >
+            Batal
+          </button>
+          <button
+            disabled={isLoading}
+            type="submit"
+            className={`w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium ${
+              isLoading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            } transition-shadow duration-300 hover:shadow-md hover:scale-105`}
+          >
+            {isLoading ? "Membuat..." : "Buat"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -265,7 +285,7 @@ const Input = ({ label, value, disabled, onChange, placeholder="-"}) => (
             disabled={disabled}
             placeholder={placeholder}
             onChange={onChange}
-            className={`w-full mt-1 text-sm  text-black px-3 py-2 border border-gray-300 rounded-md ${disabled ? "bg-gray-200 text-black" : "bg-white"}`}
+            className={`w-full mt-1 text-sm  text-black px-3 py-2 border border-gray-300 rounded-md ${disabled ? "bg-gray-200 text-black" : "bg-white dark:bg-dark_net-ter border text-black dark:text-slate-100"}`}
         />
     </div>
 );
