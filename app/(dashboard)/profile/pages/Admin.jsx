@@ -186,47 +186,47 @@ export default function AdminProfile() {
             <form onSubmit={handleSubmit} className="mt-6 space-y-5">
               <div className="w-full flex space-x-11">
                 <div className="w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Nama Lengkap</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Nama Lengkap</label>
                   <input type="text" 
                     value={adminData?.admin.name || ""}
 										onChange={handleInputChange("admin", "name")}
-                    className="w-full text-black rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
+                    className="w-full text-black dark:text-slate-100 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
                   />
                 </div>
                 <div className="w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Email</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Email</label>
                   <input type="email" 
                     value={adminData?.user?.email}
 										onChange={handleInputChange("user", "email")}
-                    className="w-full text-black rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
+                    className="w-full text-black dark:text-slate-100 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
                   />
                 </div>
               </div>
               <div className="w-full flex space-x-11">
                 <div className="w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Alamat</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Alamat</label>
                   <textarea
 									  maxLength={255} 
 										rows={2}
                     value={adminData?.admin?.address || ""}
 										onChange={handleInputChange("admin", "address")}
-                    className="w-full text-black rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
+                    className="w-full text-black dark:text-slate-100 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
                   />
                 </div>
                 <div className="w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">No. Telepon</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">No. Telepon</label>
                   <input type="text"
 										minLength={8}
 										maxLength={15} 
                     value={adminData?.admin?.phone || "-"}
 										onChange={handleInputChange("admin", "phone")}
-                    className="w-full text-black rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
+                    className="w-full text-black dark:text-slate-100 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
                   />
                 </div>
               </div>
             
               <div className="w-full flex justify-end pt-[50px]">
-                <button type="submit" className="w-[147px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400">
+                <button type="submit" className="w-[147px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 dark:shadow-none hover:scale-105">
                   Simpan
                 </button>
               </div>
@@ -242,17 +242,17 @@ export default function AdminProfile() {
 
   return (
     <div>
-      <h1 className="text-black text-xl font-semibold ">Profil Pengguna</h1>
+      <h1 className="text-black dark:text-slate-100 text-xl font-semibold ">Profil Pengguna</h1>
       <div className="w-full py-5 px-4 mt-[25px]">
         <div className="w-full flex border-b-[1.5px] border-[#0841e2] space-x-4">
           <button 
             onClick={() => setActiveTab("editProfile")}
-            className={`w-36 px-4 py-[13.5px] ${activeTab === "editProfile" ? "bg-[#0841e2] text-white" : "bg-white text-[#0841e2]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-800 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 cursor-pointer`}
+            className={`w-36 px-4 py-[13.5px] ${activeTab === "editProfile" ? "bg-[#0841e2] text-white" : "bg-white dark:bg-dark_net-ter text-[#0841e2] dark:text-[#5D8BF8]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-800 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 dark:shadow-none cursor-pointer`}
             >Edit Profil
           </button>
           <button 
             onClick={() => setActiveTab("changePassword")}
-            className={`w-36 px-4 py-[13.5px] ${activeTab === "changePassword" ? "bg-[#0841e2] text-white" : "bg-white text-[#0841e2]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-800 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 cursor-pointer`}
+            className={`w-36 px-4 py-[13.5px] ${activeTab === "changePassword" ? "bg-[#0841e2] text-white" : "bg-white dark:bg-dark_net-ter text-[#0841e2] dark:text-[#5D8BF8]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-800 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 dark:shadow-none cursor-pointer`}
             >Ubah Kata Sandi
           </button>
         </div>
