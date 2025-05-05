@@ -220,15 +220,15 @@ export default function TambahSiswaForm({data, onConfirm}) {
     )}
     
       <form onSubmit={handleSubmit}>
-        <div className="md:flex md:space-x-16">
+        <div className="md:flex md:space-x-8 lg:space-x-16">
 
           {/* Data siswa */}
           <div className="md:w-1/2 space-y-5">
 
               <h1 className="text-black dark:text-slate-100 text-xl font-semibold ">Data Siswa</h1>
               {/* Nis, Nisn */}
-              <div className="w-full md:flex md:space-x-10 space-y-5 md:space-y-0">
-                <div className="w-1/2 space-y-[5px]">
+              <div className="w-full lg:flex lg:space-x-10 space-y-5 lg:space-y-0">
+                <div className="w-full lg:w-1/2 space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium">NIS</label>
                   <input type="number" 
                     value={formData.student_detail.nis || ""}
@@ -237,7 +237,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
                     className="w-full border border-netral-20 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal focus:outline-pri-main"
                   />
                 </div>
-                <div className="w-1/2 space-y-[5px]">
+                <div className="w-full lg:w-1/2 space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium ">NISN</label>
                   <input type="number" 
                     value={formData.student_detail.nisn || ""}
@@ -248,7 +248,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
                 </div>
               </div>
               
-              {/* Nama Lenkap */}
+              {/* Nama Lengkap */}
               <div className="space-y-[5px]">
                 <label className="text-black dark:text-slate-100 text-sm font-medium">Nama Lengkap</label>
                   <input type="text"
@@ -260,7 +260,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
               </div>
 
               {/* Tempat dan tanggal lahir */}
-              <div className="w-full md:flex md:space-x-10 space-y-5 md:space-y-0">
+              <div className="w-full lg:flex lg:space-x-10 space-y-5 lg:space-y-0">
                 <div className="w-full space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium">Tempat lahir</label>
                   <input type="text" 
@@ -324,7 +324,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
               </div>
 
               {/* kelas dan tahun ajar */}
-              <div className="w-full md:flex md:space-x-10 space-y-5 md:space-y-0">
+              <div className="w-full lg:flex lg:space-x-10 space-y-5 lg:space-y-0">
                 {/* Kelas */}
                 <div className="w-full space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium">Kelas</label>
