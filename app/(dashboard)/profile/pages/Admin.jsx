@@ -159,7 +159,7 @@ export default function AdminProfile() {
 								onCancel={() => setCroppingImage(null)}
 							/>
 						)}
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center mt-5 lg:mt-0">
               <Image
                 src={
                 imageSrc
@@ -184,8 +184,8 @@ export default function AdminProfile() {
               </div>
             </div>
             <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-              <div className="w-full flex space-x-11">
-                <div className="w-1/2 space-y-[5px]">
+              <div className="w-full lg:flex lg:space-x-11 space-y-4 lg:space-y-0">
+                <div className="w-full lg:w-1/2 space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium">Nama Lengkap</label>
                   <input type="text" 
                     value={adminData?.admin.name || ""}
@@ -193,7 +193,7 @@ export default function AdminProfile() {
                     className="w-full text-black dark:text-slate-100 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
                   />
                 </div>
-                <div className="w-1/2 space-y-[5px]">
+                <div className="w-full lg:w-1/2 space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium">Email</label>
                   <input type="email" 
                     value={adminData?.user?.email}
@@ -202,8 +202,8 @@ export default function AdminProfile() {
                   />
                 </div>
               </div>
-              <div className="w-full flex space-x-11">
-                <div className="w-1/2 space-y-[5px]">
+              <div className="w-full lg:flex lg:space-x-11 space-y-4 lg:space-y-0">
+                <div className="w-full lg:w-1/2 space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium">Alamat</label>
                   <textarea
 									  maxLength={255} 
@@ -213,7 +213,7 @@ export default function AdminProfile() {
                     className="w-full text-black dark:text-slate-100 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black"
                   />
                 </div>
-                <div className="w-1/2 space-y-[5px]">
+                <div className="w-full lg:w-1/2 space-y-[5px]">
                   <label className="text-black dark:text-slate-100 text-sm font-medium">No. Telepon</label>
                   <input type="text"
 										minLength={8}
@@ -224,8 +224,7 @@ export default function AdminProfile() {
                   />
                 </div>
               </div>
-            
-              <div className="w-full flex justify-end pt-[50px]">
+              <div className="w-full flex justify-center md:justify-end pt-6 md:pt-8 lg:pt-[50px]">
                 <button type="submit" className="w-[147px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 dark:shadow-none hover:scale-105">
                   Simpan
                 </button>
@@ -256,7 +255,7 @@ export default function AdminProfile() {
             >Ubah Kata Sandi
           </button>
         </div>
-        <div className="w-full p-[25px]">
+        <div className="w-full p-1 md:p-3 lg:p-[25px]">
           {renderContent()} 
         </div>
       </div>
