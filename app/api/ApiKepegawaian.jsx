@@ -190,7 +190,7 @@ export const tambah_absen_guru= async (payload) => {
         if (err.message.includes('Network Error')) {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
-        toast.error("Gagal membuat kelas");
+        toast.error(err.message);
         }
     }
 };

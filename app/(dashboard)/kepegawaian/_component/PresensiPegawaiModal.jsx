@@ -54,15 +54,23 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
   const handleSubmit = () => {
     const payload = {
       teacher_id: formData.teacher_id,
-      date: format(formData.date,"yyyy-MM-dd"),
+      date: format(formData.date, "yyyy-MM-dd"),
       email: formData.email,
       nama_guru: formData.nama_guru,
       status: formData.status,
-      check_in_time: (formData.check_in_time+":00"),
-      check_out_time: (formData.check_out_time+":00"),
       id_absen: formData.id_absen,
     };
-    console.log("payload", payload)
+  
+    if (payload.status === "Hadir") {
+      payload.check_in_time = formData.check_in_time !== "-" ? formData.check_in_time + ":00" : null;
+      payload.check_out_time = formData.check_out_time !== "-" && formData.check_out_time !== "" ? formData.check_out_time + ":00" : null;
+    } else {
+      payload.check_in_time=null
+      payload.check_out_time=null
+
+    }
+  
+    console.log("payload", payload);
     onConfirm(payload);
   };
 
@@ -93,24 +101,6 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
                 />
               </div>
 
-              {/* Jam Masuk & Jam Pulang */}
-              <div className="flex gap-4">
-                <div className="w-1/2">
-                  <label className="text-sm font-medium">Jam Masuk</label>
-                  <CustomTimePicker
-                    value={formData.check_in_time}
-                    onChange={(val) => setFormData({ ...formData, check_in_time: val })}
-                  />
-                </div>
-                <div className="w-1/2">
-                  <label className="text-sm font-medium">Jam Pulang</label>
-                  <CustomTimePicker
-                    value={formData.check_out_time}
-                    onChange={(val) => setFormData({ ...formData, check_out_time: val })}
-                  />
-                </div>
-              </div>
-
               {/* Keterangan Absen */}
               <div>
                 <label className="text-sm font-medium">Keterangan Absen</label>
@@ -122,6 +112,31 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
                   options={statusOptions}
                 />
               </div>
+
+              {formData.status === "Hadir" && (
+                <>
+                  {/* Jam Masuk & Jam Pulang */}
+                  <div className="flex gap-4 mt-4">
+                    <div className="w-1/2">
+                      <label className="text-sm font-medium">Jam Masuk</label>
+                      <CustomTimePicker
+                        value={formData.check_in_time}
+                        onChange={(val) => setFormData({ ...formData, check_in_time: val })}
+                      />
+                    </div>
+                    <div className="w-1/2">
+                      <label className="text-sm font-medium">Jam Pulang</label>
+                      <CustomTimePicker
+                        value={formData.check_out_time}
+                        onChange={(val) => setFormData({ ...formData, check_out_time: val })}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+
+              
             </div>
 
             <div className="flex justify-end mt-6 space-x-3">
