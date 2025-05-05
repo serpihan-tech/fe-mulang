@@ -18,41 +18,41 @@ export default function MataPelajaranTeacher() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
   const fetchMapelData = async () => {
-      //setIsLoading(true);
-      try {
-        const response = await mapelGuru();
-        const dataArray = response.data
-        //console.log("daribackend: ",dataArray)
-        if (Array.isArray(dataArray)) {
-            // Mapping agar sesuai dengan format tabel
-            const formattedData = dataArray.map((item) => ({
-              id_kelas:item.classId || '',
-              nama_kelas:item.className || '',
-              id:item.id || '',
-              id_mapel: item.moduleId || '',
-              nama_mapel: item.moduleName || '',
-              total_siswa: item.totalStudents || '',
-              id_jadwal: item.scheduleId || '',
-              thumbnail: item.thumbnail || null
-            }));
+    //setIsLoading(true);
+    try {
+      const response = await mapelGuru();
+      const dataArray = response.data
+      //console.log("daribackend: ",dataArray)
+      if (Array.isArray(dataArray)) {
+          // Mapping agar sesuai dengan format tabel
+          const formattedData = dataArray.map((item) => ({
+            id_kelas:item.classId || '',
+            nama_kelas:item.className || '',
+            id:item.id || '',
+            id_mapel: item.moduleId || '',
+            nama_mapel: item.moduleName || '',
+            total_siswa: item.totalStudents || '',
+            id_jadwal: item.scheduleId || '',
+            thumbnail: item.thumbnail || null
+          }));
 
-            setMapelData(formattedData);
-            setIsLoading(false)
-          }
-        
-        //console.log("daribeckend: ",response)
-      } catch (error) {
-        toast.error("Gagal mengambil data detail guru:", error.message);
-      } finally {
-        //setIsLoading(false);
-      }
-    };
+          setMapelData(formattedData);
+          setIsLoading(false)
+        }
+      
+      //console.log("daribeckend: ",response)
+    } catch (error) {
+      toast.error("Gagal mengambil data detail guru:", error.message);
+    } finally {
+      //setIsLoading(false);
+    }
+  };
 
-    useEffect(() => {
-      fetchMapelData();
-    }, []);
+  useEffect(() => {
+    fetchMapelData();
+  }, []);
 
-    console.log("data formate: ", mapelData)
+  console.log("data formate: ", mapelData)
 
   return (
     <>

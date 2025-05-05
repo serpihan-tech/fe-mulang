@@ -15,6 +15,7 @@ export default function SmallButton({
   hover,
   textColor = "text-white",
   disabled = false,
+  minBtnSize = "min-w-fit"
 }) {
   const renderIcon = () => {
     if (!icon) return null; 
@@ -36,6 +37,7 @@ export default function SmallButton({
           className={`${iconSize} flex items-center justify-start`}
           variant="Bold"
           color={colorIcon}
+          size={iconSize}
         />
       );
     }
@@ -46,7 +48,7 @@ export default function SmallButton({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`h-9 px-2.5 md:px-[15px] min-w-fit py-2 rounded-lg md:rounded-xl justify-end items-center gap-1.5 md:gap-2.5 inline-flex ${
+      className={`h-9 px-2.5 md:px-[15px] ${minBtnSize} py-2 rounded-lg md:rounded-xl justify-center items-center gap-1.5 md:gap-2.5 inline-flex ${
                   disabled ? `${bgColorDisabled}` : `${bgColor} ${hover} ${bgBorder} ${textColor} transition-shadow  ease-in-out duration-300 hover:shadow-md hover:scale-105`
                 } cursor-pointer `}
     >

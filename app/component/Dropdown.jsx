@@ -14,6 +14,9 @@ export default function Dropdown({
   containerStyle, 
   iconSize = "w-5",
   placeholder,
+  isDisabled = false,
+  wideInput ="w-full",
+  wideDropdown="w-full",
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -43,10 +46,10 @@ export default function Dropdown({
   return (
     <div 
       ref={dropdownRef}
-      className={`relative cursor-pointer ${className} dark:text-slate-100`}
+      className={`relative ${className} dark:text-slate-100 ${isDisabled ? "pointer-events-none opacity-40" : "cursor-pointer"}`}
       onClick={handleClick}
     >
-      <div className={`flex items-center w-full ${containerStyle}`}>
+      <div className={`flex items-center ${wideInput} ${containerStyle}`}>
         {Icon && (
           <Icon 
             className={`${iconSize} flex items-center justify-center`} 
@@ -54,7 +57,7 @@ export default function Dropdown({
             variant="Bold"
           />
         )}
-        <div className="flex-grow me-1 ">
+        <div className="flex-grow me-1">
           {title && (
             <p className="text-black dark:text-slate-100 text-base font-bold mb-1">
               {title}
@@ -71,7 +74,7 @@ export default function Dropdown({
       </div>
       
       {isOpen && (
-        <div className={`absolute top-full left-0 w-full mt-1 bg-white dark:bg-dark_net-pri rounded-md shadow-lg z-10 border border-gray-200 dark:border-pri-border ${dropdownStyle} max-h-40 overflow-y-auto`}>
+        <div className={`absolute top-full left-0 ${wideDropdown} mt-1 bg-white dark:bg-dark_net-pri rounded-md shadow-lg z-10 border border-gray-200 dark:border-pri-border ${dropdownStyle} max-h-40 overflow-y-auto`}>
           {options.map((option) => (
             <div
               key={option.value}

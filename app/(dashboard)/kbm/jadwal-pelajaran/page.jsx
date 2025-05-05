@@ -226,6 +226,7 @@ export default function JadwalPelajaran() {
       key: "mapel",
       label: "Mata Pelajaran",
       type: "multiselect",
+      wideDropdown: "min-w-56",
       fetchOptions: () => dropdown_nama_mapel(semesterId).then(res =>
         res.modules.map(mapel => ({
           label: mapel.name,
