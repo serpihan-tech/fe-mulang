@@ -99,7 +99,7 @@ export default function RekapNilai() {
         <div>
           <div className="w-full ps-2 flex">
             <div className="w-full flex justify-between">
-              <h1 className="w-full text-black text-xl font-semibold">Rekap Nilai</h1> 
+              <h1 className="w-full text-black dark:text-slate-100 text-xl font-semibold">Rekap Nilai</h1> 
               <SmallButton
                 type="button"
                 icon={Award}
@@ -111,7 +111,7 @@ export default function RekapNilai() {
             </div>
           </div>
           <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-            <div className={siswaData ? "max-w-screen-xl p-5" : "flex items-center justify-center text-black dark:text-white p-28"}>
+            <div className={siswaData ? "max-w-screen-xl p-5 dark:bg-dark_net-ter" : "flex items-center justify-center text-black dark:text-white p-28"}>
                 {siswaData ? 
                   <TableComponent
                       columns={columns} 

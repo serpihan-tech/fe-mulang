@@ -55,7 +55,7 @@ export default function NotificationDropdown() {
       {isOpen && (
         <div 
           ref={dropdownRef}
-          className="fixed right-5 md:right-8 lg:right-10 top-14 md:top-16 lg:top-20 w-[250px] md:w-[300px] lg:w-[397px] p-3 md:p-5 bg-white dark:bg-dark_net-ter rounded-xl md:rounded-[25px] outline outline-[0.50px] outline-offset-[-0.50px] outline-[#cccccc] inline-flex flex-col justify-start items-start md:gap-1 lg:gap-5 z-[9999]"
+          className="fixed right-5 md:right-8 lg:right-10 top-14 md:top-16 lg:top-20 w-[250px] md:w-[300px] lg:w-[397px] p-3 md:p-5 bg-white dark:bg-dark_net-ter rounded-xl md:rounded-[25px] outline outline-[0.50px] outline-offset-[-0.50px] outline-[#cccccc] inline-flex flex-col justify-start items-start md:gap-1 lg:gap-5 z-[9999] shadow-slate-400 dark:shadow-dark_net-quar shadow-lg"
         >
           <div className="self-stretch inline-flex justify-between items-center">
             <div className="justify-center text-black dark:text-slate-100 text-base font-semibold">
