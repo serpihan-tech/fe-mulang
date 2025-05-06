@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function SuccessUpdatePopUp() {
   return (
-    <div className="w-[516.27px] bg-white rounded-2xl p-[32.4px] text-black">
+    <div className="w-[516.27px] bg-white dark:bg-dark_net-ter rounded-2xl p-[32.4px] text-black dark:text-slate-100">
       <div className="w-full flex justify-center">
         <Image
           src="/svg/success.svg"

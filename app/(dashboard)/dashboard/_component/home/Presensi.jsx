@@ -129,7 +129,7 @@ export default function Presensi () {
 
   
   return (
-    <div className="w-full px-3 py-3 md:px-4 md:py-5 space-y-4 lg:space-y-5 rounded-[15px] border-[0.5px] border-[#aaaaaa]">
+    <div className="w-full px-3 py-3 md:px-4 md:py-5 space-y-4 lg:space-y-5 rounded-[15px] border-[0.5px] border-[#aaaaaa] dark:bg-dark_net-ter dark:border-none">
       
       {/* Pop-up Sukses */}
       {isSuccess && (
@@ -140,8 +140,8 @@ export default function Presensi () {
       
       <div className="w-full flex items-center justify-between">
         <div className="space-y-1 lg:space-y-2">
-          <h1 className="text-black text-sm md:text-base lg:text-lg font-semibold">Presensi Harian</h1>
-          <p className="text-[#7f7f7f] text-[10px] md:text-xs lg:text-base font-normal ">{day}</p>
+          <h1 className="text-black dark:text-slate-100 text-sm md:text-base lg:text-lg font-semibold">Presensi Harian</h1>
+          <p className="text-[#7f7f7f] dark:text-slate-300 text-[10px] md:text-xs lg:text-base font-normal ">{day}</p>
         </div>
         {isAttendance ? 
           <SmallButton 
