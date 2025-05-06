@@ -24,7 +24,7 @@ export default function TeacherDashboard() {
       
       <div className="z-0 transition">
       
-        <div className="bg-[#FAFAFA]  dark:bg-black lg:flex gap-5 ">
+        <div className="bg-[#FAFAFA]  dark:bg-dark_net-pri lg:flex gap-5 ">
           <div className="w-full lg:w-2/3 lg:px-4 space-y-5 lg:space-y-9">
             <div className="w-full flex gap-3 md:gap-6">
               <Card2
