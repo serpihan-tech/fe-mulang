@@ -48,7 +48,7 @@ export default function TeacherDashboard() {
             <Presensi />
 
             <div className="w-full flex items-center justify-between">
-              <h1 className="text-black text-sm md:text-base lg:text-lg font-semibold">Jadwal Mengajar</h1>
+              <h1 className="text-black dark:text-slate-100 text-sm md:text-base lg:text-lg font-semibold">Jadwal Mengajar</h1>
             </div>
             <JadwalMengajar/>
           </div>

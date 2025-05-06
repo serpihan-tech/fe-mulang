@@ -83,7 +83,7 @@ export default function JadwalMengajar({day, schedule=[]}) {
               );
             })
         ) : (
-          <p className="text-black">Tidak ada jadwal</p>
+          <p className="text-black dark:text-slate-100 dark:bg-dark_net-ter py-2 px-3 -ms-5 -mt-9 -me-3 rounded-lg">Tidak ada jadwal</p>
         )}
       </div>
     </div>
