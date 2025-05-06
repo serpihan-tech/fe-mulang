@@ -45,7 +45,7 @@ export default function LogOutPopUp({ onCancel, onConfirm, isLoading }) {
           className={`w-[103px] h-[38px] text-white rounded-md transition active:scale-95 
                      ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
         >
-          {isLoading ? "Harap tunggu..." : "Logout"}
+          {isLoading ? "Tunggu..." : "Logout"}
         </button>
       </div>
     </div>

@@ -168,10 +168,10 @@ export default function AbsensiSiswaTeacher() {
           </div>
           {selectedClass && selectedMapel ? (
             <div className="px-5 mt-7">
-            <AbsenTable 
+            {/* <AbsenTable 
               data={absenTableData} 
               columns={absenTableColumns}
-            />
+            /> */}
             </div>
           ):(
             <div className="px-5 mt-7">

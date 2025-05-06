@@ -44,3 +44,12 @@ export const UpdateProfileGuru = async (id, payload, file) => {
     }
 };
 
+export const AbsenHariIniGuru = async () => {
+    try {
+        const response = await ApiManager.get(`/teacher-absences/mine-today`);
+        return response.data;
+    } catch (error) {
+        toast.error("Gagal mengambil data jadwal:", error.message);
+    }
+};
+

@@ -17,6 +17,8 @@ export default function TeacherDashboard() {
       sessionStorage.removeItem("come_first");
     }
   }, []);
+
+  
   return (
     <>
       
@@ -43,7 +45,7 @@ export default function TeacherDashboard() {
               />
             </div>
 
-            <Presensi/>
+            <Presensi />
 
             <div className="w-full flex items-center justify-between">
               <h1 className="text-black text-sm md:text-base lg:text-lg font-semibold">Jadwal Mengajar</h1>

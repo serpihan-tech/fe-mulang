@@ -171,11 +171,14 @@ export default function PresensiPegawai() {
     try {
       setIsLoading(true);
       setLoading(true);
-      await tambah_absen_guru(payload);
-      setTambahOpen(false); 
-      setIsSuccess(true)
-      fetchDataAbsen();
-      setTimeout(() => setIsSuccess(false), 1200);
+      const response = await tambah_absen_guru(payload);
+      if(response){
+        setTambahOpen(false); 
+        setIsSuccess(true)
+        fetchDataAbsen();
+        setTimeout(() => setIsSuccess(false), 1200);
+      }
+      
       // Tambahkan fungsi untuk refresh data kelas jika perlu
     } catch (error) {
       toast.error(error.message);
