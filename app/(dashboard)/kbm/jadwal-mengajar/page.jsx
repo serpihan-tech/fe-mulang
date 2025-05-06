@@ -76,7 +76,7 @@ export default function JadwalMengajarGuru() {
   console.log("Data jadwal mengajar:", scheduleData);
   return (
     <div className=" text-black dark:text-slate-100">
-      <h1 className="flex justify-center md:justify-start text-sm md:text-base lg:text-xl font-semibold md:mb-3 lg:mb-4">
+      <h1 className="flex justify-center md:justify-start text-sm md:text-base lg:text-xl font-semibold md:mb-3 lg:mb-4 md:ps-10">
         Jadwal Pelajaran {label}
       </h1>
       <div className="md:flex items-start relative">
