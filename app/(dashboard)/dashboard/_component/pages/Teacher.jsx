@@ -56,9 +56,9 @@ export default function TeacherDashboard() {
           <div className="w-full lg:w-1/3 mt-4 md:mt-7 lg:mt-0">
             <Periode/>
             <Informasi/>
-            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">
+            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white dark:bg-dark_net-ter">
               <div>
-                <p className="text-lg font-bold">Kalender</p>
+                <p className="text-lg font-bold mb-1 md:mb-3 lg:mb-5">Kalender</p>
                 <CalendarComponent icon={ArrowRight2} buttonBorder={"border-[0.5px] border-[#CCC]"}/>
               </div>
             </div>
