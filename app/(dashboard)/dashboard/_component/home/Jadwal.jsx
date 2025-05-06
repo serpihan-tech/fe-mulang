@@ -41,7 +41,7 @@ export default function Jadwal({
       </div>
 
       {/* Card */}
-      <div className={`w-full px-4 py-2.5 space-y-3 rounded-lg ${bgColor}`}>
+      <div className={`w-[500px] px-6 py-4 space-y-3 rounded-lg ${bgColor}`}>
         {/* Header */}
         <div className="flex items-center justify-between">
           <p className="text-[#0841e2] text-sm font-semibold">
@@ -68,7 +68,7 @@ export default function Jadwal({
         <div className="flex space-x-2">
         <button
           onClick={handleAbsensi}
-          className={`px-4 py-2 rounded-md text-white text-xs font-semibold transition
+          className={`px-4 py-2 rounded-md text-white text-xs font-semibold transition whitespace-nowrap
             ${absenceAllowed ? "bg-[#0841e2] hover:bg-[#0637c2] cursor-pointer " : "bg-[#0841e2]/50 cursor-not-allowed"}`}
           disabled={!absenceAllowed}
         >
@@ -76,7 +76,7 @@ export default function Jadwal({
         </button>
           <button 
           onClick={handlePengumuman}
-            className="px-4 py-2 bg-[#ffcf43] rounded-md text-black text-xs font-semibold"
+            className="px-4 py-2 bg-[#ffcf43] rounded-md text-black text-xs font-semibold whitespace-nowrap"
           >
             Buat Pengumuman
           </button>
