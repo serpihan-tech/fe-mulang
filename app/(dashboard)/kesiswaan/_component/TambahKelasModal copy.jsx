@@ -1,130 +1,50 @@
-import { useEffect, useState } from "react";
-import { format } from "date-fns";
+"use client";
+import React, { useState, useEffect } from "react";
 import { CloseCircle } from "iconsax-react";
 import Dropdown from "@/app/component/Dropdown";
-import CustomTimePicker from "@/app/component/TimePicker";
-import { dropdown_data_kelas, dropdown_data_mapel, dropdown_data_ruangan } from "@/app/api/admin/ApiKBM";
+import {
+  detail_data_kelas,
+  dropdown_data_guru,
+  edit_kelas,
+} from "@/app/api/ApiKesiswaan";
 import { toast } from "react-toastify";
 
-const hariOptions = [
-  { value: "Senin", label: "Senin" },
-  { value: "Selasa", label: "Selasa" },
-  { value: "Rabu", label: "Rabu" },
-  { value: "Kamis", label: "Kamis" },
-  { value: "Jumat", label: "Jumat" },
-  { value: "Sabtu", label: "Sabtu" },
-  { value: "Minggu", label: "Minggu" },
-];
+export default function TambahKelasModal({ onCancel, onConfirm, isLoading }) {
+  const [idKelas, setIdKelas] = useState("");
+  const [namaKelas, setNamaKelas] = useState("");
+  const [waliKelasOptions, setWaliKelasOptions] = useState([]);
+  const [selectedWaliKelas, setSelectedWaliKelas] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [jumlahSiswa, setJumlahSiswa] = useState("");
 
-export default function DataJadwalModal({ onCancel, onConfirm, jadwalData, isLoading, onEdit, selectedDate }) {
-  const [kelasOptions, setKelasOptions] = useState([]);
-  const [mapelOptions, setMapelOptions] = useState([]);
-  const [ruanganOptions, setRuanganOptions] = useState([]);
-
-  const fetchDataKelas = async () => {
+  const fetchDataGuru = async () => {
     try {
-        const data = await dropdown_data_kelas();
-        const formattedOptions = data?.data.map((kelas) => ({
-          label: kelas.name,
-          value: kelas.id,
-        }));
-        setKelasOptions(formattedOptions);
+      const data = await dropdown_data_guru();
+      const formattedOptions = data?.map((guru) => ({
+        label: guru.name,
+        value: guru.id,
+      }));
+      setWaliKelasOptions(formattedOptions);
     } catch (error) {
-        toast.error(error.message || "Gagal memuat data kelas.");
+      toast.error("Gagal memuat data guru.");
     } finally {
-        // setLoading(false);
-    }
-  };
-
-  const fetchDataMapel = async () => {
-    try {
-        const data = await dropdown_data_mapel();
-        const formattedOptions = data?.modules?.map((mapel) => ({
-          label: (mapel.name+" - "+mapel.teacher?.name),
-          value: mapel.id,
-        }));
-        setMapelOptions(formattedOptions);
-    } catch (error) {
-        toast.error(error.message || "Gagal memuat data kelas.");
-    } finally {
-        // setLoading(false);
-    }
-  };
-
-  const fetchDataRuangan = async () => {
-    try {
-        const data = await dropdown_data_ruangan();
-        const formattedOptions = data?.rooms?.map((ruangan) => ({
-          label: ruangan.name,
-          value: ruangan.id,
-        }));
-        setRuanganOptions(formattedOptions);
-    } catch (error) {
-        toast.error(error.message || "Gagal memuat data kelas.");
-    } finally {
-        // setLoading(false);
+      // setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchDataKelas();
-    fetchDataMapel();
-    fetchDataRuangan();
-    
+    fetchDataGuru();
   }, []);
 
-  const [formData, setFormData] = useState({
-    id:'',
-    class_id:null,
-    days: "",
-    module_id: null,
-    room_id: null,
-    start_time: "",
-    end_time: "",
-  });
-
-  const formatTime = (time) => {
-    if (!time || time === "-") return "";
-    return time.slice(0, 5); // Ambil hanya "HH:mm"
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onConfirm({
+      id: idKelas,
+      nama: namaKelas,
+      waliKelas: selectedWaliKelas ? selectedWaliKelas.value : null,
+    });
   };
 
-  useEffect(() => {
-    if (jadwalData) {
-      setFormData({
-        id: jadwalData.id_jadwal?.toString() || '',
-        class_id: jadwalData.id_kelas || null,
-        days: jadwalData.hari || "",
-        module_id: jadwalData.id_mapel || null,
-        room_id: jadwalData.id_ruangan || null,
-        start_time: jadwalData.jam_mulai || "",
-        end_time: jadwalData.jam_selesai || "",
-      });
-    }
-  }, [jadwalData]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value })
-  };
-
-  const handleSubmit = () => {
-    const payload = {
-      class_id: formData.class_id,
-      days: formData.days,
-      module_id: formData.module_id,
-      room_id: formData.room_id,
-      start_time: formData.start_time ? `${formData.start_time}:00` : "",
-      end_time: formData.end_time ? `${formData.end_time}:00` : "",
-    };
-    console.log("payload", payload)
-    onConfirm(payload);
-  };
-
-
-  console.log("formData", formData)
-  console.log("kelasOptions", kelasOptions)
-  console.log("mapelOptions", mapelOptions) 
-  console.log("ruanganOptions", ruanganOptions)
   return (
     <div className="w-[485px] bg-white dark:bg-dark_net-ter pb-[38px] rounded-lg">
       <div className="w-full h-[54px] flex px-5 py-4 rounded-t-lg bg-[#adc0f5]/10 dark:bg-dark_net-pri items-center">
@@ -143,12 +63,12 @@ export default function DataJadwalModal({ onCancel, onConfirm, jadwalData, isLoa
         <div className="space-y-4">
           {/* ID Jadwal */}
           <div className={`${formData.id === "" ? "hidden" : ""}`}>
-            <Input label="ID" value={formData.id} disabled className="bg-gray-200 text-black" />
+            <Input label="ID" value={formData.id} disabled />
           </div>
 
           {/* Hari */}
           <div>
-            <label className="text-sm dark:text-slate-100 font-medium">Hari</label>
+            <label className="text-sm font-medium">Hari</label>
             <Dropdown
               placeholder="Pilih hari"
               value={
@@ -165,17 +85,16 @@ export default function DataJadwalModal({ onCancel, onConfirm, jadwalData, isLoa
           {/* Jam Masuk & Jam Pulang */}
           <div className="flex gap-4">
             <div className="w-1/2">
-              <label className="text-sm dark:text-slate-100 font-medium">Jam Masuk</label>
+              <label className="text-sm font-medium">Jam Masuk</label>
               <CustomTimePicker
                 value={formData.start_time}
                 onChange={(val) =>
                   setFormData({ ...formData, start_time: val })
                 }
-                className="dark:bg-dark_net-ter"
               />
             </div>
             <div className="w-1/2">
-              <label className="text-sm dark:text-slate-100 font-medium">Jam Selesai</label>
+              <label className="text-sm font-medium">Jam Selesai</label>
               <CustomTimePicker
                 value={formData.end_time}
                 onChange={(val) => setFormData({ ...formData, end_time: val })}
@@ -185,7 +104,7 @@ export default function DataJadwalModal({ onCancel, onConfirm, jadwalData, isLoa
 
           {/* Kelas */}
           <div>
-            <label className="text-sm dark:text-slate-100 font-medium">Kelas</label>
+            <label className="text-sm font-medium">Kelas</label>
             <Dropdown
               placeholder="Pilih kelas"
               value={
@@ -204,7 +123,7 @@ export default function DataJadwalModal({ onCancel, onConfirm, jadwalData, isLoa
 
           {/* Mata pelajaran */}
           <div>
-            <label className="text-sm dark:text-slate-100 font-medium">Mata pelajaran</label>
+            <label className="text-sm font-medium">Mata pelajaran</label>
             <Dropdown
               placeholder="Pilih mapel"
               value={
@@ -223,7 +142,7 @@ export default function DataJadwalModal({ onCancel, onConfirm, jadwalData, isLoa
 
           {/* Ruangan */}
           <div>
-            <label className="text-sm dark:text-slate-100 font-medium">Ruangan</label>
+            <label className="text-sm font-medium">Ruangan</label>
             <Dropdown
               placeholder="Pilih ruangan"
               value={
@@ -264,17 +183,3 @@ export default function DataJadwalModal({ onCancel, onConfirm, jadwalData, isLoa
     </div>
   );
 }
-
-const Input = ({ label, value, disabled, onChange}) => (
-    <div>
-        <label className="text-sm dark:text-slate-100 font-medium">{label}</label>
-        <input
-            type="text"
-            value={value}
-            disabled={disabled}
-            placeholder="-"
-            onChange={onChange}
-            className={`w-full mt-1 text-sm  text-black px-3 py-2 border border-gray-300 rounded-md ${disabled ? "bg-gray-200 text-black" : "bg-white dark:bg-dark_net-ter"}`}
-        />
-    </div>
-);

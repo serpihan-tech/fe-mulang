@@ -46,7 +46,7 @@ export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true, onConfirm
     <button
       className={`${
         open ? "flex" : "hidden md:flex"
-      } w-full items-center p-2  text-err-main dark:text-[#ff4022] hover:bg-err-main rounded-xl hover:text-netral-0 transition`}
+      } w-full items-center p-2  text-err-main dark:text-[#ff4022] hover:bg-err-main rounded-xl hover:text-netral-0 dark:hover:text-slate-100 transition`}
       onClick={onConfirm}
     >
       {/* Bagian Kiri: Ikon dan Teks */}

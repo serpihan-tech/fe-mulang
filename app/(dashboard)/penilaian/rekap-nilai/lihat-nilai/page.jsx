@@ -40,10 +40,10 @@ export default function LihatNilai() {
   return (
     <div className="w-full justify-center space-y-8 p-8">
       <header className="space-y-2">
-        <div className="text-center justify-center text-black text-xl font-bold">
+        <div className="text-center justify-center text-black dark:text-slate-100 text-xl font-bold">
           LAPORAN HASIL BELAJAR SEMESTER {academicYear && capitalizeFirstLetter(academicYear.semester)}
         </div>
-        <div className="text-center justify-center text-black text-base font-medium">
+        <div className="text-center justify-center text-black dark:text-slate-100 text-base font-medium">
           Tahun Pelajaran {academicYear?.name}
         </div>
       </header>

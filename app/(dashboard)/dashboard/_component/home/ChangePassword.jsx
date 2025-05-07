@@ -84,7 +84,7 @@ export default function ChangePasswordForm({ fetchData }) {
               onChange={handleChange}
               placeholder="Masukkan kata sandi lama"
               type={showOldPassword ? "text" : "password"}
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200 bg-white text-gray-900 placeholder-gray-400 pr-12
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200 bg-white dark:bg-dark_net-ter text-gray-900 placeholder-gray-400 pr-12
                 ${error || errors ? "border-err-main focus:ring-err-main" : "border-gray-300 focus:ring-pri-main"}
               `}
               required
@@ -110,7 +110,7 @@ export default function ChangePasswordForm({ fetchData }) {
               onChange={handleChange}
               placeholder="Masukkan kata sandi baru"
               type={showPassword ? "text" : "password"}
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200 bg-white text-gray-900 placeholder-gray-400 pr-12
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200 bg-white dark:bg-dark_net-ter text-gray-900 placeholder-gray-400 pr-12
                 ${error || errors ? "border-err-main focus:ring-err-main" : "border-gray-300 focus:ring-pri-main"}
               `}
               required
@@ -141,7 +141,7 @@ export default function ChangePasswordForm({ fetchData }) {
               onChange={handleChange}
               placeholder="Masukkan kata sandi baru lagi"
               type={showConfirmPassword ? "text" : "password"}
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200 bg-white text-gray-900 placeholder-gray-400 pr-12
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition duration-200 bg-white dark:bg-dark_net-ter text-gray-900 placeholder-gray-400 pr-12
                 ${error || errors ? "border-err-main focus:ring-err-main" : "border-gray-300 focus:ring-pri-main"}
               `}
               required
@@ -163,7 +163,7 @@ export default function ChangePasswordForm({ fetchData }) {
 
         <div className="w-full flex justify-center md:justify-end pt-6 md:pt-8 lg:pt-[50px]">
           <button
-            className="w-3/4 md:w-[147px] px-2 py-2.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400"
+            className="w-3/4 md:w-[147px] px-2 py-2.5 rounded-md text-white text-sm font-medium bg-[#0841e2] hover:bg-blue-700 transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 dark:shadow-none hover:scale-105"
             type="submit"
             disabled={isLoading}
           >

@@ -9,11 +9,11 @@ export default function CustomTimePicker({ value, onChange, disabled = false, pl
   };
 
   return (
-    <div className="relative">
+    <div className="relative dark:text-slate-100">
       <div
         onClick={togglePicker}
         className={`flex justify-between items-center px-3 py-2 border rounded-md text-sm w-full ${
-          disabled ? "bg-gray-200 text-black" : "bg-white border-gray-300"
+          disabled ? "bg-gray-200 text-black" : "bg-white border-gray-300 dark:bg-dark_net-ter"
         }`}
       >
         <span>{value || placeholder}</span>

@@ -97,10 +97,10 @@ const TableComponent = ({
     } else if (Aksi === "LihatNilai") {
       return (
         <button 
-          className="px-2 py-1.5 bg-white rounded-[5px] outline outline-1 outline-offset-[-1px] outline-[#0841e2]"
+          className="px-2 py-1.5 bg-white dark:bg-dark_net-ter rounded-[5px] outline outline-1 outline-offset-[-1px] outline-[#0841e2] dark:outline-[#5D8BF8] dark:hover:bg-blue-600 hover:scale-105 transition ease-in-out duration-300"
           onClick={() => router.push(`/penilaian/rekap-nilai/lihat-nilai?id=${item.id}`)}
         >
-          <div className="justify-start text-[#0841e2] text-sm font-medium">Lihat Nilai</div>
+          <div className="justify-start text-[#0841e2] dark:text-[#5D8BF8] text-sm font-medium dark:hover:text-slate-100">Lihat Nilai</div>
         </button>
       );
     }
@@ -118,7 +118,7 @@ const TableComponent = ({
     <div className="w-full overflow-hidden mx-auto">
     <div className="w-full mb-5 flex space-x-2 justify-between items-center text-black dark:text-white">
       <div className="flex items-center space-x-1 md:space-x-5">
-        <h1 className="text-lg font-semibold">{title}</h1>
+        <h1 className="text-lg font-semibold lg:whitespace-nowrap">{title}</h1>
         <div className={` ${!filterDate ? "hidden" : ""}`}>
           <CustomDatePicker
             value={selectedDate}

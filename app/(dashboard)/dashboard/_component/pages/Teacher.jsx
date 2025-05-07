@@ -24,7 +24,7 @@ export default function TeacherDashboard() {
       
       <div className="z-0 transition">
       
-        <div className="bg-[#FAFAFA]  dark:bg-black lg:flex gap-5 ">
+        <div className="bg-[#FAFAFA]  dark:bg-dark_net-pri lg:flex gap-5 ">
           <div className="w-full lg:w-2/3 lg:px-4 space-y-5 lg:space-y-9">
             <div className="w-full flex gap-3 md:gap-6">
               <Card2
@@ -48,7 +48,7 @@ export default function TeacherDashboard() {
             <Presensi />
 
             <div className="w-full flex items-center justify-between">
-              <h1 className="text-black text-sm md:text-base lg:text-lg font-semibold">Jadwal Mengajar</h1>
+              <h1 className="text-black dark:text-slate-100 text-sm md:text-base lg:text-lg font-semibold">Jadwal Mengajar</h1>
             </div>
             <JadwalMengajar/>
           </div>
@@ -56,9 +56,9 @@ export default function TeacherDashboard() {
           <div className="w-full lg:w-1/3 mt-4 md:mt-7 lg:mt-0">
             <Periode/>
             <Informasi/>
-            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white gap-5">
+            <div className="w-full max-h-max p-3.5 mt-4 rounded-md bg-white dark:bg-dark_net-ter">
               <div>
-                <p className="text-lg font-bold">Kalender</p>
+                <p className="text-lg font-bold mb-1 md:mb-3 lg:mb-5">Kalender</p>
                 <CalendarComponent icon={ArrowRight2} buttonBorder={"border-[0.5px] border-[#CCC]"}/>
               </div>
             </div>
