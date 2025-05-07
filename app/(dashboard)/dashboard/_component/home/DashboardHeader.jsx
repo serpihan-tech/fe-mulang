@@ -57,7 +57,7 @@ export default function DashboardHeader() {
   }, [sessionStorage.getItem("full_name")])
   
 
-  console.log("data:",data)
+  //console.log("data:",data)
   return (
     <div className="relative bg-white dark:bg-dark_net-pri text-black dark:text-white px-5 py-3 md:px-9 md:py-4 lg:px-10 lg:py-6 flex justify-between items-center border-b border-gray-200 dark:border-none transition z-50">
       {/* Left Section */}

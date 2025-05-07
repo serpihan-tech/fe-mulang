@@ -1,38 +1,70 @@
 import { Edit, Folder, TickCircle } from 'iconsax-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import SmallButton from '@/app/component/SmallButton';
+import { toast } from 'react-toastify';
+import { EditAbsensiSiswa } from '@/app/api/guru/ApiKesiswaan';
 
-const AbsenTable = ({ data, columns }) => {
+const AbsenTable = ({ data, columns, onfetch }) => {
   const [editableColumns, setEditableColumns] = useState(columns);
   const [selectedStatus, setSelectedStatus] = useState({});
-  console.log("columns: ",editableColumns)
-  console.log("data",data)
+  const latestStatusRef = useRef(null);
 
   useEffect(() => {
-    if (columns && columns.length > 0) {
+    if (columns && columns.length > 0 && data && data.length > 0) {
       setEditableColumns(columns);
-    }
   
+      // Inisialisasi status dari data
+      const initialStatus = {};
+      data.forEach((student, studentIndex) => {
+        initialStatus[studentIndex] = {};
+        columns.forEach((col) => {
+          if (col.key.startsWith('status_')) {
+            const absence = col.absences?.find(
+              (abs) => abs.classStudentId === student.id
+            );
+            if (absence) {
+              initialStatus[studentIndex][col.key] = absence.status || '-';
+            }
+          }
+        });
+      });
+  
+      setSelectedStatus(initialStatus);
+
     
-  }, [columns]);
+    }
+  }, [columns, data]);
+
+  useEffect(() => {
+    
+    setTimeout(() => {
+      latestStatusRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'start',
+        block: 'nearest',
+      });
+    }, 0);
+
+  }, [])
+  
+  
 
   const handleDisableFillable = async (colKey) => {
     console.log("colkey: ",colKey)
     const targetColumn = editableColumns.find(col => col.key === colKey.key);
     if (!targetColumn) return;
   
-    const colIndex = editableColumns.findIndex(col => col.key === colKey.key);
     const columnDate = format(new Date(colKey.date), 'yyyy-MM-dd'); // format date
-    const scheduleId = 132; // <- Sesuaikan dengan nilai sebenarnya
+    const scheduleId = colKey.scheduleId;
   
     // Susun payload absences
     const absencesPayload = data.map((student, rowIndex) => {
-      const status = selectedStatus[rowIndex]?.[colKey];
-      const reason = status === "Izin" ? student.reason || "Perlu alasan" : null; // Sesuaikan pengambilan reason
+      const status = selectedStatus[rowIndex]?.[colKey.key];
+      const reason = status === "Izin" ? student.reason || "Default reason" : null; // Sesuaikan pengambilan reason
       return {
-        classStudentId: student.classStudentId,
+        classStudentId: student.id,
         status,
         reason,
       };
@@ -45,16 +77,17 @@ const AbsenTable = ({ data, columns }) => {
     };
   
     try {
-      await EditAbsensiSiswa(payload);
-  
-      // Setelah berhasil simpan, ubah fillable jadi false
-      setEditableColumns((prev) =>
-        prev.map((col) =>
-          col.key === colKey ? { ...col, fillable: false } : col
-        )
-      );
+      //console.log("payload: ", payload)
+      const response = await EditAbsensiSiswa(payload);
+      if(response) {
+        setEditableColumns((prev) =>
+          prev.map((col) =>
+            col.key === colKey.key ? { ...col, fillable: false } : col
+          )
+        );
+      }
     } catch (err) {
-      console.error("Gagal simpan:", err);
+      toast.error("Data absensi harus lengkap")
     }
   };
 
@@ -80,6 +113,8 @@ const AbsenTable = ({ data, columns }) => {
 
 
   console.log("editable columns: ",editableColumns)
+  console.log("data: ",data)
+
 
   const getStatusColor = (rowIndex, columnKey, status) => {
     if (selectedStatus[rowIndex]?.[columnKey] === status) {
@@ -99,46 +134,78 @@ const AbsenTable = ({ data, columns }) => {
     return 'bg-white text-black border-[#CCCCCC] border-[1.5px]';
   };
 
+  const stickyClass = (key) => {
+    switch (key) {
+      case 'id':
+        return 'sticky left-0  bg-white min-w-[60px]';
+      case 'nis':
+        return 'sticky left-[60px] bg-white min-w-[80px]';
+      case 'nama':
+        return 'sticky left-[140px] bg-white min-w-[160px]';
+      default:
+        return '';
+    }
+  };
+
   return (
-    <table className='bg-white'>
-      <thead>
-        <tr>
-          {editableColumns.map((column, index) => (
-            <th key={index} className='px-5 py-[10px] text-black text-lg font-semibold'>
-            {column.key.startsWith('status_') ? (
-              <>
-                <p className='text-black text-lg font-semibold text-left'>
-                  {format(new Date(column.date), 'd MMMM yyyy', { locale: id })}
-                </p>
-                <p className='text-black text-sm font-normal text-left'>Minggu ke-{index-2}</p>
-                {column.fillable === false ? 
-                  <div className='flex space-x-2 text-success-main text-xs items-center mt-2'>
-                    <TickCircle 
-                      size={14}
-                      color='currentColor'
-                      variant='Bold'
-                    />
-                    <p>Terverifikasi</p>
-                  </div>
-                  : null
-                }
-              </>
-            ) : (
-              <p className='text-black text-lg font-semibold text-left'>{column.label}</p>
-            )} 
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((item, index) => (
-          <tr key={item.id}>
-            {editableColumns.map((column, colIndex) => (
+    <div className="relative w-full ">
+  <table className="bg-white min-w-max border-separate border-spacing-0">
+  <thead>
+  <tr>
+    {editableColumns.map((column, index) => {
+      const lastStatusColumn = editableColumns
+        .filter(col => col.key.startsWith('status_'))
+        .at(-1); // ambil kolom status terakhir
+
+      console.log("status terakhir:", lastStatusColumn.key)
+      const isLastStatusColumn = column?.key === lastStatusColumn?.key;
+
+      return (
+        <th
+          key={index}
+          ref={isLastStatusColumn ? latestStatusRef : null}
+          className={`px-5 py-[10px] text-black text-lg font-semibold text-left whitespace-nowrap ${stickyClass(column.key)}`}
+        >
+          {column.key.startsWith('status_') ? (
+            <>
+              <p>{format(new Date(column.date), 'd MMMM yyyy', { locale: id })}</p>
+              <p className='text-sm font-normal'>Minggu ke-{index - 2}</p>
+              {column.fillable === false && (
+                <div className='flex space-x-2 text-success-main text-xs items-center mt-2'>
+                  <TickCircle size={14} color="currentColor" variant="Bold" />
+                  <p>Terverifikasi</p>
+                </div>
+              )}
+            </>
+          ) : (
+            column.label
+          )}
+        </th>
+      );
+    })}
+  </tr>
+</thead>
+
+
+    <tbody>
+      {data.map((item, index) => (
+        <tr key={item.id}>
+          {editableColumns.map((column, colIndex) => {
+            const isFixed = ['id', 'nis', 'nama'].includes(column.key);
+            const stickyClass = isFixed
+              ? column.key === 'id'
+                ? 'sticky left-0 bg-white'
+                : column.key === 'nis'
+                  ? 'sticky left-[60px] bg-white'
+                  : 'sticky left-[140px] bg-white'
+              : '';
+
+            return (
               <td
                 key={colIndex}
                 className={`p-[10px] text-base font-medium text-black whitespace-nowrap ${
                   column.key === 'nama' ? 'text-left' : 'text-center'
-                }`}
+                } ${stickyClass}`}
               >
                 {column.key === 'id' ? (
                   index + 1
@@ -146,6 +213,7 @@ const AbsenTable = ({ data, columns }) => {
                   <div className='w-full flex space-x-2 px-5 py-[10px] items-center'>
                     {['Hadir', 'Izin', 'Sakit', 'Alfa'].map((status) => {
                       const isDisabled = column.fillable === false;
+
                       return (
                         <div
                           key={status}
@@ -167,41 +235,51 @@ const AbsenTable = ({ data, columns }) => {
                   item[column.key]
                 )}
               </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
+            );
+          })}
+        </tr>
+      ))}
+    </tbody>
 
-      <tfoot>
-        <tr>
-          {editableColumns.map((column, colIndex) => (
-            <td key={colIndex} className='justify center px-7'>
-              {column.key.startsWith('status_') && column.fillable === false ? (
-                <SmallButton 
-                  bgColor={"bg-pri-main"}
-                  icon={Edit}
-                  colorIcon={"currentColor"}
-                  iconSize={24}
-                  title="Edit"
-                  minBtnSize='min-w-full'
-                  onClick={() => handleEnableFillable(column.key)}
-                />
-              ): (column.key.startsWith('status_') &&
-                <SmallButton 
-                  bgColor={"bg-pri-main"}
+    <tfoot>
+      <tr>
+        {editableColumns.map((column, colIndex) => (
+          <td
+            key={colIndex}
+            className={`justify-center px-7 ${stickyClass(column.key)}`}
+          >
+            {column.key.startsWith('status_') && column.fillable === false ? (
+              <SmallButton
+                bgColor={'bg-pri-main'}
+                icon={Edit}
+                colorIcon={'currentColor'}
+                iconSize={24}
+                title='Edit'
+                minBtnSize='min-w-full'
+                onClick={() => handleEnableFillable(column.key)}
+              />
+            ) : (
+              column.key.startsWith('status_') && (
+                <SmallButton
+                  bgColor={'bg-pri-main'}
                   icon={Folder}
-                  colorIcon={"currentColor"}
+                  colorIcon={'currentColor'}
                   iconSize={24}
-                  title="Tambah"
+                  title='Tambah'
                   minBtnSize='min-w-full'
                   onClick={() => handleDisableFillable(column)}
                 />
-              )}
-            </td>
-          ))}
-        </tr>
-      </tfoot>
-    </table>
+              )
+            )}
+          </td>
+        ))}
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+
+
   );
 };
 

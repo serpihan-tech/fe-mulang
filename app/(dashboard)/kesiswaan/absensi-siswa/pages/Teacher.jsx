@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { useLoading } from "@/context/LoadingContext";
 import { AbsensiSiswa } from "@/app/api/guru/ApiKesiswaan";
 import { mapelGuru } from "@/app/api/guru/ApiKBM";
+import SmallButton from "@/app/component/SmallButton";
+import { Book1 } from "iconsax-react";
 
 export default function AbsensiSiswaTeacher() {
   const [selectedClass, setSelectedClass] = useState(null);
@@ -14,10 +16,10 @@ export default function AbsensiSiswaTeacher() {
   const [dataJadwal, setDataJadwal] = useState(null);
   const [classOption, setClassOption] = useState([]);
   const [mapelOption, setMapelOption] = useState([]);
-  const [siswaData, setSiswaData] = useState([]);
   const {setIsLoading} = useLoading();
   const [absenTableData, setAbsenTableData] = useState([]);
   const [absenTableColumns, setAbsenTableColumns] = useState([]);
+  const [ isTambah, setIsTambah ] = useState(false);
 
   const fetchDataJadwal = async () => {
     setIsLoading(true);
@@ -78,9 +80,9 @@ export default function AbsensiSiswaTeacher() {
       setAbsenTableColumns(columns);
 
       // Bentuk baris (per siswa)
-      const formattedData = students.map((student, studentIndex) => {
+      const formattedData = students.map((student) => {
         const row = {
-          id: studentIndex + 1,
+          id: student.classStudentId,
           nis: student.nis,
           nama: student.name,
         };
@@ -134,17 +136,17 @@ export default function AbsensiSiswaTeacher() {
     }
   }, [selectedMapel, selectedClass]);
 
-  console.log("mapel: ", mapelOption)
-  console.log("jadwal: ", dataJadwal)
-  console.log("KelasOption: ",classOption)
-  console.log("selected Mapel: ", selectedMapel)
-  console.log("selected Kelas: ", selectedClass)
+  // console.log("mapel: ", mapelOption)
+  // console.log("jadwal: ", dataJadwal)
+  // console.log("KelasOption: ",classOption)
+  // console.log("selected Mapel: ", selectedMapel)
+  // console.log("selected Kelas: ", selectedClass)
 
   return (
     <>
       <div className="z-0 transition">
         <div>
-          <div className="w-full ps-2 flex">
+          <div className="w-full ps-2 flex justify-between">
             <div className="w-[629px] flex space-x-[33px]">
               <Dropdown
                 options={mapelOption}
@@ -165,13 +167,29 @@ export default function AbsensiSiswaTeacher() {
                 dropdownStyle="dark:bg-black dark:text-white"
               />
             </div>
+
+            <div>
+              <SmallButton 
+                //onClick
+                icon={Book1}
+                bgColor = "bg-pri-main"
+                colorIcon = "currentColor"
+                title = "Tambah Absen"
+                hover = "hover:bg-pri-hover"
+                textColor = "text-white"
+                minBtnSize = "min-w-fit"
+              />
+            </div>
           </div>
           {selectedClass && selectedMapel ? (
-            <div className="px-5 mt-7">
-            {/* <AbsenTable 
-              data={absenTableData} 
-              columns={absenTableColumns}
-            /> */}
+            <div className=" mt-7 overflow-x-auto">
+              <div className="min-w-max">
+                <AbsenTable 
+                  data={absenTableData} 
+                  columns={absenTableColumns}
+                  onfetch={fetchDataAbsen}
+                />
+              </div>
             </div>
           ):(
             <div className="px-5 mt-7">
