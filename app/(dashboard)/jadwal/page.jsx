@@ -77,10 +77,10 @@ export default function JadwalLengkapSiswa() {
   console.log("Data jadwal:", scheduleData)
   return (
     <div className=" text-black dark:text-slate-100">
-      <h1 className="flex justify-center md:justify-start text-sm md:text-base lg:text-xl font-semibold md:mb-3 lg:mb-4">
+      <h1 className="flex justify-center md:justify-start text-sm md:text-base lg:text-xl font-semibold mb-3 md:mb-4 lg:mb-7">
         Jadwal Pelajaran {label}
       </h1>
-      <div className="md:flex items-start relative">
+      <div className="md:flex items-start relative ">
         {weekDaysOrder
           .filter((day) => scheduleData[day])
           .map((day, index, array) => (
@@ -90,7 +90,7 @@ export default function JadwalLengkapSiswa() {
             >
               {/* Komponen JadwalHari */}
               <div
-                className="md:space-y-4 w-full"
+                className="md:space-y-4 w-full mb-4 md:mb-0"
                 ref={(el) => (refs.current[index] = el)}
               >
                 <JadwalHari day={day} schedule={scheduleData[day]} />
