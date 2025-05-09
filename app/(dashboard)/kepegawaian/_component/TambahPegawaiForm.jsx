@@ -173,7 +173,7 @@ export default function TambahPegawaiForm({data, onConfirm}) {
     )}
     
       <form onSubmit={handleSubmit}>
-        <div className="md:flex md:space-x-16">
+        <div className="md:flex md:space-x-16 space-y-5 md:space-y-0 mb-10 md:mb-0">
 
           {/* Data guru */}
           <div className="md:w-1/2 space-y-5">
@@ -204,7 +204,7 @@ export default function TambahPegawaiForm({data, onConfirm}) {
               </div>
 
               {/* Tempat dan tanggal lahir */}
-              <div className="w-full flex space-x-10">
+              <div className="w-full md:flex md:space-x-10 space-y-3 md:space-y-0">
                 <div className="w-full space-y-[5px]">
                   <label className="text-black dark:text-slate-100  text-sm font-medium">Tempat lahir</label>
                   <input type="text" 
@@ -301,7 +301,7 @@ export default function TambahPegawaiForm({data, onConfirm}) {
           </div>
           
           {/* Data keluarga dan Data user */}
-          <div className="md:w-1/2 space-y-5 mb-6">
+          <div className="md:w-1/2 space-y-5">
             
             <h1 className="text-black dark:text-slate-100  mb-5 text-xl font-semibold">Data User</h1>
             {/* Alamat Pegawai */}
@@ -397,12 +397,12 @@ export default function TambahPegawaiForm({data, onConfirm}) {
           <button 
           type="button"
             onClick={() => router.push("/kepegawaian/data-pegawai")}
-            className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 dark:border-[#ff4022] text-red-600 dark:text-[#ff4022] hover:bg-red-500 dark:hover:bg-[#ff4022] dark:hover:text-slate-100 hover:text-white bg-white dark:bg-dark_net-quar transition-shadow duration-300 hover:shadow-md hover:scale-105 dark:hover:shadow-none">
+            className="w-1/2 md:w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 dark:border-[#ff4022] text-red-600 dark:text-[#ff4022] hover:bg-red-500 dark:hover:bg-[#ff4022] dark:hover:text-slate-100 hover:text-white bg-white dark:bg-dark_net-quar transition-shadow duration-300 hover:shadow-md hover:scale-105 dark:hover:shadow-none">
             Batal
           </button>
           <button 
             type="submit"
-            className="w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-500 hover:shadow-md hover:scale-105">
+            className="w-1/2 md:w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-shadow duration-500 hover:shadow-md hover:scale-105">
             Simpan
           </button>
         </div>

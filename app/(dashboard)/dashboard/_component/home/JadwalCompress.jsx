@@ -13,7 +13,7 @@ export default function JadwalCompress({
   teacherName
 }) {
   return (
-    <div className="flex w-full space-x-4">
+    <div className="flex w-full space-x-3">
       {/* Waktu */}
       <div className="flex flex-col items-center justify-center space-y-1">
         <span className="text-center text-[#7f7f7f] text-xs md:text-sm font-semibold">{startTime}</span>
@@ -22,7 +22,7 @@ export default function JadwalCompress({
       </div>
 
       {/* Card Jadwal */}
-      <div className={`w-full px-4 py-2 space-y-2 md:space-y-3 rounded-md ${bgColor}`}>
+      <div className={`w-full md:w-[320px] lg:w-[500px] px-6 py-4 space-y-2 md:space-y-3 rounded-md ${bgColor}`}>
         <div className="w-full flex justify-between items-center">
           <p className="text-[#0841e2] text-xs md:text-sm font-semibold">
             {title} ({startTime} - {endTime})
@@ -30,7 +30,7 @@ export default function JadwalCompress({
 
           {/* Hanya tampilkan status jika ada */}
           {status && (
-            <div className={`px-2 py-1 rounded-md ${statusColor}`}>
+            <div className={`px-2.5 py-1 rounded-md ${statusColor}`}>
               <p className={`${statusTextColor} text-[8px] font-semibold`}>{status}</p>
             </div>
           )}

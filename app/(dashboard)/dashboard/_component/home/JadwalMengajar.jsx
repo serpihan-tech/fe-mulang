@@ -30,7 +30,7 @@ export default function JadwalMengajar({day, schedule=[]}) {
 
 
   return (
-    <div className="flex flex-col items-center py-2 md:py-4 rounded-lg min-w-[320px] mx-4">
+    <div className="flex flex-col items-center rounded-lg min-w-[320px] px-3 md:px-5 lg:mx-10 mb-5 md:mb-0">
       <h2 className="text-sm md:text-base lg:text-lg text-pri-main dark:text-[#5D8BF8] font-semibold mb-2">{day}</h2>
       <div className="w-full space-y-5">
         {schedule.length > 0 ? (
@@ -83,7 +83,7 @@ export default function JadwalMengajar({day, schedule=[]}) {
               );
             })
         ) : (
-          <p className="text-black dark:text-slate-100 dark:bg-dark_net-ter py-2 px-3 -ms-5 -mt-9 -me-3 rounded-lg">Tidak ada jadwal</p>
+          <p className="text-black dark:text-slate-100 dark:bg-dark_net-ter py-2 px-3 -ms-5 -mt-3 md:-mt-5 lg:-mt-9 -me-3 rounded-sm md:rounded-md lg:rounded-lg">Tidak ada jadwal</p>
         )}
       </div>
     </div>

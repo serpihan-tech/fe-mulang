@@ -15,7 +15,7 @@ export default function JadwalHari({ day, schedule }) {
   ];
 
   return (
-    <div className="flex flex-col items-center p-2 md:p-4 rounded-lg min-w-[320px] mx-4">
+    <div className="flex flex-col items-center rounded-lg min-w-[320px] px-3 md:px-6 lg:mx-10">
       <h2 className="text-sm md:text-base lg:text-lg text-pri-main dark:text-[#5D8BF8] font-semibold mb-2">{day}</h2>
       <div className="w-full space-y-5">
         {schedule.length > 0 ? (
