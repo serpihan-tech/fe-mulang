@@ -24,6 +24,7 @@ export default function JadwalMengajarGuru() {
   const label = semesterName ? semesterName.label : 'Semester tidak ditemukan'
   
   const fetchJadwalGuru = async () => {
+    
     //setIsLoading(true);
     try {
       const data = await JadwalGuru();

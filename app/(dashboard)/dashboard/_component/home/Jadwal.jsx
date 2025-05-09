@@ -21,8 +21,8 @@ export default function Jadwal({
 
   const handleAbsensi = () => {
     if (!absenceAllowed) return
-    sessionStorage.setItem("module_id", module_id);
-    sessionStorage.setItem("class_id", class_id);
+    sessionStorage.setItem("module_id", JSON.stringify({label:title, value:module_id}));
+    sessionStorage.setItem("class_id", JSON.stringify({label:class_name, value:class_id}));
     sessionStorage.setItem("schedule_id", schedule_id);
     router.push("/kesiswaan/absensi-siswa");
   };

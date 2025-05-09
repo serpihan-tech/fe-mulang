@@ -9,8 +9,12 @@ import { AbsensiSiswa } from "@/app/api/guru/ApiKesiswaan";
 import { mapelGuru } from "@/app/api/guru/ApiKBM";
 import SmallButton from "@/app/component/SmallButton";
 import { Book1 } from "iconsax-react";
+import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
+import DataAbsensiMassModal from "../../_component/DataAbsensiMassModal";
 
 export default function AbsensiSiswaTeacher() {
+  const mapel = typeof window !== "undefined" ?  JSON.parse(sessionStorage.getItem("module_id")) : null;
+  const kelas = typeof window !== "undefined" ?  JSON.parse(sessionStorage.getItem("class_id")) : null;
   const [selectedClass, setSelectedClass] = useState(null);
   const [selectedMapel, setSelectedMapel] = useState(null);
   const [dataJadwal, setDataJadwal] = useState(null);
@@ -20,6 +24,8 @@ export default function AbsensiSiswaTeacher() {
   const [absenTableData, setAbsenTableData] = useState([]);
   const [absenTableColumns, setAbsenTableColumns] = useState([]);
   const [ isTambah, setIsTambah ] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setLoading] = useState(false) 
 
   const fetchDataJadwal = async () => {
     setIsLoading(true);
@@ -42,6 +48,7 @@ export default function AbsensiSiswaTeacher() {
   
         const formattedData = Array.from(uniqueMapelMap.values());
         setMapelOption(formattedData);
+        setSelectedMapel(mapel)
       }
     } catch (error) {
       toast.error(error.message);
@@ -71,7 +78,6 @@ export default function AbsensiSiswaTeacher() {
           key: `status_${index}`,
           label: 'Status',
           date: dateObj.date,
-          week: dateObj.day,
           absences: dateObj.absences,
           scheduleId: dateObj.scheduleId,
           fillable: false,
@@ -105,6 +111,45 @@ export default function AbsensiSiswaTeacher() {
     }
   };
 
+  const addJadwal = (data) => {
+    // Find the last status index
+    setLoading(true)
+
+    const statusColumns = absenTableColumns.filter(col => col.key.startsWith('status_'));
+    const lastStatusIndex = statusColumns.length > 0 
+      ? Math.max(...statusColumns.map(col => parseInt(col.key.split('_')[1])))
+      : -1;
+    const newStatusIndex = lastStatusIndex + 1;
+  
+    // Create new column data
+    const newColumn = {
+      key: `status_${newStatusIndex}`,
+      label: "Status",
+      date: data.date,
+      scheduleId: data.scheduleId,
+      absences: absenTableData.map(item => ({
+        classStudentId: item.id,
+        status: null,
+        reason: null
+      }))
+    };
+    
+    //console.log("newColumn: ", newColumn)
+    try{
+      setIsSuccess(true)
+      setAbsenTableColumns([...absenTableColumns, newColumn]);
+      setTimeout(() => setIsSuccess(false), 1200); 
+      
+
+      
+    } catch (error) {
+      toast.error(error.message)
+    } finally{
+      setIsTambah(false)
+      setLoading(false)
+    }
+  }; 
+
   // Ambil data jadwal saat awal
   useEffect(() => {
     fetchDataJadwal();
@@ -126,7 +171,7 @@ export default function AbsensiSiswaTeacher() {
       }));
 
     setClassOption(filteredKelas);
-    setSelectedClass(null); // reset class
+    setSelectedClass(kelas); // reset class
   }, [selectedMapel, dataJadwal]);
 
   // Fetch data absen HANYA jika keduanya sudah terisi
@@ -136,14 +181,38 @@ export default function AbsensiSiswaTeacher() {
     }
   }, [selectedMapel, selectedClass]);
 
+  
+  
   // console.log("mapel: ", mapelOption)
   // console.log("jadwal: ", dataJadwal)
   // console.log("KelasOption: ",classOption)
-  // console.log("selected Mapel: ", selectedMapel)
-  // console.log("selected Kelas: ", selectedClass)
+  console.log("selected Mapel: ", selectedMapel)
+  console.log("selected Kelas: ", selectedClass)
+  console.log("mapel id:",mapel)
+  console.log("kelas id:",kelas)
+
 
   return (
     <>
+      {/* Pop-up Sukses */}
+      {isSuccess && (
+        <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+          <SuccessUpdatePopUp />
+        </div>
+      )}
+
+      {/* Tambah */}
+      {isTambah && (
+        <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+          <DataAbsensiMassModal
+            onCancel={()=>(setIsTambah(false))}
+            onConfirm={addJadwal}
+            isLoading={isLoading}
+            selectedClass={selectedClass.label}
+            
+           />
+        </div>
+      )}
       <div className="z-0 transition">
         <div>
           <div className="w-full ps-2 flex justify-between">
@@ -170,7 +239,7 @@ export default function AbsensiSiswaTeacher() {
 
             <div>
               <SmallButton 
-                //onClick
+                onClick={()=>(setIsTambah(true))}
                 icon={Book1}
                 bgColor = "bg-pri-main"
                 colorIcon = "currentColor"
@@ -178,6 +247,8 @@ export default function AbsensiSiswaTeacher() {
                 hover = "hover:bg-pri-hover"
                 textColor = "text-white"
                 minBtnSize = "min-w-fit"
+                bgColorDisabled = "bg-pri-main/50 text-white cursor-not-allowed"
+                disabled ={!selectedClass || !selectedMapel}
               />
             </div>
           </div>

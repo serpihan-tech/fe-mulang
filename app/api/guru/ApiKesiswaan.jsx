@@ -15,7 +15,7 @@ export const EditAbsensiSiswa = async (payload) => {
         const response = await ApiManager.post(`/absences/mass/students`,payload);
         return response.data;
     } catch (error) {
-        toast.error("Gagal mengambil data jadwal:", error.message);
+        toast.error("Gagal membuat data", error.message);
     }
 }
 

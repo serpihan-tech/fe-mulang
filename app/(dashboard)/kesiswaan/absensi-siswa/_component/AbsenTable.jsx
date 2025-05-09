@@ -47,7 +47,7 @@ const AbsenTable = ({ data, columns, onfetch }) => {
       });
     }, 0);
 
-  }, [])
+  }, [columns])
   
   
 
