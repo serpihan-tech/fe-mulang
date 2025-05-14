@@ -7,6 +7,7 @@ import { ArrowRight2, Book, People } from "iconsax-react";
 import CalendarComponent from "../home/CalendarComponent";
 import { toast, ToastContainer } from "react-toastify";
 import { useEffect } from 'react';
+import AbsenSuccessPopUp from "../home/AbsenSuccessPopUp";
 
 
 export default function TeacherDashboard() {
@@ -52,6 +53,7 @@ export default function TeacherDashboard() {
             </div>
             <JadwalMengajar/>
           </div>
+          {/* <AbsenSuccessPopUp/> */}
           
           <div className="w-full lg:w-1/3 mt-4 md:mt-7 lg:mt-0">
             <Periode/>
