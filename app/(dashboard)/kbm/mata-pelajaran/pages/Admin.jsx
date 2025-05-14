@@ -1,6 +1,12 @@
 "use client";
 
-import { dropdown_nama_mapel, edit_mapel, hapus_mapel, mata_pelajaran, tambah_mapel } from "@/app/api/admin/ApiKBM";
+import {
+  dropdown_nama_mapel,
+  edit_mapel,
+  hapus_mapel,
+  mata_pelajaran,
+  tambah_mapel,
+} from "@/app/api/admin/ApiKBM";
 import DataNotFound from "@/app/component/DataNotFound";
 import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
@@ -17,8 +23,8 @@ import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import convertToQuery from "../../jadwal-pelajaran/_component/convertToUrl";
 
 export default function MataPelajaranAdmin() {
-  const {semesterId} = useSemester()
-  const { setIsLoading } = useLoading()
+  const { semesterId } = useSemester();
+  const { setIsLoading } = useLoading();
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [meta, setMeta] = useState(null);
@@ -30,48 +36,62 @@ export default function MataPelajaranAdmin() {
   const [isEditOpen, setEditOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
-  const [selectedSearch, setSearch] = useState('');
-  const [sortBy, setSortBy] = useState(""); 
+  const [selectedSearch, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-  const [classFilter, setClassFilter] = useState("")
+  const [classFilter, setClassFilter] = useState("");
 
-
-  const fetchDataMapel = async (page=1, limitVal=limit, tahunAjar=semesterId, search=selectedSearch, sortField=sortBy, sortDir=sortOrder, kelas=classFilter) => {
-    setIsLoading(true)
-    setLoading(true)
-    try{
-      const data = await mata_pelajaran(page, limitVal, tahunAjar, search, sortField, sortDir, kelas)
-      if(data){
-        console.log("Data Mata Pelajaran", data)
-        const dataArray = data.modules.data
-        console.log("daribackend: ",dataArray)
+  const fetchDataMapel = async (
+    page = 1,
+    limitVal = limit,
+    tahunAjar = semesterId,
+    search = selectedSearch,
+    sortField = sortBy,
+    sortDir = sortOrder,
+    kelas = classFilter
+  ) => {
+    setIsLoading(true);
+    setLoading(true);
+    try {
+      const data = await mata_pelajaran(
+        page,
+        limitVal,
+        tahunAjar,
+        search,
+        sortField,
+        sortDir,
+        kelas
+      );
+      if (data) {
+        console.log("Data Mata Pelajaran", data);
+        const dataArray = data.modules.data;
+        console.log("daribackend: ", dataArray);
         if (Array.isArray(dataArray)) {
-            // Mapping agar sesuai dengan format tabel
-            const formattedData = dataArray.map((item) => ({
-                id_mapel: item.id,
-                mata_pelajaran: item.name || "Tidak Ada",
-                guru_pengampu: item.teacher?.name || "Tidak Ada",
-                id_guru: item.teacher?.id || "Tidak Ada",
-                tahun_ajar: (item.academicYear?.name+" "+item.academicYear?.semester) || "Tidak Ada",
-                id_tahun_ajar: item.academicYear?.id || "Tidak Ada",
-                thumbnail: item.thumbnail || "Tidak Ada",
-            }));
+          // Mapping agar sesuai dengan format tabel
+          const formattedData = dataArray.map((item) => ({
+            id_mapel: item.id,
+            mata_pelajaran: item.name || "Tidak Ada",
+            guru_pengampu: item.teacher?.name || "Tidak Ada",
+            id_guru: item.teacher?.id || "Tidak Ada",
+            tahun_ajar:
+              item.academicYear?.name + " " + item.academicYear?.semester ||
+              "Tidak Ada",
+            id_tahun_ajar: item.academicYear?.id || "Tidak Ada",
+            thumbnail: item.thumbnail || "Tidak Ada",
+          }));
 
-            setMapelData(formattedData);
-            setIsLoading(false)
-
+          setMapelData(formattedData);
+          setIsLoading(false);
         }
 
         setMeta(data.modules.meta); // Simpan metadata untuk paginasi
         setCurrentPage(page);
-
       }
     } finally {
-      setIsLoading(false)
-      setLoading(false)
+      setIsLoading(false);
+      setLoading(false);
     }
-
-  }
+  };
 
   const columns = [
     { label: "mata_pelajaran", sortKey: "mapel" },
@@ -80,8 +100,8 @@ export default function MataPelajaranAdmin() {
   ];
 
   useEffect(() => {
-    fetchDataMapel()
-  }, [limit, selectedSearch, sortBy, sortOrder, semesterId, classFilter])
+    fetchDataMapel();
+  }, [limit, selectedSearch, sortBy, sortOrder, semesterId, classFilter]);
 
   const handleLimitChange = (newLimit) => {
     setLimit(newLimit);
@@ -104,18 +124,19 @@ export default function MataPelajaranAdmin() {
       textSize: "text-sm",
       wideInput: "min-w-40",
       wideDropdown: "min-w-52",
-      fetchOptions: () => dropdown_nama_mapel(semesterId).then(res =>
-        res.modules.map(mapel => ({
-          label: mapel.name,
-          value: mapel.name
-        }))
-      ),
-    }
+      fetchOptions: () =>
+        dropdown_nama_mapel(semesterId).then((res) =>
+          res.modules.map((mapel) => ({
+            label: mapel.name,
+            value: mapel.name,
+          }))
+        ),
+    },
   ];
 
   const handleFilterDropdownChange = (value) => {
-    const query = convertToQuery(value)
-    setClassFilter(query)
+    const query = convertToQuery(value);
+    setClassFilter(query);
   };
 
   const handleDelete = (selectedId) => {
@@ -125,7 +146,7 @@ export default function MataPelajaranAdmin() {
 
   const confirmDelete = async () => {
     if (!selectedId) return; // Pastikan selectedId ada sebelum melanjutkan
-    setIsLoading(true); 
+    setIsLoading(true);
 
     try {
       const response = await hapus_mapel(selectedId);
@@ -143,24 +164,23 @@ export default function MataPelajaranAdmin() {
   };
 
   const confirmTambah = async (createdData) => {
-
     try {
       setIsLoading(true);
       const response = await tambah_mapel(createdData);
-      if(response){
+      if (response) {
         setIsSuccess(true);
         setTimeout(() => setIsSuccess(false), 1200); // Pop-up sukses hilang otomatis
         setIsTambahOpen(false);
-        fetchDataMapel()
+        fetchDataMapel();
       }
-      
+
       // Tambahkan fungsi untuk refresh data kelas jika perlu
     } catch (error) {
       toast.error("Gagal membuat data mapel!");
     } finally {
       setIsLoading(false);
     }
-  }  
+  };
 
   const handleEdit = (selectedData) => {
     setSelectedData(selectedData);
@@ -168,30 +188,27 @@ export default function MataPelajaranAdmin() {
   };
 
   const confirmEdit = async (createdData) => {
-
-    const id = selectedData.id_mapel
-    
-    
+    const id = selectedData.id_mapel;
 
     try {
       setIsLoading(true);
-      const response = await edit_mapel(createdData,id);
-      if(response){
+      const response = await edit_mapel(createdData, id);
+      if (response) {
         setIsSuccess(true);
         setTimeout(() => setIsSuccess(false), 1200); // Pop-up sukses hilang otomatis
         setEditOpen(false);
-        fetchDataMapel()
+        fetchDataMapel();
       }
-      
+
       // Tambahkan fungsi untuk refresh data kelas jika perlu
     } catch (error) {
       toast.error("Gagal membuat data mapel!");
     } finally {
       setIsLoading(false);
     }
-  } 
+  };
 
-  console.log("Data Mata Pelajaran", mapelData)
+  console.log("Data Mata Pelajaran", mapelData);
   return (
     <>
       {/* Modal Tambah */}
@@ -234,11 +251,13 @@ export default function MataPelajaranAdmin() {
           <SuccessUpdatePopUp />
         </div>
       )}
-      
+
       <div className="z-0 transition">
         <div>
           <div className="w-full ps-2 flex">
-            <h1 className="w-full text-black dark:text-slate-100 text-xl font-semibold">Mata Pelajaran</h1> 
+            <h1 className="w-full text-black dark:text-slate-100 text-xl font-semibold">
+              Mata Pelajaran
+            </h1>
             <div className="w-full flex items-center justify-end gap-5">
               <SmallButton
                 type="button"
@@ -253,31 +272,46 @@ export default function MataPelajaranAdmin() {
           </div>
 
           <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-            <div className={mapelData ? "max-w-full p-5 dark:bg-dark_net-ter" : "flex items-center justify-center text-black dark:text-white p-28"}>
-                {mapelData ? 
-                  <TableComponent 
-                      dataKey='id_mapel'
-                      columns={columns} 
-                      data={mapelData}
-                      onEdit={handleEdit}
-                      onDetailEdit={true}
-                      onDelete ={handleDelete}
-                      title="Data Mata Pelajaran"
-                      Aksi="EditDelete"
-                      filters={filters}
-                      handleSearchChange={handleSearchChange}
-                      selectedSearch={selectedSearch}
-                      onSortChange={handleSortChange}
-                      sortBy={sortBy}
-                      sortOrder={sortOrder}
-                      onFilterChange={handleFilterDropdownChange}
-                  /> : <DataNotFound /> }
+            <div
+              className={
+                mapelData
+                  ? "max-w-full p-5 dark:bg-dark_net-ter"
+                  : "flex items-center justify-center text-black dark:text-white p-8 md:p-16 lg:p-28"
+              }
+            >
+              {mapelData ? (
+                <TableComponent
+                  dataKey="id_mapel"
+                  columns={columns}
+                  data={mapelData}
+                  onEdit={handleEdit}
+                  onDetailEdit={true}
+                  onDelete={handleDelete}
+                  title="Data Mata Pelajaran"
+                  Aksi="EditDelete"
+                  filters={filters}
+                  handleSearchChange={handleSearchChange}
+                  selectedSearch={selectedSearch}
+                  onSortChange={handleSortChange}
+                  sortBy={sortBy}
+                  sortOrder={sortOrder}
+                  onFilterChange={handleFilterDropdownChange}
+                />
+              ) : (
+                <DataNotFound />
+              )}
             </div>
 
-            {meta && <PaginationComponent meta={meta} onPageChange={fetchDataMapel} onLimitChange={handleLimitChange}/>}
+            {meta && (
+              <PaginationComponent
+                meta={meta}
+                onPageChange={fetchDataMapel}
+                onLimitChange={handleLimitChange}
+              />
+            )}
           </div>
         </div>
-      </div>  
+      </div>
     </>
   );
 }
