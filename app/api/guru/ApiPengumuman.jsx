@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { format } from "date-fns";
 import ApiManager from "../ApiManager";
 
-export const TeacherTambahPemngumuman = async (payload,id) => {
+export const TeacherTambahPengumuman = async (payload,id) => {
     try {
         const file = payload?.files || null
         const date = format(new Date(payload.date),"yyyy-MM-dd")

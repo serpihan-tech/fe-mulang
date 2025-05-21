@@ -53,3 +53,13 @@ export const AbsenHariIniGuru = async () => {
     }
 };
 
+export const JumlahSiswaDanKelasGuru = async (tahunAjarId) => {
+    try {
+        const response = await ApiManager.get(`/teachers/classes-n-students?tahunAjar=${tahunAjarId}`);
+        return response.data;
+    } catch (error) {
+        toast.error("Gagal mengambil data guru", error.message);
+        throw error;
+    }
+};
+

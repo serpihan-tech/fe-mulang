@@ -1,7 +1,14 @@
+import SmallButton from "@/app/component/SmallButton";
 import { TickCircle } from "iconsax-react";
 import Image from "next/image";
 
-export default function AbsenSuccessPopUp() {
+export default function AbsenSuccessPopUp({ name, nip, date, inTime,outTime, photo,onClose }) {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const imageUrl = photo ? `${baseUrl}/file/${photo}?timestamp=${Date.now()}` : null;
+  const setFormattedTime = (time) => {
+    const [hour, minute] = time.split(":");
+    return `${hour}:${minute}`;
+  }
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="relative">
@@ -19,19 +26,29 @@ export default function AbsenSuccessPopUp() {
           </div>
           <div className="flex flex-col justify-start items-center gap-4">
             <div className="relative bg-white overflow-hidden">
-              <Image
-                src="/svg/teacher.svg"
-                width={189}
-                height={208}
-                alt="Photo"
-              />
+              {photo ? (
+                <Image
+                  src={imageUrl}
+                  width={189}
+                  height={208}
+                  alt="Photo"
+                  className="object-cover"
+                />
+              ) : (
+                <Image
+                  src="/svg/logo.svg"
+                  width={189}
+                  height={208}
+                  alt="Photo"
+                />
+              )}
             </div>
             <div className="flex flex-col justify-start items-center gap-3">
               <div className="self-stretch text-center justify-center text-[#0841e2] dark:text-[#5D8BF8] text-sm font-semibold">
-                Brian Harina
+                {name}
               </div>
               <div className="self-stretch inline-flex justify-start items-center gap-[21px]">
-                <div className=" inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="inline-flex flex-col justify-start items-start gap-1.5">
                   <div className="justify-center text-black dark:text-slate-100 text-sm font-normal">
                     NIP
                   </div>
@@ -41,20 +58,42 @@ export default function AbsenSuccessPopUp() {
                   <div className="justify-center text-black dark:text-slate-100 text-sm font-normal">
                     Jam Masuk
                   </div>
+                  {outTime && (
+                    <div className="justify-center text-black dark:text-slate-100 text-sm font-normal">
+                    Jam Keluar
+                  </div>
+                  )}
                 </div>
                 <div className="inline-flex flex-col justify-start items-start gap-1.5">
                   <div className="justify-center text-black dark:text-slate-100 text-sm font-medium">
-                    : 124963875136920
+                    : {nip}
                   </div>
                   <div className="justify-center text-black dark:text-slate-100 text-sm font-medium">
-                    : 07 Februari 2020
+                    : {date}
                   </div>
                   <div className="justify-center text-black dark:text-slate-100 text-sm font-medium">
-                    : 07.00 WIB
+                    : {setFormattedTime(inTime)}
                   </div>
+                  {outTime && (
+                    <div className="justify-center text-black dark:text-slate-100 text-sm font-medium">
+                    : {setFormattedTime(outTime)}
+                  </div>
+                  )}
                 </div>
               </div>
             </div>
+          </div>
+          <div className="flex flex-col justify-start items-center gap-2">
+            <SmallButton 
+              onClick={onClose}
+              title="Tutup"
+              iconSize={24}
+              bgColor="bg-pri-main"
+              colorIcon="currentColor"
+              textColor="text-white"
+              hover="hover:bg-pri-hover"
+              minBtnSize="min-w-fit"
+            />
           </div>
         </div>
       </div>

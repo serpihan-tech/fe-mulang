@@ -5,12 +5,16 @@ import { AttachCircle } from "iconsax-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLoading } from "@/context/LoadingContext";
 import CustomDatePicker from "@/app/component/Datepicker";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { admin_tambah_pengumuman } from "@/app/api/admin/ApiPengumuman";
 import { toast, ToastContainer } from "react-toastify";
-import { TeacherTambahPemngumuman } from "@/app/api/guru/ApiPengumuman";
+import { TeacherTambahPengumuman } from "@/app/api/guru/ApiPengumuman";
+import { mapelGuru } from "@/app/api/guru/ApiKBM";
+
 
 export default function TeacherTambahPengumumanForm() {
+  const mapel = typeof window !== "undefined" ?  JSON.parse(sessionStorage.getItem("module_id")) : null;
+  const kelas = typeof window !== "undefined" ?  JSON.parse(sessionStorage.getItem("class_id")) : null;
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
@@ -18,15 +22,15 @@ export default function TeacherTambahPengumumanForm() {
   const [classOption, setClassOption] = useState([]);
   const [mapelOption, setMapelOption] = useState([]);
   const [selectedFile,setSelectedFile] = useState(null);
-  const [loading,setLoading] =useState(false);
-  const [selectedKategori, setSelectedKategori] = useState(null);
+  const [isLoading,setLoading] =useState(false);
+  const [jadwal, setDataJadwal] = useState(null);
   const [selectedMapel, setSelectedMapel] = useState(null);
   const [selectedClass, setSelectedClass] = useState(null);
+  
 
   const [formData, setFormData] = useState({
     title:"",
     content:"",
-    category:"",
     date:"",
     files:"",
     class_id: null,
@@ -62,15 +66,10 @@ export default function TeacherTambahPengumumanForm() {
     }));
   };
 
-  const kategoriOptions = [
-    { label: "Akademik", value: "Akademik" },
-  ];
-
   const [madeBy, setMadeBy] = useState(null);
   const [tanggal, setTanggal] = useState("");
 
   const fetchDataJadwal = async () => {
-      setIsLoading(true);
       try {
         const data = await mapelGuru();
         console.log("data jadwal: ", data);
@@ -90,6 +89,8 @@ export default function TeacherTambahPengumumanForm() {
     
           const formattedData = Array.from(uniqueMapelMap.values());
           setMapelOption(formattedData);
+          setSelectedMapel(mapel)
+          
         }
       } catch (error) {
         toast.error(error.message);
@@ -97,6 +98,41 @@ export default function TeacherTambahPengumumanForm() {
         setLoading(false);
       }
     }
+
+    // Ambil data jadwal saat awal
+  useEffect(() => {
+    fetchDataJadwal();
+  }, []);
+
+  // Saat selectedMapel berubah, reset selectedClass dan isi classOption
+  useEffect(() => {
+    if (!selectedMapel) {
+      setClassOption([]);
+      setSelectedClass(null);
+      return;
+    }
+
+    const filteredKelas = jadwal
+      .filter((item) => item.moduleId === selectedMapel.value)
+      .map((item) => ({
+        value: item.classId,
+        label: item.className,
+      }));
+
+    setClassOption(filteredKelas);
+
+    // Jika dalam edit mode dan ada class_id di formData, cari kelas yang sesuai
+    if (isEditMode && formData.class_id) {
+      const existingClass = filteredKelas.find(opt => opt.value === formData.class_id);
+      if (existingClass) {
+        setSelectedClass(existingClass);
+      } else {
+        setSelectedClass(null);
+      }
+    } else {
+      setSelectedClass(null);
+    }
+  }, [selectedMapel, jadwal, isEditMode]);
 
   useEffect(() => {
     if (isEditMode) {
@@ -108,7 +144,6 @@ export default function TeacherTambahPengumumanForm() {
         setFormData({
           title: data.judul || "",
           content: data.deskripsi || "",
-          category: data.kategori || "",
           date: new Date(data.plain_date) || "",
           files: data.files || "",
           module_id: data.module_id || null,
@@ -117,11 +152,22 @@ export default function TeacherTambahPengumumanForm() {
         setMadeBy(data.dibuat_oleh || null)
 
         // Set dropdown values
-        setSelectedKategori(kategoriOptions.find(opt => opt.value === data.kategori) || null);
-        setSelectedPenerimaInformasi(penerimaInformasiOptions.find(opt => opt.value === data.target_roles) || null);
         setTanggal(data.plain_date || "");
-        setSelectedMapel(data.module_id || null)
-        setSelectedClass(data.class_id || null)
+
+        // Set mapel and kelas after options are loaded
+        if (data.module_id) {
+          const mapelData = mapelOption.find(opt => opt.value === data.module_id);
+          if (mapelData) {
+            setSelectedMapel(mapelData);
+          }
+        }
+
+        if (data.class_id ) {
+          const kelasData = classOption.find(opt => opt.value === data.class_id);
+          if (kelasData) {
+            setSelectedClass(kelasData);
+          }
+        }
         
         // Set file if exists
         if (data.files) {
@@ -129,20 +175,23 @@ export default function TeacherTambahPengumumanForm() {
         }
       }
     }
-  }, [id]);
+  }, [id, mapelOption, classOption]);
 
   useEffect(() => {
     setFormData(prev => ({
       ...prev,
-      category: selectedKategori?.value || "",
-      target_roles: selectedPenerimaInformasi?.value || "",
       date: tanggal || "",
+      module_id: selectedMapel?.value || null,
+      class_id: selectedClass?.value || null
     }));    
-  }, [selectedKategori, selectedPenerimaInformasi, tanggal]);
+  }, [ tanggal, selectedMapel, selectedClass]);
 
   const handleDateChange = async (date) => {
     setTanggal(format(new Date(date),"yyyy-MM-dd"))  
   };
+
+  
+  
 
   const handleSubmit = async () => {
   try {
@@ -154,7 +203,7 @@ export default function TeacherTambahPengumumanForm() {
       if (f instanceof File) return f;
       if (Array.isArray(f) && f.every(item => item instanceof File)) return f;
       return null;
-    });
+    })();
 
     formData.files = file;
 
@@ -162,7 +211,7 @@ export default function TeacherTambahPengumumanForm() {
     const payload = { ...formData };
 
     // Submit sesuai role
-    const response = await TeacherTambahPemngumuman(payload, isEditMode ? id : null);
+    const response = await TeacherTambahPengumuman(payload, isEditMode ? id : null);
 
     // Jika berhasil
     if (response) {
@@ -178,6 +227,10 @@ export default function TeacherTambahPengumumanForm() {
     toast.error( "Terjadi kesalahan saat mengirim data.");
   }
 };
+
+console.log("formData", formData);
+console.log("mapel Option", mapelOption)
+console.log("kelas Option", classOption)
 
 
   return (
@@ -241,19 +294,6 @@ export default function TeacherTambahPengumumanForm() {
                 </div>
               </div>
             </div>
-            <div className="w-full space-y-[5px]">
-              <label className="text-black dark:text-slate-100 text-sm font-medium">
-                Kategori
-              </label>
-              <Dropdown
-                options={kategoriOptions}
-                value={selectedKategori}
-                onChange={setSelectedKategori}
-                placeholder="Pilih kategori"
-                className="w-full h-10 p-2 text-black rounded-md bg-white dark:bg-dark_net-ter border border-gray-200"
-                dropdownStyle="dark:bg-dark_net-ter text-black dark:text-white"
-              />
-            </div>
           </form>
         </div> 
         <div className="w-1/2">
@@ -275,10 +315,10 @@ export default function TeacherTambahPengumumanForm() {
                 Mata pelajaran 
               </label>
               <Dropdown
-                options={penerimaInformasiOptions}
-                value={selectedPenerimaInformasi}
-                onChange={setSelectedPenerimaInformasi}
-                placeholder="Pilih penerima informasi"
+                options={mapelOption}
+                value={selectedMapel}
+                onChange={setSelectedMapel}
+                placeholder="Pilih Mata pelajaran"
                 className="w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter border border-gray-200"
                 dropdownStyle="dark:bg-dark_net-ter text-black dark:text-white"
               />
@@ -288,10 +328,11 @@ export default function TeacherTambahPengumumanForm() {
                 Kelas 
               </label>
               <Dropdown
-                options={penerimaInformasiOptions}
-                value={selectedPenerimaInformasi}
-                onChange={setSelectedPenerimaInformasi}
-                placeholder="Pilih penerima informasi"
+                options={classOption}
+                value={selectedClass}
+                onChange={setSelectedClass}
+                isDisabled={selectedMapel ? false : true}
+                placeholder="Pilih Kelas"
                 className="w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter border border-gray-200"
                 dropdownStyle="dark:bg-dark_net-ter text-black dark:text-white"
               />

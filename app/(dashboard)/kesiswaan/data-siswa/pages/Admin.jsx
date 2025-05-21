@@ -258,6 +258,7 @@ export default function AdminDataSiswa() {
               <SmallButton
                 type="button"
                 icon={Notepad2}
+                textColor = "text-black"
                 bgColor="bg-[#ffcf43]"
                 colorIcon="black"
                 title={"Kenaikan Kelas"}
@@ -265,16 +266,15 @@ export default function AdminDataSiswa() {
                 onClick={() =>
                   router.push("/kesiswaan/data-siswa/kenaikan-kelas")
                 }
-                textColor="black"
               />
-              <SmallButton
+              {/* <SmallButton
                 type="button"
                 icon={DocumentDownload}
                 bgColor="bg-green-600"
                 colorIcon="white"
                 title={"Download Excel"}
                 hover={"hover:bg-green-400"}
-              />
+              /> */}
               <SmallButton
                 type="button"
                 icon={ProfileAdd}

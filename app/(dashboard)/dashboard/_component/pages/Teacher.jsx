@@ -6,18 +6,37 @@ import Card2 from "../home/Card2";
 import { ArrowRight2, Book, People } from "iconsax-react";
 import CalendarComponent from "../home/CalendarComponent";
 import { toast, ToastContainer } from "react-toastify";
-import { useEffect } from 'react';
+import { use, useEffect, useState } from 'react';
 import AbsenSuccessPopUp from "../home/AbsenSuccessPopUp";
+import { useSemester } from "@/provider/SemesterProvider";
+import { JumlahSiswaDanKelasGuru } from "@/app/api/guru/ApiGuru";
 
 
 export default function TeacherDashboard() {
   const message = sessionStorage.getItem("come_first");
+  const [jumlahKelas, setJumlahKelas] = useState(0)
+  const [jumlahSiswa, setJumlahSiswa] = useState(0)
+
   useEffect(() => {
     if (message) {
       toast.success(message);
       sessionStorage.removeItem("come_first");
     }
   }, []);
+  
+  const { semesterId } = useSemester();
+
+  const fetchDataKelasSiswa = async (tahunAjarId = semesterId) => {
+    const response = await JumlahSiswaDanKelasGuru(tahunAjarId)
+    if(response){
+      setJumlahKelas(response.data?.totalClasses || 0)
+      setJumlahSiswa(response.data?.totalStudents || 0)
+
+    }
+  }
+  useEffect(() => {
+    fetchDataKelasSiswa()
+  }, [semesterId])
 
   
   return (
@@ -32,7 +51,7 @@ export default function TeacherDashboard() {
                 bgColor={"bg-indigo-200"}
                 colorBehind={"bg-[#0841e2]"}
                 icon={Book}
-                value={"6"}
+                value={jumlahKelas}
                 label={"Kelas"}
                 className="w-1/2"
               />
@@ -40,7 +59,7 @@ export default function TeacherDashboard() {
                 bgColor={"bg-orange-100"}
                 colorBehind={"bg-amber-300"}
                 icon={People}
-                value={"160"}
+                value={jumlahSiswa}
                 label={"Siswa"}
                 className="w-1/2"
               />
@@ -51,7 +70,9 @@ export default function TeacherDashboard() {
             <div className="w-full flex items-center justify-between">
               <h1 className="text-black dark:text-slate-100 text-sm md:text-base lg:text-lg font-semibold">Jadwal Mengajar</h1>
             </div>
+
             <JadwalMengajar/>
+            
           </div>
           {/* <AbsenSuccessPopUp/> */}
           

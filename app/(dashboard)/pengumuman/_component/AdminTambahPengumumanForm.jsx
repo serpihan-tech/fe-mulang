@@ -8,7 +8,7 @@ import CustomDatePicker from "@/app/component/Datepicker";
 import { format } from "date-fns";
 import { admin_tambah_pengumuman } from "@/app/api/admin/ApiPengumuman";
 import { toast, ToastContainer } from "react-toastify";
-import { TeacherTambahPemngumuman } from "@/app/api/guru/ApiPengumuman";
+import { TeacherTambahPengumuman } from "@/app/api/guru/ApiPengumuman";
 
 export default function AdminTambahPengumumanForm() {
   const router = useRouter();
@@ -85,7 +85,7 @@ export default function AdminTambahPengumumanForm() {
         setFormData({
           title: data.judul || "",
           content: data.deskripsi || "",
-          target_roles: data.target_roles|| "",
+          target_roles: data.dibuat_oleh === "Teacher" ? "student" : data.target_roles || "",
           category: data.kategori || "",
           date: new Date(data.plain_date) || "",
           files: data.files || "",
@@ -96,7 +96,7 @@ export default function AdminTambahPengumumanForm() {
 
         // Set dropdown values
         setSelectedKategori(kategoriOptions.find(opt => opt.value === data.kategori) || null);
-        setSelectedPenerimaInformasi(penerimaInformasiOptions.find(opt => opt.value === data.target_roles) || null);
+        setSelectedPenerimaInformasi(penerimaInformasiOptions.find(opt => opt.value === (data.dibuat_oleh === "Teacher" ? "student" : data.target_roles)) || null);
         setTanggal(data.plain_date || "");
         
         // Set file if exists
@@ -148,7 +148,7 @@ export default function AdminTambahPengumumanForm() {
     // Submit sesuai role
     let response = null;
     if (madeBy === "Teacher") {
-      response = await TeacherTambahPemngumuman(payload, isEditMode ? id : null);
+      response = await TeacherTambahPengumuman(payload, isEditMode ? id : null);
     } else {
       response = await admin_tambah_pengumuman(payload, isEditMode ? id : null);
     }

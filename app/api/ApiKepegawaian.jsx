@@ -182,6 +182,7 @@ export const tambah_absen_guru= async (payload) => {
         const response = await ApiManager.post(`/teacher-absences`,payload,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
+                "Content-Type": "multipart/form-data",
             }
         });
         return response.data;
@@ -200,6 +201,7 @@ export const edit_absen_guru= async (absenId, payload) => {
         const response = await ApiManager.patch(`/teacher-absences/${absenId}`,payload,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
+                "Content-Type": "multipart/form-data",
             }
         });
         return response.data;

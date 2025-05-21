@@ -9,7 +9,7 @@ export default function DashboardHeader() {
   const router = useRouter();
   const [full_name, setFull_name] = useState(sessionStorage.getItem("full_name"))
   const first_name = full_name.split(" ")[0];
-  const [profileImgs, setProfileImgs] = useState([]);
+  const [profileImgs, setProfileImgs] = useState(null);
   const { profileImg } = useProfile();
   const role = typeof window !== "undefined" ? sessionStorage.getItem("role") : null;
   const data = typeof window !== "undefined" ? sessionStorage.getItem("profile_data") : null;
@@ -25,10 +25,7 @@ export default function DashboardHeader() {
             let image = user?.data.profile.details.profilePicture || [];
             let images = baseUrl+"/file/"+image
             console.log("images link:" ,images)
-            // Jika hanya satu string, ubah menjadi array
-            if (typeof images === "string") {
-              images = [images];
-            }
+            
 
             setProfileImgs(images);
 
@@ -36,10 +33,10 @@ export default function DashboardHeader() {
             const user = JSON.parse(data);
             console.log("user: ", user)
             const profilePicture = user?.data?.profile?.profilePicture;
-            let images = ["/svg/logo.svg"]; // Default to logo
+            let images = "/svg/logo.svg"; // Default to logo
             
             if (profilePicture && profilePicture !== "") {
-              images = [baseUrl + "/file/" + profilePicture];
+              images = baseUrl + "/file/" + profilePicture;
             }
 
             setProfileImgs(images);
@@ -88,13 +85,11 @@ export default function DashboardHeader() {
           onClick={() => router.push("/profile")}
         >
           <Image 
-            src={profileImg || (profileImgs && profileImgs[0]) || "/svg/logo.svg"} 
+            src={profileImg || profileImgs || "/svg/logo.svg"} 
             className="rounded-full w-8 h-8 md:w-9 md:h-9 lg:w-10 m lg:h-10" 
             alt="photo" 
             width={40} 
             height={40} 
-            priority 
-            unoptimized={!profileImg && !profileImgs?.[0]}
           />
           <h1 className="hidden md:flex font-semibold text-lg lg:text-xl text-black dark:text-white transition">{role === "admin" ? "Admin" : first_name }</h1>
         </button>

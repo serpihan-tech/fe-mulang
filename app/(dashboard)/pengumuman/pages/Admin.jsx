@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import convertToQuery from "../../kbm/jadwal-pelajaran/_component/convertToUrl";
+import { DocumentDownload, Document, DocumentText, DocumentUpload } from "iconsax-react";
+import FilePreviewModal from "../_component/FilePreviewModal";
 
 export default function AdminPengumuman() {
   const [data, setData] = useState(null)
@@ -28,6 +30,66 @@ export default function AdminPengumuman() {
   const [isDeleteOpen, setDeleteOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [selectedItem,setSelectedItem] = useState(null);
+  const [filePreviewModal, setFilePreviewModal] = useState({
+    isOpen: false,
+    fileUrl: null,
+    fileName: null
+  });
+
+  const handleFileClick = (file) => {
+    if (!file) return;
+
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const fileUrl = `${baseUrl}/file/${file}`;
+    const fileExtension = file.split('.').pop().toLowerCase();
+
+    // Handle different file types
+    if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+      // Show image in modal
+      setFilePreviewModal({
+        isOpen: true,
+        fileUrl: file,
+        fileName: file
+      });
+    } else if (fileExtension === 'pdf') {
+      // Open PDF in new tab
+      window.open(fileUrl, '_blank');
+    } else {
+      // Download other file types
+      const link = document.createElement('a');
+      link.href = fileUrl;
+      link.download = file;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  const closeFilePreviewModal = () => {
+    setFilePreviewModal({
+      isOpen: false,
+      fileUrl: null,
+      fileName: null
+    });
+  };
+
+  const getFileIcon = (file) => {
+    if (!file) return null;
+    const extension = file.split('.').pop().toLowerCase();
+    
+    switch (extension) {
+      case 'pdf':
+        return DocumentText;
+      case 'doc':
+      case 'docx':
+        return Document;
+      case 'xls':
+      case 'xlsx':
+        return DocumentUpload;
+      default:
+        return DocumentDownload;
+    }
+  };
 
   const handleEdit = (item) => {
     sessionStorage.setItem("detail_pengumuman", JSON.stringify(item))
@@ -79,18 +141,16 @@ export default function AdminPengumuman() {
   const handleFilterDropdownChange = (filterValue) => {
     const query = convertToQuery(filterValue);
     setClassfilter(query)
-    // Jika ingin langsung fetch data, bisa panggil fetchDataPengumuman dengan filter baru di sini
-    // fetchDataPengumuman(1, limit, selectedSearch, sortBy, sortOrder, filterValue);
   };
 
   const fetchDataPengumuman = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder, dataFilter=classfilter) => {
     try {
         const data = await data_pengumuman(page, limitVal, search, sortField, sortDir, dataFilter);
-        console.log("data",data)
         const dataArray = data.announcements?.data
+        console.log("daribackend: ",dataArray)
         if (Array.isArray(dataArray)) {
-            // Mapping agar sesuai dengan format tabel
             const formattedData = dataArray.map((item) => ({
+              
                 id_pengumuman: item.id || "Tidak ada",
                 judul: item.title || "Tidak ada",
                 deskripsi: item.content || "Tidak ada",
@@ -99,21 +159,28 @@ export default function AdminPengumuman() {
                 plain_date: item.date || null,
                 dibuat_oleh: item.madeBy || "Tidak ada",
                 target_roles: item.target_roles || null,
-                files: item.files || null,
+                file: item.files ? (
+                  <SmallButton
+                    type="button"
+                    icon={getFileIcon(item.files)}
+                    bgColor="bg-blue-600"
+                    colorIcon="white"
+                    hover="hover:bg-blue-400"
+                    noTitle={true}
+                    onClick={() => handleFileClick(item.files)}
+                  />
+                ) : "Tidak ada file",
                 module_id: item.module_id || null,
                 class_id: item.class_id || null,
-
             }));
 
             setData(formattedData);
         }
 
-        setMeta(data.announcements.meta); // Simpan metadata untuk paginasi
+        setMeta(data.announcements.meta);
         setCurrentPage(page);
     } catch (error) {
         toast.error("Gagal memuat data kelas.");
-    } finally {
-        //setLoading(false);
     }
   };
 
@@ -123,19 +190,27 @@ export default function AdminPengumuman() {
     { label: "kategori", sortKey: "kategori" },
     { label: "tanggal", sortKey: "tanggal" },
     { label: "dibuat_oleh", sortKey: "dibuatOleh" },
-
+    { label: "file", sortKey: "file" },
   ];
+
   const handleLimitChange = (newLimit) => {
     setLimit(newLimit);
   };
-  
 
   useEffect(() => {
     fetchDataPengumuman()
   }, [limit,sortBy,sortOrder,selectedSearch,classfilter])
-  console.log("filter", classfilter)
+
   return (
     <>
+      {/* File Preview Modal */}
+      <FilePreviewModal
+        isOpen={filePreviewModal.isOpen}
+        onClose={closeFilePreviewModal}
+        fileUrl={filePreviewModal.fileUrl}
+        fileName={filePreviewModal.fileName}
+      />
+
       {isDeleteOpen && (
           <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
             <DeletePopUp
@@ -159,7 +234,6 @@ export default function AdminPengumuman() {
                   onDetailDelete={true}
                   title="Data Pengumuman"
                   Aksi="EditDelete"
-                  //filters={filters}
                   handleSearchChange={handleSearchChange}
                   selectedSearch={selectedSearch}
                   onSortChange={handleSortChange}
@@ -173,5 +247,6 @@ export default function AdminPengumuman() {
         {meta && <PaginationComponent meta={meta} onPageChange={fetchDataPengumuman} onLimitChange={handleLimitChange}/>}
       </div>
     </>
-  )}
+  )
+}
 

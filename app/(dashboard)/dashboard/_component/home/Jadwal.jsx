@@ -28,6 +28,8 @@ export default function Jadwal({
   };
 
   const handlePengumuman = () => {
+    sessionStorage.setItem("module_id", JSON.stringify({label:title, value:module_id}));
+    sessionStorage.setItem("class_id", JSON.stringify({label:class_name, value:class_id}));
     router.push("/pengumuman/tambah");
   };
 

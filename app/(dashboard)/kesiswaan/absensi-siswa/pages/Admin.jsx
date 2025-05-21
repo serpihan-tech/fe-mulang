@@ -74,6 +74,7 @@ export default function AbsensiSiswaAdmin() {
           mata_pelajaran: item.schedule?.module?.name || "Tidak ada",
           status: <StatusIcon status={item?.status} /> || "Tidak ada",
           keterangan: item?.reason || "-",
+          deskripsi_materi: item?.description || "-",
         }));
 
         setAbsenData(formattedData);
@@ -95,6 +96,8 @@ export default function AbsensiSiswaAdmin() {
     { label: "status", sortKey: "status" },
     { label: "mata_pelajaran", sortKey: "mapel" },
     { label: "keterangan", sortKey: "alasan" },
+    { label: "deskripsi_materi", sortKey: "deskripsi" },
+
   ];
 
   const handleLimitChange = (newLimit) => {

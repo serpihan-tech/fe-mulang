@@ -288,7 +288,7 @@ const TableComponent = ({
                   {columns.map((key) => (
                     <td
                       key={key.label}
-                      className="py-3 px-2 md:px-4 lg:px-6 text-gray-900 dark:text-gray-100 max-w-[10px] truncate whitespace-nowrap"
+                      className="py-3 px-2 md:px-4 lg:px-5 text-gray-900 dark:text-gray-100 max-w-[10px] truncate whitespace-nowrap"
                       title={item[key.label]}
                     >
                       {item[key.label]}

@@ -18,10 +18,9 @@ import { toast, ToastContainer } from "react-toastify";
 import PresensiPegawaiModal from "../_component/PresensiPegawaiModal";
 import DeletePopUp from "@/app/component/DeletePopUp";
 import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
-import TambahSemesterModal from "../../kesiswaan/_component/TambahSemester";
 import { format } from "date-fns";
-import { hapus_absen_siswa } from "@/app/api/ApiKesiswaan";
 import { useBreadcrumb } from "@/context/BreadCrumbContext";
+import PhotoModal from "../_component/PhotoModal";
 
 export default function PresensiPegawai() {
   const [meta, setMeta] = useState(null);
@@ -41,11 +40,35 @@ export default function PresensiPegawai() {
   const [detailAbsenData, setDetailAbsenData] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const { setShowBreadcrumb } = useBreadcrumb();
+  const [photoModal, setPhotoModal] = useState({
+    isOpen: false,
+    photo: null,
+    time: null,
+    type: null
+  });
 
   useEffect(() => {
     setShowBreadcrumb(true);
     return () => setShowBreadcrumb(false);
   }, [setShowBreadcrumb]);
+
+  const handlePhotoClick = (photo, time, type) => {
+    setPhotoModal({
+      isOpen: true,
+      photo,
+      time,
+      type
+    });
+  };
+
+  const closePhotoModal = () => {
+    setPhotoModal({
+      isOpen: false,
+      photo: null,
+      time: null,
+      type: null
+    });
+  };
 
   const fetchDataAbsen = async (
     page = 1,
@@ -72,10 +95,8 @@ export default function PresensiPegawai() {
         sortDir,
         formattedDate
       );
-      console.log("daribackend: ", data);
       const dataArray = data.teachers.data;
       if (Array.isArray(dataArray)) {
-        // Mapping agar sesuai dengan format tabel
         const formattedData = dataArray.map((item) => ({
           id_guru: item.id || "",
           nip: item.nip || "",
@@ -87,8 +108,30 @@ export default function PresensiPegawai() {
                 status={item.latestAbsence?.status || "Belum Absen"}
               />
             ) || "Belum Absen",
-          jam_masuk: item.latestAbsence?.checkInTime || "-",
-          jam_pulang: item.latestAbsence?.checkOutTime || "-",
+          jam_masuk: item.latestAbsence?.checkInTime ? (
+            <button
+              onClick={() => handlePhotoClick(
+                item.latestAbsence?.inPhoto,
+                item.latestAbsence?.checkInTime,
+                'masuk'
+              )}
+              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+            >
+              {item.latestAbsence?.checkInTime}
+            </button>
+          ) : "-",
+          jam_pulang: item.latestAbsence?.checkOutTime ? (
+            <button
+              onClick={() => handlePhotoClick(
+                item.latestAbsence?.outPhoto,
+                item.latestAbsence?.checkOutTime,
+                'pulang'
+              )}
+              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+            >
+              {item.latestAbsence?.checkOutTime}
+            </button>
+          ) : "-",
           id_absen: item.latestAbsence?.id || "-",
           email: item.user?.email || "-",
           date: item.latestAbsence?.date || null,
@@ -137,7 +180,6 @@ export default function PresensiPegawai() {
   };
 
   const handleDelete = (absenId) => {
-    //console.log("absenId", absenId)
     if (absenId == "-") {
       toast.error("Pegawai belum melakukan absensi");
       return;
@@ -172,7 +214,6 @@ export default function PresensiPegawai() {
     } else {
       setEditOpen(true);
     }
-    console.log(absen);
   };
 
   const confirmTambah = async (createdData) => {
@@ -199,8 +240,6 @@ export default function PresensiPegawai() {
         fetchDataAbsen();
         setTimeout(() => setIsSuccess(false), 1200);
       }
-
-      // Tambahkan fungsi untuk refresh data kelas jika perlu
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -238,14 +277,19 @@ export default function PresensiPegawai() {
       setLoading(false);
     }
   };
-  const checkInTime = "12:55:46";
-  const [hour, minute] = checkInTime.split(":");
-  const formattedTime = `${hour}:${minute}`;
-  console.log(formattedTime); // "12:55"
 
   return (
     <>
       <ToastContainer />
+      {/* Photo Modal */}
+      <PhotoModal
+        isOpen={photoModal.isOpen}
+        onClose={closePhotoModal}
+        photo={photoModal.photo}
+        time={photoModal.time}
+        type={photoModal.type}
+      />
+
       {/* Modal Edit */}
       {isTambahOpen && (
         <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
@@ -295,25 +339,6 @@ export default function PresensiPegawai() {
           <h1 className="w-full text-black dark:text-slate-100 text-xl font-semibold">
             Data Presensi Pegawai
           </h1>
-          <div className="flex items-center justify-end gap-2 lg:gap-5">
-            <SmallButton
-              type="button"
-              icon={DocumentDownload}
-              bgColor="bg-green-600"
-              colorIcon="white"
-              title={"Download Excel"}
-              hover={"hover:bg-green-400"}
-            />
-            <SmallButton
-              type="button"
-              icon={Printer}
-              bgColor="bg-[#ffcf43]"
-              colorIcon="black"
-              title={"Print"}
-              hover={"hover:bg-yellow-400"}
-              textColor="black"
-            />
-          </div>
         </div>
         <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
           <div
@@ -333,7 +358,6 @@ export default function PresensiPegawai() {
                 onDelete={handleDelete}
                 title="Tabel Presensi Pegawai"
                 Aksi="EditDelete"
-                //filters={filters}
                 filterDate={true}
                 dFPlaceholder="Hari ini"
                 handleDateChange={handleDateChange}
@@ -343,7 +367,6 @@ export default function PresensiPegawai() {
                 onSortChange={handleSortChange}
                 sortBy={sortBy}
                 sortOrder={sortOrder}
-                //onFilterChange={handleFilterDropdownChange}
               />
             ) : (
               <DataNotFound />

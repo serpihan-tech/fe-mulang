@@ -14,8 +14,8 @@ export default function CalendarComponent() {
 
   const fetchDataKalender = async () => {
     try {
-      const data = await kalender_sekolah();
-      console.log("data",data)
+      //const data = await kalender_sekolah();
+      //console.log("data",data)
       // const dataArray = data?.theClass.theClass
       // if (Array.isArray(dataArray)) {
       //     // Mapping agar sesuai dengan format tabel

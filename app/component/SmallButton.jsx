@@ -13,6 +13,7 @@ export default function SmallButton({
   bgBorder,
   title,
   hover,
+  noTitle = false,
   textColor = "text-white",
   disabled = false,
   minBtnSize = "min-w-fit"
@@ -58,7 +59,7 @@ export default function SmallButton({
         </div>
       )}
       
-      <p className={`hidden md:block text-xs md:text-sm font-medium whitespace-nowrap`}>{title}</p>
+      <p className={`hidden ${noTitle ? '' : 'md:block' } text-xs md:text-sm font-medium whitespace-nowrap`}>{title}</p>
     </button>
   );
 }
