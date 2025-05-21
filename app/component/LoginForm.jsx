@@ -6,11 +6,12 @@ import Image from "next/image";
 import { ToastContainer, toast } from 'react-toastify';
 import { login } from "../api/ApiAuth";
 import { Eye, EyeSlash } from "iconsax-react";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const { setIsLoading } = useLoading();
   const [error, setError] = useState("");
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
@@ -20,30 +21,35 @@ export default function LoginForm() {
 
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
     setError("");
 
     try{
       const response = await login(credentials);
       if(response){
         console.log(response)
-        sessionStorage.setItem("token",response.token.token);
-        sessionStorage.setItem("role",response.role);
-        sessionStorage.setItem("full_name",response.data.profile.name);
-        sessionStorage.setItem("come_first", response.message);
-        sessionStorage.setItem("profile_data", JSON.stringify(response));
-        router.push("/dashboard");
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("semesterId", response.data.activeSemester.id);
+          sessionStorage.setItem("token", response.token.token);
+          sessionStorage.setItem("role", response.role);
+          sessionStorage.setItem("full_name", response.data.profile.name);
+          sessionStorage.setItem("come_first", response.message);
+          sessionStorage.setItem("profile_data", JSON.stringify(response));
+        }
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 100);
       }
       
     } finally {
-      setLoading(false)
+      setIsLoading(false)
     };
 
   }, [credentials,router]);
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="bg-white dark:bg-netral-100/10 dark:backdrop-blur-md dark:border-2 dark:border-pri-border px-6 md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl shadow-md flex h-full w-full md:w-[600px] lg:w-[1000px] mx-10 z-10">
+      <div className="bg-white dark:bg-netral-100/10 dark:backdrop-blur-md dark:md:border-2 dark:md:border-pri-border px-2 md:px-10 lg:px-16 py-8 md:py-12 lg:py-20 rounded-2xl md:shadow-md flex h-full w-full md:w-[600px] lg:w-[1000px] mx-10 z-9">
         
         {/* Gambar Login */}
         <div className="flex-1 text-center hidden lg:flex items-center">
@@ -52,7 +58,7 @@ export default function LoginForm() {
 
         {/* Form Login */}
         <div className="w-full lg:w-1/2 md:px-6 flex flex-col justify-center items-center">
-          <h2 className="md:text-4xl text-2xl text-center font-semibold text-pri-main dark:text-pri-border mb-2 ">Selamat Datang!</h2>
+          <h2 className="md:text-4xl text-2xl text-center font-semibold text-pri-main dark:text-pri-border mb-1 md:mb-2 ">Selamat Datang!</h2>
           <p className="md:text-xl text-lg text-netral-100 dark:text-netral-0 mb-10 font-semibold">Masuk ke akun Anda</p>
 
           <form className="w-full" onSubmit={handleSubmit}>
@@ -127,9 +133,8 @@ export default function LoginForm() {
               <button
                 type="submit"
                 className="w-full bg-pri-main dark:bg-pri-border text-white dark:text-netral-100 py-2 rounded-md hover:bg-pri-hover dark:hover:bg-pri-border/50 transition"
-                disabled={loading}
               >
-                {loading ? "Memverifikasi..." : "Masuk"}
+                Masuk
               </button>
             </div>
           </form>

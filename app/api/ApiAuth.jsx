@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
 import ApiManager from "./ApiManager";
+const token = typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
+
 
 export const login = async (credentials) => {
     try {
@@ -10,14 +12,14 @@ export const login = async (credentials) => {
         if (err.message.includes('Network Error')) {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
-        toast.error("Email atau kata sandi salah");
+        toast.error(err.message);
         }
     }
 };
 
 export const logout = async () => {
   try {
-      const response = await ApiManager.get("/logout");
+      const response = await ApiManager.post("/logout");
       
       return response.data
 
@@ -25,7 +27,7 @@ export const logout = async () => {
       if (err.message.includes('Network Error')) {
       toast.error('Error 500: Server sedang bermasalah');
       } else {
-      toast.error("Anda sudah logout");
+      toast.error(err.message);
       }
   }
 };
@@ -72,4 +74,24 @@ export const new_password = async (credentials) => {
         }
     }
 }
-  
+ 
+export const change_password = async (payload) => {
+    try {
+        const response = await ApiManager.post("/change-password", payload ,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        return response;
+
+    } catch (err) {
+        if (err.message.includes('Network Error') || err.message.includes('Jaringan Bermasalah')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else if (err.message.includes('422')) {
+        toast.error("kata sandi baru tidak boleh sama dengan sebelumnya");
+        } else {
+        toast.error("Password Lama Tidak Cocok")    
+        }
+    }
+}

@@ -1,0 +1,59 @@
+.calendar {
+  width: full;
+  overflow: hidden;
+  padding: 10px;
+  background-color: white;
+  border-radius: 8px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+  background-color: white;
+  font-size: 18px ;
+  font-weight: 500;
+  margin-bottom: 25px;
+}
+.header button {
+  padding: 5px;
+  border-radius: 5px;
+  /* border: 0.5px solid var(--netral-10, #CCC); */
+}
+.day.prev-month, 
+.day.next-month {
+  color: #CCCCCC;
+  opacity: 0.5;
+}
+
+.day.holiday {
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+}
+.day.sunday.holiday {
+  background-color: red;
+  color: white;
+}
+.day.sunday {
+  color: red;
+}
+.day-names, .days {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+.day-name {
+  color: #333333;
+  font-style: normal;
+  font-weight: 400;
+}
+.day-name, .day, .empty-day {
+  width: 14.25%;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}

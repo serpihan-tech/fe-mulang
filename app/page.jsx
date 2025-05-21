@@ -39,7 +39,7 @@ export default function Home() {
           </a>
         </div>
         <div className="absolute bottom-5 right-5">
-          <ThemeSwitcher />
+          {/* <ThemeSwitcher /> */}
         </div>
       </main>
     </div>
