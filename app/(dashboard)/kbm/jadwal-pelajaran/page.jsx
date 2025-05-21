@@ -1,5 +1,12 @@
 "use client";
-import { dropdown_data_ruangan, dropdown_nama_mapel, edit_jadwal_pelajaran, hapus_jadwal_pelajaran, jadwal_pelajaran, tambah_jadwal_pelajaran } from "@/app/api/admin/ApiKBM";
+import {
+  dropdown_data_ruangan,
+  dropdown_nama_mapel,
+  edit_jadwal_pelajaran,
+  hapus_jadwal_pelajaran,
+  jadwal_pelajaran,
+  tambah_jadwal_pelajaran,
+} from "@/app/api/admin/ApiKBM";
 import DataNotFound from "@/app/component/DataNotFound";
 import PaginationComponent from "@/app/component/Pagination";
 import SmallButton from "@/app/component/SmallButton";
@@ -17,28 +24,28 @@ import { data_kelas, dropdown_data_guru } from "@/app/api/ApiKesiswaan";
 import { data_guru } from "@/app/api/ApiKepegawaian";
 
 export default function JadwalPelajaran() {
-  const {semesterId} = useSemester()
+  const { semesterId } = useSemester();
   const [jadwalData, setJadwalData] = useState(null);
   const [meta, setMeta] = useState(null);
-  const {setIsLoading} = useLoading();
+  const { setIsLoading } = useLoading();
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [selectedSearch, setSearch] = useState(' ');
-  const [sortBy, setSortBy] = useState(" "); 
-  const [sortOrder, setSortOrder] = useState(" "); 
+  const [selectedSearch, setSearch] = useState(" ");
+  const [sortBy, setSortBy] = useState(" ");
+  const [sortOrder, setSortOrder] = useState(" ");
   const [detailJadwalData, setDetailJadwalData] = useState(null);
   const [isDeleteOpen, setDeleteOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedSemester, setSelectedSemester] = useState(null)
-  const [classFilter, setClassFilter] = useState("")
-  const [selectedPeriod, setSelectedPeriod] = useState(null)
-  const [allSemesters, setAllSemesters] = useState([]); 
+  const [selectedSemester, setSelectedSemester] = useState(null);
+  const [classFilter, setClassFilter] = useState("");
+  const [selectedPeriod, setSelectedPeriod] = useState(null);
+  const [allSemesters, setAllSemesters] = useState([]);
   const { setShowBreadcrumb } = useBreadcrumb();
   const [isTambahOpen, setTambahOpen] = useState(false);
   const [isEditOpen, setEditOpen] = useState(false);
   const [selectedScheduleId, setSelectedScheduleId] = useState(null);
- 
+
   useEffect(() => {
     setShowBreadcrumb(true);
     return () => setShowBreadcrumb(false);
@@ -51,41 +58,57 @@ export default function JadwalPelajaran() {
           ? values.map((value) => `&${key}=${encodeURIComponent(value)}`)
           : [`&${key}=${encodeURIComponent(values)}`]
       )
-      .join('')
+      .join("");
   };
 
-  const fetchJadwalPelajaran = async (page = 1,limitVal = limit, search=selectedSearch, sortField=sortBy, sortDir=sortOrder, kelas=classFilter, semester=semesterId,) => {
+  const fetchJadwalPelajaran = async (
+    page = 1,
+    limitVal = limit,
+    search = selectedSearch,
+    sortField = sortBy,
+    sortDir = sortOrder,
+    kelas = classFilter,
+    semester = semesterId
+  ) => {
     try {
-      setIsLoading(true)
-      const data = await jadwal_pelajaran(page,limitVal, search, sortField, sortDir, semester, kelas);
-      const dataArray = data.schedules.data
-      console.log("daribackend: ",data)
+      setIsLoading(true);
+      const data = await jadwal_pelajaran(
+        page,
+        limitVal,
+        search,
+        sortField,
+        sortDir,
+        semester,
+        kelas
+      );
+      const dataArray = data.schedules.data;
+      console.log("daribackend: ", data);
       if (Array.isArray(dataArray)) {
-          // Mapping agar sesuai dengan format tabel
-          const formattedData = dataArray.map((item) => ({
-              id_jadwal: item.id,
-              hari: item.days || "Tidak Ada",
-              jam_mulai: item.startTime.slice(0, 5) || "Tidak Ada",
-              jam_selesai: item.endTime.slice(0, 5) || "Tidak Ada",
-              kelas: item.class?.name || "Tidak Ada",
-              mata_pelajaran: item.module?.name || "Tidak Ada",
-              guru_pengampu: item.module?.teacher?.name || "Tidak Ada",
-              ruangan: item.room?.name || "Tidak Ada",
-              id_kelas: item.class?.id || "Tidak Ada",
-              id_mapel: item.module?.id || "Tidak Ada",
-              id_ruangan: item.room?.id || "Tidak Ada",
-          }));
+        // Mapping agar sesuai dengan format tabel
+        const formattedData = dataArray.map((item) => ({
+          id_jadwal: item.id,
+          hari: item.days || "Tidak Ada",
+          jam_mulai: item.startTime.slice(0, 5) || "Tidak Ada",
+          jam_selesai: item.endTime.slice(0, 5) || "Tidak Ada",
+          kelas: item.class?.name || "Tidak Ada",
+          mata_pelajaran: item.module?.name || "Tidak Ada",
+          guru_pengampu: item.module?.teacher?.name || "Tidak Ada",
+          ruangan: item.room?.name || "Tidak Ada",
+          id_kelas: item.class?.id || "Tidak Ada",
+          id_mapel: item.module?.id || "Tidak Ada",
+          id_ruangan: item.room?.id || "Tidak Ada",
+        }));
 
-          setJadwalData(formattedData);
-          setIsLoading(false)
+        setJadwalData(formattedData);
+        setIsLoading(false);
       }
 
       setMeta(data.schedules.meta);
       setCurrentPage(page);
     } catch (error) {
-        toast.error(error.message);
+      toast.error(error.message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
@@ -97,15 +120,13 @@ export default function JadwalPelajaran() {
     { label: "mata_pelajaran", sortKey: "mapel" },
     { label: "guru_pengampu", sortKey: "guru" },
     { label: "ruangan", sortKey: "ruang" },
-
   ];
 
-
   const handleFilterDropdownChange = (value) => {
-    const query = convertToQuery(value)
-    setClassFilter(query)
+    const query = convertToQuery(value);
+    setClassFilter(query);
   };
-  console.log("CLASSFILLTER",classFilter)
+  console.log("CLASSFILLTER", classFilter);
 
   const handleLimitChange = (newLimit) => {
     setLimit(newLimit);
@@ -128,16 +149,15 @@ export default function JadwalPelajaran() {
       if (response) {
         toast.success("Data Jadwal berhasil dibuat!");
         setTambahOpen(false); // Tutup modal setelah sukses
-        fetchJadwalPelajaran(); 
+        fetchJadwalPelajaran();
       }
-      
     } catch (error) {
       toast.error(error.message);
     } finally {
       setIsLoading(false);
       setLoading(false);
     }
-  } 
+  };
 
   const handleDelete = (jadwalId) => {
     setSelectedScheduleId(jadwalId);
@@ -151,14 +171,13 @@ export default function JadwalPelajaran() {
     setLoading(true);
     try {
       const response = await hapus_jadwal_pelajaran(selectedScheduleId);
-      if(response) {
+      if (response) {
         setIsSuccess(true);
         setDeleteOpen(false);
         setLoading(false);
         fetchJadwalPelajaran(); // Reload data setelah sukses
         setTimeout(() => setIsSuccess(false), 1200); // Pop-up sukses hilang otomatis
       }
-      
     } catch (error) {
       toast.error("Gagal menghapus data");
     } finally {
@@ -167,11 +186,11 @@ export default function JadwalPelajaran() {
   };
 
   const handleEdit = async (jadwal) => {
-    console.log("jadwal yang diedit:", jadwal)
+    console.log("jadwal yang diedit:", jadwal);
     setDetailJadwalData(jadwal);
     setSelectedScheduleId(jadwal.id_jadwal);
     setEditOpen(true);
-  }
+  };
 
   const confirmEdit = async (createdData) => {
     if (!selectedScheduleId) return;
@@ -179,20 +198,22 @@ export default function JadwalPelajaran() {
     try {
       setIsLoading(true);
       setLoading(true);
-      const response = await edit_jadwal_pelajaran(selectedScheduleId,createdData);
+      const response = await edit_jadwal_pelajaran(
+        selectedScheduleId,
+        createdData
+      );
       if (response) {
         toast.success("Data Jadwal berhasil diedit!");
         setEditOpen(false); // Tutup modal setelah sukses
-        fetchJadwalPelajaran(); 
+        fetchJadwalPelajaran();
       }
-      
     } catch (error) {
       toast.error(error.message);
     } finally {
       setIsLoading(false);
       setLoading(false);
     }
-  } 
+  };
 
   const filters = [
     {
@@ -202,37 +223,41 @@ export default function JadwalPelajaran() {
       textSize: "text-sm",
       wideInput: "min-w-28",
       wideDropdown: "min-w-36",
-      fetchOptions: () => data_kelas(1, 99, '', '', '').then(res =>
-        res.theClass.theClass.map(kelas => ({
-          label: kelas.name,
-          value: kelas.name
-        }))
-      ),
+      fetchOptions: () =>
+        data_kelas(1, 99, "", "", "").then((res) =>
+          res.theClass.theClass.map((kelas) => ({
+            label: kelas.name,
+            value: kelas.name,
+          }))
+        ),
     },
     {
       key: "hari",
       label: "Hari",
       type: "multiselect",
       wideInput: "min-w-28",
-      options: [{ value: "Senin", label: "Senin" },
+      options: [
+        { value: "Senin", label: "Senin" },
         { value: "Selasa", label: "Selasa" },
         { value: "Rabu", label: "Rabu" },
         { value: "Kamis", label: "Kamis" },
         { value: "Jumat", label: "Jumat" },
         { value: "Sabtu", label: "Sabtu" },
-        { value: "Minggu", label: "Minggu" },],
+        { value: "Minggu", label: "Minggu" },
+      ],
     },
     {
       key: "mapel",
       label: "Mata Pelajaran",
       type: "multiselect",
       wideDropdown: "min-w-56",
-      fetchOptions: () => dropdown_nama_mapel(semesterId).then(res =>
-        res.modules.map(mapel => ({
-          label: mapel.name,
-          value: mapel.name
-        }))
-      ),
+      fetchOptions: () =>
+        dropdown_nama_mapel(semesterId).then((res) =>
+          res.modules.map((mapel) => ({
+            label: mapel.name,
+            value: mapel.name,
+          }))
+        ),
     },
     {
       key: "guru",
@@ -240,12 +265,13 @@ export default function JadwalPelajaran() {
       type: "multiselect",
       wideInput: "min-w-28",
       wideDropdown: "min-w-44",
-      fetchOptions: () => dropdown_data_guru().then(res =>
-        res.map(guru => ({
-          label: guru.name,
-          value: guru.name
-        }))
-      ),
+      fetchOptions: () =>
+        dropdown_data_guru().then((res) =>
+          res.map((guru) => ({
+            label: guru.name,
+            value: guru.name,
+          }))
+        ),
     },
     {
       key: "ruang",
@@ -253,22 +279,29 @@ export default function JadwalPelajaran() {
       type: "multiselect",
       wideInput: "min-w-28",
       wideDropdown: "min-w-44",
-      fetchOptions: () => dropdown_data_ruangan().then(res =>
-        res.rooms.map(ruang => ({
-          label: ruang.name,
-          value: ruang.name
-        }))
-      ),
+      fetchOptions: () =>
+        dropdown_data_ruangan().then((res) =>
+          res.rooms.map((ruang) => ({
+            label: ruang.name,
+            value: ruang.name,
+          }))
+        ),
     },
-    
   ];
-  
-  useEffect(() => {
-      fetchJadwalPelajaran();
-  }, [limit,selectedSearch,sortBy,sortOrder,classFilter,selectedPeriod,semesterId]);
-  console.log("Data jadwal:", jadwalData);
-  console.log("semeserId",semesterId)
 
+  useEffect(() => {
+    fetchJadwalPelajaran();
+  }, [
+    limit,
+    selectedSearch,
+    sortBy,
+    sortOrder,
+    classFilter,
+    selectedPeriod,
+    semesterId,
+  ]);
+  console.log("Data jadwal:", jadwalData);
+  console.log("semeserId", semesterId);
 
   return (
     <>
@@ -317,7 +350,9 @@ export default function JadwalPelajaran() {
       <div className="z-0 transition">
         <div>
           <div className="w-full ps-2 flex">
-            <h1 className="w-full text-black dark:text-white text-xl font-semibold">Jadwal Pelajaran</h1> 
+            <h1 className="w-full text-black dark:text-white text-xl font-semibold">
+              Jadwal Pelajaran
+            </h1>
             <div className="w-full flex items-center justify-end gap-5">
               <SmallButton
                 type="button"
@@ -332,31 +367,46 @@ export default function JadwalPelajaran() {
           </div>
 
           <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-                <div className={jadwalData ? "max-w-full p-5 dark:bg-dark_net-ter" : "flex items-center justify-center text-black dark:text-white p-28"}>
-                    {jadwalData ? 
-                      <TableComponent 
-                          dataKey='id_jadwal'
-                          columns={columns} 
-                          data={jadwalData}
-                          onEdit={handleEdit}
-                          onDetailEdit={true}
-                          onDelete ={handleDelete}
-                          title="Data Siswa"
-                          Aksi="EditDelete"
-                          filters={filters}
-                          handleSearchChange={handleSearchChange}
-                          selectedSearch={selectedSearch}
-                          onSortChange={handleSortChange}
-                          sortBy={sortBy}
-                          sortOrder={sortOrder}
-                          onFilterChange={handleFilterDropdownChange}
-                      /> : <DataNotFound /> }
-                </div>
-
-                {meta && <PaginationComponent meta={meta} onPageChange={fetchJadwalPelajaran} onLimitChange={handleLimitChange}/>}
+            <div
+              className={
+                jadwalData
+                  ? "max-w-full p-5 dark:bg-dark_net-ter"
+                  : "flex items-center justify-center text-black dark:text-white p-8 md:p-16 lg:p-28"
+              }
+            >
+              {jadwalData ? (
+                <TableComponent
+                  dataKey="id_jadwal"
+                  columns={columns}
+                  data={jadwalData}
+                  onEdit={handleEdit}
+                  onDetailEdit={true}
+                  onDelete={handleDelete}
+                  title="Data Siswa"
+                  Aksi="EditDelete"
+                  filters={filters}
+                  handleSearchChange={handleSearchChange}
+                  selectedSearch={selectedSearch}
+                  onSortChange={handleSortChange}
+                  sortBy={sortBy}
+                  sortOrder={sortOrder}
+                  onFilterChange={handleFilterDropdownChange}
+                />
+              ) : (
+                <DataNotFound />
+              )}
             </div>
+
+            {meta && (
+              <PaginationComponent
+                meta={meta}
+                onPageChange={fetchJadwalPelajaran}
+                onLimitChange={handleLimitChange}
+              />
+            )}
+          </div>
         </div>
-      </div>  
+      </div>
     </>
   );
 }

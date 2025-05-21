@@ -111,7 +111,7 @@ export default function RekapNilai() {
             </div>
           </div>
           <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
-            <div className={siswaData ? "max-w-screen-xl p-5 dark:bg-dark_net-ter" : "flex items-center justify-center text-black dark:text-white p-28"}>
+            <div className={siswaData ? "max-w-screen-xl p-5 dark:bg-dark_net-ter" : "flex items-center justify-center text-black dark:text-white p-8 md:p-16 lg:p-28"}>
                 {siswaData ? 
                   <TableComponent
                       columns={columns} 
