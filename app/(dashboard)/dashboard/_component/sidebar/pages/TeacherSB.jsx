@@ -25,7 +25,7 @@ export default function TeacherSB( {open} ) {
         ]}
       />
 
-      <SidebarItem
+      {/* <SidebarItem
         title="Penilaian"
         icon={Award}
         open={open}
@@ -41,7 +41,7 @@ export default function TeacherSB( {open} ) {
               ]
         }
         
-      />
+      /> */}
 
       <SidebarItem
         title="KBM"

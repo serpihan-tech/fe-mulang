@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ArrowRight2 } from 'iconsax-react';
+import { kalender_sekolah } from '@/app/api/admin/ApiProfile';
+import { toast } from 'react-toastify';
 
 export default function CalendarComponent() {
   const [currentDate, setCurrentDate] = useState(new Date()); 
@@ -10,6 +12,32 @@ export default function CalendarComponent() {
   const [holidays, setHolidays] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
 
+  const fetchDataKalender = async () => {
+    try {
+      const data = await kalender_sekolah();
+      console.log("data",data)
+      // const dataArray = data?.theClass.theClass
+      // if (Array.isArray(dataArray)) {
+      //     // Mapping agar sesuai dengan format tabel
+      //     const formattedData = dataArray.map((item) => ({
+      //         id_kelas: item.id || "Tidak ada",
+      //         nama_kelas: item.name || "Tidak ada",
+      //         wali_kelas: item.teacher.name || "Tidak ada",
+      //         total_siswa: item.totalStudents || "Tidak ada",
+      //     }));
+
+      //     setKelasData(formattedData);
+      // }
+
+      // setMeta(data.theClass.meta); // Simpan metadata untuk paginasi
+      // setCurrentPage(page);
+    } catch (error) {
+        toast.error("Gagal memuat data kelas.");
+    } finally {
+        //setLoading(false);
+    }
+  };
+
   useEffect(() => {
     axios.get("https://api-harilibur.vercel.app/api")
       .then((response) => {
@@ -18,6 +46,7 @@ export default function CalendarComponent() {
         setUpcomingEvents(currentMonthEvents);
       })
       .catch((error) => console.error("Error fetching holidays:", error));
+    fetchDataKalender()
   }, []);
 
   useEffect(() => {

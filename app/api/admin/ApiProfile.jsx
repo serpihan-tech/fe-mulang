@@ -9,7 +9,17 @@ export const admin_profile = async (adminId) => {
         toast.error("Gagal mengambil data detail admin:", error.message);
         throw error;
     }
-  };
+};
+
+export const kalender_sekolah = async () => {
+    try {
+        const response = await ApiManager.get(`/school-calendars`);
+        return response.data;
+    } catch (error) {
+        toast.error("Gagal mengambil data detail admin:", error.message);
+        throw error;
+    }
+};
 
 export const updateAdminProfile = async (id, payload, file) => {
 

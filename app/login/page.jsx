@@ -55,7 +55,7 @@ export default function LoginPage() {
         />
       </div>
 
-      <div className="flex flex-col gap-4 items-center w-full">
+      <div className="flex z-10 flex-col gap-4 items-center w-full">
         <LoginForm />
       </div>
 

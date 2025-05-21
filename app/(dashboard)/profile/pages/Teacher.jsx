@@ -133,9 +133,10 @@ export default function TeacherProfile() {
                 src={
                   imageSrc
                     ? imageSrc
-                    : baseUrl +
-                      "/file/" +
-                      detailGuru?.profilePicture
+                    : detailGuru?.profilePicture 
+                      ? baseUrl + "/file/" + detailGuru?.profilePicture 
+                      : "/svg/logo.svg"
+                      
                 }
                 alt="Profile Photo"
                 width={150}

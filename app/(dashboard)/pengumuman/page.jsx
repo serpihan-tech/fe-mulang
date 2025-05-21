@@ -1,12 +1,34 @@
 "use client";
 
 import SmallButton from "@/app/component/SmallButton";
+import { useLoading } from "@/context/LoadingContext";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import AdminPengumuman from "./pages/Admin";
+import TeacherPengumuman from "./pages/Teacher";
+import { ToastContainer } from "react-toastify";
 
 export default function Pengumuman() {
+  const [role,setRole] = useState(null);
+  const {setIsLoading} = useLoading();
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const userRole = sessionStorage.getItem("role");
+
+    if (!token || !userRole) {
+      alert("Session anda terputus, harap login ulang");
+      router.replace("/login"); // Gunakan replace agar tidak bisa kembali ke dashboard dengan tombol back
+    } else {
+      setRole(userRole);
+      const message = sessionStorage.getItem("come_first"); 
+    }
+
+    setIsLoading(false); // Matikan loading setelah validasi selesai
+  }, []);
   const router = useRouter();
   return (
-    <>
+    <>  
+    <ToastContainer />
       <div className="z-0 transition">
         <div>
           <div className="w-full ps-2 flex">
@@ -23,6 +45,9 @@ export default function Pengumuman() {
               />
             </div>
           </div>
+
+          {role === "admin" && <AdminPengumuman />}
+          {role === "teacher" && <TeacherPengumuman />}
         </div>
       </div>  
     </>

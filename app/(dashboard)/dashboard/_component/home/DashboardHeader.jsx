@@ -35,11 +35,11 @@ export default function DashboardHeader() {
           } else if(role === "teacher" || role == "admin") {
             const user = JSON.parse(data);
             console.log("user: ", user)
-            let image = user.data.profile.profilePicture || [];
-            let images = baseUrl+"/file/"+image
-            // Jika hanya satu string, ubah menjadi array
-            if (typeof images === "string") {
-              images = [images];
+            const profilePicture = user?.data?.profile?.profilePicture;
+            let images = ["/svg/logo.svg"]; // Default to logo
+            
+            if (profilePicture && profilePicture !== "") {
+              images = [baseUrl + "/file/" + profilePicture];
             }
 
             setProfileImgs(images);
@@ -77,19 +77,24 @@ export default function DashboardHeader() {
         {/* <ThemeSwitcher /> */}
         
         {/* Notification Dropdown */}
-        <NotificationDropdown/>
+        {
+          role !== "admin" && (
+            <NotificationDropdown/>
+          )
+        }
         
         <button 
           className="flex gap-3 items-center cursor-pointer hover:opacity-80 transition"
           onClick={() => router.push("/profile")}
         >
           <Image 
-            src={ profileImg || profileImgs[0] || "/svg/logo.svg"} 
+            src={profileImg || (profileImgs && profileImgs[0]) || "/svg/logo.svg"} 
             className="rounded-full w-8 h-8 md:w-9 md:h-9 lg:w-10 m lg:h-10" 
             alt="photo" 
             width={40} 
             height={40} 
             priority 
+            unoptimized={!profileImg && !profileImgs?.[0]}
           />
           <h1 className="hidden md:flex font-semibold text-lg lg:text-xl text-black dark:text-white transition">{role === "admin" ? "Admin" : first_name }</h1>
         </button>

@@ -27,7 +27,7 @@ export default function AdminBar({ open }) {
           { label: "Absensi Siswa", url: "/kesiswaan/absensi-siswa" }
         ]}
       />
-      <SidebarItem
+      {/* <SidebarItem
         title="Penilaian"
         icon={Award}
         colorIcon="currentColor"
@@ -35,7 +35,7 @@ export default function AdminBar({ open }) {
         dropdownItems={[
           { label: "Kompetensi", url: "/penilaian/kompetensi" },
         ]}
-      />
+      /> */}
       <SidebarItem
         title="KBM"
         icon={Book1}

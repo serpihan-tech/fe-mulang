@@ -3,17 +3,19 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Dropdown from "./Dropdown";
 import DataNotFound from "./DataNotFound";
-import { Calendar,ArrowUp2, ArrowDown2, Edit2, Trash, Diagram, SearchNormal } from "iconsax-react";
+import { Calendar,ArrowUp2, ArrowDown2, Edit2, Trash, Diagram, SearchNormal, FilterSearch, FilterSquare } from "iconsax-react";
 import { useTheme } from "@/provider/ThemeProvider";
 import 'react-datepicker/dist/react-datepicker.css';
 import '../globals.css'; 
 import CustomDatePicker from "./Datepicker";
 import MultiSelectDropdown from "./MultiSelectDropdown";
+import ModalFilterPengumuman from "./ModalFilterPengumuman";
 
 const TableComponent = ({ 
   columns, data, title, filters=[], 
-  onDelete, onEdit, onDetailEdit=false,
-  dataKey, Aksi,
+  onDelete, onEdit, onDetailEdit=false, onDetailDelete=false,
+  dataKey, Aksi, 
+  multiFilter=false,
   enableSort=true, enableSearch=true,
   enableSelect, selectedRows = [], onSelectRow, onSelectAll,
   filterDate, selectedDate, dFPlaceholder ,
@@ -30,6 +32,8 @@ const TableComponent = ({
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const isDark = theme === "dark";
+  const [isModalFilterOpen, setIsModalFilterOpen] = useState(false);
+  const [modalFilterValue, setModalFilterValue] = useState({});
 
 
   const sortData = (key) => {
@@ -82,6 +86,14 @@ const TableComponent = ({
     }
   };
 
+  const handleDeleteClick = (item) => {
+    if (onDetailDelete) {
+      onDelete(item); // kirim semua data
+    } else {
+      onDelete(item[dataKey]); // kirim hanya ID
+    }
+  };
+
   const renderAksi = (item) => {
     if (Aksi === "EditDelete") {
       return (
@@ -89,7 +101,7 @@ const TableComponent = ({
         <button onClick={() => handleEditClick(item)}>
           <Edit2 size="20" color="#FFCF43" variant="Bold" className="transition-shadow ease-in-out duration-300 hover:shadow-md hover:scale-125"/>
         </button>
-        <button onClick={() => onDelete(item[dataKey])}>
+        <button onClick={() => handleDeleteClick(item)}>
           <Trash size="20" color="#DC1010" variant="Bold" className="transition-shadow ease-in-out duration-300 hover:shadow-md hover:scale-125"/>
         </button>
       </>
@@ -115,7 +127,7 @@ const TableComponent = ({
   };
 
   return (
-    <div className="w-full overflow-hidden mx-auto">
+    <div className="w-full overflow-y-visible mx-auto">
     <div className="w-full mb-5 flex space-x-2 justify-between items-center text-black dark:text-white">
       <div className="flex items-center space-x-1 md:space-x-5">
         <h1 className="text-lg font-semibold lg:whitespace-nowrap">{title}</h1>
@@ -163,38 +175,62 @@ const TableComponent = ({
           })}
         </div>
       </div>
-      <div ref={inputRef} className="relative lg:w-64">
-        
-      {enableSearch && (
-        isFilterOpen ? (
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Cari data..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleSearchChange(searchQuery);
-                  setFilterOpen(false);
-                }
-              }}
-              className="w-full h-10 p-2 pl-4 pr-10 border border-blue-500 dark:border-[#5D8BF8] dark:text-slate-100 dark:bg-dark_net-ter rounded-full outline-none transition-all duration-300"
-              autoFocus
-            />
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <SearchNormal color="#0841E2" variant="Outline" size={20} />
+      <div ref={inputRef} className="relative lg:w-64 ">
+
+      <div className="flex space-x-5 items-center">
+        {enableSearch && (
+          isFilterOpen ? (
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Cari data..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearchChange(searchQuery);
+                    setFilterOpen(false);
+                  }
+                }}
+                className="w-full h-10 p-2 pl-4 pr-10 border border-blue-500 dark:border-[#5D8BF8] dark:text-slate-100 dark:bg-dark_net-ter rounded-full outline-none transition-all duration-300"
+                autoFocus
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <SearchNormal color="#0841E2" variant="Outline" size={20} />
+              </div>
             </div>
+          ) : (
+            <div
+              className={`w-10 h-10 p-2 rounded-full bg-gray-200 cursor-pointer transition-all duration-300 ${
+                          multiFilter ? 'lg:ml-36' : 'lg:ml-52'
+                        }`}
+              onClick={() => setFilterOpen(true)}
+            >
+              <SearchNormal color="#0841E2" variant="Outline" size={24} />
+            </div>
+          )
+        )}  
+
+        {multiFilter && (
+          <div className="relative min-w-10 h-10">
+            <div
+              className="h-10 w-10 bg-gray-200 text-pri-main flex items-center justify-center rounded-full cursor-pointer transition-all duration-300"
+              onClick={() => setIsModalFilterOpen((prev) => !prev)}
+            >
+              <FilterSearch variant="Bold" color="currentColor" size={20} />
+            </div>
+            <ModalFilterPengumuman
+              isOpen={isModalFilterOpen}
+              onClose={() => setIsModalFilterOpen(false)}
+              onApply={(val) => {
+                setModalFilterValue(val);
+                if (typeof onFilterChange === "function") onFilterChange(val);
+              }}
+              initialValue={modalFilterValue}
+            />
           </div>
-        ) : (
-          <div
-            className="lg:ml-52 w-10 h-10 p-2 rounded-full bg-gray-200 cursor-pointer transition-all duration-300"
-            onClick={() => setFilterOpen(true)}
-          >
-            <SearchNormal color="#0841E2" variant="Outline" size={24} />
-          </div>
-        )
-      )}
+        )} 
+       </div> 
       </div>
     </div>
       <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-x-auto">

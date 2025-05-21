@@ -18,14 +18,14 @@ export default function StudentSB({ open }) {
         colorIcon="currentColor"
         url="/kegiatan-tahunan"
       />
-      <SidebarItem
+      {/* <SidebarItem
         open={open}
         title="Rapor Siswa"
         icon={MedalStar}
         colorIcon="currentColor"
         url="/rapor-siswa"
         
-      />
+      /> */}
       <SidebarItem
         open={open}
         title="Jadwal"
