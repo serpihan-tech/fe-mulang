@@ -4,9 +4,22 @@ import { useEffect, useState } from 'react'
 import { createTransmit } from '../lib/transmit'
 import { useLogOut } from '@/provider/LogOutProvider';
 
-export function useNotifications(userRole = "student", classId = 5) {
-  const [notifications, setNotifications] = useState([]);
+export function useNotifications(userRole = null, classId = null) {
   const { isLogOut } = useLogOut();
+  
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('notifications');
+    if (saved) {
+      try {
+        setNotifications(JSON.parse(saved));
+      } catch (error) {
+        console.error('Gagal parse notifications dari localStorage:', error);
+        setNotifications([]);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (!userRole) return;
@@ -22,29 +35,47 @@ export function useNotifications(userRole = "student", classId = 5) {
     async function subscribeForAdmins() {
       await subscriptionForAdmins.create();
       subscriptionForAdmins.onMessage((data) => {
-        console.log(data);
-        setNotifications((prev) => [data, ...prev]);
+        console.log('Notif Admin:', data);
+
+        setNotifications((prev) => {
+          const exists = prev.some(n => n.message?.id === data.message?.id);
+          if (exists) return prev;
+
+          const updated = [data, ...prev];
+          localStorage.setItem('notifications', JSON.stringify(updated));
+          return updated;
+        });
       });
     }
 
     async function subscribeForTeachers() {
       await subscriptionForTeachers.create();
       subscriptionForTeachers.onMessage((data) => {
-        console.log(data);
-        setNotifications((prev) => [data, ...prev]);
+        console.log('Notif Teacher:', data);
+
+        setNotifications((prev) => {
+          const exists = prev.some(n => n.message?.id === data.message?.id);
+          if (exists) return prev;
+
+          const updated = [data, ...prev];
+          localStorage.setItem('notifications', JSON.stringify(updated));
+          return updated;
+        });
       });
     }
 
     if (isLogOut) {
       subscriptionForAdmins.delete();
       subscriptionForTeachers.delete();
+      localStorage.removeItem('notifications');
+      setNotifications([]);
     }
 
     subscribeForAdmins();
     subscribeForTeachers();
 
     return () => {
-      // Optional: unsubscribe on unmount
+      if (subscriptionForAdmins.isDeleted() && subscriptionForTeachers.isDeleted()) return;
       subscriptionForAdmins.delete();
       subscriptionForTeachers.delete();
     };

@@ -12,6 +12,7 @@ export default function NotificationDropdown() {
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
   const router = useRouter();
+  const [hovered, setHovered] = useState(false)
 
   // Fungsi untuk toggle dropdown
   const toggleDropdown = (e) => {
@@ -65,8 +66,18 @@ export default function NotificationDropdown() {
             <div className="justify-center text-black dark:text-slate-100 text-base font-semibold">
               Notifikasi
             </div>
-            <div className="w-8 h-8 relative cursor-pointer">
-              <CloseCircle size="26" color="currentColor" variant="Bulk" className="dark:text-slate-100 rounded-full"/>
+            <div
+              className="w-8 h-8 relative cursor-pointer"
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+            >
+              <CloseCircle
+                size="26"
+                color={hovered ? 'red' : 'gray'}
+                variant={hovered ? 'Bulk' : 'outline'}
+                className="rounded-full dark:text-slate-100"
+                onClick={toggleDropdown}
+              />
             </div>
           </div>
 
@@ -76,22 +87,27 @@ export default function NotificationDropdown() {
                 Show all
               </button>
               </div>
-                {Array.isArray(notifications) && notifications.length > 0 ? (
-                  notifications.map((notification) => (
+              {Array.isArray(notifications) && notifications.length > 0 ? (
+                notifications.map((notification, idx) => {
+                  const msg = notification.message
+                  console.log(msg.module);
+                  const imageUrl = msg.senderPicture ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/file/${msg.senderPicture}` : null;
+                  return (
                     <Notif
-                      key={notification.id}
-                      imgSource={notification.senderPicture}
-                      sender={notification.from}
-                      date={notification.date}
-                      title={notification.title}
-                      content={notification.content}
-                      subjectName={notification.subjectName ? notification.subjectName : null}
+                      key={msg.id || idx}
+                      imgSource={imageUrl}
+                      sender={msg.from}
+                      date={msg.date}
+                      variant={msg.role === 'admin' ? 'icon' : 'subject'}
+                      title={msg.title}
+                      content={msg.content}
+                      subjectName={msg.module ? msg.module : null}
                     />
-                  ))
-                ) : (
-                  <p className="italic text-gray-500">Tidak ada notifikasi</p>
-                )}
-
+                  );
+                })
+              ) : (
+                <p className="italic text-gray-500">Tidak ada notifikasi</p>
+              )}
               </div>
         </div>
       )}

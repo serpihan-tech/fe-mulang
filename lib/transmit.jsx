@@ -3,17 +3,17 @@
 import { Transmit } from '@adonisjs/transmit-client'
 
 export function createTransmit() {
-  if (typeof window === 'undefined') return null; // hindari SSR error
+  if (typeof window === 'undefined') return null;
 
   console.log("tesssssssss");
 
   const transmit = new Transmit({
-    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
-    withCredentials: false,
+    baseUrl: "http://localhost:3333", // ! kalau pakai ngrok, akan error CORS
     uidGenerator: () => {
       return "123456";
     },
 
+    maxReconnectAttempts: 5,
 
     beforeSubscribe: (channel) => {
       console.log("beforeSubscribe");
@@ -23,7 +23,13 @@ export function createTransmit() {
           "ngrok-skip-browser-warning": "6024",
         },
       }
-    }
+    },
+
+
+    onReconnectAttempt: (att) => {
+      console.log("onReconnectAttempt", att);
+    },
+
   });
 
   return transmit
