@@ -2,8 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Notification, CloseCircle } from 'iconsax-react';
 import Notif from '@/app/(dashboard)/notification/_component/Notif';
 import { useRouter } from 'next/navigation';
+import { useNotifications } from '@/hooks/useNotification';
 
 export default function NotificationDropdown() {
+
+  const notifications = useNotifications();
+
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -34,7 +38,7 @@ export default function NotificationDropdown() {
       // Hapus event listener
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [notifications]);
 
   return (
     <div className="flex items-center">
@@ -71,29 +75,24 @@ export default function NotificationDropdown() {
               <button className="text-[#0841e2] dark:text-[#5D8BF8] text-xs font-semibold cursor-pointer hover:font-extrabold hover:underline" onClick={() => router.push('/notification')}>
                 Show all
               </button>
-            </div>
+              </div>
+                {Array.isArray(notifications) && notifications.length > 0 ? (
+                  notifications.map((notification) => (
+                    <Notif
+                      key={notification.id}
+                      imgSource={notification.senderPicture}
+                      sender={notification.from}
+                      date={notification.date}
+                      title={notification.title}
+                      content={notification.content}
+                      subjectName={notification.subjectName ? notification.subjectName : null}
+                    />
+                  ))
+                ) : (
+                  <p className="italic text-gray-500">Tidak ada notifikasi</p>
+                )}
 
-            <Notif
-              variant="icon"
-              imgSource="/picture/logoSekolah.png"
-              hidden="hidden lg:block"
-              sender="SMAN 81 Jakarta"
-              date="15 Jan"
-              contentGap=""
-              title="Pemberitahuan UTS -"
-              content="Dalam rangka memperingati Hari Batik Nasional yang jatuh pada tanggal 2 Oktober 2017, seluruh siswa-siswi diwajibkan untuk mengenakan baju batik bebas. Mari kita lestarikan budaya Indonesia dengan bangga mengenakan batik! Atas perhatian dan kerja samanya, kami ucapkan terima kasih."
-            />
-            <Notif
-              variant="icon"
-              imgSource="/picture/logoSekolah.png"
-              hidden="hidden lg:block"
-              sender="SMAN 81 Jakarta"
-              contentGap=""
-              date="15 Jan"
-              title="Pemberitahuan UTS -"
-              content="Dalam rangka memperingati Hari Batik Nasional yang jatuh pada tanggal 2 Oktober 2017, seluruh siswa-siswi diwajibkan untuk mengenakan baju batik bebas. Mari kita lestarikan budaya Indonesia dengan bangga mengenakan batik! Atas perhatian dan kerja samanya, kami ucapkan terima kasih."
-            />
-          </div>
+              </div>
         </div>
       )}
     </div>

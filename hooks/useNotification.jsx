@@ -1,33 +1,55 @@
 "use client";
 
 import { useEffect, useState } from 'react'
-import { transmit } from '../lib/transmit'
+import { createTransmit } from '../lib/transmit'
+import { useLogOut } from '@/provider/LogOutProvider';
 
-export function useNotifications(userId, userRole) {
-  const [notifications, setNotifications] = useState([])
-  console.log("userId : " , userId, "User role : ", userRole)
+export function useNotifications(userRole = "student", classId = 5) {
+  const [notifications, setNotifications] = useState([]);
+  const { isLogOut } = useLogOut();
+
   useEffect(() => {
-    if (!userId) return;
+    if (!userRole) return;
 
-    const subscription = transmit.subscription(`notifications/${userRole}`);
+    const transmit = createTransmit();
+    if (!transmit) return;
 
-    async function subscribe() {
-      await subscription.create();
-      subscription.onMessage((data) => {
+    const ClassId = Number(classId);
+    console.log("userRole:", userRole, "ClassId:", ClassId);
+    const subscriptionForAdmins = transmit.subscription(`notifications/${userRole}`);
+    const subscriptionForTeachers = transmit.subscription(`notifications/teachers/class/${ClassId}`);
+
+    async function subscribeForAdmins() {
+      await subscriptionForAdmins.create();
+      subscriptionForAdmins.onMessage((data) => {
         console.log(data);
         setNotifications((prev) => [data, ...prev]);
       });
     }
 
-    subscribe();
+    async function subscribeForTeachers() {
+      await subscriptionForTeachers.create();
+      subscriptionForTeachers.onMessage((data) => {
+        console.log(data);
+        setNotifications((prev) => [data, ...prev]);
+      });
+    }
 
-    console.log("notifications : ", subscription);
+    if (isLogOut) {
+      subscriptionForAdmins.delete();
+      subscriptionForTeachers.delete();
+    }
+
+    subscribeForAdmins();
+    subscribeForTeachers();
 
     return () => {
-      subscription.delete(); // ! Jangan di-unsubscribe ketika di unmount
-        // TODO : Implement unsubscribe di logOut
+      // Optional: unsubscribe on unmount
+      subscriptionForAdmins.delete();
+      subscriptionForTeachers.delete();
     };
-  }, [userId]);
+
+  }, [userRole, isLogOut, classId]);
 
   return notifications;
 }
