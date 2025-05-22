@@ -1,14 +1,20 @@
-import { Edit, Folder, TickCircle } from 'iconsax-react';
+import { DocumentText, Edit, Folder, TickCircle } from 'iconsax-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import SmallButton from '@/app/component/SmallButton';
 import { toast } from 'react-toastify';
 import { EditAbsensiSiswa } from '@/app/api/guru/ApiKesiswaan';
+import ReasonModal from './ReasonModal';
 
-const AbsenTable = ({ data, columns, onfetch }) => {
+const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
   const [editableColumns, setEditableColumns] = useState(columns);
   const [selectedStatus, setSelectedStatus] = useState({});
+  const [descriptions, setDescriptions] = useState({});
+  const [reasons, setReasons] = useState({});
+  const [showReasonModal, setShowReasonModal] = useState(false);
+  const [currentStudent, setCurrentStudent] = useState(null);
+  const [currentColumn, setCurrentColumn] = useState(null);
   const latestStatusRef = useRef(null);
 
   useEffect(() => {
@@ -17,8 +23,11 @@ const AbsenTable = ({ data, columns, onfetch }) => {
   
       // Inisialisasi status dari data
       const initialStatus = {};
+      const initialDescriptions = {};
+      const initialReasons = {};
       data.forEach((student, studentIndex) => {
         initialStatus[studentIndex] = {};
+        initialReasons[studentIndex] = {};
         columns.forEach((col) => {
           if (col.key.startsWith('status_')) {
             const absence = col.absences?.find(
@@ -26,14 +35,17 @@ const AbsenTable = ({ data, columns, onfetch }) => {
             );
             if (absence) {
               initialStatus[studentIndex][col.key] = absence.status || '-';
+              initialReasons[studentIndex][col.key] = absence.reason || '';
             }
+            // Inisialisasi deskripsi
+            initialDescriptions[col.key] = col.description || '';
           }
         });
       });
   
       setSelectedStatus(initialStatus);
-
-    
+      setDescriptions(initialDescriptions);
+      setReasons(initialReasons);
     }
   }, [columns, data]);
 
@@ -51,38 +63,87 @@ const AbsenTable = ({ data, columns, onfetch }) => {
   
   
 
+  const handleDescriptionChange = (columnKey, value) => {
+    setDescriptions(prev => ({
+      ...prev,
+      [columnKey]: value
+    }));
+  };
+
+  const handleStatusChange = (rowIndex, columnKey, status) => {
+    setSelectedStatus((prev) => ({
+      ...prev,
+      [rowIndex]: {
+        ...prev[rowIndex],
+        [columnKey]: status,
+      },
+    }));
+
+    // Jika status adalah Izin, tampilkan modal reason
+    if (status === 'Izin') {
+      setCurrentStudent(data[rowIndex]);
+      setCurrentColumn(columnKey);
+      setShowReasonModal(true);
+    } else {
+      // Jika status bukan Izin, hapus reason
+      setReasons(prev => ({
+        ...prev,
+        [rowIndex]: {
+          ...prev[rowIndex],
+          [columnKey]: '',
+        },
+      }));
+    }
+  };
+
+  const handleReasonSubmit = (reason) => {
+    if (currentStudent && currentColumn) {
+      const rowIndex = data.findIndex(student => student.id === currentStudent.id);
+      setReasons(prev => ({
+        ...prev,
+        [rowIndex]: {
+          ...prev[rowIndex],
+          [currentColumn]: reason,
+        },
+      }));
+    }
+    setShowReasonModal(false);
+    setCurrentStudent(null);
+    setCurrentColumn(null);
+  };
+
   const handleDisableFillable = async (colKey) => {
     console.log("colkey: ",colKey)
     const targetColumn = editableColumns.find(col => col.key === colKey.key);
     if (!targetColumn) return;
   
-    const columnDate = format(new Date(colKey.date), 'yyyy-MM-dd'); // format date
+    const columnDate = format(new Date(colKey.date), 'yyyy-MM-dd');
     const scheduleId = colKey.scheduleId;
   
     // Susun payload absences
     const absencesPayload = data.map((student, rowIndex) => {
       const status = selectedStatus[rowIndex]?.[colKey.key];
-      const reason = status === "Izin" ? student.reason || "Default reason" : null; // Sesuaikan pengambilan reason
+      const reason = status === "Izin" ? reasons[rowIndex]?.[colKey.key] : null;
       return {
         classStudentId: student.id,
         status,
         reason,
       };
-    }).filter(abs => abs?.status); // pastikan status terisi
+    }).filter(abs => abs?.status);
   
     const payload = {
       date: columnDate,
       scheduleId,
       absences: absencesPayload,
+      description: descriptions[colKey.key] || ''
     };
   
     try {
-      //console.log("payload: ", payload)
       const response = await EditAbsensiSiswa(payload);
       if(response) {
         setEditableColumns((prev) =>
           prev.map((col) =>
-            col.key === colKey.key ? { ...col, fillable: false } : col
+            col.key === colKey.key ? { ...col, fillable: false, description: descriptions[colKey.key] } : col
           )
         );
       }
@@ -92,16 +153,6 @@ const AbsenTable = ({ data, columns, onfetch }) => {
   };
 
   /// handleStatusChange dan getStatusColor pakai dynamic key
-  const handleStatusChange = (rowIndex, columnKey, status) => {
-    setSelectedStatus((prev) => ({
-      ...prev,
-      [rowIndex]: {
-        ...prev[rowIndex],
-        [columnKey]: status,
-      },
-    }));
-  };
-
   const handleEnableFillable = (colKey) => {
     console.log("colKey",colKey)
     setEditableColumns((prev) =>
@@ -249,26 +300,48 @@ const AbsenTable = ({ data, columns, onfetch }) => {
             className={`justify-center px-7 ${stickyClass(column.key)}`}
           >
             {column.key.startsWith('status_') && column.fillable === false ? (
-              <SmallButton
-                bgColor={'bg-pri-main'}
-                icon={Edit}
-                colorIcon={'currentColor'}
-                iconSize={24}
-                title='Edit'
-                minBtnSize='min-w-full'
-                onClick={() => handleEnableFillable(column.key)}
-              />
-            ) : (
-              column.key.startsWith('status_') && (
+              <div className='flex space-x-2 w-full'>
                 <SmallButton
-                  bgColor={'bg-pri-main'}
-                  icon={Folder}
+                  bgColor={'bg-sec-main '}
+                  icon={DocumentText}
+                  textColor='text-black'
                   colorIcon={'currentColor'}
                   iconSize={24}
-                  title='Tambah'
-                  minBtnSize='min-w-full'
-                  onClick={() => handleDisableFillable(column)}
+                  title='Desc'
+                  minBtnSize='w-full'
+                  onClick={() => onShowDescription(column.description)}
                 />
+
+                <SmallButton
+                  bgColor={'bg-pri-main'}
+                  icon={Edit}
+                  colorIcon={'currentColor'}
+                  iconSize={24}
+                  title='Edit'
+                  minBtnSize='w-full'
+                  onClick={() => handleEnableFillable(column.key)}
+                />
+              </div>
+            ) : (
+              column.key.startsWith('status_') && (
+                <div className="space-y-2">
+                  <textarea
+                    value={descriptions[column.key] || ''}
+                    onChange={(e) => handleDescriptionChange(column.key, e.target.value)}
+                    placeholder="Masukkan deskripsi absensi..."
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    rows="3"
+                  />
+                  <SmallButton
+                    bgColor={'bg-pri-main'}
+                    icon={Folder}
+                    colorIcon={'currentColor'}
+                    iconSize={24}
+                    title='Tambah'
+                    minBtnSize='min-w-full'
+                    onClick={() => handleDisableFillable(column)}
+                  />
+                </div>
               )
             )}
           </td>
@@ -276,6 +349,17 @@ const AbsenTable = ({ data, columns, onfetch }) => {
       </tr>
     </tfoot>
   </table>
+
+  <ReasonModal
+    isOpen={showReasonModal}
+    onClose={() => {
+      setShowReasonModal(false);
+      setCurrentStudent(null);
+      setCurrentColumn(null);
+    }}
+    onSubmit={handleReasonSubmit}
+    student={currentStudent}
+  />
 </div>
 
 

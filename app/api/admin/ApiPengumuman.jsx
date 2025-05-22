@@ -134,6 +134,16 @@ export const data_pengumuman = async (page,limit, search, sortBy, sortOrder, kel
     }
 };
 
+export const data_admin_pengumuman = async (noPaginate=false,) => {
+    try {
+        const response = await ApiManager.get(`/announcements/admins?noPaginate=${noPaginate}`,);
+        return response.data
+    } catch (error) {
+        toast.error("Gagal membuat data: ", error.message);
+        throw error;
+    }
+};
+
 export const admin_detail_pengumuman = async (id) => {
     try {
         const response = await ApiManager.get(`/announcements/admins/${id}`,);

@@ -43,7 +43,7 @@ export default function Jadwal({
       </div>
 
       {/* Card */}
-      <div className={`w-full md:w-[320px] lg:w-[500px] px-6 py-4 space-y-3 rounded-lg ${bgColor}`}>
+      <div className={`w-full  px-6 py-4 space-y-3 rounded-lg ${bgColor}`}>
         {/* Header */}
         <div className="flex items-center justify-between">
           <p className="text-[#0841e2] text-sm font-semibold">

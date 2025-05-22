@@ -11,6 +11,7 @@ import SmallButton from "@/app/component/SmallButton";
 import { Book1 } from "iconsax-react";
 import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import DataAbsensiMassModal from "../../_component/DataAbsensiMassModal";
+import DescriptionModal from "../_component/DescriptionModal";
 
 export default function AbsensiSiswaTeacher() {
   const mapel = typeof window !== "undefined" ?  JSON.parse(sessionStorage.getItem("module_id")) : null;
@@ -25,7 +26,9 @@ export default function AbsensiSiswaTeacher() {
   const [absenTableColumns, setAbsenTableColumns] = useState([]);
   const [ isTambah, setIsTambah ] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isLoading, setLoading] = useState(false) 
+  const [isLoading, setLoading] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
+  const [currentDescription, setCurrentDescription] = useState("");
 
   const fetchDataJadwal = async () => {
     setIsLoading(true);
@@ -81,6 +84,7 @@ export default function AbsensiSiswaTeacher() {
           absences: dateObj.absences,
           scheduleId: dateObj.scheduleId,
           fillable: false,
+          description: dateObj.description,
         }))
       ];
       setAbsenTableColumns(columns);
@@ -127,9 +131,10 @@ export default function AbsensiSiswaTeacher() {
       label: "Status",
       date: data.date,
       scheduleId: data.scheduleId,
+      description: "",
       absences: absenTableData.map(item => ({
         classStudentId: item.id,
-        status: null,
+        status: "Hadir",
         reason: null
       }))
     };
@@ -149,6 +154,16 @@ export default function AbsensiSiswaTeacher() {
       setLoading(false)
     }
   }; 
+
+  const handleShowDescription = (description) => {
+    setCurrentDescription(description);
+    setShowDescription(true);
+  };
+
+  const handleCloseDescription = () => {
+    setShowDescription(false);
+    setCurrentDescription("");
+  };
 
   // Ambil data jadwal saat awal
   useEffect(() => {
@@ -201,6 +216,13 @@ export default function AbsensiSiswaTeacher() {
         </div>
       )}
 
+      {/* Description Modal */}
+      <DescriptionModal 
+        isOpen={showDescription}
+        onClose={handleCloseDescription}
+        description={currentDescription}
+      />
+
       {/* Tambah */}
       {isTambah && (
         <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
@@ -209,8 +231,7 @@ export default function AbsensiSiswaTeacher() {
             onConfirm={addJadwal}
             isLoading={isLoading}
             selectedClass={selectedClass.label}
-            
-           />
+          />
         </div>
       )}
       <div className="z-0 transition">
@@ -259,6 +280,7 @@ export default function AbsensiSiswaTeacher() {
                   data={absenTableData} 
                   columns={absenTableColumns}
                   onfetch={fetchDataAbsen}
+                  onShowDescription={handleShowDescription}
                 />
               </div>
             </div>

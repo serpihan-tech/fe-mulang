@@ -1,4 +1,22 @@
+import { data_admin_pengumuman } from "@/app/api/admin/ApiPengumuman";
+import { useEffect, useState } from "react";
+
 export default function Informasi () {
+  const [pengumuman, setPengumuman] = useState([]);
+  const [lastPengumuman, setLastPengumuman] = useState(null);
+  const role = sessionStorage.getItem("role");
+  const fetchDataPengumuman = async () => {
+    const response = await data_admin_pengumuman(true);
+    if(response){
+      console.log("Data pengumuman:", response)
+    }
+  }
+
+  useEffect(() => {
+    fetchDataPengumuman()
+  }, [])
+  
+
   return (
     <div className="w-full py-[10px] space-y-2 md:space-y-6 mt-5">
       <div className="flex space-x-2">

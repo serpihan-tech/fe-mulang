@@ -18,7 +18,7 @@ const ReasonModal = ({ isOpen, onClose, onSubmit, student }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-      <div className="bg-white w-full max-w-md rounded-xl p-6 shadow-lg">
+      <div className="bg-white dark:bg-black w-full max-w-md rounded-xl p-6 shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Alasan Izin</h2>
           <CloseCircle 

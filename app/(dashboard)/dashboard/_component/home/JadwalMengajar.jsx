@@ -4,7 +4,7 @@ import Jadwal from "./Jadwal";
 import moment from "moment";
 
 
-export default function JadwalMengajar({day, schedule=[]}) {
+export default function JadwalMengajar({day, schedule=[], hiddenTitle=false}) {
   const today = new Intl.DateTimeFormat("id-ID", { weekday: "long" }).format(
     new Date()
   );
@@ -30,8 +30,8 @@ export default function JadwalMengajar({day, schedule=[]}) {
 
 
   return (
-    <div className="flex flex-col items-center rounded-lg min-w-[320px] px-3 md:px-5 lg:mx-10 mb-5 md:mb-0">
-      <h2 className="text-sm md:text-base lg:text-lg text-pri-main dark:text-[#5D8BF8] font-semibold mb-2">{day}</h2>
+    <div className="flex flex-col items-center rounded-lg min-w-[320px] px-3 md:px-5  mb-5 md:mb-0">
+      <h2 className={`${hiddenTitle ? "hidden":""} text-sm md:text-base lg:text-lg text-pri-main dark:text-[#5D8BF8] font-semibold mb-2`}>{day}</h2>
       <div className="w-full space-y-5">
         {schedule.length > 0 ? (
           schedule

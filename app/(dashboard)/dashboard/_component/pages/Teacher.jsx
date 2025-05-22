@@ -10,12 +10,17 @@ import { use, useEffect, useState } from 'react';
 import AbsenSuccessPopUp from "../home/AbsenSuccessPopUp";
 import { useSemester } from "@/provider/SemesterProvider";
 import { JumlahSiswaDanKelasGuru } from "@/app/api/guru/ApiGuru";
-
+import { JadwalGuru } from "@/app/api/guru/ApiKBM";
+import moment from 'moment';
 
 export default function TeacherDashboard() {
   const message = sessionStorage.getItem("come_first");
   const [jumlahKelas, setJumlahKelas] = useState(0)
   const [jumlahSiswa, setJumlahSiswa] = useState(0)
+  const [todaySchedule, setTodaySchedule] = useState([])
+  const today = new Intl.DateTimeFormat("id-ID", { weekday: "long" }).format(
+    new Date()
+  );
 
   useEffect(() => {
     if (message) {
@@ -31,19 +36,60 @@ export default function TeacherDashboard() {
     if(response){
       setJumlahKelas(response.data?.totalClasses || 0)
       setJumlahSiswa(response.data?.totalStudents || 0)
-
     }
   }
+
   useEffect(() => {
     fetchDataKelasSiswa()
   }, [semesterId])
 
+  const [scheduleData, setScheduleData] = useState({})
+    
+  const fetchJadwalGuru = async () => {
+    try {
+      const data = await JadwalGuru();
+      if(data){
+        console.log("Data jadwal:", data);
+        if (Array.isArray(data.teachers)) {
+          const groupedSchedule = data.teachers.reduce((acc, item) => {
+            if (!acc[item.days]) {
+              acc[item.days] = []
+            }
+            acc[item.days].push(item)
+            return acc;
+          }, {});
+
+          Object.keys(groupedSchedule).forEach((day) => {
+            groupedSchedule[day].sort(
+              (a, b) =>
+                moment(a.startTime, "HH:mm:ss") - moment(b.startTime, "HH:mm:ss")
+            );
+          });
+
+          setScheduleData(groupedSchedule);
+
+          
+          const todayData = groupedSchedule[today] || [];
+          setTodaySchedule(todayData);
+        } else {
+          console.error("Data schedule bukan array atau kosong:", data.schedule);
+          setScheduleData({});
+          setTodaySchedule([]);
+        }
+      }
+    } catch (error) {
+      toast.error("Gagal mengambil data detail guru:", error.message);
+      setTodaySchedule([]);
+    }
+  };
   
+  useEffect(() => {
+    fetchJadwalGuru();
+  }, []);
+
   return (
     <>
-      
       <div className="z-0 transition">
-      
         <div className="bg-[#FAFAFA]  dark:bg-dark_net-pri lg:flex gap-5 ">
           <div className="w-full lg:w-2/3 lg:px-4 space-y-5 lg:space-y-9">
             <div className="w-full flex gap-3 md:gap-6">
@@ -71,10 +117,9 @@ export default function TeacherDashboard() {
               <h1 className="text-black dark:text-slate-100 text-sm md:text-base lg:text-lg font-semibold">Jadwal Mengajar</h1>
             </div>
 
-            <JadwalMengajar/>
+            <JadwalMengajar day={today} schedule={todaySchedule} hiddenTitle={true} />
             
           </div>
-          {/* <AbsenSuccessPopUp/> */}
           
           <div className="w-full lg:w-1/3 mt-4 md:mt-7 lg:mt-0">
             <Periode/>

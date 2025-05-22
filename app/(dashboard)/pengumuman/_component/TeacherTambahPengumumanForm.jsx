@@ -89,7 +89,11 @@ export default function TeacherTambahPengumumanForm() {
     
           const formattedData = Array.from(uniqueMapelMap.values());
           setMapelOption(formattedData);
-          setSelectedMapel(mapel)
+          if (mapel) {
+            setSelectedMapel(mapel)
+            sessionStorage.removeItem("module_id");
+          
+          }
           
         }
       } catch (error) {
@@ -121,6 +125,11 @@ export default function TeacherTambahPengumumanForm() {
 
     setClassOption(filteredKelas);
 
+    if(kelas){
+      setSelectedClass(kelas)
+      sessionStorage.removeItem("class_id");
+    }
+    
     // Jika dalam edit mode dan ada class_id di formData, cari kelas yang sesuai
     if (isEditMode && formData.class_id) {
       const existingClass = filteredKelas.find(opt => opt.value === formData.class_id);
@@ -130,7 +139,8 @@ export default function TeacherTambahPengumumanForm() {
         setSelectedClass(null);
       }
     } else {
-      setSelectedClass(null);
+      setSelectedClass(kelas);
+      sessionStorage.removeItem("class_id");
     }
   }, [selectedMapel, jadwal, isEditMode]);
 
@@ -231,7 +241,7 @@ export default function TeacherTambahPengumumanForm() {
 console.log("formData", formData);
 console.log("mapel Option", mapelOption)
 console.log("kelas Option", classOption)
-
+console.log("kelas", kelas)
 
   return (
     <div className="w-full bg-white dark:bg-dark_net-ter py-8 px-6 ">
