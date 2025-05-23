@@ -14,8 +14,8 @@ export default function Reset() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const email = sessionStorage.getItem("user_email");
-  const reset_token = sessionStorage.getItem("reset_token");
+  const email =typeof window !== "undefined" ?  sessionStorage.getItem("user_email"):null;
+  const reset_token = typeof window !== "undefined" ? sessionStorage.getItem("reset_token"):null;
   const [credentials, setCredentials] = useState({ email: email, resetToken: reset_token, password:"" });
   
   // Gunakan useEffect untuk mengirim data ke server setelah credentials diperbarui
