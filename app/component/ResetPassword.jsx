@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 export default function ResetPassword() {
   const router = useRouter();
-  const email = sessionStorage.getItem("user_email");
+  const email = typeof window !== "undefined" ? sessionStorage.getItem("user_email"):null;
   const [otp, setOtp] = useState(Array(4).fill(""));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
