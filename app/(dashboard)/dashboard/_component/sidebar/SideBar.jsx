@@ -11,12 +11,16 @@ import { useRouter } from "next/navigation";
 import LogOutPopUp from "@/app/component/LogoutPopUp";
 import { toast } from "react-toastify";
 import ThemeSwitcher from "@/app/component/ThemeSwitcher";
+import { useLogOut } from "@/provider/LogOutProvider";
 
 export default function SideBar({isOpen,toggleSidebar}) {
   const [role, setRole] = useState(null);
   const router = useRouter()
   const [isLoading, setLoading] = useState(false)
- const [isLogoutOpen, setLogoutOpen] = useState(false)
+
+  const { setIsLogOut } = useLogOut();
+
+  const [isLogoutOpen, setLogoutOpen] = useState(false)
   useEffect(() => {
     const userRole = sessionStorage.getItem("role");
     setRole(userRole);
@@ -31,6 +35,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
       const response = await logout(); 
       if(response){
         sessionStorage.setItem("log_out", response.message)
+        setIsLogOut(true)
         router.push("/login")
       }
     } catch (error) {

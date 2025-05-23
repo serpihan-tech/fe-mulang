@@ -2,12 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Notification, CloseCircle } from 'iconsax-react';
 import Notif from '@/app/(dashboard)/notification/_component/Notif';
 import { useRouter } from 'next/navigation';
+import { useNotifications } from '@/hooks/useNotification';
 
 export default function NotificationDropdown() {
+
+  const notifications = useNotifications();
+
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
   const router = useRouter();
+  const [hovered, setHovered] = useState(false)
 
   // Fungsi untuk toggle dropdown
   const toggleDropdown = (e) => {
@@ -34,7 +39,7 @@ export default function NotificationDropdown() {
       // Hapus event listener
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [notifications]);
 
   return (
     <div className="flex items-center">
@@ -61,8 +66,18 @@ export default function NotificationDropdown() {
             <div className="justify-center text-black dark:text-slate-100 text-base font-semibold">
               Notifikasi
             </div>
-            <div className="w-8 h-8 relative cursor-pointer">
-              <CloseCircle size="26" color="currentColor" variant="Bulk" className="dark:text-slate-100 rounded-full"/>
+            <div
+              className="w-8 h-8 relative cursor-pointer"
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+            >
+              <CloseCircle
+                size="26"
+                color={hovered ? 'red' : 'gray'}
+                variant={hovered ? 'Bulk' : 'outline'}
+                className="rounded-full dark:text-slate-100"
+                onClick={toggleDropdown}
+              />
             </div>
           </div>
 
@@ -71,29 +86,29 @@ export default function NotificationDropdown() {
               <button className="text-[#0841e2] dark:text-[#5D8BF8] text-xs font-semibold cursor-pointer hover:font-extrabold hover:underline" onClick={() => router.push('/notification')}>
                 Show all
               </button>
-            </div>
-
-            <Notif
-              variant="icon"
-              imgSource="/picture/logoSekolah.png"
-              hidden="hidden lg:block"
-              sender="SMAN 81 Jakarta"
-              date="15 Jan"
-              contentGap=""
-              title="Pemberitahuan UTS -"
-              content="Dalam rangka memperingati Hari Batik Nasional yang jatuh pada tanggal 2 Oktober 2017, seluruh siswa-siswi diwajibkan untuk mengenakan baju batik bebas. Mari kita lestarikan budaya Indonesia dengan bangga mengenakan batik! Atas perhatian dan kerja samanya, kami ucapkan terima kasih."
-            />
-            <Notif
-              variant="icon"
-              imgSource="/picture/logoSekolah.png"
-              hidden="hidden lg:block"
-              sender="SMAN 81 Jakarta"
-              contentGap=""
-              date="15 Jan"
-              title="Pemberitahuan UTS -"
-              content="Dalam rangka memperingati Hari Batik Nasional yang jatuh pada tanggal 2 Oktober 2017, seluruh siswa-siswi diwajibkan untuk mengenakan baju batik bebas. Mari kita lestarikan budaya Indonesia dengan bangga mengenakan batik! Atas perhatian dan kerja samanya, kami ucapkan terima kasih."
-            />
-          </div>
+              </div>
+              {Array.isArray(notifications) && notifications.length > 0 ? (
+                notifications.map((notification, idx) => {
+                  const msg = notification.message
+                  console.log(msg.module);
+                  const imageUrl = msg.senderPicture ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/file/${msg.senderPicture}` : null;
+                  return (
+                    <Notif
+                      key={msg.id || idx}
+                      imgSource={imageUrl}
+                      sender={msg.from}
+                      date={msg.date}
+                      variant={msg.role === 'admin' ? 'icon' : 'subject'}
+                      title={msg.title}
+                      content={msg.content}
+                      subjectName={msg.module ? msg.module : null}
+                    />
+                  );
+                })
+              ) : (
+                <p className="italic text-gray-500">Tidak ada notifikasi</p>
+              )}
+              </div>
         </div>
       )}
     </div>
