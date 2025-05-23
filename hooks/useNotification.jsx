@@ -75,7 +75,7 @@ export function useNotifications(userRole = null, classId = null) {
     subscribeForTeachers();
 
     return () => {
-      if (subscriptionForAdmins.isDeleted() && subscriptionForTeachers.isDeleted()) return;
+      if (subscriptionForAdmins == null  && subscriptionForTeachers == null) return;
       subscriptionForAdmins.delete();
       subscriptionForTeachers.delete();
     };

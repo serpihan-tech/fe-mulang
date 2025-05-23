@@ -6,8 +6,11 @@ import { useNotifications } from '@/hooks/useNotification';
 
 export default function NotificationDropdown() {
 
-  const notifications = useNotifications();
-
+  const personal_data = typeof window !== "undefined" ? JSON.parse(sessionStorage.getItem("profile_data")): null;
+  const role = typeof window !== "undefined" ? sessionStorage.getItem("role") : null;
+  const classId = personal_data.data?.profile?.details?.classStudent?.classId || null
+  const notifications = useNotifications(role, classId ? classId:null);
+  console.log(role, classId);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);

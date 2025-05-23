@@ -26,6 +26,7 @@ export default function DashboardHeader() {
             let images = baseUrl+"/file/"+image
             console.log("images link:" ,images)
             
+            console.log("user: ", user)
 
             setProfileImgs(images);
 

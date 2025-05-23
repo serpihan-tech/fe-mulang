@@ -1,11 +1,16 @@
 "use client";
 import Image from "next/image";
 import { useLoading } from "@/context/LoadingContext"
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
+
 import animationData from "../../public/animation/Loading.json";  
+
 
 export default function DataNotFound() {
   const { isLoading } = useLoading();
+  const Lottie = dynamic(() => import("lottie-react"), {
+    ssr: false,
+  });
 
   return (
     <>
