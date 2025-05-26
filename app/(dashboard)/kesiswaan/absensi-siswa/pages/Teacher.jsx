@@ -228,7 +228,7 @@ export default function AbsensiSiswaTeacher() {
         <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
           <DataAbsensiMassModal
             onCancel={()=>(setIsTambah(false))}
-            onConfirm={addJadwal}
+            onConfirm={addJadwal}b
             isLoading={isLoading}
             selectedClass={selectedClass.label}
           />

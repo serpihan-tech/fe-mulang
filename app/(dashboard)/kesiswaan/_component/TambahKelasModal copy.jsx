@@ -49,7 +49,7 @@ export default function TambahKelasModal({ onCancel, onConfirm, isLoading }) {
     <div className="w-[485px] bg-white dark:bg-dark_net-ter pb-[38px] rounded-lg">
       <div className="w-full h-[54px] flex px-5 py-4 rounded-t-lg bg-[#adc0f5]/10 dark:bg-dark_net-pri items-center">
         <div className="text-black dark:text-slate-100 text-xl font-semibold">
-          Edit Data
+          Tambah Data
         </div>
         <CloseCircle
           size="24"
@@ -60,124 +60,47 @@ export default function TambahKelasModal({ onCancel, onConfirm, isLoading }) {
         />
       </div>
       <div className="w-full px-5">
-        <div className="space-y-4">
-          {/* ID Jadwal */}
-          <div className={`${formData.id === "" ? "hidden" : ""}`}>
-            <Input label="ID" value={formData.id} disabled />
-          </div>
-
-          {/* Hari */}
-          <div>
-            <label className="text-sm font-medium">Hari</label>
+      <div className="space-y-4">
+          <div className="w-full">
+            <label className="text-black dark:text-slate-100 text-sm font-medium">Jadwal</label>
             <Dropdown
-              placeholder="Pilih hari"
-              value={
-                hariOptions.find((opt) => opt.value === formData.days) || null
-              }
-              onChange={(val) => setFormData({ ...formData, days: val.value })}
-              className={
-                "w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter border border-[#cccccc] "
-              }
-              options={hariOptions}
+              options={jadwalOptions}
+              value={selectedJadwal}
+              onChange={setSelectedJadwal}
+              className="w-full h-10 p-2 rounded-md bg-white border border-[#cccccc] "
+              placeholder="Pilih Jadwal"
             />
           </div>
 
-          {/* Jam Masuk & Jam Pulang */}
-          <div className="flex gap-4">
-            <div className="w-1/2">
-              <label className="text-sm font-medium">Jam Masuk</label>
-              <CustomTimePicker
-                value={formData.start_time}
-                onChange={(val) =>
-                  setFormData({ ...formData, start_time: val })
-                }
-              />
-            </div>
-            <div className="w-1/2">
-              <label className="text-sm font-medium">Jam Selesai</label>
-              <CustomTimePicker
-                value={formData.end_time}
-                onChange={(val) => setFormData({ ...formData, end_time: val })}
-              />
-            </div>
-          </div>
-
-          {/* Kelas */}
           <div>
-            <label className="text-sm font-medium">Kelas</label>
-            <Dropdown
-              placeholder="Pilih kelas"
-              value={
-                kelasOptions.find((opt) => opt.value === formData.class_id) ||
-                null
-              }
-              onChange={(val) =>
-                setFormData({ ...formData, class_id: val.value })
-              }
-              className={
-                "w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter border border-[#cccccc] "
-              }
-              options={kelasOptions || []}
-            />
-          </div>
-
-          {/* Mata pelajaran */}
-          <div>
-            <label className="text-sm font-medium">Mata pelajaran</label>
-            <Dropdown
-              placeholder="Pilih mapel"
-              value={
-                mapelOptions.find((opt) => opt.value === formData.module_id) ||
-                null
-              }
-              onChange={(val) =>
-                setFormData({ ...formData, module_id: val.value })
-              }
-              className={
-                "w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter border border-[#cccccc] "
-              }
-              options={mapelOptions || []}
-            />
-          </div>
-
-          {/* Ruangan */}
-          <div>
-            <label className="text-sm font-medium">Ruangan</label>
-            <Dropdown
-              placeholder="Pilih ruangan"
-              value={
-                ruanganOptions.find((opt) => opt.value === formData.room_id) ||
-                null
-              }
-              onChange={(val) =>
-                setFormData({ ...formData, room_id: val.value })
-              }
-              className={
-                "w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter  border border-[#cccccc] "
-              }
-              options={ruanganOptions || []}
+            <label className="text-sm font-medium">Tanggal</label>
+            <CustomDatePicker
+              value={selectedDate}
+              onChange={dateSelection}
+              //disabled={true}
+              customFilterdateStyle="flex justify-between items-center px-3 py-2 text-black px-3 py-2 border border-gray-300 rounded-md bg-white"
             />
           </div>
         </div>
-        <div className="w-full flex justify-end space-x-4 mt-5">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 dark:border-[#ff4022] text-red-600 dark:text-[#ff4022] hover:bg-red-500 dark:hover:bg-[#ff4022] dark:hover:text-slate-100 hover:text-white bg-white dark:bg-dark_net-ter transition-shadow duration-300 hover:scale-105"
-          >
-            Batal
-          </button>
-          <button
-            disabled={isLoading}
-            type="submit"
-            className={`w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium ${
-              isLoading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            } transition-shadow duration-300 hover:shadow-md hover:scale-105`}
-          >
-            {isLoading ? "Membuat..." : "Buat"}
-          </button>
+
+        <div className="flex justify-end mt-6 space-x-3">
+            <button
+                onClick={onCancel}
+                className="px-4 py-2 border border-red-500 text-red-500 rounded-md hover:bg-red-50"
+            >
+              Batal
+            </button>
+            <button
+                onClick={handleSubmit}
+                disabled={isLoading}
+                className={`px-4 py-2 rounded-md text-white ${
+                    isLoading
+                    ? "bg-blue-300 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700"
+                }`}
+                >
+                {isLoading ? "Menyimpan..." : "Simpan"}
+            </button>
         </div>
       </div>
     </div>
