@@ -164,3 +164,22 @@ export const admin_hapus_pengumuman = async (id) => {
     }
 };
 
+export const data_kegiatan_tahunan = async (page,limit, search, sortBy, sortOrder) => {
+    try {
+        //
+        const response = await ApiManager.get(`/school-calendars?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            }
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
+        }
+    }
+};
+

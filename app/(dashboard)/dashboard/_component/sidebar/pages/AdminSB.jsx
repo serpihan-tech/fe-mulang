@@ -54,6 +54,14 @@ export default function AdminBar({ open }) {
         url='/pengumuman'
         open={open}
       />
+
+      <SidebarItem 
+        title="Kegiatan tahunan" 
+        icon={Home} 
+        colorIcon="currentColor" 
+        url='/kegiatan-tahunan'
+        open={open}
+      />
     </div>
   );
 }

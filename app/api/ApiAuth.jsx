@@ -6,13 +6,11 @@ const token = typeof window !== "undefined" ? sessionStorage.getItem("token") : 
 export const login = async (credentials) => {
     try {
         const response = await ApiManager.post("/login", credentials );
-        return response.data;
+        return response;
 
     } catch (err) {
         if (err.message.includes('Network Error')) {
         toast.error('Error 500: Server sedang bermasalah');
-        } else {
-        toast.error(err.message);
         }
     }
 };

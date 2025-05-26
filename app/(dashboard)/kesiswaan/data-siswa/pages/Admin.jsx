@@ -225,6 +225,7 @@ export default function AdminDataSiswa() {
 
   const handleEdit = (id) => {
     router.push(`/kesiswaan/data-siswa/${id}`);
+    setIsLoading(true)
   };
 
   return (
