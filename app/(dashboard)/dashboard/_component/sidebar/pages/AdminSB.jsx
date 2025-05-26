@@ -1,4 +1,4 @@
-import { Home, Profile2User, People, Award, Book1 } from "iconsax-react";
+import { Home, Profile2User, People, Award, Book1, Calendar1, Calendar2 } from "iconsax-react";
 import SidebarItem from "../ItemSB";
 
 export default function AdminBar({ open }) {
@@ -57,7 +57,7 @@ export default function AdminBar({ open }) {
 
       <SidebarItem 
         title="Kegiatan tahunan" 
-        icon={Home} 
+        icon={Calendar2} 
         colorIcon="currentColor" 
         url='/kegiatan-tahunan'
         open={open}

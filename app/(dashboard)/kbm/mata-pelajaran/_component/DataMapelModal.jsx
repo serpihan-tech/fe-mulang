@@ -171,11 +171,11 @@ export default function DataMapelModal({ onCancel, onConfirm, mapelData, isLoadi
             />
 
             {suggestions.length > 0 && (
-              <ul className="absolute z-10 bg-black border w-full mt-1 rounded shadow">
+              <ul className="absolute z-10 w-full mt-1">
                 {suggestions.map((item, index) => (
                   <li
                     key={index}
-                    className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                    className="w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter  "
                     onClick={() => handleSelectSuggestion(item)}
                   >
                     {item.label}
@@ -261,7 +261,8 @@ export default function DataMapelModal({ onCancel, onConfirm, mapelData, isLoadi
           </button>
           <button
             disabled={isLoading}
-            type="submit"
+            type="button"
+            onClick={handleSubmit}
             className={`w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"

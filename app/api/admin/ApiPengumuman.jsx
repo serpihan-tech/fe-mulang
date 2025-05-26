@@ -183,3 +183,32 @@ export const data_kegiatan_tahunan = async (page,limit, search, sortBy, sortOrde
     }
 };
 
+export const hapus_kegiatan_tahunan = async (id) => {
+    try {
+        const response = await ApiManager.delete(`/school-calendars/${id}`,);
+        return response.data
+    } catch (error) {
+        toast.error("Gagal menghapus data: ", error.message);
+        throw error;
+    }
+};
+
+export const tambah_kegiatan_tahunan = async (payload) => {
+    try {
+        const response = await ApiManager.post(`/school-calendars`,payload);
+        return response.data
+    } catch (error) {
+        toast.error("Gagal menghapus data: ", error.message);
+        throw error;
+    }
+};
+
+export const edit_kegiatan_tahunan = async (id,payload) => {
+    try {
+        const response = await ApiManager.patch(`/school-calendars/${id}`,payload);
+        return response.data
+    } catch (error) {
+        toast.error("Gagal menghapus data: ", error.message);
+        throw error;
+    }
+};

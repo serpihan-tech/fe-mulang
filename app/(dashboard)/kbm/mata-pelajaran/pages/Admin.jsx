@@ -188,7 +188,7 @@ export default function MataPelajaranAdmin() {
   };
 
   const confirmEdit = async (createdData) => {
-    const id = selectedData.id_mapel;
+    const id = createdData.id_mapel;
 
     try {
       setIsLoading(true);
