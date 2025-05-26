@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import NotificationDropdown from "./NotificationDropdown";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function DashboardHeader() {
   const router = useRouter();
@@ -14,6 +15,19 @@ export default function DashboardHeader() {
   const role = typeof window !== "undefined" ? sessionStorage.getItem("role") : null;
   const data = typeof window !== "undefined" ? sessionStorage.getItem("profile_data") : null;
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const { setIsLoading } = useLoading();
+  const [isLoading, setLoading] = useState(false);
+
+  const handleProfile = async () => {
+    setIsLoading(true);
+    setLoading(true);
+    try {
+      router.push("/profile");
+    } finally {
+      setIsLoading(false);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -83,7 +97,7 @@ export default function DashboardHeader() {
         
         <button 
           className="flex gap-3 items-center cursor-pointer hover:opacity-80 transition"
-          onClick={() => router.push("/profile")}
+          onClick={handleProfile}
         >
           <Image 
             src={profileImg || profileImgs || "/svg/logo.svg"} 
