@@ -53,7 +53,7 @@ export default function NotificationDropdown() {
         className="relative"
       >
         <Notification 
-          className={`${isOpen? "bg-blue-600" : "bg-netral-20"} w-8 md:w-9 lg:w-10 p-1.5 md:p-2 rounded-full`} 
+          className={`${isOpen? "bg-blue-600" : "bg-netral-0 border"} w-8 md:w-9 lg:w-10 p-1.5 md:p-2 rounded-full`} 
           variant="Outline" 
           color={`${isOpen? "white" : "black"}`} 
         />
