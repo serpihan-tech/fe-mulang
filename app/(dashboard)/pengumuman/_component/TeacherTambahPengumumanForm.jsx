@@ -249,8 +249,8 @@ console.log("kelas", kelas)
       <div className="text-black dark:text-slate-100 text-xl font-semibold">
         {isEditMode ? "Edit Pengumuman" : "Tambah Pengumuman"}
       </div>
-      <div className="flex space-x-16">
-        <div className="w-1/2">
+      <div className="md:flex space-x-0 md:space-x-8 lg:space-x-16">
+        <div className="w-full md:w-1/2">
           <form action="" className="mt-6 space-y-5">
             <div className="space-y-[5px]">
               <label className="text-black dark:text-slate-100 text-sm font-medium">
@@ -306,7 +306,7 @@ console.log("kelas", kelas)
             </div>
           </form>
         </div> 
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2">
           <form action="" className="mt-6 space-y-5">
             <div className="space-y-[5px]">
               <label className="text-black dark:text-slate-100 text-sm font-medium">
@@ -350,7 +350,7 @@ console.log("kelas", kelas)
           </form>
         </div>
       </div>
-      <div className="w-full flex justify-end space-x-4">
+      <div className="w-full flex justify-end space-x-4 mt-7 md:mt-0">
         <button
           className="w-1/2 md:w-[103px] h-[38px] px-2 py-1.5 text-sm font-medium border rounded-md border-red-600 dark:border-[#ff4022] text-red-600 dark:text-[#ff4022] hover:bg-red-500 dark:hover:bg-[#ff4022] dark:hover:text-slate-100 hover:text-white bg-white dark:bg-dark_net-quar transition-shadow duration-300 hover:shadow-md hover:scale-105 dark:hover:shadow-none"
           onClick={() => {

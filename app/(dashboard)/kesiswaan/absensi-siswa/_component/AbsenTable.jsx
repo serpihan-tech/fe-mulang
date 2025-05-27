@@ -173,26 +173,26 @@ const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
         case 'Hadir':
           return 'bg-green-600 text-white';
         case 'Izin':
-          return 'bg-[#FFCF43] text-black';
+          return 'bg-[#FFCF43] text-black dark:text-slate-100';
         case 'Sakit':
           return 'bg-[#0841E2] text-white';
         case 'Alfa':
           return 'bg-[#DC1010] text-white';
         default:
-          return 'bg-white text-black border-[#CCCCCC] border-[1.5px]';
+          return 'bg-white dark:bg-dark_net-ter text-black dark:text-slate-100 border-[#CCCCCC] border-[1.5px]';
       }
     }
-    return 'bg-white text-black border-[#CCCCCC] border-[1.5px]';
+    return 'bg-white dark:bg-dark_net-ter text-black dark:text-slate-100 border-[#CCCCCC] border-[1.5px]';
   };
 
   const stickyClass = (key) => {
     switch (key) {
       case 'id':
-        return 'sticky left-0  bg-white min-w-[60px]';
+        return 'sticky left-0  bg-white dark:bg-dark_net-ter min-w-[60px]';
       case 'nis':
-        return 'sticky left-[60px] bg-white min-w-[80px]';
+        return 'sticky left-[60px] bg-white dark:bg-dark_net-ter min-w-[80px]';
       case 'nama':
-        return 'sticky left-[140px] bg-white min-w-[160px]';
+        return 'sticky left-[140px] bg-white dark:bg-dark_net-ter min-w-[160px]';
       default:
         return '';
     }
@@ -200,7 +200,7 @@ const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
 
   return (
     <div className="relative w-full ">
-  <table className="bg-white min-w-max border-separate border-spacing-0">
+  <table className="bg-white dark:bg-dark_net-ter min-w-max border-separate border-spacing-0">
   <thead>
   <tr>
     {editableColumns.map((column, index) => {
@@ -215,7 +215,7 @@ const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
         <th
           key={index}
           ref={isLastStatusColumn ? latestStatusRef : null}
-          className={`px-5 py-[10px] text-black text-lg font-semibold text-left whitespace-nowrap ${stickyClass(column.key)}`}
+          className={`px-5 py-[10px] text-black dark:text-slate-100 text-lg font-semibold text-left whitespace-nowrap ${stickyClass(column.key)}`}
         >
           {column.key.startsWith('status_') ? (
             <>
@@ -245,23 +245,23 @@ const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
             const isFixed = ['id', 'nis', 'nama'].includes(column.key);
             const stickyClass = isFixed
               ? column.key === 'id'
-                ? 'sticky left-0 bg-white'
+                ? 'sticky left-0 bg-white dark:bg-dark_net-ter'
                 : column.key === 'nis'
-                  ? 'sticky left-[60px] bg-white'
-                  : 'sticky left-[140px] bg-white'
+                  ? 'sticky left-[60px] bg-white dark:bg-dark_net-ter'
+                  : 'sticky left-[140px] bg-white dark:bg-dark_net-ter'
               : '';
 
             return (
               <td
                 key={colIndex}
-                className={`p-[10px] text-base font-medium text-black whitespace-nowrap ${
+                className={`p-[10px] text-base font-medium text-black dark:bg-dark_net-ter dark:text-slate-100 whitespace-nowrap ${
                   column.key === 'nama' ? 'text-left' : 'text-center'
                 } ${stickyClass}`}
               >
                 {column.key === 'id' ? (
                   index + 1
                 ) : column.key.startsWith('status_') ? (
-                  <div className='w-full flex space-x-2 px-5 py-[10px] items-center'>
+                  <div className='w-full flex space-x-2 px-5 py-[10px] items-center dark:text-slate-100'>
                     {['Hadir', 'Izin', 'Sakit', 'Alfa'].map((status) => {
                       const isDisabled = column.fillable === false;
 
@@ -297,7 +297,7 @@ const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
         {editableColumns.map((column, colIndex) => (
           <td
             key={colIndex}
-            className={`justify-center px-7 ${stickyClass(column.key)}`}
+            className={`justify-center px-7 ${stickyClass(column.key)} pb-5`}
           >
             {column.key.startsWith('status_') && column.fillable === false ? (
               <div className='flex space-x-2 w-full'>
@@ -329,7 +329,7 @@ const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
                     value={descriptions[column.key] || ''}
                     onChange={(e) => handleDescriptionChange(column.key, e.target.value)}
                     placeholder="Masukkan deskripsi absensi..."
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    className="w-full p-2 dark:bg-dark_net-ter border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                     rows="3"
                   />
                   <SmallButton

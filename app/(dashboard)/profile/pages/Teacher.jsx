@@ -141,10 +141,10 @@ export default function TeacherProfile() {
                 alt="Profile Photo"
                 width={150}
                 height={150}
-                className="rounded-full w-[150px] h-[150px] object-cover"
+                className="rounded-full w-[150px] h-[150px] object-cover cursor"
               />
-              <div className="bg-white rounded-lg w-[30px] h-[30px] top-14 right-11 cursor-pointer relative">
-                  <Edit size={30} color="blue"/>
+              <div className="bg-white rounded-lg w-[30px] h-[30px] top-14 right-11 relative cursor-pointer">
+                  <Edit size={30} color="blue" className="cursor-pointer"/>
                   <input
                     type="file"
                     accept="image/jpeg, image/jpg, image/png"
@@ -156,7 +156,7 @@ export default function TeacherProfile() {
             <form onSubmit={handleSubmit} className="mt-3 md:mt-6 space-y-2 md:space-y-5">
               <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
                 <div className="w-full md:w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Nama Lengkap</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Nama Lengkap</label>
                   <input type="text" 
                     disabled
                     value={detailGuru?.name || ""}
@@ -165,7 +165,7 @@ export default function TeacherProfile() {
                   />
                 </div>
                 <div className="w-full md:w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Email</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Email</label>
                   <input type="email" 
                     disabled
                     value={detailGuru?.user?.email || ""}
@@ -176,7 +176,7 @@ export default function TeacherProfile() {
               </div>
               <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
                 <div className="w-full md:w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">NIP</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">NIP</label>
                   <input type="number" 
                     disabled
                     value={detailGuru?.nip || ""}
@@ -185,7 +185,7 @@ export default function TeacherProfile() {
                   />
                 </div>
                 <div className="w-full md:w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">No. Telepon</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">No. Telepon</label>
                   <input type="text" 
                     value={detailGuru?.phone || ""}
                     maxLength={13}
@@ -197,15 +197,15 @@ export default function TeacherProfile() {
                         ,
                       }))
                     }
-                    className={`w-full rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black ${
-                      detailGuru?.phone ? "text-black" : "text-netral-20"
+                    className={`w-full rounded-md py-2 px-4 text-sm font-medium border border-gray-400 placeholder-black dark:bg-dark_net-ter ${
+                      detailGuru?.phone ? "text-black dark:text-slate-100" : "text-netral-20"
                     }`}
                   />
                 </div>
               </div>
               <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
-                <div className="w-full md:w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Jenis Kelamin</label>
+                <div className="w-full lg:w-1/2 space-y-[5px]">
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Jenis Kelamin</label>
                   <div className="flex py-1 md:py-4 space-x-8">
                   {["Laki-Laki", "Perempuan"].map((gender, index) => {
                     const isChecked =
@@ -227,7 +227,7 @@ export default function TeacherProfile() {
                         />
                         <label
                           htmlFor={gender}
-                          className="text-sm font-medium text-black dark:text-gray-300"
+                          className="text-sm font-medium text-black dark:text-slate-100"
                         >
                           {gender}
                         </label>
@@ -239,7 +239,7 @@ export default function TeacherProfile() {
                 
               </div>
               <div className="space-y-[5px]">
-                <label className="text-black text-sm font-medium">Agama</label>
+                <label className="text-black dark:text-slate-100 text-sm font-medium">Agama</label>
                   <input type="text" 
                     placeholder="Kristen"
                     disabled
@@ -249,7 +249,7 @@ export default function TeacherProfile() {
               </div>
               <div className="w-full md:flex md:space-x-11 space-y-2 md:space-y-0">
                 <div className="w-full md:w-1/2 space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Tempat Lahir</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Tempat Lahir</label>
                   <input type="text" 
                     disabled
                     value={detailGuru?.birthPlace || ""}
@@ -258,7 +258,7 @@ export default function TeacherProfile() {
                   />
                 </div>
                 <div className="w-full md:w-1/2  space-y-[5px]">
-                  <label className="text-black text-sm font-medium">Tanggal Lahir</label>
+                  <label className="text-black dark:text-slate-100 text-sm font-medium">Tanggal Lahir</label>
                   <input 
                     type="text" 
                     value={format(detailGuru?.birthDate || new Date() , "dd/MM/yyyy")}                    
@@ -295,17 +295,17 @@ export default function TeacherProfile() {
           onCancel={() => setCroppingImage(null)}
         />
       )}
-      <h1 className="text-black text-xl font-semibold ">Profil Pengguna</h1>
+      <h1 className="text-black dark:text-slate-100 text-xl font-semibold ">Profil Pengguna</h1>
       <div className="w-full py-5 mt-3 md:mt-[25px]">
         <div className="w-full flex border-b-[1.5px] border-[#0841e2] space-x-4">
           <button 
             onClick={() => setActiveTab("editProfile")}
-            className={`w-36 px-4 py-[13.5px] ${activeTab === "editProfile" ? "bg-[#0841e2] text-white" : "bg-white text-[#0841e2]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-800 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 cursor-pointer`}
+            className={`w-36 px-4 py-[13.5px] ${activeTab === "editProfile" ? "bg-[#0841e2] text-white" : "bg-white text-[#0841e2]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-800 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 dark:hover:shadow-gray-700 cursor-pointer`}
             >Edit Profil
           </button>
           <button 
             onClick={() => setActiveTab("changePassword")}
-            className={`w-36 px-4 py-[13.5px] ${activeTab === "changePassword" ? "bg-[#0841e2] text-white" : "bg-white text-[#0841e2]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-800 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 cursor-pointer`}
+            className={`w-36 px-4 py-[13.5px] ${activeTab === "changePassword" ? "bg-[#0841e2] text-white" : "bg-white text-[#0841e2]"} rounded-t-md text-sm font-semibold justify-center items-center gap-2.5 hover:bg-blue-800 hover:text-white transition-shadow duration-300 hover:shadow-md hover:shadow-gray-400 dark:hover:shadow-gray-700 cursor-pointer`}
             >Ubah Kata Sandi
           </button>
         </div>

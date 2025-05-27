@@ -100,22 +100,28 @@ export default function DataAbsensiMassModal({ onCancel, onConfirm, isLoading, s
   console.log("scheduleId",scheduleId)
 
   return (
-    <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center text-black">
-      <div className="bg-white w-full max-w-md rounded-xl p-6 shadow-lg">
-
-        <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Tambah Data Jadwal</h2>
-            <CloseCircle size="24" color="currentColor" variant="Bold" className="ml-auto cursor-pointer" onClick={onCancel} />
+    <div className="w-[485px] bg-white dark:bg-dark_net-ter pb-[38px] rounded-lg">
+      <div className="w-full h-[54px] flex px-5 py-4 rounded-t-lg bg-[#adc0f5]/10 dark:bg-dark_net-pri items-center">
+        <div className="text-black dark:text-slate-100 text-xl font-semibold">
+          Tambah Data
         </div>
-        
-        <div className="space-y-4">
+        <CloseCircle
+          size="24"
+          color="currentColor"
+          variant="Bulk"
+          className="ml-auto cursor-pointer dark:text-slate-100"
+          onClick={onCancel}
+        />
+      </div>
+      <div className="w-full px-5">
+      <div className="space-y-4">
           <div className="w-full">
-            <label className="text-black text-sm font-medium">Jadwal</label>
+            <label className="text-black dark:text-slate-100 text-sm font-medium">Jadwal</label>
             <Dropdown
               options={jadwalOptions}
               value={selectedJadwal}
               onChange={setSelectedJadwal}
-              className="w-full h-10 p-2 rounded-md bg-white border border-[#cccccc] "
+              className="w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter border border-[#cccccc] z-10"
               placeholder="Pilih Jadwal"
             />
           </div>
@@ -126,7 +132,7 @@ export default function DataAbsensiMassModal({ onCancel, onConfirm, isLoading, s
               value={selectedDate}
               onChange={dateSelection}
               //disabled={true}
-              customFilterdateStyle="flex justify-between items-center px-3 py-2 text-black px-3 py-2 border border-gray-300 rounded-md bg-white"
+              customFilterdateStyle="flex dark:bg-dark_net-ter dark:text-slate-100 justify-between items-center px-3 py-2 text-black px-3 py-2 border border-gray-300 rounded-md bg-white"
             />
           </div>
         </div>

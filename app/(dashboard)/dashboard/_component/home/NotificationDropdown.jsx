@@ -3,6 +3,7 @@ import { Notification, CloseCircle } from 'iconsax-react';
 import Notif from '@/app/(dashboard)/notification/_component/Notif';
 import { useRouter } from 'next/navigation';
 import { useNotifications } from '@/hooks/useNotification';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function NotificationDropdown() {
 
@@ -16,6 +17,20 @@ export default function NotificationDropdown() {
   const buttonRef = useRef(null);
   const router = useRouter();
   const [hovered, setHovered] = useState(false)
+  const { setIsLoading } = useLoading();
+  const [isLoading, setLoading] = useState(false);
+
+
+  const handleShow = async () => {
+    setIsLoading(true);
+    setLoading(true);
+    try {
+      router.push("/notification");
+    } finally {
+      setIsLoading(false);
+      setLoading(false);
+    }
+  };
 
   // Fungsi untuk toggle dropdown
   const toggleDropdown = (e) => {
@@ -86,7 +101,7 @@ export default function NotificationDropdown() {
 
           <div className="w-full space-y-2 md:space-y-3">
             <div className="w-full flex justify-end">
-              <button className="text-[#0841e2] dark:text-[#5D8BF8] text-xs font-semibold cursor-pointer hover:font-extrabold hover:underline" onClick={() => router.push('/notification')}>
+              <button className="text-[#0841e2] dark:text-[#5D8BF8] text-xs font-semibold cursor-pointer hover:font-extrabold hover:underline" onClick={handleShow}>
                 Show all
               </button>
               </div>
