@@ -26,17 +26,17 @@ export default function InputEmailPage() {
     <div className="relative bg-white dark:bg-dark_net-pri min-h-screen overflow-hidden flex items-center justify-center">
       <ToastContainer />
       <img 
-        src="svg/ellipse_top.svg" 
+        src="svg/ellipse2_top.svg" 
         alt="Background" 
-        className="absolute -top-16 -left-10 h-3/4 w-1/2" 
+        className="absolute md:-top-14 -top-52 -left-16 md:-left-28 h-3/4 w-1/2 scale-90" 
       />
       
       <InputEmail/>
 
       <img 
-        src="svg/ellipse_bottom.svg" 
+        src="svg/ellipse2_bottom.svg" 
         alt="Background" 
-        className="absolute -bottom-80 -right-24 h-3/4 w-1/2" 
+        className="absolute -bottom-80 -right-24 h-3/4 w-1/2 scale-90" 
       />
       <div className="absolute bottom-5 right-5">
         {/* <ThemeSwitcher /> */}
