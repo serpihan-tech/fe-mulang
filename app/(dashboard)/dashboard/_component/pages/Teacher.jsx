@@ -41,13 +41,14 @@ export default function TeacherDashboard() {
 
   useEffect(() => {
     fetchDataKelasSiswa()
+    fetchJadwalGuru();
   }, [semesterId])
 
   const [scheduleData, setScheduleData] = useState({})
     
-  const fetchJadwalGuru = async () => {
+  const fetchJadwalGuru = async (tahunAjarId = semesterId) => {
     try {
-      const data = await JadwalGuru();
+      const data = await JadwalGuru(tahunAjarId);
       if(data){
         console.log("Data jadwal:", data);
         if (Array.isArray(data.teachers)) {
@@ -83,9 +84,7 @@ export default function TeacherDashboard() {
     }
   };
   
-  useEffect(() => {
-    fetchJadwalGuru();
-  }, []);
+  
 
   return (
     <>

@@ -11,13 +11,12 @@ export const admin_profile = async (adminId) => {
     }
 };
 
-export const kalender_sekolah = async () => {
+export const kalender_sekolah = async (page,limit) => {
     try {
-        const response = await ApiManager.get(`/school-calendars`);
+        const response = await ApiManager.get(`/school-calendars?page=${page}&limit=${limit}`);
         return response.data;
     } catch (error) {
-        toast.error("Gagal mengambil data detail admin:", error.message);
-        throw error;
+        toast.error("Gagal mengambil data kegiatan", error.message);
     }
 };
 

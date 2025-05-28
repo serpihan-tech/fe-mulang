@@ -10,31 +10,20 @@ export default function CalendarComponent() {
   const [startDay, setStartDay] = useState(0); 
   const [selectedDate, setSelectedDate] = useState(null);
   const [holidays, setHolidays] = useState([]);
+  const [schoolEvents, setSchoolEvents] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
 
   const fetchDataKalender = async () => {
     try {
-      //const data = await kalender_sekolah();
-      //console.log("data",data)
-      // const dataArray = data?.theClass.theClass
-      // if (Array.isArray(dataArray)) {
-      //     // Mapping agar sesuai dengan format tabel
-      //     const formattedData = dataArray.map((item) => ({
-      //         id_kelas: item.id || "Tidak ada",
-      //         nama_kelas: item.name || "Tidak ada",
-      //         wali_kelas: item.teacher.name || "Tidak ada",
-      //         total_siswa: item.totalStudents || "Tidak ada",
-      //     }));
-
-      //     setKelasData(formattedData);
-      // }
-
-      // setMeta(data.theClass.meta); // Simpan metadata untuk paginasi
-      // setCurrentPage(page);
+      const data = await kalender_sekolah(1,9999999);
+      console.log("Data Kalender Sekolah:", data);
+      if (data?.schoolCalendars?.data) {
+        setSchoolEvents(data.schoolCalendars.data);
+        const currentMonthEvents = getUpcomingEvents(new Date());
+        setUpcomingEvents(currentMonthEvents);
+      }
     } catch (error) {
-        toast.error("Gagal memuat data kelas.");
-    } finally {
-        //setLoading(false);
+        toast.error("Gagal memuat data kalender sekolah.");
     }
   };
 
@@ -46,7 +35,7 @@ export default function CalendarComponent() {
         setUpcomingEvents(currentMonthEvents);
       })
       .catch((error) => console.error("Error fetching holidays:", error));
-    fetchDataKalender()
+    fetchDataKalender();
   }, []);
 
   useEffect(() => {
@@ -80,7 +69,7 @@ export default function CalendarComponent() {
 
     const events = getUpcomingEvents(currentDate);
     setUpcomingEvents(events);
-  }, [currentDate, holidays]);
+  }, [currentDate, holidays, schoolEvents]);
 
   const dayNames = ["M","S", "S", "R", "K", "J", "S"];
 
@@ -106,6 +95,18 @@ export default function CalendarComponent() {
     );
   };
 
+  const isSchoolEvent = (date) => {
+    return schoolEvents.some((event) => {
+      const startDate = new Date(event.dateStart);
+      const endDate = new Date(event.dateEnd);
+      startDate.setHours(12, 0, 0, 0);
+      endDate.setHours(12, 0, 0, 0);
+      const checkDate = new Date(date);
+      checkDate.setHours(12, 0, 0, 0);
+      return checkDate >= startDate && checkDate <= endDate;
+    });
+  };
+
   const getHolidayInfo = (date) => {
     const holiday = holidays.find((holiday) => 
       new Date(holiday.holiday_date).toDateString() === date.toDateString() && holiday.is_national_holiday
@@ -113,24 +114,68 @@ export default function CalendarComponent() {
     return holiday ? holiday.holiday_name : null;
   };
 
+  const getSchoolEventInfo = (date) => {
+    const event = schoolEvents.find((event) => {
+      const startDate = new Date(event.dateStart);
+      const endDate = new Date(event.dateEnd);
+      startDate.setHours(12, 0, 0, 0);
+      endDate.setHours(12, 0, 0, 0);
+      const checkDate = new Date(date);
+      checkDate.setHours(12, 0, 0, 0);
+      return checkDate >= startDate && checkDate <= endDate;
+    });
+    return event ? event.description : null;
+  };
+
   const getUpcomingEvents = (date) => {
     const currentMonth = date.getMonth();
-    return holidays
+    const events = [];
+
+    // Add national holidays
+    const holidayEvents = holidays
       .filter((holiday) => 
         new Date(holiday.holiday_date).getMonth() === currentMonth && holiday.is_national_holiday
       )
-      .sort((a, b) => new Date(a.holiday_date) - new Date(b.holiday_date))
-      .map((holiday) => ({ name: holiday.holiday_name, date: new Date(holiday.holiday_date) }));
+      .map((holiday) => ({ 
+        name: holiday.holiday_name, 
+        date: new Date(holiday.holiday_date),
+        type: 'holiday'
+      }));
+
+    // Add school events
+    const schoolEventList = schoolEvents
+      .filter((event) => {
+        const startDate = new Date(event.dateStart);
+        startDate.setHours(12, 0, 0, 0);
+        return startDate.getMonth() === currentMonth;
+      })
+      .map((event) => {
+        const startDate = new Date(event.dateStart);
+        startDate.setHours(12, 0, 0, 0);
+        return {
+          name: event.description,
+          date: startDate,
+          type: 'school'
+        };
+      });
+
+    return [...holidayEvents, ...schoolEventList]
+      .sort((a, b) => a.date - b.date);
   };
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
     const holidayInfo = getHolidayInfo(date);
+    const schoolEventInfo = getSchoolEventInfo(date);
+    
+    const events = [];
     if (holidayInfo) {
-      setUpcomingEvents([{ name: holidayInfo, date }]);
-    } else {
-      setUpcomingEvents([]);
+      events.push({ name: holidayInfo, date, type: 'holiday' });
     }
+    if (schoolEventInfo) {
+      events.push({ name: schoolEventInfo, date, type: 'school' });
+    }
+    setUpcomingEvents(events);
   };
 
   const renderUpcomingEvents = () => {
@@ -153,7 +198,7 @@ export default function CalendarComponent() {
           <div className="w-1/12 flex justify-center items-center ps-1 pe-4">
             <div className="text-black dark:text-slate-100 text-sm font-semibold justify-center">{day}</div>
           </div>
-          <div className="w-full bg-red-600 rounded-md p-2">
+          <div className={`w-full rounded-md p-2 ${event.type === 'holiday' ? 'bg-red-600' : 'bg-blue-600'}`}>
             <div className="text-white w-full text-sm font-normal justify-start">
               {event.name}
             </div>
@@ -206,6 +251,7 @@ export default function CalendarComponent() {
                 dayObj.date.getMonth() === new Date().getMonth() ? 'bg-blue-600 rounded-full text-white' : ''}
               ${selectedDate && dayObj.date.toDateString() === selectedDate.toDateString() ? 'bg-blue-100 dark:bg-blue-300 rounded-full' : ''}
               ${isNationalHoliday(dayObj.date) ? 'bg-red-500 text-white rounded-full' : ''}
+              ${isSchoolEvent(dayObj.date) ? 'bg-blue-500 text-white rounded-full' : ''}
               ${dayObj.date.getDay() === 0 ? 'text-red-500' : ''}
             `}
             onClick={() => handleDateClick(dayObj.date)}
@@ -215,7 +261,6 @@ export default function CalendarComponent() {
         ))}
       </div>
   
-      {/* Bagian upcoming events tetap sama */}
       <div className="upcoming-events">
         <p className="text-base font-medium text-[#333333] dark:text-slate-100 mt-4">Upcoming Event</p>
         <div className="w-full py-6 flex-col items-center gap-2.5 inline-flex">

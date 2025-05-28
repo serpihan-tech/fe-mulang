@@ -166,11 +166,11 @@ export default function NotificationDropdown() {
     };
   }, [SSENotification]);
 
-  console.log("adminAnnouncements:", adminAnnouncements);
-  console.log("teacherAnnouncements:", teacherAnnouncements);
-  console.log("sortedNotifications:", sortedNotifications);
-  console.log("sseNotifications:", SSENotification);
-  console.log("displayedNotifications:", displayedNotifications);
+  // console.log("adminAnnouncements:", adminAnnouncements);
+  // console.log("teacherAnnouncements:", teacherAnnouncements);
+  // console.log("sortedNotifications:", sortedNotifications);
+  // console.log("sseNotifications:", SSENotification);
+  // console.log("displayedNotifications:", displayedNotifications);
 
 
   return (

@@ -23,11 +23,11 @@ export default function JadwalMengajarGuru() {
   const semesterName  = allSemesters.find(opt => opt.value === semesterId)
   const label = semesterName ? semesterName.label : 'Semester tidak ditemukan'
   
-  const fetchJadwalGuru = async () => {
+  const fetchJadwalGuru = async (tahunAjarId = semesterId) => {
     
     //setIsLoading(true);
     try {
-      const data = await JadwalGuru();
+      const data = await JadwalGuru(tahunAjarId);
       if(data){
         console.log("Data jadwal:", data);
         if (Array.isArray(data.teachers)) {
@@ -72,7 +72,7 @@ export default function JadwalMengajarGuru() {
 
   useEffect(() => {
     fetchJadwalGuru();
-  }, []);
+  }, [semesterId]);
 
   console.log("Data jadwal mengajar:", scheduleData);
   return (
