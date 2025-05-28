@@ -52,20 +52,7 @@ export default function DetailNotif () {
                 </div>
               </div>
             </div>
-            <div className="flex px-4 py-1.5 md:py-2.5 bg-[#f3f3f3] dark:bg-dark_net-sec rounded-[10px] justify-between items-center">
-              <div className="flex space-x-[22px] items-center">
-                <Document size={76} color="#dc1010" variant="Bulk" className="w-8 h-8 md:w-14 md:h-14 lg:w-[76px] lg:h-[76px]"/>
-                <div className="space-y-1 md:space-y-2 lg:space-y-3 items-center">
-                  <div className="text-[#555555] dark:text-slate-300 text-xs md:text-sm font-bold ">Kisi - Kisi UTS.pdf</div>
-                  <div className="text-[#555555] dark:text-slate-300 text-[10px] md:text-xs font-medium">124 kB</div>
-                </div>
-              </div>
-              <div className="items-center justify-center">
-                <button className="px-4 md:px-6 lg:px-8 py-1.5 md:py-2 lg:py-3 bg-[#0841e2] dark:bg-[#2667ff] rounded-[10px] items-center">
-                  <div className="text-center text-white text-xs md:text-sm font-semibold">Unduh</div>
-                </button>
-              </div>
-            </div>
+            d
           </div>
         </div>
       </div>

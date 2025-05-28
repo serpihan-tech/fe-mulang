@@ -36,17 +36,18 @@ export default function DashboardHeader() {
         try {
           if (role === "student"){
             const user = JSON.parse(data);
-            let image = user?.data.profile.details.profilePicture || [];
-            let images = baseUrl+"/file/"+image
-            console.log("images link:" ,images)
+            const profilePicture = user?.data?.profile?.details?.profilePicture;
+            let images = "/svg/logo.svg"; // Default to logo
             
-            console.log("user: ", user)
+            if (profilePicture && profilePicture !== "") {
+              images = baseUrl + "/file/" + profilePicture;
+            }
 
             setProfileImgs(images);
 
           } else if(role === "teacher" || role == "admin") {
             const user = JSON.parse(data);
-            console.log("user: ", user)
+            //console.log("user: ", user)
             const profilePicture = user?.data?.profile?.profilePicture;
             let images = "/svg/logo.svg"; // Default to logo
             

@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
 import ApiManager from "../ApiManager";
 
-export const JadwalGuru = async () => {
+export const JadwalGuru = async (tahunAjarId) => {
     try {
-        const response = await ApiManager.get(`/schedules/teacher/mine`);
+        const response = await ApiManager.get(`/schedules/teacher/mine?tahunAjar=${tahunAjarId}`);
         return response.data;
     } catch (error) {
         toast.error("Gagal mengambil data jadwal:", error.message);

@@ -101,6 +101,27 @@ export const getStudentHistoryPresence = async () => {
     }
 };
 
+export const getStudentAnnouncementFromAdmin = async () => {
+    try {
+        const response = await ApiManager.get('/announcements/admins?noPaginate=true')
+        return response.data
+
+    } catch (error) {
+        toast.error(error.message);
+        
+    }
+};
+
+export const getStudentAnnouncementFromTeacher = async (kelas) => {
+    try {
+        const response = await ApiManager.get(`/announcements/teachers?noPaginate=true&kelas=${kelas}`);
+        return response.data
+
+    } catch (error) {
+        toast.error(error.message);
+        throw error;
+    }
+};
 
 
 

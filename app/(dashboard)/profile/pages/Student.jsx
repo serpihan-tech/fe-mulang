@@ -151,13 +151,15 @@ export default function StudentProfile() {
           )}
           <div className="relative w-[150px] h-[150px] flex items-center justify-center">
             <Image
+              
               src={
-                imageSrc
-                  ? imageSrc
-                  : baseUrl +
-                    "/file/" +
-                    studentData?.studentDetail.profilePicture
-              }
+                  imageSrc
+                    ? imageSrc
+                    : studentData?.studentDetail.profilePicture
+                      ? baseUrl + "/file/" + studentData?.studentDetail.profilePicture 
+                      : "/svg/logo.svg"
+                      
+                }
               className="rounded-full w-full h-full object-cover"
               alt="photo"
               width={150}

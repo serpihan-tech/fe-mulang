@@ -8,7 +8,7 @@ export default function Informasi () {
   const fetchDataPengumuman = async () => {
     const response = await data_admin_pengumuman(true);
     if(response){
-      console.log("Data pengumuman:", response)
+      //console.log("Data pengumuman:", response)
     }
   }
 

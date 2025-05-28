@@ -77,11 +77,11 @@ export default function StudentDashboard() {
       fetchSchedule();
     }
   }, []);
-  console.log("data jadwal:",scheduleData)
+  // console.log("data jadwal:",scheduleData)
   const studentId= sessionStorage.getItem('student_id')
-  console.log(studentId)
+  // console.log(studentId)
   const { semesterId } = useSemester()
-  console.log("semester:",semesterId)
+ // console.log("semester:",semesterId)
 
   if (!presenceData) return <DataNotFound />;
 

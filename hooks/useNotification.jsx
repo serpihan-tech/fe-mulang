@@ -15,7 +15,7 @@ export function useNotifications(userRole = null, classId = null) {
       try {
         setNotifications(JSON.parse(saved));
       } catch (error) {
-        console.error('Gagal parse notifications dari localStorage:', error);
+        console.error('Gagal parse notifications dari localStorage:', error.message);
         setNotifications([]);
       }
     }
@@ -27,14 +27,14 @@ export function useNotifications(userRole = null, classId = null) {
     const transmit = createTransmit();
     if (!transmit) return;
 
-    const ClassId = Number(classId);
-    console.log("userRole:", userRole, "ClassId:", ClassId);
-    const subscriptionForAdmins = transmit.subscription(`notifications/${userRole}`);
-    const subscriptionForTeachers = transmit.subscription(`notifications/teachers/class/${ClassId}`);
+    //const classId = Number(classId);
+    console.log("userRole:", userRole, "classId:", classId);
+    const subscriptionFromAdmin = transmit.subscription(`notifications/${userRole}`);
+    const subscriptionFromTeacher = transmit.subscription(`notifications/teachers/class/${classId}`);
 
     async function subscribeForAdmins() {
-      await subscriptionForAdmins.create();
-      subscriptionForAdmins.onMessage((data) => {
+      await subscriptionFromAdmin.create();
+      subscriptionFromAdmin.onMessage((data) => {
         console.log('Notif Admin:', data);
 
         setNotifications((prev) => {
@@ -49,8 +49,8 @@ export function useNotifications(userRole = null, classId = null) {
     }
 
     async function subscribeForTeachers() {
-      await subscriptionForTeachers.create();
-      subscriptionForTeachers.onMessage((data) => {
+      await subscriptionFromTeacher.create();
+      subscriptionFromTeacher.onMessage((data) => {
         console.log('Notif Teacher:', data);
 
         setNotifications((prev) => {
@@ -65,8 +65,8 @@ export function useNotifications(userRole = null, classId = null) {
     }
 
     if (isLogOut) {
-      subscriptionForAdmins.delete();
-      subscriptionForTeachers.delete();
+      subscriptionFromAdmin.delete();
+      subscriptionFromTeacher.delete();
       localStorage.removeItem('notifications');
       setNotifications([]);
     }
@@ -75,9 +75,9 @@ export function useNotifications(userRole = null, classId = null) {
     subscribeForTeachers();
 
     return () => {
-      if (subscriptionForAdmins == null  && subscriptionForTeachers == null) return;
-      subscriptionForAdmins.delete();
-      subscriptionForTeachers.delete();
+      if (subscriptionFromAdmin == null  && subscriptionFromTeacher == null) return;
+      subscriptionFromAdmin.delete();
+      subscriptionFromTeacher.delete();
     };
 
   }, [userRole, isLogOut, classId]);

@@ -45,7 +45,7 @@ export default function LoginForm() {
         await router.push("/dashboard");
       }
     } catch (err) {
-      toast.error("Gagal masuk, periksa email dan kata sandi Anda.");
+      toast.error(err.message);
       setIsLoading(false);
       setLoading(false);
     } 

@@ -15,7 +15,7 @@ export const SemesterProvider = ({ children }) => {
     const fetchAllSemesters = async (limitVal = 99, page=1, search='', sortField='', sortDir='') => {
       try {
         const data = await data_semester(limitVal,page,search,sortField,sortDir);
-        console.log("Data mentah semester",data)
+        //console.log("Data mentah semester",data)
         const formattedSemesters = data.data?.map((semester) => ({
           label: semester.name + " " + semester.semester,
           value: semester.id,

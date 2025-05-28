@@ -13,7 +13,7 @@ export default function Dashboard() {
   const [role, setRole] = useState(null);
   const { setIsLoading } = useLoading();
 
-  console.log("router:",pathname)
+  //console.log("router:",pathname)
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
