@@ -54,7 +54,7 @@ export default function AbsensiSiswaTeacher() {
         setSelectedMapel(mapel)
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error("gagal mengambil data jadwal");
     } finally {
       setIsLoading(false);
     }

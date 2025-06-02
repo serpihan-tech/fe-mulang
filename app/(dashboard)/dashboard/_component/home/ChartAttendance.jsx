@@ -1,8 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 import Dropdown from "@/app/component/Dropdown";
 import { useTheme } from "@/provider/ThemeProvider";
+import { data_grafik_kehadiran } from "@/app/api/admin/ApiDashboard";
+import { toast } from "react-toastify";
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -10,8 +12,10 @@ export default function ChartAttendance() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const timeOptions = [
-    { label: "Mingguan", value: "mingguan" },
+    { label: "Mingguan", value: "minggu" },
     { label: "Bulanan", value: "bulan" },
+    { label: "Semester", value: "semester" },
+
   ];
 
   const categoryOptions = [
@@ -21,33 +25,34 @@ export default function ChartAttendance() {
 
   const [selectedTime, setSelectedTime] = useState(timeOptions[0]);
   const [selectedCategory, setSelectedCategory] = useState(categoryOptions[0]);
+  const [chartData, setChartData] = useState({
+    siswa: { hadir: [], tidakHadir: [] },
+    guru: { hadir: [], tidakHadir: [] }
+  });
 
-  const data = {
-    mingguan: {
-      siswa: {
-        hadir: [140, 130, 140, 130, 130],
-        tidakHadir: [20, 25, 15, 22, 18]
-      },
-      guru: {
-        hadir: [50, 45, 55, 50, 48],
-        tidakHadir: [5, 8, 6, 7, 5]
-      }
-    },
-    bulan: {
-      siswa: {
-        hadir: [600, 620, 610, 630, 640],
-        tidakHadir: [80, 85, 75, 90, 95]
-      },
-      guru: {
-        hadir: [200, 210, 205, 215, 220],
-        tidakHadir: [20, 18, 22, 19, 21]
-      }
-    }
-  };
-
-  const categories = selectedTime.value === 'mingguan' 
+  const categories = selectedTime.value === 'minggu' 
     ? ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] 
     : ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4', 'Minggu 5'];
+
+  const chartSeries = [
+    {
+      name: "Hadir",
+      data: chartData[selectedCategory.value]?.hadir.map(item => item.value) || []
+    },
+    {
+      name: "Tidak Hadir",
+      data: chartData[selectedCategory.value]?.tidakHadir.map(item => item.value) || []
+    }
+  ];
+
+  // Calculate max value for dynamic y-axis
+  const getMaxValue = () => {
+    const hadirValues = chartData[selectedCategory.value]?.hadir.map(item => item.value) || [];
+    const tidakHadirValues = chartData[selectedCategory.value]?.tidakHadir.map(item => item.value) || [];
+    const maxValue = Math.max(...hadirValues, ...tidakHadirValues);
+    // Round up to nearest 10 and add some padding
+    return Math.ceil(maxValue ) ;
+  };
 
   const chartOptions = {
     chart: {
@@ -61,8 +66,8 @@ export default function ChartAttendance() {
     },
     yaxis: {
       min: 0,
-      max: 160,
-      tickAmount: 8
+      max: getMaxValue(),
+      
     },
     colors: ['#0E9035', '#DC1010'],
     stroke: {
@@ -73,16 +78,21 @@ export default function ChartAttendance() {
     }
   };
 
-  const chartSeries = [
-    {
-      name: "Hadir",
-      data: data[selectedTime.value][selectedCategory.value].hadir
-    },
-    {
-      name: "Tidak Hadir",
-      data: data[selectedTime.value][selectedCategory.value].tidakHadir
+  const fetchData = async (periode = selectedTime.value) => {
+    try {
+      const response = await data_grafik_kehadiran(periode)
+      if(response){
+        const dataArray = response.data;
+        setChartData(dataArray);
+      }
+    } catch (err) {
+      toast.error(err.message)
     }
-  ];
+  };
+
+  useEffect(() => {
+    fetchData();
+  },[selectedTime])
 
   return (
     <div className={`mt-5 px-5 py-4 rounded-md  ${isDark ? "bg-dark_net-ter " : "bg-white"}`}>

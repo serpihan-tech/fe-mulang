@@ -10,18 +10,19 @@ import { toast, ToastContainer } from 'react-toastify';
 import { AdminDashboardApi } from '@/app/api/admin/ApiDashboard';
 import CalendarComponent from '../home/CalendarComponent';
 import { useLoading } from '@/context/LoadingContext';
+import { useSemester } from '@/provider/SemesterProvider';
 
 export default function AdminDashboard() {
   
   const message = sessionStorage.getItem("come_first");
-  
+  const {semesterId} = useSemester();
   
   const [dashboardData, setDashboardData] = useState(null);
   const { setIsLoading } = useLoading();
 
-  const fetchDashboard = async () => {
+  const fetchDashboard = async (semester = semesterId) => {
     try {
-      const data = await AdminDashboardApi();
+      const data = await AdminDashboardApi(semester);
       if (data) {
         setDashboardData(data);
         
@@ -40,8 +41,9 @@ export default function AdminDashboard() {
       sessionStorage.removeItem("come_first")
     }
     fetchDashboard();
-  }, []);
-  console.log("dashboardata: ",dashboardData)
+  }, [semesterId]);
+
+  //console.log("dashboardata: ",dashboardData)
 
   
   

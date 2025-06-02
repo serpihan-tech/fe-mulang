@@ -30,7 +30,7 @@ export default function Home() {
 
         <div className="w-full flex items-center justify-center mt-12">
           <a
-            className="w-full rounded-xl border border-solid border-transparent transition-colors flex items-center justify-center font-semibold bg-pri-main text-background dark:text-white hover:bg-pri-hover dark:hover:bg-pri-border text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            className="w-full rounded-xl border border-solid border-transparent transition-colors flex items-center justify-center font-semibold bg-pri-main text-background text-white hover:bg-pri-hover dark:hover:bg-pri-border text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
             href="/login"
             target="_self"
             rel="noopener noreferrer"

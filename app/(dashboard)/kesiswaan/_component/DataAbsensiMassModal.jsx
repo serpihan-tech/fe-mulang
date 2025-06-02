@@ -1,6 +1,7 @@
 import { JadwalGuru } from "@/app/api/guru/ApiKBM";
 import CustomDatePicker from "@/app/component/Datepicker";
 import Dropdown from "@/app/component/Dropdown";
+import { useSemester } from "@/provider/SemesterProvider";
 import { format } from "date-fns";
 import { CloseCircle } from "iconsax-react";
 import { useEffect, useState } from "react";
@@ -21,10 +22,12 @@ export default function DataAbsensiMassModal({ onCancel, onConfirm, isLoading, s
   const [jadwalOptions, setJadwalOptions] = useState([])
   const [selectedJadwal, setSelectedJadwal] = useState('')
   const [selectedDate, setSelectedDate] = useState(null)
+  const { semesterId } = useSemester();
+
   
-  const fetchJadwalGuru = async () => {
+  const fetchJadwalGuru = async (semester = semesterId) => {
     try {
-      const data = await JadwalGuru()
+      const data = await JadwalGuru(semester)
       if(data){
         //console.log(selectedClass)
         // Filter data berdasarkan selectedClass
