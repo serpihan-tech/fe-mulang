@@ -29,9 +29,9 @@ export const AdminDashboardApi = async (semesterId) => {
     }
 };
 
-export const data_grafik_kehadiran = async (periode) => {
+export const data_grafik_kehadiran = async (periode,tahunAjarId) => {
     try {
-        const response = await ApiManager.get(`/dashboard/chart-absences?periode=${periode}`,{
+        const response = await ApiManager.get(`/dashboard/chart-absences?periode=${periode}&tahunAjar=${tahunAjarId}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
