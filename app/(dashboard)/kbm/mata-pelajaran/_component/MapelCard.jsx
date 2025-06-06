@@ -9,9 +9,11 @@ export default function MapelCard ({
   icon:Icon,
   colorIcon="white",
 }) {
+
+  console.log("path: ", path);
   return (
     <div className={`flex ${bgColor} py-3 px-5 space-x-[22px] rounded-[15px]`} >
-      <Image 
+      <img
         src={path}
         width={80} 
         height={80} 
