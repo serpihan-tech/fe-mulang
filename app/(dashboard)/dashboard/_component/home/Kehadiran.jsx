@@ -6,14 +6,17 @@ export default function Kehadiran({ total_presence, presence, non_presence }) {
     ? Math.round((presence / total_presence) * 100) 
     : 0;
 
-    const {semesterId,allSemester} = useSemester()
+  const {semesterId,allSemesters} = useSemester()
+  const semesterName  = allSemesters.find(opt => opt.value === semesterId)
+  const label = semesterName ? semesterName.label : 'Semester tidak ditemukan'
+
 
   return (
     <div className="dark:bg-dark_net-ter w-full space-y-3 md:space-y-5 lg:space-y-6 dark:p-2 dark:md:p-3 dark:lg:p-5 rounded-2xl">
       {/* Judul dan Deskripsi */}
       <div className="w-full md:space-y-2 lg:space-y-4">
         <h1 className="text-black dark:text-slate-100 text-base md:text-xl lg:text-[28px] font-bold">Total Kehadiran</h1>
-        <p className="text-[#7f7f7f] dark:text-slate-300 text-xs md:text-base lg:text-xl font-normal">Semester 2024-2025 Genap</p>
+        <p className="text-[#7f7f7f] dark:text-slate-300 text-xs md:text-base lg:text-xl font-normal">Semester {label}</p>
       </div>
       
       {/* Statistik Kehadiran */}

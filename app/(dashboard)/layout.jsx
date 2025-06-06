@@ -9,14 +9,12 @@ import BreadcrumbRenderer from "../component/BreadcrumbRenderer";
 import { Copyright } from "iconsax-react";
 import { SemesterProvider } from "@/provider/SemesterProvider";
 import { LogOutProvider } from "@/provider/LogOutProvider";
-import { useLoading } from "../../context/LoadingContext";
 import { BreadcrumbProvider } from "@/context/BreadCrumbContext";
-import { useTheme } from "../../provider/ThemeProvider"; // Tambahkan import ini jika belum ada
+import { useTheme } from "../../provider/ThemeProvider";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { setIsLoading } = useLoading();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const role =
     typeof window !== "undefined" ? sessionStorage.getItem("role") : null;
@@ -32,9 +30,7 @@ export default function DashboardLayout({ children }) {
     } else {
       setIsAuthenticated(true);
     }
-
-    setIsLoading(false);
-  }, [router, setIsLoading]);
+  }, [router]);
 
   // Tutup sidebar jika ukuran layar < md (768px)
   useEffect(() => {
