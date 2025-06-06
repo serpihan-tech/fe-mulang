@@ -26,6 +26,7 @@ import TambahKelasModal from "../_component/TambahKelasModal";
 import DataNotFound from "@/app/component/DataNotFound";
 import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import { useBreadcrumb } from "@/context/BreadCrumbContext";
+import { useSemester } from "@/provider/SemesterProvider";
 
 export default function DataKelas() {
   const [DetailkelasData, setDetailKelasData] = useState(null);
@@ -45,6 +46,7 @@ export default function DataKelas() {
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const { setShowBreadcrumb } = useBreadcrumb();
+  const { semesterId } = useSemester();
 
   useEffect(() => {
     setShowBreadcrumb(true);
@@ -56,10 +58,11 @@ export default function DataKelas() {
     limitVal = limit,
     search = selectedSearch,
     sortField = sortBy,
-    sortDir = sortOrder
+    sortDir = sortOrder,
+    semester = semesterId,
   ) => {
     try {
-      const data = await data_kelas(page, limitVal, search, sortField, sortDir);
+      const data = await data_kelas(page, limitVal, search, sortField, sortDir, semester);
       console.log("data", data);
       const dataArray = data?.theClass.theClass;
       if (Array.isArray(dataArray)) {
@@ -275,6 +278,8 @@ export default function DataKelas() {
                     onSortChange={handleSortChange}
                     sortBy={sortBy}
                     sortOrder={sortOrder}
+                    currentPage={meta.currentPage}
+                    perPage={meta.perPage}
                   />
                 ) : (
                   <DataNotFound />

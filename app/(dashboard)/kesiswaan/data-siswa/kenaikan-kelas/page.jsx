@@ -11,6 +11,7 @@ import { data_kelas, data_siswa } from "@/app/api/ApiKesiswaan";
 import SmallButton from "@/app/component/SmallButton";
 import { Notepad2 } from "iconsax-react";
 import { useRouter } from "next/navigation";
+import { useSemester } from "@/provider/SemesterProvider";
 
 export default function KenaikanKelasPage() {
   const [siswaData, setSiswaData] = useState(null);
@@ -32,6 +33,7 @@ export default function KenaikanKelasPage() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedDataRows, setSelectedDataRows] = useState([]);
   const router = useRouter();
+  const {semesterId} = useSemester()
 
   useEffect(() => {
     const siswanull = sessionStorage.getItem("siswa_selected_null");
@@ -57,7 +59,8 @@ export default function KenaikanKelasPage() {
     search = selectedSearch,
     sortField = sortBy,
     sortDir = sortOrder,
-    kelas = classFilter
+    kelas = classFilter,
+    semester = semesterId
   ) => {
     try {
       setIsLoading(true);
@@ -67,6 +70,7 @@ export default function KenaikanKelasPage() {
         search,
         sortField,
         sortDir,
+        semester,
         kelas
       );
       const dataArray = data.students.data;
@@ -118,7 +122,7 @@ export default function KenaikanKelasPage() {
       label: "Kelas",
       type: "multiselect",
       fetchOptions: () =>
-        data_kelas(1, 99, "", "", "").then((res) =>
+        data_kelas(1, 99, "", "", "",semesterId).then((res) =>
           res.theClass.theClass.map((kelas) => ({
             label: kelas.name,
             value: kelas.name,
@@ -215,13 +219,27 @@ export default function KenaikanKelasPage() {
                   onSelectAll={handleSelectAll}
                   filters={filters}
                   onFilterChange={handleFilterDropdownChange}
+                  currentPage={meta.currentPage}
+                  perPage={meta.perPage}
                 />
               ) : (
                 <DataNotFound />
               )}
             </div>
 
-            <div className="flex justify-end p-5">
+            <div className="flex space-x-2 justify-end p-5">
+
+              <SmallButton
+                type="button"
+                bgBorder={"border-2 border-err-main "}
+                bgColorDisabled="bg-gray-300"
+                title={"Batal"}
+                textColor="text-err-main hover:text-white"
+                // disabled={selectedRows.length === 0}
+                hover={"hover:bg-err-main "}
+                onClick={()=>router.push("/kesiswaan/data-siswa")}
+              />
+
               <SmallButton
                 type="button"
                 bgColor="bg-pri-main"

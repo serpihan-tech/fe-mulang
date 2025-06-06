@@ -5,6 +5,7 @@ import {
   data_semester,
   data_siswa,
   detail_data_siswa,
+  excel_data_siswa,
   hapus_siswa,
 } from "@/app/api/ApiKesiswaan";
 import DataNotFound from "@/app/component/DataNotFound";
@@ -41,6 +42,7 @@ export default function AdminDataSiswa() {
   const [selectedPeriod, setSelectedPeriod] = useState(null);
   const [allSemesters, setAllSemesters] = useState([]);
   const { setShowBreadcrumb } = useBreadcrumb();
+  const { semesterId } = useSemester();
 
   useEffect(() => {
     setShowBreadcrumb(true);
@@ -71,7 +73,8 @@ export default function AdminDataSiswa() {
     search = selectedSearch,
     sortField = sortBy,
     sortDir = sortOrder,
-    kelas = classFilter
+    kelas = classFilter,
+    semester = semesterId
   ) => {
     try {
       setIsLoading(true);
@@ -81,6 +84,7 @@ export default function AdminDataSiswa() {
         search,
         sortField,
         sortDir,
+        semester,
         kelas
       );
       const dataArray = data.students.data;
@@ -158,7 +162,7 @@ export default function AdminDataSiswa() {
       label: "Kelas",
       type: "multiselect",
       fetchOptions: () =>
-        data_kelas(1, 99, "", "", "").then((res) =>
+        data_kelas(1, 99, "", "", "",semesterId).then((res) =>
           res.theClass.theClass.map((kelas) => ({
             label: kelas.name,
             value: kelas.name,
@@ -196,7 +200,7 @@ export default function AdminDataSiswa() {
 
   useEffect(() => {
     fetchDataSiswa();
-  }, [limit, selectedSearch, sortBy, sortOrder, classFilter, selectedPeriod]);
+  }, [limit, selectedSearch, sortBy, sortOrder, classFilter, selectedPeriod, semesterId]);
 
   const handleDelete = (siswaId) => {
     setSelectedStudentId(siswaId);
@@ -226,6 +230,48 @@ export default function AdminDataSiswa() {
   const handleEdit = (id) => {
     router.push(`/kesiswaan/data-siswa/${id}`);
     setIsLoading(true)
+  };
+  
+  const handleDownloadExcel = async () => {
+    setIsLoading(true);
+    try {
+      const response = await excel_data_siswa(
+        currentPage,
+        limit,
+        selectedSearch,
+        sortBy,
+        sortOrder,
+        semesterId,
+        classFilter
+      );
+
+      if (response) {
+        console.log("Response Excel:", response);
+        //Cek jika responsenya blob atau arraybuffer
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        // Buat URL untuk blob-nya
+        const url = window.URL.createObjectURL(blob);
+
+        // Buat elemen <a> dan trigger klik untuk download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'data-siswa.xlsx'; // Nama file yang akan diunduh
+        document.body.appendChild(a);
+        a.click();
+
+        // Bersihkan elemen dan URL
+        a.remove();
+        window.URL.revokeObjectURL(url);
+
+        setIsSuccess(true);
+        setTimeout(() => { setIsSuccess(false); }, 1000);
+      }
+    } catch (err) {
+      toast.error("Gagal mengunduh data guru.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -259,6 +305,7 @@ export default function AdminDataSiswa() {
               <SmallButton
                 type="button"
                 icon={Notepad2}
+                noResponsiveTitle ={true}
                 textColor = "text-black"
                 bgColor="bg-[#ffcf43]"
                 colorIcon="black"
@@ -268,14 +315,16 @@ export default function AdminDataSiswa() {
                   router.push("/kesiswaan/data-siswa/kenaikan-kelas")
                 }
               />
-              {/* <SmallButton
+              <SmallButton
                 type="button"
                 icon={DocumentDownload}
                 bgColor="bg-green-600"
                 colorIcon="white"
                 title={"Download Excel"}
                 hover={"hover:bg-green-400"}
-              /> */}
+                onClick={handleDownloadExcel}
+              />
+
               <SmallButton
                 type="button"
                 icon={ProfileAdd}
@@ -312,6 +361,8 @@ export default function AdminDataSiswa() {
                   sortBy={sortBy}
                   sortOrder={sortOrder}
                   onFilterChange={handleFilterDropdownChange}
+                  currentPage={meta.currentPage}
+                  perPage={meta.perPage}
                 />
               ) : (
                 <DataNotFound />

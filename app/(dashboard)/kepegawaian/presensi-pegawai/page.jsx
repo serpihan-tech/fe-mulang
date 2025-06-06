@@ -3,6 +3,7 @@
 import {
   data_absen_guru,
   edit_absen_guru,
+  excel_data_absen_guru,
   hapus_absen_guru,
   tambah_absen_guru,
 } from "@/app/api/ApiKepegawaian";
@@ -108,7 +109,9 @@ export default function PresensiPegawai() {
                 status={item.latestAbsence?.status || "Belum Absen"}
               />
             ) || "Belum Absen",
-          jam_masuk: item.latestAbsence?.checkInTime ? (
+          jam_masuk: item.latestAbsence?.checkInTime || null,
+          jam_pulang: item.latestAbsence?.checkOutTime || null,
+          masuk: item.latestAbsence?.checkInTime ? (
             <button
               onClick={() => handlePhotoClick(
                 item.latestAbsence?.inPhoto,
@@ -120,7 +123,7 @@ export default function PresensiPegawai() {
               {item.latestAbsence?.checkInTime}
             </button>
           ) : "-",
-          jam_pulang: item.latestAbsence?.checkOutTime ? (
+          pulang: item.latestAbsence?.checkOutTime ? (
             <button
               onClick={() => handlePhotoClick(
                 item.latestAbsence?.outPhoto,
@@ -158,8 +161,8 @@ export default function PresensiPegawai() {
     { label: "nama_pegawai", sortKey: "nama" },
     { label: "nip", sortKey: "nip" },
     { label: "status", sortKey: "status" },
-    { label: "jam_masuk", sortKey: "jamMasuk" },
-    { label: "jam_pulang", sortKey: "jamPulang" },
+    { label: "masuk", sortKey: "jamMasuk" },
+    { label: "pulang", sortKey: "jamPulang" },
   ];
 
   const handleLimitChange = (newLimit) => {
@@ -278,6 +281,56 @@ export default function PresensiPegawai() {
     }
   };
 
+  const handleDownloadExcel = async () => {
+    setIsLoading(true);
+    let formattedDate = "";
+    if (selectedDate) {
+      const d = new Date(selectedDate);
+      if (!isNaN(d)) {
+        formattedDate = format(d, "yyyy-MM-dd");
+      }
+    }
+    try {
+      const response = await excel_data_absen_guru(
+        currentPage,
+        limit,
+        selectedSearch,
+        sortBy,
+        sortOrder,
+        formattedDate);
+
+      if (response) {
+        console.log("Response Excel:", response);
+        //Cek jika responsenya blob atau arraybuffer
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        // Buat URL untuk blob-nya
+        const url = window.URL.createObjectURL(blob);
+
+        // Buat elemen <a> dan trigger klik untuk download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `data-presensi-guru@${formattedDate}.xlsx`; // Nama file yang akan diunduh
+        document.body.appendChild(a);
+        a.click();
+
+        // Bersihkan elemen dan URL
+        a.remove();
+        window.URL.revokeObjectURL(url);
+
+        setIsSuccess(true);
+        setTimeout(() => { setIsSuccess(false); }, 1000);
+      }
+    } catch (err) {
+      toast.error("Gagal mengunduh data guru.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+  console.log(photoModal)
+
   return (
     <>
       <ToastContainer />
@@ -335,10 +388,21 @@ export default function PresensiPegawai() {
         </div>
       )}
       <div className="z-0 transition">
-        <div className="w-full ps-2 mt-4 md:mt-6 lg:mt-12 flex">
+        <div className="w-full ps-2 mt-4 md:mt-6 lg:mt-12 flex justify-between">
           <h1 className="w-full text-black dark:text-slate-100 text-xl font-semibold">
             Data Presensi Pegawai
           </h1>
+          <div className="w-full flex items-center justify-end gap-2 lg:gap-5">
+            <SmallButton
+              type="button"
+              icon={DocumentDownload}
+              bgColor="bg-green-600"
+              colorIcon="white"
+              title={"Download Excel"}
+              hover={"hover:bg-green-400"}
+              onClick={handleDownloadExcel}
+            />
+          </div>
         </div>
         <div className="flex flex-col justify-end bg-white dark:bg-dark_net-pri rounded-lg my-5">
           <div
@@ -367,6 +431,8 @@ export default function PresensiPegawai() {
                 onSortChange={handleSortChange}
                 sortBy={sortBy}
                 sortOrder={sortOrder}
+                //currentPage={meta.currentPage}
+                //perPage={meta.perPage}
               />
             ) : (
               <DataNotFound />

@@ -1,6 +1,6 @@
 "use client";
 
-import { data_guru, hapus_guru } from "@/app/api/ApiKepegawaian";
+import { data_guru, excel_data_guru, hapus_guru } from "@/app/api/ApiKepegawaian";
 import DataNotFound from "@/app/component/DataNotFound";
 import DeletePopUp from "@/app/component/DeletePopUp";
 import PaginationComponent from "@/app/component/Pagination";
@@ -9,6 +9,7 @@ import SuccessUpdatePopUp from "@/app/component/SuccessUpdatePopUp";
 import TableComponent from "@/app/component/Table";
 import { useBreadcrumb } from "@/context/BreadCrumbContext";
 import { useLoading } from "@/context/LoadingContext";
+import { set } from "date-fns";
 import { DocumentDownload, ProfileAdd } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
@@ -133,6 +134,41 @@ export default function DataPegawai() {
     setIsLoading(true);
     router.push(`/kepegawaian/data-pegawai/${id}`);
   };
+
+  const handleDownloadExcel = async () => {
+    setIsLoading(true);
+    try {
+      const response = await excel_data_guru(currentPage, limit, selectedSearch, sortBy, sortOrder);
+
+      if (response) {
+        console.log("Response Excel:", response);
+        //Cek jika responsenya blob atau arraybuffer
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        // Buat URL untuk blob-nya
+        const url = window.URL.createObjectURL(blob);
+
+        // Buat elemen <a> dan trigger klik untuk download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'data-guru.xlsx'; // Nama file yang akan diunduh
+        document.body.appendChild(a);
+        a.click();
+
+        // Bersihkan elemen dan URL
+        a.remove();
+        window.URL.revokeObjectURL(url);
+
+        setIsSuccess(true);
+        setTimeout(() => { setIsSuccess(false); }, 1000);
+      }
+    } catch (err) {
+      toast.error("Gagal mengunduh data guru.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <ToastContainer />
@@ -166,6 +202,7 @@ export default function DataPegawai() {
               colorIcon="white"
               title={"Download Excel"}
               hover={"hover:bg-green-400"}
+              onClick={handleDownloadExcel}
             />
             <SmallButton
               type="button"
@@ -198,13 +235,12 @@ export default function DataPegawai() {
                 onDelete={handleDelete}
                 title="Tabel Data Pegawai"
                 Aksi="EditDelete"
-                //filters={filters}
                 handleSearchChange={handleSearchChange}
                 selectedSearch={selectedSearch}
                 onSortChange={handleSortChange}
                 sortBy={sortBy}
                 sortOrder={sortOrder}
-                //onFilterChange={handleFilterDropdownChange}
+                meta={meta}
               />
             ) : (
               <DataNotFound />
