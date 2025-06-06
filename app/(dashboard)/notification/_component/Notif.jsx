@@ -19,11 +19,17 @@ export default function Notif({
   role,
   senderPicture,
   created_at,
-  files
+  files,
+  onRead
 }) {
   const router = useRouter();
 
   const handleClick = () => {
+    // Call onRead callback if provided
+    if (onRead) {
+      onRead();
+    }
+
     // Simpan detail notifikasi ke sessionStorage
     const notificationDetail = {
       id,

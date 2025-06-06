@@ -24,6 +24,35 @@ export default function NotificationDropdown() {
   const [isLoading, setLoading] = useState(false);
   const { adminAnnouncements, teacherAnnouncements } = StudentAnnouncements(className);
   const [displayCount, setDisplayCount] = useState(10);
+  const [readNotifications, setReadNotifications] = useState(new Set());
+
+  // Load read notifications from localStorage on component mount
+  useEffect(() => {
+    const savedReadNotifications = localStorage.getItem('readNotifications');
+    if (savedReadNotifications) {
+      setReadNotifications(new Set(JSON.parse(savedReadNotifications)));
+    }
+  }, []);
+
+  // Save read notifications to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('readNotifications', JSON.stringify([...readNotifications]));
+  }, [readNotifications]);
+
+  // Function to mark a notification as read
+  const markAsRead = (notificationId) => {
+    setReadNotifications(prev => {
+      const newSet = new Set(prev);
+      newSet.add(notificationId);
+      return newSet;
+    });
+  };
+
+  // Function to mark all notifications as read
+  const markAllAsRead = () => {
+    const allNotificationIds = sortedNotifications.map(notification => notification.id);
+    setReadNotifications(new Set(allNotificationIds));
+  };
 
   // Fungsi untuk mengurutkan notifikasi berdasarkan tanggal
   const sortNotifications = () => {
@@ -125,6 +154,11 @@ export default function NotificationDropdown() {
   const displayedNotifications = sortedNotifications.slice(0, displayCount);
   const hasMore = displayCount < sortedNotifications.length;
 
+  // Check if there are any unread notifications
+  const hasUnreadNotifications = sortedNotifications.some(
+    notification => !readNotifications.has(notification.id)
+  );
+
   const handleShowAll = async () => {
     setIsLoading(true);
     setLoading(true);
@@ -185,6 +219,9 @@ export default function NotificationDropdown() {
           variant="Outline" 
           color={`${isOpen? "white" : "black"}`} 
         />
+        {hasUnreadNotifications && (
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-600 rounded-full" />
+        )}
       </button>
 
       {isOpen && (
@@ -213,12 +250,22 @@ export default function NotificationDropdown() {
 
           <div className="w-full space-y-2 md:space-y-3">
             <div className="w-full flex justify-between items-center">
-              <button 
-                className="text-[#0841e2] dark:text-[#5D8BF8] text-xs font-semibold cursor-pointer hover:font-extrabold hover:underline" 
-                onClick={handleShowAll}
-              >
-                Show all
-              </button>
+              <div className="flex gap-2">
+                <button 
+                  className="text-[#0841e2] dark:text-[#5D8BF8] text-xs font-semibold cursor-pointer hover:font-extrabold hover:underline" 
+                  onClick={handleShowAll}
+                >
+                  Show all
+                </button>
+                {hasUnreadNotifications && (
+                  <button 
+                    className="text-[#0841e2] dark:text-[#5D8BF8] text-xs font-semibold cursor-pointer hover:font-extrabold hover:underline" 
+                    onClick={markAllAsRead}
+                  >
+                    Mark all as read
+                  </button>
+                )}
+              </div>
               <div className="text-xs text-gray-500">
                 Menampilkan {displayedNotifications.length} dari {sortedNotifications.length}
               </div>
@@ -249,8 +296,8 @@ export default function NotificationDropdown() {
                   
                   return (
                     <Notif
-                      key={msg.id || idx}
-                      id={msg.id}
+                      key={notification.id || idx}
+                      id={notification.id}
                       imgSource={imageUrl}
                       senderPicture={imageUrl}
                       sender={msg.from}
@@ -261,13 +308,14 @@ export default function NotificationDropdown() {
                       title={msg.title}
                       content={msg.content}
                       subjectName={msg.module ? msg.module : null}
-                      showRedDot={notification.isSSE}
+                      showRedDot={!readNotifications.has(notification.id)}
                       files={fileUrl ? {
                         url: fileUrl,
                         type: fileType,
                         name: `Lampiran.${fileExtension}`,
                         category: fileCategory
                       } : null}
+                      onRead={() => markAsRead(notification.id)}
                     />
                   );
                 })

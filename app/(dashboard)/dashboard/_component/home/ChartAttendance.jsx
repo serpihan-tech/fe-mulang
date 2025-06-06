@@ -18,7 +18,6 @@ export default function ChartAttendance() {
     { label: "Mingguan", value: "minggu" },
     { label: "Bulanan", value: "bulan" },
     { label: "Semester", value: "semester" },
-
   ];
 
   const categoryOptions = [
@@ -28,10 +27,12 @@ export default function ChartAttendance() {
 
   const [selectedTime, setSelectedTime] = useState(timeOptions[0]);
   const [selectedCategory, setSelectedCategory] = useState(categoryOptions[0]);
+
   const [chartData, setChartData] = useState({
     siswa: { hadir: [], tidakHadir: [] },
     guru: { hadir: [], tidakHadir: [] }
   });
+  
   const [isZoomed, setIsZoomed] = useState(false);
 
   // Reset zoom state when changing time period
@@ -191,63 +192,96 @@ export default function ChartAttendance() {
 
   return (
     <div className={`mt-5 px-5 py-4 rounded-md  ${isDark ? "bg-dark_net-ter " : "bg-white"}`}>
-            <div className="flex justify-between items-center mb-4">
-                <p className={`text-lg font-bold ${isDark ? "text-slate-100" : "text-black"}`}>Kehadiran</p>
-                <div className="flex gap-2">
-                    <Dropdown
-                        options={timeOptions}
-                        value={selectedTime}
-                        onChange={setSelectedTime}
-                        wideDropdown="w-32"
-                        className={`z-30 h-10 p-2 rounded-md border ${isDark ? "bg-[#222222] border-[#ADC0F5] text-[#E0E0E0]" : "bg-white border-gray-200 text-black"}`}
-                        dropdownStyle={isDark ? "dark:bg-[#222222] dark:text-[#E0E0E0]" : ""}
-                    />
-                    <Dropdown
-                        options={categoryOptions}
-                        value={selectedCategory}
-                        onChange={setSelectedCategory}
-                        className={`z-30 h-10 p-2 rounded-md border ${isDark ? "bg-[#222222] border-[#ADC0F5] text-[#E0E0E0]" : "bg-white border-gray-200 text-black"}`}
-                        dropdownStyle={isDark ? "dark:bg-[#222222] dark:text-[#E0E0E0]" : ""}
-                    />
-                </div>
-            </div>
-
-            <div className="flex gap-4 mb-4">
-                <div className="flex items-center gap-2.5">
-                    <div className="w-2.5 h-2.5 bg-[#0e9035] rounded-full" />
-                    <p className={`text-xs font-medium ${isDark ? "text-[#E0E0E0]" : "text-black"}`}>Hadir</p>
-                </div>
-                <div className="flex items-center gap-2.5">
-                    <div className="w-2.5 h-2.5 bg-[#DC1010] rounded-full" />
-                    <p className={`text-xs font-medium ${isDark ? "text-[#E0E0E0]" : "text-black"}`}>Tidak Hadir</p>
-                </div>
-            </div>
-
-            <div className="mixed-chart -ms-4">
-                <Chart
-                    className="w-full"
-                    options={{
-                        ...chartOptions,
-                        theme: { mode: isDark ? "dark" : "light" },
-                        grid: { borderColor: isDark ? "#3D3D3D" : "#f1f1f1" },
-                        xaxis: {
-                            ...chartOptions.xaxis,
-                            labels: {
-                                style: { colors: isDark ? "#B0B0B0" : "#666" }
-                            }
-                        },
-                        yaxis: {
-                            ...chartOptions.yaxis,
-                            labels: {
-                                style: { colors: isDark ? "#B0B0B0" : "#666" }
-                            }
-                        }
-                    }}
-                    series={chartSeries}
-                    type="line"
-                    height={350}
-                />
-            </div>
+      <style jsx global>{`
+        .apexcharts-toolbar {
+          z-index: 0 !important;
+        }
+        .apexcharts-tooltip {
+          z-index: 0 !important;
+        }
+      `}</style>
+      <div className="flex justify-between items-center mb-4">
+        <p className={`text-lg font-bold ${isDark ? "text-slate-100" : "text-black"}`}>Kehadiran</p>
+        <div className="flex gap-2">
+          <Dropdown
+            options={timeOptions}
+            value={selectedTime}
+            onChange={setSelectedTime}
+            wideDropdown="w-32"
+            className={` h-10 p-2 rounded-md border ${isDark ? "bg-[#222222] border-[#ADC0F5] text-[#E0E0E0]" : "bg-white border-gray-200 text-black"}`}
+            dropdownStyle={isDark ? "dark:bg-[#222222] dark:text-[#E0E0E0]" : ""}
+          />
+          <Dropdown
+            options={categoryOptions}
+            value={selectedCategory}
+            onChange={setSelectedCategory}
+            className={` h-10 p-2 rounded-md border ${isDark ? "bg-[#222222] border-[#ADC0F5] text-[#E0E0E0]" : "bg-white border-gray-200 text-black"}`}
+            dropdownStyle={isDark ? "dark:bg-[#222222] dark:text-[#E0E0E0]" : ""}
+          />
         </div>
+      </div>
+
+      <div className="flex gap-4 mb-4">
+        <div className="flex items-center gap-2.5">
+          <div className="w-2.5 h-2.5 bg-[#0e9035] rounded-full" />
+          <p className={`text-xs font-medium ${isDark ? "text-[#E0E0E0]" : "text-black"}`}>Hadir</p>
+        </div>
+        <div className="flex items-center gap-2.5">
+          <div className="w-2.5 h-2.5 bg-[#DC1010] rounded-full" />
+          <p className={`text-xs font-medium ${isDark ? "text-[#E0E0E0]" : "text-black"}`}>Tidak Hadir</p>
+        </div>
+      </div>
+
+      {/*  w-full w-full*/}
+      <div className="relative overflow-hidden w-full self-stretch justify-start items-start inline-flex">
+        <div className="w-full h-[350px]">
+          <Chart
+            options={{
+              ...chartOptions,
+              theme: { mode: isDark ? "dark" : "light" },
+              grid: { borderColor: isDark ? "#3D3D3D" : "#f1f1f1" },
+
+              xaxis: {
+                ...chartOptions.xaxis,
+                labels: {
+                  style: { colors: isDark ? "#B0B0B0" : "#666" }
+                }
+              },
+              yaxis: {
+                ...chartOptions.yaxis,
+                labels: {
+                  style: { colors: isDark ? "#B0B0B0" : "#666" }
+                }
+              },
+
+              chart: {
+                ...chartOptions.chart,
+                animations: {
+                  enabled: true,
+                  easing: 'easeinout',
+                  speed: 800,
+                  animateGradually: {
+                    enabled: true,
+                    delay: 150
+                  },
+                  dynamicAnimation: {
+                    enabled: true,
+                    speed: 350
+                  }
+                },
+                
+              }
+              
+            }}
+
+            series={chartSeries}
+            type="line"
+            height="100%"
+            width="100%"
+            
+          />
+        </div>
+      </div>
+    </div>      
   );
 }
