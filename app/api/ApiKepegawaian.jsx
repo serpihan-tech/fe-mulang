@@ -2,6 +2,27 @@ import { toast } from "react-toastify";
 import ApiManager from "./ApiManager";
 import { format } from "date-fns";
 
+export const excel_data_guru = async (page, limit, search, sortBy, sortOrder) => {
+  try {
+    const response = await ApiManager.get(
+      `/teachers/export-excel?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+        },
+        responseType: 'blob', 
+      }
+    );
+    return response.data; 
+  } catch (err) {
+    if (err.message.includes('Network Error')) {
+      toast.error('Error 500: Server sedang bermasalah');
+    } else {
+      toast.error("Data tidak tersedia");
+    }
+  }
+};
+
 export const data_guru = async (page,limit, search, sortBy, sortOrder) => {
     try {
         const response = await ApiManager.get(`/teachers?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,{
@@ -137,6 +158,25 @@ export const edit_guru= async (teacherId,payload) => {
         toast.error('Error 500: Server sedang bermasalah');
         } else {
         toast.error("Gagal Edit Data");
+        }
+    }
+};
+
+export const excel_data_absen_guru = async (page,limit, search, sortBy, sortOrder, date) => {
+    try {
+        const response = await ApiManager.get(`/teacher-absences/export-excel?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}&tanggal=${date}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            },
+            responseType: 'blob', 
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
         }
     }
 };

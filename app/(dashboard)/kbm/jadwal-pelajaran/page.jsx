@@ -224,7 +224,7 @@ export default function JadwalPelajaran() {
       wideInput: "min-w-28",
       wideDropdown: "min-w-36",
       fetchOptions: () =>
-        data_kelas(1, 99, "", "", "").then((res) =>
+        data_kelas(1, 99, "", "", "",semesterId).then((res) =>
           res.theClass.theClass.map((kelas) => ({
             label: kelas.name,
             value: kelas.name,
@@ -391,6 +391,8 @@ export default function JadwalPelajaran() {
                   sortBy={sortBy}
                   sortOrder={sortOrder}
                   onFilterChange={handleFilterDropdownChange}
+                  currentPage={meta.currentPage}
+                  perPage={meta.perPage}
                 />
               ) : (
                 <DataNotFound />

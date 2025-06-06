@@ -1,10 +1,29 @@
 import { toast } from "react-toastify";
 import ApiManager from "./ApiManager";
 import { format } from "date-fns";
- 
-export const data_siswa = async (page,limit, search, sortBy, sortOrder, kelas) => {
+
+export const excel_data_siswa = async (page,limit, search, sortBy, sortOrder, tahunAjar, kelas) => {
     try {
-        const response = await ApiManager.get(`/students?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}${kelas}`,{
+        const response = await ApiManager.get(`/students/export-excel?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}&tahunAjar=${tahunAjar}${kelas}`,{
+            headers: {
+                "ngrok-skip-browser-warning": "69420",
+            },
+            responseType: 'blob', 
+        });
+        return response.data;
+
+    } catch (err) {
+        if (err.message.includes('Network Error')) {
+        toast.error('Error 500: Server sedang bermasalah');
+        } else {
+        toast.error("Data tidak tersedia");
+        }
+    }
+};
+ 
+export const data_siswa = async (page,limit, search, sortBy, sortOrder, tahunAjar, kelas) => {
+    try {
+        const response = await ApiManager.get(`/students?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}&tahunAjar=${tahunAjar}${kelas}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
@@ -178,9 +197,9 @@ export const naik_kelas_siswa = async (payload) => {
     }
 };
 
-export const data_kelas = async (page,limit, search, sortBy, sortOrder) => {
+export const data_kelas = async (page,limit, search, sortBy, sortOrder, tahunAjar) => {
     try {
-        const response = await ApiManager.get(`/classes?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,{
+        const response = await ApiManager.get(`/classes?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}&tahunAjar=${tahunAjar}`,{
             headers: {
                 "ngrok-skip-browser-warning": "69420",
             }
