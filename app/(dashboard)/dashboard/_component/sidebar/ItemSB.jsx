@@ -5,12 +5,15 @@ import { ArrowRight2, ArrowDown2 } from "iconsax-react";
 import { useRouter, usePathname } from "next/navigation";
 import { toast } from "react-toastify";
 import { logout } from "@/app/api/ApiAuth";
+import { useLoading } from "@/context/LoadingContext";
+import Image from "next/image";
+import { useTheme } from "@/provider/ThemeProvider";
 
 // Komponen HoverDropdown
 const HoverDropdown = ({ items, position = 'right' }) => {
   return (
     <div 
-      className={`absolute z-50 bg-white dark:bg-dark_net-pri shadow-lg rounded-xl 
+      className={`absolute z-50 bg-white dark:bg-dark_net-pri text-black dark:text-white shadow-lg rounded-xl 
       ${position === 'right' ? 'left-full ml-2' : 'right-full mr-2'} 
       top-0 min-w-[200px] py-2`}
     >
@@ -61,6 +64,8 @@ export const Logoutbtn = ({ title, icon: Icon, colorIcon, open = true, onConfirm
 export default function SidebarItem({ 
   title, 
   icon: Icon, 
+  imageActive,
+  imageIdle,
   dropdownItems, 
   colorIcon, 
   url, 
@@ -68,8 +73,11 @@ export default function SidebarItem({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isItemHovered, setIsItemHovered] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { setIsLoading } = useLoading();
+  const { theme } = useTheme();
   const isActive = url && pathname === url;
   const isDropdownActive = dropdownItems?.some(item => pathname.startsWith(item.url));
   const [shouldRenderText, setShouldRenderText] = useState(open);
@@ -80,7 +88,7 @@ export default function SidebarItem({
     }
   }, [isDropdownActive]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (dropdownItems) {
       if (open) {
         setIsOpen(!isOpen);
@@ -88,7 +96,15 @@ export default function SidebarItem({
         setIsHovered(!isHovered);
       }
     } else if (url) {
-      router.push(url);
+      setIsLoading(true);
+      try {
+        await router.push(url);
+      } catch (error) {
+        console.error('Navigation error:', error);
+        toast.error('Failed to navigate to the page');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -114,15 +130,26 @@ export default function SidebarItem({
             : 'text-black dark:text-white hover:bg-pri-main hover:text-netral-0'
         }`}
         onClick={handleClick}
+        onMouseEnter={() => setIsItemHovered(true)}
+        onMouseLeave={() => setIsItemHovered(false)}
       >
         {/* Bagian Kiri: Ikon dan Teks */}
         <div className="flex items-center ">
-          <Icon 
+          {Icon &&<Icon 
             size="25" 
             className="mr-2" 
             variant="Bold" 
             color={colorIcon}
-          />
+          />}
+          {imageActive && imageIdle && (
+            <Image
+              alt="icon"
+              src={isActive || isDropdownActive || isItemHovered || theme === "dark" ? imageActive : imageIdle}
+              width={25}
+              height={25}
+              className="mr-2 rounded-full"
+            />
+          )}
           {shouldRenderText && <span className="transition-opacity">{title}</span>}
         </div>
 

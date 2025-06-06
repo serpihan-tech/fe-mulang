@@ -49,7 +49,8 @@ export default function AdminBar({ open }) {
 
       <SidebarItem 
         title="Pengumuman" 
-        icon={Home} 
+        imageActive="/svg/announcement.svg"
+        imageIdle={"/svg/black-speaker.svg"} 
         colorIcon="currentColor" 
         url='/pengumuman'
         open={open}
