@@ -12,13 +12,13 @@ export default function StatusIcon({ status }) {
   
     return (
       <div className="">
-        <button
-          className={`border py-2 w-[80px] rounded-md  text-xs font-semibold ${getStatusStyle(
+        <p
+          className={`border py-2 w-[80px] rounded-md text-center text-xs font-semibold ${getStatusStyle(
             status
           )}`}
         >
           {status.charAt(0).toUpperCase() + status.slice(1)}
-        </button>
+        </p>
       </div>
     );
   }
