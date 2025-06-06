@@ -49,7 +49,7 @@ export default function ModalFilterPengumuman({ isOpen, onClose, onApply, initia
   if (!isOpen) return null;
 
   return (
-    <div className="absolute z-50 mt-2 text-sm right-0 bg-white rounded-xl shadow-lg p-6 min-w-[360px] max-w-xs border border-gray-200">
+    <div className="absolute z-50 mt-2 text-sm right-0 bg-white dark:bg-dark_net-pri dark:border-pri-border rounded-xl shadow-lg p-6 min-w-[360px] max-w-xs border border-gray-200">
       <div className="mb-4">
         <div className="font-semibold mb-2">Dikirim oleh</div>
         <div className="flex gap-6 mb-2">

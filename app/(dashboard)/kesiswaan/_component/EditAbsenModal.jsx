@@ -80,7 +80,7 @@ export default function EditAbsensiModal({ onCancel, onConfirm, AbsenData, isLoa
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md dark:bg-dark_net-ter"
+              className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md dark:bg-dark_net-ter dark:border-pri-border"
             >
               {statusOptions.map((opt) => (
                 <option key={opt} value={opt}>
@@ -98,13 +98,16 @@ export default function EditAbsensiModal({ onCancel, onConfirm, AbsenData, isLoa
               name="keterangan"
               value={formData.keterangan}
               onChange={handleChange}
-              className={`w-full mt-1 text-sm px-3 py-2 border border-gray-300 rounded-md ${
+              className={`w-full mt-1 text-sm px-3 py-2 border border-gray-300 dark:border-pri-border rounded-md ${
                 formData.status !== "Izin"
-                  ? "bg-gray-300 text-gray-500"
-                  : "bg-white"
+                  ? "bg-gray-300 text-gray-500 dark:bg-dark_net-ter"
+                  : "bg-white dark:bg-dark_net-ter"
               }`}
               disabled={formData.status !== "Izin"}
             />
+            {formData.status === "Izin" && 
+              <p className="text-xs text-err-main/50 dark:text-pri-border my-1">Keterangan wajib diisi</p>
+            }
           </div>
         </div>
         <div className="flex justify-end mt-6 space-x-3">
@@ -136,14 +139,14 @@ export default function EditAbsensiModal({ onCancel, onConfirm, AbsenData, isLoa
 }
 
 const Input = ({ label, value, disabled }) => (
-    <div>
+    <div className="">
         <label className="text-black dark:text-slate-100 text-sm font-medium">{label}</label>
         <input
             type="text"
             value={value}
             disabled={disabled}
             placeholder="-"
-            className={`w-full mt-1 text-sm  text-black px-3 py-2 border border-gray-300 rounded-md ${disabled ? "bg-gray-200 text-black" : "bg-white"}`}
+            className={`w-full mt-1 text-sm  text-black dark:text-slate-100 px-3 py-2 border  dark:bg-dark_net-ter dark:border-pri-border border-gray-300 rounded-md ${disabled ? "bg-gray-200 text-black" : "bg-white"}`}
         />
     </div>
 );

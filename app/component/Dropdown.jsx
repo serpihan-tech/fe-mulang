@@ -74,7 +74,7 @@ export default function Dropdown({
       </div>
       
       {isOpen && (
-        <div className={`absolute top-full left-0 ${wideDropdown} mt-1 bg-white dark:bg-dark_net-pri rounded-md shadow-lg z-10 border border-gray-200 dark:border-pri-border ${dropdownStyle} max-h-40 overflow-y-auto`}>
+        <div className={`text-black dark:text-white absolute top-full left-0 ${wideDropdown} mt-1 bg-white dark:bg-dark_net-pri rounded-md shadow-lg z-10 border border-gray-200 dark:border-pri-border ${dropdownStyle} max-h-40 overflow-y-auto`}>
           {options.map((option) => (
             <div
               key={option.value}

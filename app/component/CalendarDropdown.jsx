@@ -120,7 +120,7 @@ export default function CalendarDropdown({ selectedDate, onSelect }) {
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md space-y-4 min-w-[250px] text-black">
+    <div className="p-4 bg-white dark:bg-dark_net-ter dark:border dark:border-pri-border rounded-lg shadow-md space-y-4 min-w-[250px] text-black dark:text-white">
       {/* Header */}
       <div className="flex justify-between items-center">
         <button onClick={handlePrev} type="button">‹</button>

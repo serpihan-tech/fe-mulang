@@ -13,7 +13,7 @@ export default function Loading() {
   const isDark = theme === "dark";
 
   return (
-    <div className="fixed inset-0 bg-[#FAFAFA] dark:bg-dark_net-pri z-30 flex justify-center items-center">
+    <div className="fixed inset-0 bg-[#FAFAFA] dark:bg-dark_net-pri z-20 flex justify-center items-center">
       <Lottie
         animationData={isDark ? animationDark : animationData}
         className="w-full md:w-3/4 lg:w-1/2"

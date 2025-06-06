@@ -35,7 +35,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
       gender:"",
       religion:"",
       birth_place: "",
-      birth_date: null,
+      birth_date: new Date(),
       address: "",
       parents_name: "",
       parents_phone: "",
@@ -43,7 +43,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
       students_phone: "",
       nis: "",
       nisn: "",
-      enrollment_year: null,
+      enrollment_year: new Date(),
       profile_picture: ""
     },
     class_student:{
@@ -101,10 +101,11 @@ export default function TambahSiswaForm({data, onConfirm}) {
     { label: "Konghucu", value: "Konghucu" },
   ];
   
+  const {semesterId} = useSemester()
   useEffect(() => {
-    const fetchDataKelas = async (page,limit,search,sortField,sortDir) => {
+    const fetchDataKelas = async (page,limit,search,sortField,sortDir,semester) => {
       try {
-          const data = await data_kelas(page=1,limit=99,search='', sortField='', sortDir='');
+          const data = await data_kelas(page=1,limit=99,search='', sortField='', sortDir='',semester=semesterId);
           // console.log("kelazzzzz",data)
           const formattedOptions = data?.theClass.theClass.map((kelas) => ({
             label: kelas.name,
@@ -210,7 +211,8 @@ export default function TambahSiswaForm({data, onConfirm}) {
   };
 
   
-
+  console.log("formData", formData)
+  console.log("data",data)
   return (
     <div className="w-full bg-white dark:bg-dark_net-ter py-5 px-6 text-black dark:text-slate-100">
     {selectedImage && (
@@ -276,7 +278,7 @@ export default function TambahSiswaForm({data, onConfirm}) {
                   <label className="text-black dark:text-slate-100 text-sm font-medium">Tanggal lahir</label>
                   <CustomDatePicker
                     required
-                    value={formData.student_detail.birth_date ?? null}
+                    value={new Date(formData.student_detail.birth_date) ?? null}
                     onChange={handleDateChange('student_detail.birth_date')}
                     customFilterdateStyle={`flex items-center justify-between border border-netral-20 dark:bg-dark_net-ter focus:outline-pri-main rounded-lg px-4 py-2 cursor-pointer min-w-[180px] ${
                         formData.student_detail.birth_date ? "text-black dark:text-slate-100" : "text-netral-20"
@@ -290,7 +292,8 @@ export default function TambahSiswaForm({data, onConfirm}) {
                 <label className="text-black dark:text-slate-100 text-sm font-medium">Tanggal Masuk</label>
                 <CustomDatePicker
                   required
-                  value={formData.student_detail.enrollment_year ?? null}
+                  placeholder="Pilih tanggal masuk"
+                  value={new Date(formData.student_detail.enrollment_year) ?? null}
                   onChange={handleDateChange('student_detail.enrollment_year')}
                   customFilterdateStyle={`flex items-center justify-between border border-netral-20 dark:bg-dark_net-ter focus:outline-pri-main rounded-lg px-4 py-2 cursor-pointer min-w-[180px] ${
                       formData.student_detail.enrollment_year ? "text-black dark:text-slate-100" : "text-netral-20"

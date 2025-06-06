@@ -31,6 +31,7 @@ export default function PilihKelasPage() {
   const [tempPayload, setTempPayload] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [isDeleteOpen, setDeleteOpen] = useState(false);
+  const {semesterId} = useSemester();
 
   useEffect(() => {
     const rowData = sessionStorage.getItem("siswa_selected");
@@ -106,7 +107,7 @@ export default function PilihKelasPage() {
   useEffect(() => {
     const fetchDataKelas = async () => {
       try {
-        const data = await data_kelas(1, 99, "", "", "");
+        const data = await data_kelas(1, 99, "", "", "", semesterId);
         // console.log("kelazzzzz",data)
         const formattedOptions = data?.theClass.theClass.map((kelas) => ({
           label: kelas.name,

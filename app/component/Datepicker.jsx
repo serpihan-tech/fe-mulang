@@ -32,7 +32,7 @@ export default function CustomDatePicker({ value, onChange, customFilterdateStyl
       </div>
 
       {showCalendar && (
-        <div className="absolute z-10 mt-2 bg-white rounded-xl shadow-lg">
+        <div className="absolute z-10 mt-2 bg-white  rounded-xl shadow-lg">
           <CalendarDropdown
             selectedDate={value}
             onSelect={(date) => {

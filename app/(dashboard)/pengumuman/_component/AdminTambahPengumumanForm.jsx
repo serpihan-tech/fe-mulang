@@ -190,7 +190,7 @@ export default function AdminTambahPengumumanForm() {
                   title: e.target.value
                   })))}
                 placeholder="Masukkan judul pengumuman"
-                className="w-full border text-black border-gray-200 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal"
+                className="w-full border text-black dark:text-white border-gray-200 dark:bg-dark_net-ter rounded-md py-2 px-4 text-sm font-normal"
               />
             </div>
             <div className="space-y-[5px]">
@@ -205,7 +205,7 @@ export default function AdminTambahPengumumanForm() {
                   content: e.target.value
                   })))}
                 placeholder="Masukkan deskripsi pengumuman"
-                className="w-full border border-gray-200 dark:bg-dark_net-ter rounded-md py-2 px-4 text-black text-sm font-normal"
+                className="w-full border border-gray-200 dark:bg-dark_net-ter rounded-md py-2 px-4 text-black dark:text-white text-sm font-normal"
               />
             </div>
             <div className="space-y-[5px]">
