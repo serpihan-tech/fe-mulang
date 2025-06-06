@@ -241,6 +241,8 @@ export default function AdminPengumuman() {
                   sortOrder={sortOrder}
                   multiFilter={true}
                   onFilterChange={handleFilterDropdownChange}
+                  currentPage={meta.currentPage}
+                  perPage={meta.perPage}
               /> : <DataNotFound /> }
         </div>
 

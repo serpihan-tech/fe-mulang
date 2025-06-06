@@ -297,6 +297,8 @@ export default function TahunAjar() {
                     onSortChange={handleSortChange}
                     sortBy={sortBy}
                     sortOrder={sortOrder}
+                    currentPage={meta.currentPage}
+                    perPage={meta.perPage}
                   />
                 ) : (
                   <DataNotFound />

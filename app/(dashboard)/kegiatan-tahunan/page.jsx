@@ -249,6 +249,8 @@ export default function KegiatanTahunan() {
                 onSortChange={handleSortChange}
                 sortBy={sortBy}
                 sortOrder={sortOrder}
+                currentPage={meta.currentPage}
+                perPage={meta.perPage}
               />
             ) : (
               <DataNotFound />

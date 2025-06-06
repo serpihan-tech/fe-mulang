@@ -264,8 +264,10 @@ export default function AbsensiSiswaAdmin() {
                     onDelete={handleDelete}
                     Aksi="EditDelete"
                     filterDate={true}
+                    deleteSelectedDate={true}
                     handleDateChange={handleDateChange}
                     handleSearchChange={handleSearchChange}
+                    handleDeleteDateFilter={() => setSelectedDate("")}
                     selectedSearch={selectedSearch}
                     selectedDate={selectedDate}
                     title="Tabel Data Absensi Siswa"
@@ -273,6 +275,8 @@ export default function AbsensiSiswaAdmin() {
                     onSortChange={handleSortChange}
                     sortBy={sortBy}
                     sortOrder={sortOrder}
+                    currentPage={meta.currentPage}
+                    perPage={meta.perPage}
                   />
                 ) : (
                   <DataNotFound />
