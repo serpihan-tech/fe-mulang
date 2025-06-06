@@ -18,6 +18,8 @@ export default function StudentDashboard() {
   const [scheduleData, setScheduleData] = useState(null);
   const [presenceData, setPresenceData] = useState(null);
   const { setIsLoading } = useLoading();
+  const {allSemesters, semesterId} = useSemester()
+ 
   const today = new Intl.DateTimeFormat('id-ID', { weekday: 'long' }).format(new Date());
 
   useEffect(() => {
@@ -53,9 +55,9 @@ export default function StudentDashboard() {
         }
       };
 
-      const fetchSchedule = async () => {
+      const fetchSchedule = async (semester = semesterId) => {
         try {
-          const data = await getStudentSchedule(studentId);
+          const data = await getStudentSchedule(studentId,semester);
           if (Array.isArray(data.schedule)) {
             const filteredData = data.schedule.filter(
               (item) => item.days.toLowerCase() === today.toLowerCase()
@@ -76,11 +78,11 @@ export default function StudentDashboard() {
       fetchPresence();
       fetchSchedule();
     }
-  }, []);
+  }, [semesterId]);
   // console.log("data jadwal:",scheduleData)
   const studentId= sessionStorage.getItem('student_id')
   // console.log(studentId)
-  const { semesterId } = useSemester()
+  
  // console.log("semester:",semesterId)
 
   if (!presenceData) return <DataNotFound />;
