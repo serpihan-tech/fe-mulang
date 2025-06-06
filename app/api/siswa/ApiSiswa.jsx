@@ -11,9 +11,9 @@ export const getStudentPresence = async (studentId) => {
     }
 };
 
-export const getStudentSchedule = async (studentId) => {
+export const getStudentSchedule = async (studentId, tahunAjar) => {
     try {
-        const response = await ApiManager.get(`/students/schedule/${studentId}`);
+        const response = await ApiManager.get(`/students/schedule/${studentId}?tahunAjar=${tahunAjar}`);
         return response.data;
     } catch (error) {
         toast.error("Gagal mengambil data kehadiran:", error);

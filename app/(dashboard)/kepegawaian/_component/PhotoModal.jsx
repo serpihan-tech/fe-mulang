@@ -3,7 +3,7 @@ import Image from "next/image";
 const PhotoModal = ({ isOpen, onClose, photo, time, type }) => {
   if (!isOpen) return null;
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const imageUrl = photo ? `${baseUrl}/file/${photo}?timestamp=${Date.now()}` : "svg/logo.svg";
+  const imageUrl = photo ? `${baseUrl}/file/${photo}?timestamp=${Date.now()}` : "/picture/default.jpg";
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -22,7 +22,7 @@ const PhotoModal = ({ isOpen, onClose, photo, time, type }) => {
         <div className="relative w-full h-64 mb-4">
           {imageUrl ? (
             <Image
-              src={imageUrl}
+              src={imageUrl || "/svg/logo.svg"}
               alt={`Foto ${type}`}
               fill
               className="object-contain rounded-lg"
