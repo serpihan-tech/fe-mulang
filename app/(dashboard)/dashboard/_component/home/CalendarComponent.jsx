@@ -129,13 +129,17 @@ export default function CalendarComponent() {
 
   const getUpcomingEvents = (date) => {
     const currentMonth = date.getMonth();
+    const currentYear = date.getFullYear();
     const events = [];
 
     // Add national holidays
     const holidayEvents = holidays
-      .filter((holiday) => 
-        new Date(holiday.holiday_date).getMonth() === currentMonth && holiday.is_national_holiday
-      )
+      .filter((holiday) => {
+        const holidayDate = new Date(holiday.holiday_date);
+        return holidayDate.getMonth() === currentMonth && 
+               holidayDate.getFullYear() === currentYear && 
+               holiday.is_national_holiday;
+      })
       .map((holiday) => ({ 
         name: holiday.holiday_name, 
         date: new Date(holiday.holiday_date),
@@ -147,7 +151,8 @@ export default function CalendarComponent() {
       .filter((event) => {
         const startDate = new Date(event.dateStart);
         startDate.setHours(12, 0, 0, 0);
-        return startDate.getMonth() === currentMonth;
+        return startDate.getMonth() === currentMonth && 
+               startDate.getFullYear() === currentYear;
       })
       .map((event) => {
         const startDate = new Date(event.dateStart);
@@ -248,7 +253,8 @@ export default function CalendarComponent() {
               p-2.5 text-center text-sm font-medium 
               ${dayObj.type === 'prev-month' || dayObj.type === 'next-month' ? 'text-[#CCCCCC] opacity-50' : ''}
               ${dayObj.date.getDate() === new Date().getDate() && 
-                dayObj.date.getMonth() === new Date().getMonth() ? 'bg-blue-600 rounded-full text-white' : ''}
+                dayObj.date.getMonth() === new Date().getMonth() &&
+                dayObj.date.getFullYear() === new Date().getFullYear() ? 'bg-blue-600 rounded-full text-white' : ''}
               ${selectedDate && dayObj.date.toDateString() === selectedDate.toDateString() ? 'bg-blue-100 dark:bg-blue-300 rounded-full' : ''}
               ${isNationalHoliday(dayObj.date) ? 'bg-red-500 text-white rounded-full' : ''}
               ${isSchoolEvent(dayObj.date) ? 'bg-blue-500 text-white rounded-full' : ''}
