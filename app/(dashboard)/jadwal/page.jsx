@@ -45,7 +45,7 @@ export default function JadwalLengkapSiswa() {
   const fetchSchedule = async () => {
     setIsLoading(true);
     try {
-      const data = await getStudentSchedule(studentId);
+      const data = await getStudentSchedule(studentId,semesterId);
       if (Array.isArray(data.schedule)) {
         const groupedSchedule = data.schedule.reduce((acc, item) => {
           if (!acc[item.days]) {
