@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { CloseCircle } from "iconsax-react";
+import { toast } from "react-toastify";
 import Dropdown from "@/app/component/Dropdown";
 import CustomTimePicker from "@/app/component/TimePicker";
 import CustomDatePicker from "@/app/component/Datepicker";
@@ -52,6 +53,19 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
   };
 
   const handleSubmit = () => {
+    // Check if trying to set status as Hadir without existing AbsenData
+    if (formData.status === "Hadir" && AbsenData.status?.props.status === "Belum Absen") {
+      toast.error("Admin tidak dapat mengubah status menjadi Hadir. Hanya dapat mengatur status Izin, Sakit, atau Alfa.");
+      return;
+    }
+
+    
+
+    if (formData.status === "Hadir" && (!formData.check_in_time || formData.check_in_time === "-")) {
+      toast.error("Jam masuk harus diisi ketika status Hadir");
+      return;
+    }
+
     const payload = {
       teacher_id: formData.teacher_id,
       date: format(formData.date, "yyyy-MM-dd"),
@@ -67,7 +81,6 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
     } else {
       payload.check_in_time=null
       payload.check_out_time=null
-
     }
   
     console.log("payload", payload);
@@ -75,12 +88,13 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
   };
 
 
-  console.log("formData", formData)
+  //console.log("formData", formData)
+  //console.log("AbsenData", AbsenData)
   return (
-    <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center text-black">
-        <div className="bg-white w-full max-w-md rounded-xl p-6 shadow-lg">
+    <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center text-black dark:text-white">
+        <div className="bg-white dark:bg-dark_net-pri w-full max-w-md rounded-xl p-6 shadow-lg">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">Edit Data</h2>
+                <h2 className="text-lg font-semibold text-black dark:text-white">Edit Data</h2>
                 <CloseCircle size="24" color="currentColor" variant="Bold" className="ml-auto cursor-pointer" onClick={onCancel} />
             </div>
             
@@ -93,22 +107,22 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
 
               {/* Tanggal (CustomDatePicker) */}
               <div>
-                <label className="text-sm font-medium">Tanggal</label>
+                <label className="text-sm font-medium text-black dark:text-white">Tanggal</label>
                 <CustomDatePicker
                   value={formData.date}
                   disabled={true}
-                  customFilterdateStyle="flex justify-between items-center px-3 py-2 border rounded-md w-full text-sm bg-gray-200 text-black"
+                  customFilterdateStyle="flex justify-between items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md w-full text-sm bg-gray-200 dark:bg-dark_net-ter text-black dark:text-white"
                 />
               </div>
 
               {/* Keterangan Absen */}
               <div>
-                <label className="text-sm font-medium">Keterangan Absen</label>
+                <label className="text-sm font-medium text-black dark:text-white">Keterangan Absen</label>
                 <Dropdown
                   placeholder="Pilih status"
                   value={statusOptions.find(opt => opt.value === formData.status) || null}
                   onChange={(val) => setFormData({ ...formData, status: val.value })}
-                  className={"w-full h-10 p-2 rounded-md bg-white border border-[#cccccc] "}
+                  className={"w-full h-10 p-2 rounded-md bg-white dark:bg-dark_net-ter border border-[#cccccc] dark:border-gray-600 text-black dark:text-white"}
                   options={statusOptions}
                 />
               </div>
@@ -118,14 +132,14 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
                   {/* Jam Masuk & Jam Pulang */}
                   <div className="flex gap-4 mt-4">
                     <div className="w-1/2">
-                      <label className="text-sm font-medium">Jam Masuk</label>
+                      <label className="text-sm font-medium text-black dark:text-white">Jam Masuk</label>
                       <CustomTimePicker
                         value={formData.check_in_time}
                         onChange={(val) => setFormData({ ...formData, check_in_time: val })}
                       />
                     </div>
                     <div className="w-1/2">
-                      <label className="text-sm font-medium">Jam Pulang</label>
+                      <label className="text-sm font-medium text-black dark:text-white">Jam Pulang</label>
                       <CustomTimePicker
                         value={formData.check_out_time}
                         onChange={(val) => setFormData({ ...formData, check_out_time: val })}
@@ -134,15 +148,12 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
                   </div>
                 </>
               )}
-
-
-              
             </div>
 
             <div className="flex justify-end mt-6 space-x-3">
                 <button
                     onClick={onCancel}
-                    className="px-4 py-2 border border-red-500 text-red-500 rounded-md hover:bg-red-50"
+                    className="px-4 py-2 border border-red-500 text-red-500 dark:text-red-400 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20"
                 >
                  Batal
                 </button>
@@ -151,8 +162,8 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
                     disabled={isLoading}
                     className={`px-4 py-2 rounded-md text-white ${
                         isLoading
-                        ? "bg-blue-300 cursor-not-allowed"
-                        : "bg-blue-600 hover:bg-blue-700"
+                        ? "bg-blue-300 dark:bg-blue-700 cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
                     }`}
                     >
                     {isLoading ? "Menyimpan..." : "Simpan"}
@@ -165,13 +176,17 @@ export default function PresensiPegawaiModal({ onCancel, onConfirm, AbsenData, i
 
 const Input = ({ label, value, disabled }) => (
     <div>
-        <label className="text-sm font-medium">{label}</label>
+        <label className="text-sm font-medium text-black dark:text-white">{label}</label>
         <input
             type="text"
             value={value}
             disabled={disabled}
             placeholder="-"
-            className={`w-full mt-1 text-sm  text-black px-3 py-2 border border-gray-300 rounded-md ${disabled ? "bg-gray-200 text-black" : "bg-white"}`}
+            className={`w-full mt-1 text-sm text-black dark:text-white px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md ${
+                disabled 
+                ? "bg-gray-200 dark:bg-dark_net-ter text-black dark:text-white" 
+                : "bg-white dark:bg-dark_net-ter"
+            }`}
         />
     </div>
 );
