@@ -10,6 +10,7 @@ import '../globals.css';
 import CustomDatePicker from "./Datepicker";
 import MultiSelectDropdown from "./MultiSelectDropdown";
 import ModalFilterPengumuman from "./ModalFilterPengumuman";
+import SmallButton from "./SmallButton";
 
 const TableComponent = ({ 
   columns, data, title, filters=[], 
@@ -18,8 +19,11 @@ const TableComponent = ({
   multiFilter=false,
   enableSort=true, enableSearch=true,
   enableSelect, selectedRows = [], onSelectRow, onSelectAll,
-  filterDate, selectedDate, dFPlaceholder ,
-  onSortChange, handleDateChange, handleSearchChange, onFilterChange}) => {
+  filterDate, selectedDate, dFPlaceholder , deleteSelectedDate=false, handleDeleteDateFilter,
+  onSortChange, handleDateChange, handleSearchChange, onFilterChange,
+  meta = { currentPage: 1, perPage: 10 },
+  currentPage,
+  perPage}) => {
   //console.log(data);
   const inputRef = useRef(null);
   const router = useRouter();
@@ -131,13 +135,26 @@ const TableComponent = ({
     <div className="w-full mb-5 flex space-x-2 justify-between items-center text-black dark:text-white">
       <div className="flex items-center space-x-1 md:space-x-5">
         <h1 className="text-lg font-semibold lg:whitespace-nowrap">{title}</h1>
-        <div className={` ${!filterDate ? "hidden" : ""}`}>
+        <div className={` flex space-x-2 ${!filterDate ? "hidden" : ""}`}>
           <CustomDatePicker
             value={selectedDate}
             onChange={handleDateChange}
             placeholder={dFPlaceholder}
-            customFilterdateStyle="flex items-center justify-between border border-blue-500 rounded-lg px-2 md:px-4 py-2 cursor-pointer whitespace-nowrap space-x-1.5"
+            customFilterdateStyle="flex items-center justify-between border border-pri-main dark:border-pri-border rounded-lg px-2 md:px-4 py-2 cursor-pointer whitespace-nowrap space-x-1.5"
           />
+          {deleteSelectedDate &&
+            <div className={`${!selectedDate ? "hidden" : ""}`}>
+              <SmallButton 
+                //onClick 
+                icon = {Trash}
+                onClick = {handleDeleteDateFilter}
+                bgColor = {"bg-err-main"}
+                colorIcon = {"currentColor"}
+                hover = {"hover:bg-err-hover"}
+                noTitle = {true}
+              />
+            </div>
+          }
         </div>
         <div className="flex space-x-5 items-center">
           {filters.map((filter) => {
@@ -233,7 +250,7 @@ const TableComponent = ({
        </div> 
       </div>
     </div>
-      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-x-auto">
+      <div className="bg-white dark:bg-dark_net-pri shadow-lg rounded-lg overflow-x-auto">
         <table className="w-auto min-w-full table-fixed border-collapse text-xs">
           <thead>
             <tr className="bg-[#ADC0F5]/10 dark:bg-blue-700 text-black dark:text-gray-200 font-semibold">
@@ -272,7 +289,7 @@ const TableComponent = ({
           <tbody>
             {data.length > 0 ? (
               data.map((item, index) => (
-                <tr key={index} className="border-2 border-[#ADC0F5]/10">
+                <tr key={index} className="border-2 border-[#ADC0F5]/10 ">
                   {enableSelect ? (
                     <td className="pl-6 text-left">
                       <input
@@ -283,7 +300,9 @@ const TableComponent = ({
                       />
                     </td>
                   ) : (
-                    <td className="px-2 md:px-4 lg:px-6 py-2 text-gray-900 dark:text-slate-100">{index + 1}</td>
+                    <td className="px-2 md:px-4 lg:px-6 py-2 text-gray-900 dark:text-slate-100">
+                      {((currentPage || meta?.currentPage || 1) - 1) * (perPage || meta?.perPage || 10) + index + 1}
+                    </td>
                   )}
                   {columns.map((key) => (
                     <td
@@ -304,8 +323,8 @@ const TableComponent = ({
                 </tr>
               ))
             ) : (
-              <tr>
-                <td colSpan={columns.length + 1} className="text-center py-4 text-gray-500 dark:text-gray-300">
+              <tr >
+                <td colSpan={columns.length + 1} className="text-center items-center py-4 text-gray-500 dark:bg-dark_net-pri dark:text-gray-300">
                 <DataNotFound />
                 </td>
               </tr>
