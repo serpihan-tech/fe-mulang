@@ -93,6 +93,7 @@ export default function AbsenSuccessPopUp({ name, nip, date, inTime,outTime, pho
               textColor="text-white"
               hover="hover:bg-pri-hover"
               minBtnSize="min-w-fit"
+              noResponsiveTitle = {true}
             />
           </div>
         </div>
