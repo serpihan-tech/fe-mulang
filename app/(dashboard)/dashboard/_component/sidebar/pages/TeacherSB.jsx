@@ -13,7 +13,7 @@ export default function TeacherSB( {open} ) {
 
   //console.log("walikelas", waliKelas)
   return (
-    <div className="flex flex-col gap-4 my-4 min-w-14">
+    <div className="flex flex-col gap-4 my-4">
       
       <SidebarItem
         title="Kesiswaan"

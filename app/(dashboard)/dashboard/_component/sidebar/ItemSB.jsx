@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import SidebarDropdown from "./SubItemSB";
 import { ArrowRight2, ArrowDown2 } from "iconsax-react";
 import { useRouter, usePathname } from "next/navigation";
@@ -10,21 +10,23 @@ import Image from "next/image";
 import { useTheme } from "@/provider/ThemeProvider";
 
 // Komponen HoverDropdown
-const HoverDropdown = ({ items, position = 'right' }) => {
+const HoverDropdown = ({ items }) => {
+  const router = useRouter();
+
+  const handleClick = (url) => {
+    router.push(url);
+  };
+
   return (
-    <div 
-      className={`absolute z-50 bg-white dark:bg-dark_net-pri text-black dark:text-white shadow-lg rounded-xl 
-      ${position === 'right' ? 'left-full ml-2' : 'right-full mr-2'} 
-      top-0 min-w-[200px] py-2`}
-    >
+    <div className="absolute left-full ml-2 top-0 min-w-[200px] bg-white dark:bg-dark_net-pri text-black dark:text-white shadow-lg rounded-xl py-2 z-50">
       {items.map((item, index) => (
-        <div 
+        <button 
           key={index} 
-          className="px-4 py-2 hover:bg-pri-main hover:text-white cursor-pointer"
-          onClick={() => window.location.href = item.url}
+          className="w-full text-left px-4 py-2 hover:bg-pri-main hover:text-white dark:hover:bg-pri-main/80 transition-colors duration-200 cursor-pointer"
+          onClick={() => handleClick(item.url)}
         >
           {item.label}
-        </div>
+        </button>
       ))}
     </div>
   );
@@ -69,11 +71,10 @@ export default function SidebarItem({
   dropdownItems, 
   colorIcon, 
   url, 
-  open = true 
+  open = false
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isItemHovered, setIsItemHovered] = useState(false);
+  const [showHoverDropdown, setShowHoverDropdown] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { setIsLoading } = useLoading();
@@ -81,6 +82,10 @@ export default function SidebarItem({
   const isActive = url && pathname === url;
   const isDropdownActive = dropdownItems?.some(item => pathname.startsWith(item.url));
   const [shouldRenderText, setShouldRenderText] = useState(open);
+  
+  const itemRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     if (isDropdownActive) {
@@ -88,12 +93,33 @@ export default function SidebarItem({
     }
   }, [isDropdownActive]);
 
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => setShouldRenderText(true), 300);
+    } else {
+      setShouldRenderText(false);
+    }
+  }, [open]);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    if (!open && dropdownItems) {
+      setShowHoverDropdown(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setShowHoverDropdown(false);
+    }, 100);
+  };
+
   const handleClick = async () => {
     if (dropdownItems) {
       if (open) {
         setIsOpen(!isOpen);
-      } else {
-        setIsHovered(!isHovered);
       }
     } else if (url) {
       setIsLoading(true);
@@ -108,74 +134,69 @@ export default function SidebarItem({
     }
   };
 
-  useEffect(() => {
-    // Kendalikan delay rendering teks saat transisi sidebar selesai
-    if (open) {
-      setTimeout(() => setShouldRenderText(true), 300); // Render teks setelah transisi 300ms
-    } else {
-      setShouldRenderText(false); // Hapus teks sebelum sidebar tertutup
-    }
-  }, [open]);
-
   return (
     <div 
       className="relative"
-      onMouseEnter={() => !open && dropdownItems && setIsHovered(true)}
-      onMouseLeave={() => !open && dropdownItems && setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <button
-        className={`w-full flex items-center p-2 rounded-xl transition relative ${
-          isActive || isDropdownActive 
-            ? 'bg-pri-main text-netral-0' 
-            : 'text-black dark:text-white hover:bg-pri-main hover:text-netral-0'
-        }`}
+        ref={itemRef}
+        className={`w-full flex items-center p-2 rounded-md transition-all duration-200 relative
+          ${isActive || isDropdownActive 
+            ? 'bg-pri-main text-white dark:bg-pri-main/90 dark:text-white' 
+            : 'text-gray-700 dark:text-gray-200 hover:bg-pri-main/10 dark:hover:bg-pri-main/20'
+          }`}
         onClick={handleClick}
-        onMouseEnter={() => setIsItemHovered(true)}
-        onMouseLeave={() => setIsItemHovered(false)}
       >
-        {/* Bagian Kiri: Ikon dan Teks */}
-        <div className="flex items-center ">
-          {Icon &&<Icon 
+        <div className="flex items-center">
+          {Icon && <Icon 
             size="25" 
             className="mr-2" 
             variant="Bold" 
-            color={colorIcon}
+            color={isActive || isDropdownActive ? "white" : colorIcon}
           />}
           {imageActive && imageIdle && (
             <Image
               alt="icon"
-              src={isActive || isDropdownActive || isItemHovered || theme === "dark" ? imageActive : imageIdle}
+              src={isActive || isDropdownActive || theme === "dark" ? imageActive : imageIdle}
               width={25}
               height={25}
               className="mr-2 rounded-full"
             />
           )}
-          {shouldRenderText && <span className="transition-opacity">{title}</span>}
+          {shouldRenderText && (
+            <span className={`transition-opacity ${isActive || isDropdownActive ? 'font-medium' : ''}`}>
+              {title}
+            </span>
+          )}
         </div>
 
-        {/* Bagian Kanan: Ikon Panah */}
         {dropdownItems && open && (
           <span className="ml-auto">
             {isOpen ? (
-              <ArrowDown2 size="20" color="currentColor" variant="Bold"/>
+              <ArrowDown2 size="20" color={isActive || isDropdownActive ? "white" : "currentColor"} variant="Bold"/>
             ) : (
-              <ArrowRight2 size="20" color="currentColor" variant="Bold"/>
+              <ArrowRight2 size="20" color={isActive || isDropdownActive ? "white" : "currentColor"} variant="Bold"/>
             )}
           </span>
         )}
       </button>
       
-      {/* Dropdown untuk sidebar terbuka */}
+      {/* Regular dropdown for expanded sidebar */}
       {dropdownItems && isOpen && open && (
         <SidebarDropdown items={dropdownItems} open={open}/>
       )}
 
-      {/* Hover dropdown untuk sidebar tertutup */}
-      {dropdownItems && !open && isHovered && (
-        <HoverDropdown 
-          items={dropdownItems} 
-          position="right"
-        />
+      {/* Hover dropdown for minimized sidebar */}
+      {dropdownItems && !open && showHoverDropdown && (
+        <div 
+          ref={dropdownRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <HoverDropdown items={dropdownItems} />
+        </div>
       )}
     </div>
   );
