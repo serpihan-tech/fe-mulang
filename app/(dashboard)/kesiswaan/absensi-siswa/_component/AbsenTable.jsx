@@ -6,6 +6,7 @@ import SmallButton from '@/app/component/SmallButton';
 import { toast } from 'react-toastify';
 import { EditAbsensiSiswa } from '@/app/api/guru/ApiKesiswaan';
 import ReasonModal from './ReasonModal';
+import SuccessUpdatePopUp from '@/app/component/SuccessUpdatePopUp';
 
 const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
   const [editableColumns, setEditableColumns] = useState(columns);
@@ -16,6 +17,7 @@ const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
   const [currentStudent, setCurrentStudent] = useState(null);
   const [currentColumn, setCurrentColumn] = useState(null);
   const latestStatusRef = useRef(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (columns && columns.length > 0 && data && data.length > 0) {
@@ -146,6 +148,10 @@ const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
             col.key === colKey.key ? { ...col, fillable: false, description: descriptions[colKey.key] } : col
           )
         );
+        setIsSuccess(true);
+        setTimeout(() => setIsSuccess(false), 1200);
+        // Panggil onfetch untuk me-refresh data
+        onfetch();
       }
     } catch (err) {
       toast.error("Data absensi harus lengkap")
@@ -162,10 +168,8 @@ const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
     );
   };
 
-
   console.log("editable columns: ",editableColumns)
   console.log("data: ",data)
-
 
   const getStatusColor = (rowIndex, columnKey, status) => {
     if (selectedStatus[rowIndex]?.[columnKey] === status) {
@@ -200,166 +204,171 @@ const AbsenTable = ({ data, columns, onfetch, onShowDescription }) => {
 
   return (
     <div className="relative w-full ">
-  <table className="bg-white dark:bg-dark_net-ter min-w-max border-separate border-spacing-0">
-  <thead>
-  <tr>
-    {editableColumns.map((column, index) => {
-      const lastStatusColumn = editableColumns
-        .filter(col => col.key.startsWith('status_'))
-        .at(-1); // ambil kolom status terakhir
+      <table className="bg-white dark:bg-dark_net-ter min-w-max border-separate border-spacing-0">
+        <thead>
+          <tr>
+            {editableColumns.map((column, index) => {
+              const lastStatusColumn = editableColumns
+                .filter(col => col.key.startsWith('status_'))
+                .at(-1); // ambil kolom status terakhir
 
-      console.log("status terakhir:", lastStatusColumn.key)
-      const isLastStatusColumn = column?.key === lastStatusColumn?.key;
+              const isLastStatusColumn = lastStatusColumn ? column?.key === lastStatusColumn?.key : false;
 
-      return (
-        <th
-          key={index}
-          ref={isLastStatusColumn ? latestStatusRef : null}
-          className={`px-5 py-[10px] text-black dark:text-slate-100 text-lg font-semibold text-left whitespace-nowrap ${stickyClass(column.key)}`}
-        >
-          {column.key.startsWith('status_') ? (
-            <>
-              <p>{format(new Date(column.date), 'd MMMM yyyy', { locale: id })}</p>
-              <p className='text-sm font-normal'>Minggu ke-{index - 2}</p>
-              {column.fillable === false && (
-                <div className='flex space-x-2 text-success-main text-xs items-center mt-2'>
-                  <TickCircle size={14} color="currentColor" variant="Bold" />
-                  <p>Terverifikasi</p>
-                </div>
-              )}
-            </>
-          ) : (
-            column.label
-          )}
-        </th>
-      );
-    })}
-  </tr>
-</thead>
+              return (
+                <th
+                  key={index}
+                  ref={isLastStatusColumn ? latestStatusRef : null}
+                  className={`px-5 py-[10px] text-black dark:text-slate-100 text-lg font-semibold text-left whitespace-nowrap ${stickyClass(column.key)}`}
+                >
+                  {column.key.startsWith('status_') ? (
+                    <>
+                      <p>{column.date ? format(new Date(column.date), 'd MMMM yyyy', { locale: id }) : 'Tanggal tidak tersedia'}</p>
+                      <p className='text-sm font-normal'>Minggu ke-{index - 2}</p>
+                      {column.fillable === false && (
+                        <div className='flex space-x-2 text-success-main text-xs items-center mt-2'>
+                          <TickCircle size={14} color="currentColor" variant="Bold" />
+                          <p>Terverifikasi</p>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    column.label
+                  )}
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
 
+        <tbody>
+          {data.map((item, index) => (
+            <tr key={item.id}>
+              {editableColumns.map((column, colIndex) => {
+                const isFixed = ['id', 'nis', 'nama'].includes(column.key);
+                const stickyClass = isFixed
+                  ? column.key === 'id'
+                    ? 'sticky left-0 bg-white dark:bg-dark_net-ter'
+                    : column.key === 'nis'
+                      ? 'sticky left-[60px] bg-white dark:bg-dark_net-ter'
+                      : 'sticky left-[140px] bg-white dark:bg-dark_net-ter'
+                  : '';
 
-    <tbody>
-      {data.map((item, index) => (
-        <tr key={item.id}>
-          {editableColumns.map((column, colIndex) => {
-            const isFixed = ['id', 'nis', 'nama'].includes(column.key);
-            const stickyClass = isFixed
-              ? column.key === 'id'
-                ? 'sticky left-0 bg-white dark:bg-dark_net-ter'
-                : column.key === 'nis'
-                  ? 'sticky left-[60px] bg-white dark:bg-dark_net-ter'
-                  : 'sticky left-[140px] bg-white dark:bg-dark_net-ter'
-              : '';
+                return (
+                  <td
+                    key={colIndex}
+                    className={`p-[10px] text-base font-medium text-black dark:bg-dark_net-ter dark:text-slate-100 whitespace-nowrap ${
+                      column.key === 'nama' ? 'text-left' : 'text-center'
+                    } ${stickyClass}`}
+                  >
+                    {column.key === 'id' ? (
+                      index + 1
+                    ) : column.key.startsWith('status_') ? (
+                      <div className='w-full flex space-x-2 px-5 py-[10px] items-center dark:text-slate-100'>
+                        {['Hadir', 'Izin', 'Sakit', 'Alfa'].map((status) => {
+                          const isDisabled = column.fillable === false;
 
-            return (
+                          return (
+                            <div
+                              key={status}
+                              className={`rounded-full w-12 h-12 text-[10px] font-semibold justify-center items-center flex
+                                ${getStatusColor(index, column.key, status)}
+                                ${isDisabled ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                              onClick={() => {
+                                if (!isDisabled) {
+                                  handleStatusChange(index, column.key, status);
+                                }
+                              }}
+                            >
+                              {status}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      item[column.key]
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+
+        <tfoot>
+          <tr>
+            {editableColumns.map((column, colIndex) => (
               <td
                 key={colIndex}
-                className={`p-[10px] text-base font-medium text-black dark:bg-dark_net-ter dark:text-slate-100 whitespace-nowrap ${
-                  column.key === 'nama' ? 'text-left' : 'text-center'
-                } ${stickyClass}`}
+                className={`justify-center px-7 ${stickyClass(column.key)} pb-5`}
               >
-                {column.key === 'id' ? (
-                  index + 1
-                ) : column.key.startsWith('status_') ? (
-                  <div className='w-full flex space-x-2 px-5 py-[10px] items-center dark:text-slate-100'>
-                    {['Hadir', 'Izin', 'Sakit', 'Alfa'].map((status) => {
-                      const isDisabled = column.fillable === false;
+                {column.key.startsWith('status_') && column.fillable === false ? (
+                  <div className='flex space-x-2 w-full'>
+                    <SmallButton
+                      bgColor={'bg-sec-main '}
+                      icon={DocumentText}
+                      textColor='text-black'
+                      colorIcon={'currentColor'}
+                      iconSize={24}
+                      title='Desc'
+                      minBtnSize='w-full'
+                      onClick={() => onShowDescription(column.description)}
+                    />
 
-                      return (
-                        <div
-                          key={status}
-                          className={`rounded-full w-12 h-12 text-[10px] font-semibold justify-center items-center flex
-                            ${getStatusColor(index, column.key, status)}
-                            ${isDisabled ? 'bg-opacity-50 text-opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-                          onClick={() => {
-                            if (!isDisabled) {
-                              handleStatusChange(index, column.key, status);
-                            }
-                          }}
-                        >
-                          {status}
-                        </div>
-                      );
-                    })}
+                    <SmallButton
+                      bgColor={'bg-pri-main'}
+                      icon={Edit}
+                      colorIcon={'currentColor'}
+                      iconSize={24}
+                      title='Edit'
+                      minBtnSize='w-full'
+                      onClick={() => handleEnableFillable(column.key)}
+                    />
                   </div>
                 ) : (
-                  item[column.key]
+                  column.key.startsWith('status_') && (
+                    <div className="space-y-2">
+                      <textarea
+                        value={descriptions[column.key] || ''}
+                        onChange={(e) => handleDescriptionChange(column.key, e.target.value)}
+                        placeholder="Masukkan materi yang diajarkan hari ini..."
+                        className="w-full p-2 dark:bg-dark_net-ter border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                        rows="3"
+                      />
+                      <SmallButton
+                        bgColor={'bg-pri-main'}
+                        icon={Folder}
+                        colorIcon={'currentColor'}
+                        iconSize={24}
+                        title='Tambah'
+                        minBtnSize='min-w-full'
+                        onClick={() => handleDisableFillable(column)}
+                      />
+                    </div>
+                  )
                 )}
               </td>
-            );
-          })}
-        </tr>
-      ))}
-    </tbody>
+            ))}
+          </tr>
+        </tfoot>
+      </table>
 
-    <tfoot>
-      <tr>
-        {editableColumns.map((column, colIndex) => (
-          <td
-            key={colIndex}
-            className={`justify-center px-7 ${stickyClass(column.key)} pb-5`}
-          >
-            {column.key.startsWith('status_') && column.fillable === false ? (
-              <div className='flex space-x-2 w-full'>
-                <SmallButton
-                  bgColor={'bg-sec-main '}
-                  icon={DocumentText}
-                  textColor='text-black'
-                  colorIcon={'currentColor'}
-                  iconSize={24}
-                  title='Desc'
-                  minBtnSize='w-full'
-                  onClick={() => onShowDescription(column.description)}
-                />
+      <ReasonModal
+        isOpen={showReasonModal}
+        onClose={() => {
+          setShowReasonModal(false);
+          setCurrentStudent(null);
+          setCurrentColumn(null);
+        }}
+        onSubmit={handleReasonSubmit}
+        student={currentStudent}
+      />
 
-                <SmallButton
-                  bgColor={'bg-pri-main'}
-                  icon={Edit}
-                  colorIcon={'currentColor'}
-                  iconSize={24}
-                  title='Edit'
-                  minBtnSize='w-full'
-                  onClick={() => handleEnableFillable(column.key)}
-                />
-              </div>
-            ) : (
-              column.key.startsWith('status_') && (
-                <div className="space-y-2">
-                  <textarea
-                    value={descriptions[column.key] || ''}
-                    onChange={(e) => handleDescriptionChange(column.key, e.target.value)}
-                    placeholder="Masukkan deskripsi absensi..."
-                    className="w-full p-2 dark:bg-dark_net-ter border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                    rows="3"
-                  />
-                  <SmallButton
-                    bgColor={'bg-pri-main'}
-                    icon={Folder}
-                    colorIcon={'currentColor'}
-                    iconSize={24}
-                    title='Tambah'
-                    minBtnSize='min-w-full'
-                    onClick={() => handleDisableFillable(column)}
-                  />
-                </div>
-              )
-            )}
-          </td>
-        ))}
-      </tr>
-    </tfoot>
-  </table>
-
-  <ReasonModal
-    isOpen={showReasonModal}
-    onClose={() => {
-      setShowReasonModal(false);
-      setCurrentStudent(null);
-      setCurrentColumn(null);
-    }}
-    onSubmit={handleReasonSubmit}
-    student={currentStudent}
-  />
+      {/* Pop-up Sukses */}
+      {isSuccess && (
+        <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
+          <SuccessUpdatePopUp />
+        </div>
+      )}
 </div>
 
 

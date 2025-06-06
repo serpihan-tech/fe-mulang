@@ -66,39 +66,37 @@ export default function AbsensiSiswaTeacher() {
     setIsLoading(true);
     try {
       const res = await AbsensiSiswa(moduleId, classId);
-      //console.log("res",res)
-      const { students, dates } = res.absences;
+      const { students, dates } = res.absences || { students: [], dates: [] };
       console.log("students: ",students)
       console.log("dates: ",dates)
-
 
       // Bentuk kolom (tanggal)
       const columns = [
         { key: 'id', label: 'No' },
         { key: 'nis', label: 'NIS' },
         { key: 'nama', label: 'Nama' },
-        ...dates.map((dateObj, index) => ({
+        ...(dates || []).map((dateObj, index) => ({
           key: `status_${index}`,
           label: 'Status',
-          date: dateObj.date,
-          absences: dateObj.absences,
-          scheduleId: dateObj.scheduleId,
+          date: dateObj?.date || '',
+          absences: dateObj?.absences || [],
+          scheduleId: dateObj?.scheduleId || '',
           fillable: false,
-          description: dateObj.description,
+          description: dateObj?.description || '',
         }))
       ];
       setAbsenTableColumns(columns);
 
       // Bentuk baris (per siswa)
-      const formattedData = students.map((student) => {
+      const formattedData = (students || []).map((student) => {
         const row = {
           id: student.classStudentId,
           nis: student.nis,
           nama: student.name,
         };
 
-        dates.forEach((dateObj, dateIndex) => {
-          const absence = dateObj.absences.find(
+        (dates || []).forEach((dateObj, dateIndex) => {
+          const absence = (dateObj?.absences || []).find(
             (abs) => abs.classStudentId === student.classStudentId
           );
           row[`status_${dateIndex}`] = absence?.status || '-';
@@ -228,7 +226,7 @@ export default function AbsensiSiswaTeacher() {
         <div className="z-30 fixed inset-0 bg-black/50 flex justify-center items-center">
           <DataAbsensiMassModal
             onCancel={()=>(setIsTambah(false))}
-            onConfirm={addJadwal}b
+            onConfirm={addJadwal}
             isLoading={isLoading}
             selectedClass={selectedClass.label}
           />
