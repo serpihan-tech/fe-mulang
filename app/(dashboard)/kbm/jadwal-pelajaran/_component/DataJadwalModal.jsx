@@ -126,7 +126,7 @@ export default function DataJadwalModal({ onCancel, onConfirm, jadwalData, isLoa
   console.log("mapelOptions", mapelOptions) 
   console.log("ruanganOptions", ruanganOptions)
   return (
-    <div className="w-[485px] bg-white dark:bg-dark_net-ter pb-[38px] rounded-lg">
+    <div className="w-[485px] bg-white dark:bg-dark_net-ter pb-[38px] text-black rounded-lg">
       <div className="w-full h-[54px] flex px-5 py-4 rounded-t-lg bg-[#adc0f5]/10 dark:bg-dark_net-pri items-center">
         <div className="text-black dark:text-slate-100 text-xl font-semibold">
           Edit Data
@@ -250,7 +250,7 @@ export default function DataJadwalModal({ onCancel, onConfirm, jadwalData, isLoa
           </button>
           <button
             disabled={isLoading}
-            type="submit"
+            onClick={handleSubmit}
             className={`w-[103px] h-[38px] px-2 py-1.5 rounded-md text-white text-sm font-medium ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"

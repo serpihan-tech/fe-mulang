@@ -33,7 +33,7 @@ export default function MataPelajaranTeacher() {
             nama_mapel: item.moduleName || '',
             total_siswa: item.totalStudents || '',
             id_jadwal: item.scheduleId || '',
-            thumbnail: item.thumbnail || null
+            thumbnail: item.thumbnail  || null
           }));
 
           setMapelData(formattedData);
@@ -64,7 +64,7 @@ export default function MataPelajaranTeacher() {
             {mapelData.map((item, index) => (
                 <MapelCard
                   key={item.id}
-                  path={item.thumbnail ? `${baseUrl}/file/${item.thumbnail}` : "/svg/physic.svg"} // fallback gambar
+                  path={item.thumbnail ? `${baseUrl}/file/${item.thumbnail}` : "svg/physic.svg"} // fallback gambar
                   bgColor={colors[index % colors.length]} // dinamis berdasarkan urutan
                   title={item.nama_mapel}
                   kelas={item.nama_kelas}

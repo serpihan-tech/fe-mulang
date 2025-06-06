@@ -296,8 +296,8 @@ export default function MataPelajaranAdmin() {
                   sortBy={sortBy}
                   sortOrder={sortOrder}
                   onFilterChange={handleFilterDropdownChange}
-                  currentPage={meta.currentPage}
-                  perPage={meta.perPage}
+                  currentPage={meta?.currentPage || 1}
+                  perPage={meta?.perPage || 10}
                 />
               ) : (
                 <DataNotFound />

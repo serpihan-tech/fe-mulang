@@ -18,11 +18,11 @@ const HoverDropdown = ({ items }) => {
   };
 
   return (
-    <div className="absolute left-full ml-2 top-0 min-w-[200px] bg-white dark:bg-dark_net-pri text-black dark:text-white shadow-lg rounded-xl py-2 z-50">
+    <div className="absolute left-full ml-2 top-0 min-w-[200px] bg-white dark:bg-dark_net-pri text-black dark:text-white shadow-lg rounded-xl z-50">
       {items.map((item, index) => (
         <button 
           key={index} 
-          className="w-full text-left px-4 py-2 hover:bg-pri-main hover:text-white dark:hover:bg-pri-main/80 transition-colors duration-200 cursor-pointer"
+          className="w-full text-left px-4 py-2 hover:bg-pri-main rounded-xl hover:text-white dark:hover:bg-pri-main/80 transition-colors duration-200 cursor-pointer"
           onClick={() => handleClick(item.url)}
         >
           {item.label}
@@ -142,7 +142,7 @@ export default function SidebarItem({
     >
       <button
         ref={itemRef}
-        className={`w-full flex items-center p-2 rounded-md transition-all duration-200 relative
+        className={`w-full flex items-center p-2 rounded-xl transition-all duration-200 relative
           ${isActive || isDropdownActive 
             ? 'bg-pri-main text-white dark:bg-pri-main/90 dark:text-white' 
             : 'text-gray-700 dark:text-gray-200 hover:bg-pri-main/10 dark:hover:bg-pri-main/20'

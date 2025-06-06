@@ -31,7 +31,7 @@ export default function TeacherTambahPengumumanForm() {
   const [formData, setFormData] = useState({
     title:"",
     content:"",
-    date:"",
+    date: '',
     files:"",
     class_id: null,
     module_id: null
@@ -67,7 +67,7 @@ export default function TeacherTambahPengumumanForm() {
   };
 
   const [madeBy, setMadeBy] = useState(null);
-  const [tanggal, setTanggal] = useState("");
+  const [tanggal, setTanggal] = useState(new Date());
 
   const fetchDataJadwal = async () => {
       try {
