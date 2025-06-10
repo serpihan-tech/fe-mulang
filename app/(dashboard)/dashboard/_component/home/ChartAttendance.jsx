@@ -191,7 +191,7 @@ export default function ChartAttendance() {
   },[selectedTime, semesterId])
 
   return (
-    <div className={`mt-5 px-5 py-4 rounded-md  ${isDark ? "bg-dark_net-ter " : "bg-white"}`}>
+    <div className={`mt-5 px-5 py-4 rounded-md group ${isDark ? "bg-dark_net-ter " : "bg-white"}`}>
       <style jsx global>{`
         .apexcharts-toolbar {
           z-index: 0 !important;

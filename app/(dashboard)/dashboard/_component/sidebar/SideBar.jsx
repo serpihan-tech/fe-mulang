@@ -12,11 +12,13 @@ import LogOutPopUp from "@/app/component/LogoutPopUp";
 import { toast } from "react-toastify";
 import ThemeSwitcher from "@/app/component/ThemeSwitcher";
 import { useLogOut } from "@/provider/LogOutProvider";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function SideBar({isOpen,toggleSidebar}) {
   const [role, setRole] = useState(null);
   const router = useRouter()
   const [isLoading, setLoading] = useState(false)
+  const { setIsLoading } = useLoading();
 
   const { setIsLogOut } = useLogOut();
 
@@ -31,6 +33,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
   
   const confirmLogOut = async () => {
     setLoading(true)
+    setIsLoading(true)
     try {
       const response = await logout(); 
       if(response){
@@ -42,6 +45,7 @@ export default function SideBar({isOpen,toggleSidebar}) {
       toast.error("Gagal logout, silakan coba lagi.")
     } finally {
       setLoading(false)
+      setIsLoading(false)
       setLogoutOpen(false)
     }
   };
