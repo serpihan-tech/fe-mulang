@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: false,
     images: {
-        domains: ["optionally-topical-dassie.ngrok-free.app"],
+        domains: ["be-mulang.serpihantech.com"],
     },
 };
 

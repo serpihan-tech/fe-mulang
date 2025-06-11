@@ -8,7 +8,7 @@ export function createTransmit() {
   console.log("tesssssssss");
 
   const transmit = new Transmit({
-    baseUrl: "http://localhost:3333", // ! kalau pakai ngrok, akan error CORS
+    baseUrl: "https://be-mulang.serpihantech.com", // ! kalau pakai ngrok, akan error CORS
     uidGenerator: () => {
       return "123456";
     },
